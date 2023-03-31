@@ -1,0 +1,71 @@
+ <div class="dialog-wrapper">
+    <div class="dialog-header" [ngClass]="headerClass">
+        <h3 class="title flex-grow-1" [ngClass]="headerClass">{{data.title | translate}}</h3>
+        <button *ngIf="!data.hideCancelBtn" style="background: transparent;
+    border: none;
+    min-width: unset;
+    padding: 0;
+    height: 20px;" (click)="cancel()"><img [src]="closeIconSrc"  style="cursor: pointer"></button>
+    </div>
+    <div class="dialog-content">
+        <div class="d-flex">
+            <div style="height: 72px; width: 72px">
+                <img [src]="iconSrc">
+            </div>
+            <div class="text-content">
+                <p>{{data.message | translate}}</p>
+            </div>
+        </div>
+        <div *ngIf="data && data.enableConfirmInputText">
+            <input 
+                class="form-control" 
+                [class.is-invalid]="confirmInputTextInvalidMsg != ''" 
+                [placeholder]="data && data.confirmInputTextPlaceHolder" 
+                [(ngModel)]="confirmInputTextValue"
+                (change)="confirmInputTextInvalidMsg = ''"
+            />
+            <div
+                class="invalid-feedback d-block"
+                *ngIf="confirmInputTextInvalidMsg != ''"
+            >
+                {{ confirmInputTextInvalidMsg }}
+            </div>
+        </div>
+    </div>
+    <div class="dialog-header d-flex align-content-center justify-content-end">
+        <ng-container *ngIf="data.btn">
+            <ng-container *ngFor="let btn of data.btn">
+                <button [ngClass]="btn.className" (click)="eventClick(btn.text)">
+                  <span>  {{('COMMON_BUTTON.'+ btn.text) | translate}}</span>
+                </button>
+            </ng-container>
+        </ng-container>
+        <!-- <ng-container *ngIf="!data.btn">
+            <button class="outline btn-cancel" [ngClass]="headerClass" *ngIf="data.cancel"
+                (click)="cancel()"><span>{{'COMMON_BUTTON.cancel' | translate | uppercase}}</span></button>
+            <button autoFocus style="background: transparent;
+                border: none;
+                min-width: unset;
+                padding: 0;
+                color: #1a66c3;
+                height: 20px;" [ngClass]="headerClass" class="dialog-button-link" *ngIf="data.stay" (click)="close('stay')">
+                <span>{{'COMMON_BUTTON.stay' | translate}}</span></button>
+            <button [ngClass]="headerClass" class="btn dialog-button" autoFocus *ngIf="data.retry" (click)="close('retry')">
+                <span>{{'COMMON_BUTTON.retry' | translate}}</span></button>
+            <button [ngClass]="headerClass" class="btn dialog-button" *ngIf="data.continue" (click)="close('continue')">
+                <span>{{'COMMON_BUTTON.continue' | translate}}</span></button>
+            <button [ngClass]="headerClass" class="btn dialog-button" *ngIf="data.delete" (click)="close('delete')">
+                <span>{{'COMMON_BUTTON.delete' | translate}}</span></button>
+            <button [ngClass]="headerClass" class="btn dialog-button" *ngIf="data.yes" (click)="close('yes')">
+                <span>{{'COMMON_BUTTON.yes' | translate}}</span></button>
+          <button [ngClass]="headerClass" class="btn dialog-button" *ngIf="data.agree" (click)="close('agree')">
+                <span>{{'COMMON_BUTTON.accept' | translate}}</span></button>
+            <button class="btn btn-primary btn-dialog-close" *ngIf="data.close" (click)="close('close')">
+                <span>{{'COMMON_BUTTON.close' | translate}}</span></button>
+          <button class="btn dialog-button btn-primary" *ngIf="data.no" (click)="close('no')">
+                <span>{{'COMMON_BUTTON.no' | translate}}</span>
+          </button><button class="btn dialog-button btn-primary" *ngIf="data.cancel_ta" (click)="close('cancel_ta')">
+                <span>{{'COMMON_BUTTON.cancel' | translate}}</span></button>
+        </ng-container> -->
+    </div>
+</div>

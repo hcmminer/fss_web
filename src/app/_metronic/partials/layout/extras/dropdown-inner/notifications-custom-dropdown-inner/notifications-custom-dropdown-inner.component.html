@@ -1,0 +1,137 @@
+<!--begin::Content-->
+<div
+  class="tab-pane p-8"
+  id="topbar_notifications_notifications"
+  role="tabpanel"
+>
+  <!--begin::Scroll-->
+  <div
+    class="scroll pr-7 mr-n7 ps"
+    style="position: relative; max-height: 300px;"
+    perfectScrollbar
+  >
+<!--    &lt;!&ndash;begin::Item&ndash;&gt;-->
+    <!--    <div class="d-flex align-items-center mb-6 message-notification"-->
+    <!--         *ngFor=" let rowData of notificationService.notificationStickies | async; let i = index">-->
+    <!--      &lt;!&ndash;begin::Symbol&ndash;&gt;-->
+    <!--      <div class="symbol symbol-50 mr-5">-->
+    <!--        <span-->
+    <!--          [inlineSVG]="'./assets/media/svg/app/message-notification.svg'"-->
+    <!--          cacheSVG="true"-->
+    <!--          class="svg-icon svg-icon-xl-3x svg-icon-primary"-->
+    <!--        ></span>-->
+    <!--      </div>-->
+    <!--      &lt;!&ndash;end::Symbol&ndash;&gt;-->
+
+    <!--      &lt;!&ndash;begin::Text&ndash;&gt;-->
+    <!--      <div class="d-flex flex-column font-weight-bold">-->
+    <!--        <div class="font-weight-bolder title">-->
+    <!--          {{ rowData && rowData.title ? rowData.title : '' }}-->
+    <!--        </div>-->
+    <!--        <span class="text-muted">-->
+    <!--          {{ rowData && rowData.message ? rowData.message : '' }}-->
+    <!--        </span>-->
+    <!--        <div class="mt-2 time view-detail">-->
+    <!--          <span>-->
+    <!--            {{ rowData && rowData.startTime ? rowData.startTime : '' }}-->
+    <!--          </span>-->
+    <!--          <span class="view-detail">Chi tiết giao dịch</span>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--      &lt;!&ndash;end::Text&ndash;&gt;-->
+    <!--    </div>-->
+    <!--    &lt;!&ndash;end::Item&ndash;&gt;-->
+
+    <!--begin::Item-->
+    <div class="d-flex align-items-center mb-6 message-notification">
+      <!--begin::Symbol-->
+      <div class="symbol symbol-50 mr-5">
+       <span
+         [inlineSVG]="'./assets/media/svg/app/message-notification.svg'"
+         cacheSVG="true"
+         class="svg-icon svg-icon-xl-3x svg-icon-primary"
+       ></span>
+      </div>
+      <!--end::Symbol-->
+
+      <!--begin::Text-->
+      <div class="d-flex flex-column font-weight-bold">
+        <div class="font-weight-bolder title">
+          Thông báo phê duyệt lệnh chuyển tiền
+        </div>
+        <span class="text-muted">Quý khách có lệnh chuyển tiền cần phê duyệt từ Ngatq</span>
+        <div class="mt-2 time view-detail">
+          <span>15:23:12 15/08/2021</span>
+          <span class="view-detail">Chi tiết giao dịch</span>
+        </div>
+      </div>
+      <!--end::Text-->
+    </div>
+    <!--end::Item-->
+
+    <!--begin::Item-->
+    <div class="d-flex align-items-center mb-6 message-notification">
+      <!--begin::Symbol-->
+      <div class="symbol symbol-50 mr-5">
+       <span
+         [inlineSVG]="'./assets/media/svg/app/message-notification.svg'"
+         cacheSVG="true"
+         class="svg-icon svg-icon-xl-3x svg-icon-primary"
+       ></span>
+      </div>
+      <!--end::Symbol-->
+
+      <!--begin::Text-->
+      <div class="d-flex flex-column font-weight-bold">
+        <div class="font-weight-bolder title">
+          Thông báo phê duyệt lệnh chuyển tiền
+        </div>
+        <span class="text-muted">Quý khách có lệnh chuyển tiền cần phê duyệt từ Ngatq</span>
+        <div class="mt-2 time view-detail">
+          <span>15:23:12 15/08/2021</span>
+          <span class="view-detail">Chi tiết giao dịch</span>
+        </div>
+      </div>
+      <!--end::Text-->
+    </div>
+    <!--end::Item-->
+
+    <!--begin::Item-->
+    <div class="d-flex align-items-center mb-6 message-notification">
+      <!--begin::Symbol-->
+      <div class="symbol symbol-50 mr-5">
+        <span
+          [inlineSVG]="'./assets/media/svg/app/message-notification.svg'"
+          cacheSVG="true"
+          class="svg-icon svg-icon-xl-3x svg-icon-primary"
+        ></span>
+      </div>
+      <!--end::Symbol-->
+
+      <!--begin::Text-->
+      <div class="d-flex flex-column font-weight-bold">
+        <div class="font-weight-bolder title">
+          Thông báo phê duyệt lệnh chuyển tiền
+        </div>
+        <span class="text-muted">Quý khách có lệnh chuyển tiền cần phê duyệt từ Ngatq</span>
+        <div class="mt-2 time view-detail">
+          <span>15:23:12 15/08/2021</span>
+          <span class="view-detail">Chi tiết giao dịch</span>
+        </div>
+      </div>
+      <!--end::Text-->
+    </div>
+    <!--end::Item-->
+
+  </div>
+  <!--end::Scroll-->
+
+  <!--begin::Action-->
+  <div class="d-flex flex-center pt-3">
+    <a href="#" class="btn btn-light-primary font-weight-bold text-center">
+      Hiển thị tất cả thông báo
+    </a>
+  </div>
+  <!--end::Action-->
+</div>
+<!--end::Content-->

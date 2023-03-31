@@ -1,0 +1,154 @@
+img:hover {
+  cursor: pointer;
+}
+
+img {
+  margin-right: 10px;
+}
+
+.labelUpload {
+  text-decoration: underline;
+  cursor: pointer;
+  color: blue;
+}
+.form-select {
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: #0171bb;
+}
+.form-input {
+  border: none !important;
+}
+
+.action-row {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-evenly;
+}
+
+.icon-view-detail {
+  color: #0171bb;
+  cursor: pointer;
+}
+
+.icon-view-detail:hover {
+  color: #51b9ff;
+}
+
+.icon-disable {
+  color: #b8b8b8;
+  cursor: unset !important;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+:host ::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+:host ::ng-deep .txt-left .mat-sort-header-container{
+  justify-content: start !important;
+}
+
+:host ::ng-deep .txt-right .mat-sort-header-container{
+  justify-content: end !important;
+}
+
+td {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+th.mat-header-cell:first-of-type {
+  padding-left: 0px;
+}
+
+th.mat-header-cell:last-of-type {
+  padding-right: 0px;
+}
+
+.mat-column-index {
+  text-align: center;
+}
+.mat-column-chiPhiDuChi {
+  text-align: right;
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 15% !important;
+  width: 15% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.mat-column-loaiChiPhi {
+  text-align: left;
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 15% !important;
+  width: 15% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.mat-column-ghiChu {
+  text-align: left;
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 60% !important;
+  width: 60% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.mat-column-hanhDong {
+  text-align: center;
+  min-width: 75px;
+}
+
+.ma-phieu-view {
+  background: #dbe2f3;
+  color: #4674eb;
+  padding: 4px 10px;
+  font-weight: bold;
+  border-radius: 3px;
+}
+.action-disabled {
+  i {
+    color: #acacac;
+  } 
+}
+
+.action-disabled:hover {
+  i {
+    color: #acacac;
+  } 
+}

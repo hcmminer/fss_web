@@ -1,0 +1,171 @@
+<div class="card-body" *ngIf="isEnabledEdit()">
+  <!-- begin: Filtration form -->
+  <form action="#" class="form form-label-right" [formGroup]="addForm">
+      <div class="form-group row">
+          <div class="col-md-1"></div>
+          <label class="col-md-1 form-label col-form-label"
+                 style="margin-left: 20px; padding: 9.45px 12px 9.45px 0;"
+                 for="maNhanVien">{{'LABEL.STAFF' | translate}} <span style="color: red;">*</span></label>
+          <div class="col-md-3">
+              <!-- <select class="form-control"
+                      name="maNhanVien"
+                      id="maNhanVien"
+                      formControlName="maNhanVien"
+                      [class.is-invalid]="isControlInvalid('maNhanVien')"
+              >
+                  <option *ngFor="let nhanVien of quanLyPhieuCongTacService.cbxNhanVienNoiBo | async"
+                          [value]="nhanVien.staffId">{{ nhanVien.staffName }}</option>
+              </select> -->
+                <input type="text"  matInput class="form-control field-autocomplete"
+                       [formControl]="castFormControl(control('maNhanVien'))"
+                       [matAutocomplete]="auto"
+                       (click)="trigger.openPanel()"
+                       #trigger="matAutocompleteTrigger"
+                       [class.is-invalid]="isControlAutoCompleteInvalid('maNhanVien', 'staffId', true)"
+                       [class.field-autocomplete-error]="isControlAutoCompleteInvalid('maNhanVien', 'staffId', true)"
+                >
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let staff of quanLyPhieuCongTacService.cbxNhanVienNoiBo | async"
+                                [value]="staff">
+                        {{ staff.staffName }}
+                    </mat-option>
+                </mat-autocomplete>
+                <div
+                        class="invalid-feedback"
+                        *ngIf="controlHasError('required', 'maNhanVien')"
+                >
+                    {{ 'VALIDATION.REQUIRED' | translate: {name: 'LABEL.STAFF' | translate} }}
+                </div>
+                <div
+                          class="invalid-feedback"
+                          *ngIf="controlHasError('noSelect', 'maNhanVien')"
+                  >
+                    {{ 'VALIDATION.NO_SELECT' | translate: { name: 'LABEL.STAFF' | translate } }}
+                </div>
+          </div>
+
+          <label class="col-md-1 form-label col-form-label"
+                 style="margin-left: 40px"
+                 for="ghiChu">{{ 'LABEL.NOTE' | translate }}</label>
+          <div class=" col-md-4">
+            <textarea
+                    type="text"
+                    name="ghiChu"
+                    id="ghiChu"
+                    class="form-control"
+                    [class.is-invalid]="isControlInvalid('ghiChu')"
+                    formControlName="ghiChu"
+                    maxlength="1000"
+            >
+            </textarea>
+          </div>
+          <div class="col-md-1"></div>
+      </div>
+      <div class="form-group row pb-0 mt-5">
+          <div class="col-md-12 text-center">
+              <div (click)="eResetForm()" class="btn btn-outline-primary font-weight-bolder mx-2"
+                   style="height: 38px; padding: 7px 32px; margin: auto;">
+                  <i class="fas fa-redo cursor-pointer"></i> {{'COMMON_BUTTON.RESET' | translate}}
+              </div>
+              <div (click)="eSave()" class="btn btn-green font-weight-bolder mx-2"
+                   style="height: 38px; padding: 7px 32px; margin: auto;">
+                  <i class="fas fa-plus cursor-pointer" style="color: white;"></i> {{'ACTION.ADD' | translate}}
+              </div>
+          </div>
+      </div>
+  </form>
+  <!-- end: Filtration form -->
+</div>
+
+<!-- begin: Phieu cong tac list -->
+<div class="card-header border-bottom-0 pb-0">
+  <h5 class="card-label">
+      {{ 'TITLE.LIST_OFFICER_STAFF' | translate }}
+  </h5>
+</div>
+<div class="card-body pt-0">
+  <!-- begin:Table -->
+  <div class="table-responsive angular-bootstrap-table">
+      <!-- mat table -->
+      <mat-form-field appearance="standard">
+          <mat-label><i class="fas fa-search"></i> {{ 'TITLE.SEARCH_ADVANCE' | translate }}</mat-label>
+          <input matInput (keyup)="applyFilter($event)" #input>
+      </mat-form-field>
+      <div class="mat-elevation-z8">
+          <table width="100%" mat-table [dataSource]="dataSource" matSort
+                 (matSortChange)="announceSortChange($event)">
+              <!-- Index Column -->
+              <ng-container matColumnDef="index">
+                  <th mat-header-cell *matHeaderCellDef>  {{ 'LABEL.STT' | translate  }}</th>
+                  <td mat-cell *matCellDef="let index = index"> {{(paginator.pageIndex * paginator.pageSize)+index + 1}}</td>
+              </ng-container>
+              <ng-container matColumnDef="shopName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'LABEL.DEPARTMENT' | translate }}</th>
+                  <td mat-cell *matCellDef="let item"> {{item.shopName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="staffCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'LABEL.STAFF_CODE' | translate }}</th>
+                  <td mat-cell *matCellDef="let item"> {{item.staffCode}} </td>
+              </ng-container>
+              <ng-container matColumnDef="staffName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'LABEL.STAFF_NAME' | translate }}</th>
+                  <td mat-cell *matCellDef="let item"> {{item.staffName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="positionName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'LABEL.REGENCY' | translate }}</th>
+                  <td mat-cell *matCellDef="let item"> {{item.positionName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="titleName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'LABEL.SUBJECT' | translate }}</th>
+                  <td mat-cell *matCellDef="let item"> {{item.titleName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="price">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'LABEL.BUSINESS_FEE_DAY' | translate }}</th>
+                  <td mat-cell *matCellDef="let item"> {{item.price | number: '1.0' : 'en-US'}} </td>
+              </ng-container>
+              <ng-container matColumnDef="numberDayBusiness">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'LABEL.JOB_DAY' | translate }} </th>
+                  <td mat-cell *matCellDef="let item" style="padding-right: 30px !important"> {{item.numberDayBusiness}} </td>
+              </ng-container>
+              <ng-container matColumnDef="totalAmount">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'LABEL.TOTAL_COST' | translate }}</th>
+                  <td mat-cell *matCellDef="let item"> {{item.totalAmount | number: '1.0' : 'en-US'}} </td>
+              </ng-container>
+              <ng-container matColumnDef="soDienThoai">
+                  <th mat-header-cell *matHeaderCellDef > {{ 'LABEL.PHONE_NUMBER' | translate }}</th>
+                  <td mat-cell *matCellDef="let item"> {{item.mobile}} </td>
+              </ng-container>
+              <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef > {{ 'LABEL.EMAIL' | translate }}</th>
+                  <td mat-cell *matCellDef="let item"> {{item.email}} </td>
+              </ng-container>
+              <ng-container matColumnDef="note">
+                  <th mat-header-cell *matHeaderCellDef > {{ 'LABEL.NOTE' | translate }}</th>
+                  <td mat-cell *matCellDef="let item"> {{item.note}} </td>
+              </ng-container>
+              <ng-container matColumnDef="hanhDong">
+                  <th mat-header-cell *matHeaderCellDef> {{ 'LABEL.ACTION' | translate }}</th>
+                  <td mat-cell *matCellDef="let item">
+                      <div class="d-flex justify-content-center">
+                          <div (click)="eDelete(item)" [className]="isEnabledEdit() ? '' : 'action-disabled'">
+                              <i data-toggle="tooltip" data-placement="top"
+                                 [title]="'TOOLTIP.DELETE' | translate"
+                                 class="fas fa-trash p-0 icon-view-detail"></i>
+                          </div>
+                      </div>
+                  </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+              <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
+              <!-- Row shown when there is no matching data. -->
+              <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="11">{{'MESSAGE.NO_MATCH_DATA' | translate}} {{input.value}}</td>
+              </tr>
+          </table>
+          <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons
+                         aria-label="Select page of results"></mat-paginator>
+      </div>
+  </div>
+</div>
+<!-- end: Phieu cong tac list -->

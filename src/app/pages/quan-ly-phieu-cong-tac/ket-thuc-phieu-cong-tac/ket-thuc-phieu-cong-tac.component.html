@@ -1,0 +1,323 @@
+<div class="position-relative">
+  <div class="container">
+    <h4 class="text-uppercase font-weight-bold mb-5"> {{ 'TITLE.UPDATE_ACTUAL_COST_JOB' | translate }}&nbsp;
+      <span class="ma-phieu-view">
+        {{jobRequestCode}} - {{jobRequestName}}
+      </span>
+    </h4>
+    <hr>
+    <form action="#" class="form form-label-right" [formGroup]="saveForm">
+      <div class="row form-group gx-6 mb-0">
+        <label class="col-md-2 form-label col-form-label"
+                for="chiPhiKhachSan">{{ 'LABEL.COST_HOTEL' | translate }}</label>
+        <div class="col-md-3">
+            <input
+                NumbersOnly
+                [allowDecimals]="false"
+                [allowSign]="false"
+                [allowThousandSeparator]="true"
+                type="text"
+                name="chiPhiKhachSan"
+                id="chiPhiKhachSan"
+                class="form-control"
+                formControlName="chiPhiKhachSan"
+                [class.is-invalid]="isControlInvalid('chiPhiKhachSan')"
+                maxlength="30"
+                autocomplete="off"
+            />
+          <div
+            class="invalid-feedback"
+            *ngIf="controlHasError('required', 'chiPhiKhachSan')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: { name:  'LABEL.COST_HOTEL' | translate } }}
+          </div>
+          <div
+                  class="invalid-feedback"
+                  *ngIf="controlHasError('pattern', 'chiPhiKhachSan')"
+          >
+            {{ 'VALIDATION.MUST_BE_POSITIVE_INTEGER' | translate: { name:  'LABEL.COST_HOTEL' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <label class="col-md-2 form-label col-form-label"
+                for="congTacPhi"> {{ 'LABEL.BUSINESS_FEE' | translate }}</label>
+        <div class="col-md-3">
+            <input
+                NumbersOnly
+                [allowDecimals]="false"
+                [allowSign]="false"
+                [allowThousandSeparator]="true"
+                type="text"
+                name="congTacPhi"
+                id="congTacPhi"
+                class="form-control"
+                formControlName="congTacPhi"
+                [class.is-invalid]="isControlInvalid('congTacPhi')"
+                maxlength="30"
+                autocomplete="off"
+            />
+          <div
+            class="invalid-feedback"
+            *ngIf="controlHasError('required', 'congTacPhi')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: { name:  'LABEL.BUSINESS_FEE' | translate } }}
+          </div>
+          <div
+                  class="invalid-feedback"
+                  *ngIf="controlHasError('pattern', 'congTacPhi')"
+          >
+            {{ 'VALIDATION.MUST_BE_POSITIVE_INTEGER' | translate: { name:  'LABEL.BUSINESS_FEE' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      
+      <div class="row form-group gx-6 mb-0">
+        <label class="col-md-2 form-label col-form-label"
+                for="chiPhiLoTrinh"> {{ 'LABEL.ROUTE_COST' | translate }}</label>
+        <div class="col-md-3">
+            <input
+                NumbersOnly
+                [allowDecimals]="false"
+                [allowSign]="false"
+                [allowThousandSeparator]="true"
+                type="text"
+                name="chiPhiLoTrinh"
+                id="chiPhiLoTrinh"
+                class="form-control"
+                formControlName="chiPhiLoTrinh"
+                [class.is-invalid]="isControlInvalid('chiPhiLoTrinh')"
+                maxlength="30"
+                autocomplete="off"
+            />
+          <div
+            class="invalid-feedback"
+            *ngIf="controlHasError('required', 'chiPhiLoTrinh')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: { name:  'LABEL.ROUTE_COST' | translate } }}
+          </div>
+          <div
+                  class="invalid-feedback"
+                  *ngIf="controlHasError('pattern', 'chiPhiLoTrinh')"
+          >
+            {{ 'VALIDATION.MUST_BE_POSITIVE_INTEGER' | translate: { name:  'LABEL.ROUTE_COST' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <label class="col-md-2 form-label col-form-label"
+                for="chiPhiKhac">{{  'TITLE.ORTHER_COST' | translate  }}</label>
+        <div class="col-md-3">
+            <input
+                NumbersOnly
+                [allowDecimals]="false"
+                [allowSign]="false"
+                [allowThousandSeparator]="true"
+                type="text"
+                name="chiPhiKhac"
+                id="chiPhiKhac"
+                class="form-control"
+                formControlName="chiPhiKhac"
+                [class.is-invalid]="isControlInvalid('chiPhiKhac')"
+                maxlength="30"
+                autocomplete="off"
+            />
+          <div
+            class="invalid-feedback"
+            *ngIf="controlHasError('required', 'chiPhiKhac')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: { name: 'TITLE.ORTHER_COST' | translate } }}
+          </div>
+          <div
+                  class="invalid-feedback"
+                  *ngIf="controlHasError('pattern', 'chiPhiKhac')"
+          >
+            {{ 'VALIDATION.MUST_BE_POSITIVE_INTEGER' | translate: { name: 'TITLE.ORTHER_COST' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+
+      <div class="row form-group gx-6 mb-0">
+        <label class="col-md-2 form-label col-form-label"
+               for="ghiChuChiPhi">{{ 'LABEL.NOTE' | translate }} </label>
+        <div class=" col-md-3">
+              <textarea
+                      type="text"
+                      name="ghiChuChiPhi"
+                      id="ghiChuChiPhi"
+                      class="form-control"
+                      formControlName="ghiChuChiPhi"
+                      maxlength="2000"
+              >
+              </textarea>
+        </div>
+      </div>
+    </form>
+
+    <br>
+
+    <form action="#" class="form form-label-right" [formGroup]="fileForm">
+      <h4 class="text-uppercase font-weight-bold mb-5"> {{ 'TITLE.UPDATE_FILE_ATTACH' | translate }}</h4>
+      <hr>
+      <div class="row form-group gx-6 mb-0">
+        <label class="col-md-2 form-label col-form-label"
+                   for="loTrinh">{{ 'TITLE.ROUTING' | translate }} <span style="color: red;">*</span></label>
+        <div class="col-md-3">
+            <select class="form-control"
+                    name="loTrinh"
+                    id="loTrinh"
+                    formControlName="loTrinh"
+                    [class.is-invalid]="isControlInvalidFile('loTrinh')"
+            >
+              <option *ngFor="let loTrinh of listJobRoutingDTO | async"
+                      [value]="loTrinh.id">{{ loTrinh.name }}</option>
+            </select>
+            <div
+              class="invalid-feedback"
+              *ngIf="controlHasErrorFile('required', 'loTrinh')"
+            >
+              {{ 'VALIDATION.REQUIRED' | translate: { name: 'TITLE.ROUTING' | translate  } }}
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+        
+        <label class="col-md-2 form-label col-form-label"
+                   for="loaiFile">{{ 'LABEL.FILE_TYPE' | translate }} <span style="color: red;">*</span></label>
+        <div class="col-md-3">
+            <select class="form-control"
+                    name="loaiFile"
+                    id="loaiFile"
+                    formControlName="loaiFile"
+                    [class.is-invalid]="isControlInvalidFile('loaiFile')"
+            >
+              <option *ngFor="let loaiFile of quanLyPhieuCongTacService.cbxLoaiFile | async"
+                      [value]="loaiFile.value">{{ loaiFile.name }}</option>
+            </select>
+            <div
+              class="invalid-feedback"
+              *ngIf="controlHasErrorFile('required', 'loaiFile')"
+            >
+              {{ 'VALIDATION.REQUIRED' | translate: { name:  'LABEL.FILE_TYPE' | translate } }}
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      
+      <div class="row form-group gx-6 mb-0">
+        <label class="col-md-2 form-label col-form-label"
+                 for="chonFile"> {{ 'LABEL.SELECT_FLE' | translate }} <span style="color: red;">*</span></label>
+        <div class="col-md-9">
+            <div class="input-group">
+              <button class="btn btn-primary sticky-input-button" type="button" mat-raised-button (click)="fileInput.click()"> {{ 'LABEL.SELECT_FLE' | translate }}</button>
+              <input
+                  class="form-control"
+                  hidden (change)="onFileSelected($event)" 
+                  #fileInput 
+                  type="file"
+                  accept=".doc, .docx, .xls, .xlsx, .pdf, .txt, .svg, .png, .jpg, .jpeg"
+                  name="chonFile"
+                  id="chonFile"
+                  formControlName="chonFile"
+              >
+              <span class="file-name form-control" [class.is-invalid]="isControlInvalidFile('chonFile')"> {{selectedFile?.name | truncate: 70}} </span>
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasErrorFile('required', 'chonFile')"
+              >
+                {{ 'VALIDATION.REQUIRED' | translate: { name: 'File' } }}
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="row form-group gx-6 mb-0">
+        <label class="col-md-2 form-label col-form-label"
+                for="ghiChu">{{ 'LABEL.NOTE' | translate }}</label>
+        <div class=" col-md-9">
+              <textarea
+                      type="text"
+                      name="ghiChu"
+                      id="ghiChu"
+                      class="form-control"
+                      formControlName="ghiChu"
+                      maxlength="1000"
+              >
+              </textarea>
+        </div>
+      </div>
+
+      <div class="form-group row mt-5">
+        <div class="col-md-12 text-center">
+          <div (click)="eAddFile()" class="btn btn-green font-weight-bolder mx-2"
+            style="height: 38px; padding: 7px 32px; margin: auto;">
+            <i class="fas fa-plus cursor-pointer" style="color: white;"></i> {{'ACTION.ADD' | translate}}
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngFor="let loTrinh of listJobRoutingDTO | async">
+        <table class="my-5">
+          <colgroup>
+            <col width="10%">
+            <col width="20%">
+            <col width="30%">
+            <col width="30%">
+            <col width="10%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="column-loTrinh" colspan="5">{{loTrinh.name}}</th>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th> {{ 'LABEL.STT' | translate  }}</th>
+              <th>{{ 'LABEL.FILE_TYPE' | translate }}</th>
+              <th>{{ 'LABEL.SELECTED_FILE_NAME' | translate }}</th>
+              <th>{{ 'LABEL.NOTE' | translate }}</th>
+              <th>{{ 'LABEL.ACTION' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="loTrinh.listJobAttachDTO.length == 0">
+              <td class="column-empty-list" colspan="5">Không có file đính kèm cho lộ trình này</td>
+            </tr>
+            <tr *ngFor="let file of loTrinh.listJobAttachDTO; let i = index">
+              <td class="column-index">{{ i + 1 }}</td>
+              <td class="column-loaiFile">{{ file.typeName }}</td>
+              <td class="column-tenFile">{{ file.fileName }}</td>
+              <td class="column-ghiChu">{{ file.note }}</td>
+              <td class="column-hanhDong">
+                <div class="d-flex justify-content-around">
+                  <div (click)="eDownloadFile(file)">
+                    <i data-toggle="tooltip" data-placement="top"
+                      [title]="'ACTION.DOWNLOAD' | translate"
+                      class="fas fa-download p-0 icon-view-detail" style="color: #00f84a;"></i>
+                  </div>
+                  <div (click)="eDelete(file)">
+                    <i data-toggle="tooltip" data-placement="top" 
+                      [title]="'TOOLTIP.DELETE' | translate"
+                      class="fas fa-trash p-0 icon-view-detail"></i>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+    </form>
+
+    <div class="d-flex justify-content-end my-5">
+      <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">{{'COMMON_BUTTON.CLOSE' | translate}}</button>
+      <button class="btn btn-primary mx-3" style="width: 150px" (click)="confirmSave()">{{(status == 4 ? 'COMMON_BUTTON.UPDATE' : 'COMMON_BUTTON.END') | translate}}</button>
+    </div>
+  </div>
+  <div class="pb-1"></div>
+  <ngx-spinner
+          bdColor="rgba(0,0,0,0.6)"
+          size="default"
+          color="#1dc5be"
+          type="ball-clip-rotate"
+          [fullScreen]="true"
+  ></ngx-spinner>
+</div>

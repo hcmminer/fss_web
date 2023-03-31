@@ -1,0 +1,324 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700");
+// Global vendors
+@import "~bootstrap/dist/css/bootstrap.css";
+// => Material
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+@import "~highlight.js/styles/googlecode.css";
+@import "~perfect-scrollbar/css/perfect-scrollbar.css";
+
+// Global fonts
+@import "~socicon/css/socicon.css";
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import "./assets/plugins/flaticon/flaticon.css";
+@import "./assets/plugins/flaticon2/flaticon.css";
+@import "./assets/plugins/keenthemes-icons/font/ki.css";
+
+// Metronic styles (replace these path when using RTL css below)
+@import "./assets/sass/style.angular.scss";
+
+// For RTL, check this documentation https://keenthemes.com/metronic/?page=docs&section=angular-rtl
+// @import "./assets/sass/style.angular.rtl.css";
+
+// Default Layout themes
+@import "./assets/sass/themes/layout/header/base/light.scss";
+@import "./assets/sass/themes/layout/header/menu/light.scss";
+@import "./assets/sass/themes/layout/brand/dark.scss";
+@import "./assets/sass/themes/layout/aside/dark.scss";
+
+// Header themes
+// .header-base-light {
+//     @import "./assets/sass/themes/layout/header/base/light.scss";
+// }
+
+// .header-base-dark {
+//     @import "./assets/sass/themes/layout/header/base/dark.scss";
+// }
+
+// Header Menu themes
+// .header-menu-light {
+//     @import "./assets/sass/themes/layout/header/menu/light.scss";
+// }
+// .header-menu-dark {
+//     @import "./assets/sass/themes/layout/header/menu/dark.scss";
+// }
+//toastr
+@import '~ngx-toastr/toastr.css';
+
+$orange-color: #fe6d00;
+$primary-color: #0171bb;
+$main-color: #0171bb;
+$main-text-color: #212121;
+$hint-color: #9d9d9d;
+$hover-light: #f3f6f9;
+
+
+.padding-24 {
+  padding: 24px !important;
+}
+
+.padding-top-24 {
+  padding-top: 24px !important;
+}
+
+.padding-right-24 {
+  padding-right: 24px !important;
+}
+
+.padding-bottom-24 {
+  padding-bottom: 24px !important;
+}
+
+.padding-left-24 {
+  padding-left: 24px !important;
+}
+
+.padding-top-bottom-24 {
+  padding-top: 24px !important;
+  padding-bottom: 24px !important;
+}
+
+.margin-top-24 {
+  margin-top: 24px !important;
+}
+
+.btn {
+  color: #212121;
+}
+
+.blue-color {
+  color: $main-color !important;
+}
+
+.orange-color {
+  color: #fe6d00 !important;
+}
+
+.green-color {
+  color: #5fb871 !important;
+}
+
+.red-color {
+  color: #FF0000 !important;
+}
+
+
+.btn.btn-next,
+.btn.btn-submit {
+  background: $main-color;
+  color: white;
+}
+
+.btn.btn-next:hover,
+.btn.btn-submit:hover {
+  background: #015e9c;
+}
+
+.btn.btn-prev,
+.btn.btn-cancel {
+  border: 1px solid #d2d2d2;
+  background: #ffffff;
+  color: $main-text-color;
+}
+
+.btn.btn-prev:hover,
+.btn.btn-cancel:hover {
+  background: #eeeeee;
+}
+
+.btn.btn-green {
+  background: #5fb871;
+  color: #ffffff;
+}
+
+.btn.btn-green:hover {
+  background: #52a362;
+}
+
+.btn.btn-orange {
+  background: #fe6d00;
+  color: #ffffff;
+}
+
+.btn.btn-orange:hover {
+  background: #db5f00;
+}
+
+.form-label {
+  font-weight: bold !important;
+}
+
+.label-card {
+  padding: 0.3em 0.5em;
+  border-left: solid $main-color;
+}
+
+// Brand themes
+.brand-dark {
+  @import "./assets/sass/themes/layout/brand/dark.scss";
+}
+
+.brand-light {
+  @import "./assets/sass/themes/layout/brand/light.scss";
+}
+
+// Aside themes
+// .aside-dark {
+//   @import "./assets/sass/themes/layout/aside/dark.scss";
+// }
+
+// .aside-light {
+//   @import "./assets/sass/themes/layout/aside/light.scss";
+// }
+
+// hide bootstrap dropdown arrow globally
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+.angular-bootstrap-table {
+  overflow-x: auto;
+}
+.angular-bootstrap-table {
+  th {
+    outline: none;
+
+    &.sortable {
+      .svg-icon-sort {
+        opacity: 0;
+      }
+
+      &:hover {
+        cursor: pointer;
+
+        .svg-icon-sort {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .table.table-head-custom thead th.sortable-active {
+    color: #3699FF !important;
+  }
+}
+
+.cursor-default {
+  cursor: default !important;
+}
+
+.progress-modal {
+  height: 3px;
+  width: 100%;
+}
+
+.modal {
+  padding: 1rem !important;
+}
+
+.aside-menu {
+  background-color: #ffffff;
+}
+
+.form-control {
+  border: 1px solid #bdbdbd;
+}
+
+.title-screen {
+  font-size: 1.275rem;
+  font-weight: bold;
+  color: $main-color;
+  vertical-align: middle;
+  display: table-cell;
+  text-align: center;
+}
+
+table thead {
+  //font-family: Helvetica, serif;
+  background: #3a9cff24;
+  border-bottom: solid 2px $main-color;
+}
+
+table {
+  text-align: center;
+}
+
+.table-responsive .fas.cursor-pointer {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+@media (min-width: 992px) {
+  .brand-dark .brand {
+    background-color: $main-color;
+    box-shadow: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .brand {
+    background-color: $main-color;
+    box-shadow: none;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container-xl, .container-lg, .container-md, .container-sm, .container {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  .container-lg, .container-md, .container-sm, .container {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-md, .container-sm, .container {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 576px) {
+  .container-sm, .container {
+    max-width: 100%;
+  }
+}
+
+.aside-menu .menu-nav > .menu-item.menu-item-active > .menu-link {
+  // border-bottom-left-radius: 25px;
+  // border-top-left-radius: 25px;
+  background: $main-color;
+}
+
+.aside-menu .menu-nav > .menu-item .menu-submenu .menu-item.menu-item-active > .menu-link {
+  background: #f3f6f9;
+  // border-bottom-left-radius: 25px;
+  // border-top-left-radius: 25px;
+}
+
+.custom-dropzone{
+
+}
+
+.cdk-overlay-container,.cdk-global-overlay-wrapper,.cdk-overlay-connected-position-bounding-box {
+  z-index: 9000
+}
+
+@font-face {
+  font-family: Phetsarath-Regular;
+  src: url('./assets/font/Phetsarath-Regular.ttf') format("truetype");
+}
+
+* {
+  font-family: 'Phetsarath-Regular', "sans-serif";
+}

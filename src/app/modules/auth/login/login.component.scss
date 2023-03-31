@@ -1,0 +1,206 @@
+@import '../../../../assets/sass/pages/login/login-1.scss';
+
+$primary-color: #0171bb;
+$background-color: #f6f6f6;
+$border-radius: 10px;
+$padding: 24px;
+
+:host {
+  height: 100%;
+}
+
+:host {
+  width: 100%;
+  @media (min-width: 992px) {
+    .login-form {
+      width: 100%;
+      max-width: 450px;
+
+      .mat-form-field {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.form-control {
+  line-height: 35px !important;
+}
+
+.login-wrap {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: $background-color;
+  overflow: hidden;
+
+  .primary-circle {
+    z-index: 1;
+    position: absolute;
+    background-color: $primary-color;
+    width: 1700px;
+    height: 1700px;
+    left: calc((100vw / 2) - 156px);
+    top: calc(calc(100vh / 2) - calc(1700px / 2) - 3px) !important;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .login-form {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    background-color: $primary-color;
+    width: 1200px !important;
+    max-width: 1200px !important;
+    height: 700px;
+    border-radius: $border-radius;
+    overflow: hidden;
+
+    .white-circle {
+      z-index: 1;
+      width: 1700px;
+      height: 1700px;
+      background-color: white;
+      position: absolute;
+      left: 37%;
+      top: -72%;
+      border-radius: 50%;
+    }
+
+    &__aside {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      width: 50%;
+      position: relative;
+      height: 100%;
+      border-bottom-left-radius: $border-radius;
+      border-top-left-radius: $border-radius;
+
+      .logo {
+        position: absolute;
+        top: 64px;
+        left: 58px;
+        h4 {
+          margin-top: $padding/2;
+          color: white;
+          font-weight: 500;
+          font-size: 26px;
+        }
+      }
+
+      .top-icon {
+        position: absolute;
+        //left: $padding;
+        //top: $padding;
+        left: $padding;
+        top: 280px;
+      }
+
+      .bottom-icon {
+        z-index: 2;
+        position: absolute;
+        bottom: 95px;
+        left: 188px;
+      }
+
+      .register {
+        margin-bottom: 48px;
+        margin-left: 58px;
+
+        button {
+          width: 100px;
+        }
+      }
+    }
+
+    &__content {
+      z-index: 2;
+      width: 50%;
+      height: 100%;
+
+      h3 {
+        margin-top: 72px;
+        margin-left: 100px;
+        font-weight: 600;
+        font-size: 36px;
+        line-height: 43px;
+        color: $primary-color;
+      }
+
+      form {
+        padding: 70px 100px 0 100px;
+
+        .opt-confirmation {
+          margin-bottom: 40px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 400px;
+
+          input {
+            width: 200px;
+          }
+
+          .otp-img {
+            width: 120px;
+            height: 33px;
+          }
+
+          .refresh-otp-btn {
+            cursor: pointer;
+          }
+          .refresh-otp-btn:hover {
+            opacity: 0.7;
+          }
+        }
+
+        .forgot-password {
+          margin-top: 24px;
+          width: 100%;
+          text-align: center;
+        }
+
+        .submit-btn {
+          position: relative;
+          height: 40px;
+          font-size: 16px;
+
+          img {
+            height: 16px;
+            width: 24px;
+            z-index: 3;
+            position: absolute;
+            right: 12px;
+            top: (36/2 - 16/2) * 1px;
+          }
+        }
+        ul {
+          padding: 0;
+          margin: 70px 0 0;
+
+          li {
+            width: 50%;
+            display: list-item;
+            list-style-type: disc;
+            list-style-position: inside;
+            span {
+              margin: 0;
+              padding: 0;
+            }
+          }
+          li::marker {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-label {
+  color: black !important;
+}

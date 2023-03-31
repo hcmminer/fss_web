@@ -1,0 +1,14 @@
+.message-notification {
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #BDBDBD;
+
+  .time.view-detail {
+    font-size: 11px;
+    color: #666666;
+
+    .view-detail {
+      float: right;
+      cursor: pointer;
+    }
+  }
+}

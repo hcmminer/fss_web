@@ -1,0 +1,68 @@
+img:hover {
+  cursor: pointer;
+}
+
+img {
+  margin-right: 10px;
+}
+
+.labelUpload {
+  text-decoration: underline;
+  cursor: pointer;
+  color: blue;
+}
+
+.form-select {
+  border-radius: 5px;
+  border-width: 2px;
+  border-color: #0171bb;
+}
+
+.form-input {
+  border: none !important;
+}
+
+.action-row {
+  display: flex;
+  flex-direction: row;
+  // align-content: center;
+  justify-content: space-evenly;
+}
+
+.icon-view-detail {
+  color: #0171bb;
+  cursor: pointer;
+}
+
+.icon-view-detail:hover {
+  color: #51b9ff;
+}
+
+.icon-disable {
+  color: #b8b8b8;
+  cursor: unset !important;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+td.mat-cell {
+  text-align: left;
+}
+
+th.mat-header-cell:last-of-type {
+  padding-right: 0px !important;
+  text-align: center;
+  width: 10vw;
+}
+
+td.mat-cell:last-of-type {
+  padding-right: 0px !important;
+  width: 10vw;
+}

@@ -1,0 +1,474 @@
+<div class="card-body pt-0">
+  <!-- begin: Trinh ky VOFFICE -->
+  <div class="card-body">
+    <!-- begin: Filtration form -->
+    <form action="#" class="form form-label-right" [formGroup]="signForm">
+      <div class="font-weight-bolder mb-12" style="font-size: 1.275rem">{{  'TITLE.SIGN_VOFFICE_JOB' | translate  }}&nbsp;
+        <span class="ma-phieu-view">
+          {{quanLyPhieuCongTacService.selectedPhieuCongTac.code}} - {{quanLyPhieuCongTacService.selectedPhieuCongTac.name}}
+        </span>
+      </div>
+      <div class="row form-group">
+        <label class="col-md-2 form-label col-form-label" 
+                for="userNameSignVo">{{  'LABEL.USER' | translate  }} <span style="color: red;">*</span></label>
+        <div class="col-md-2">
+            <input
+                type="text"
+                name="userNameSignVo"
+                id="userNameSignVo"
+                class="form-control"
+                formControlName="userNameSignVo"
+                [(ngModel)]="query.userNameSignVo"
+                [class.is-invalid]="isControlInvalid('userNameSignVo')"
+                maxlength="100"
+            />
+          <div
+            class="invalid-feedback"
+            *ngIf="controlHasError('required', 'userNameSignVo')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: {name: 'LABEL.USER' | translate } }}
+          </div>
+        </div>
+
+        <label class="col-md-2 form-label col-form-label" 
+                for="passwordSignVo">{{  'LABEL.PASSWORD' | translate  }} <span style="color: red;">*</span></label>
+        <div class="col-md-2">
+            <input
+                type="password"
+                name="passwordSignVo"
+                id="passwordSignVo"
+                class="form-control"
+                formControlName="passwordSignVo"
+                [(ngModel)]="query.passwordSignVo"
+                [class.is-invalid]="isControlInvalid('passwordSignVo')"
+                maxlength="100"
+            />
+          <div
+            class="invalid-feedback"
+            *ngIf="controlHasError('required', 'passwordSignVo')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: {name: 'LABEL.PASSWORD' | translate } }}
+          </div>
+        </div>
+
+        <label class="col-md-2 form-label col-form-label" 
+                for="listLocale">{{  'LABEL.LANGUAGE' | translate  }} <span style="color: red;">*</span></label>
+        <div class="col-md-2">
+          <mat-form-field>
+            <mat-select placeholder="{{  'LABEL.CHOOSE_LANGUAGE' | translate  }}..." [formControl]="control('listLocale')" multiple (selectionChange)="eChangeLocales($event.value)">
+              <mat-option *ngFor="let locale of initLocaleList" [value]="locale.value">{{locale.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div
+            class="invalid-feedback"
+            *ngIf="controlHasError('required', 'listLocale')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: {name: 'LABEL.LANGUAGE' | translate } }}
+          </div>
+        </div>
+      </div>
+
+      <fieldset class="field-set-form mb-5">
+        <legend class="legend-email">{{ 'LABEL.LIST_EMAIL' | translate }} <span style="color: red;">*</span></legend>
+        <div (click)="eNewEmail()" class="btn btn-green font-weight-bolder mb-5"
+          style="height: 38px; padding: 7px 32px; margin: auto;">
+          <i class="fas fa-plus cursor-pointer" style="color: white;"></i> {{ 'LABEL.ADD_EMAIL' | translate }}
+        </div>
+
+        <div formArrayName="lstEmail" *ngFor="let email of emailControlList; let i = index">
+          <div class="row form-group">
+            <div class="col-md-2 email-no">{{ 'LABEL.SIGNATURE' | translate }} {{i + 1}}</div>
+            <div class="col-md-9">
+              <!-- <select class="form-control"
+                      [name]="'email' + i"
+                      [id]="'email' + i"
+                      placeholder="Chọn email"
+                      [class.is-invalid]="isEmailControlInvalid(i)"
+                      (change)="changeEmail(i, $event)"
+              >
+                  <option *ngFor="let nhanVien of quanLyPhieuCongTacService.cbxNhanVienNoiBoTrinhKy | async"
+                          [value]="nhanVien.email">{{ nhanVien.shopStaffEmail }}</option>
+              </select> -->
+              <input 
+                type="text"  
+                matInput 
+                #email
+                class="form-control field-autocomplete"
+                [name]="'email' + i"
+                [id]="'email' + i"
+                [formControl]="castFormControl(emailControl(i))"
+                [matAutocomplete]="auto"
+                (click)="trigger.openPanel()"
+                #trigger="matAutocompleteTrigger"
+                [class.is-invalid]="isEmailControlAutoCompleteInvalid(i, 'maNhanVien', 'email')"
+                [class.field-autocomplete-error]="isEmailControlAutoCompleteInvalid(i, 'maNhanVien', 'email')"
+              >
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                  <mat-option *ngFor="let staff of quanLyPhieuCongTacService.cbxNhanVienNoiBoTrinhKy | async"
+                              [value]="staff">
+                      {{ staff.shopStaffEmail }}
+                  </mat-option>
+              </mat-autocomplete>
+              <div
+                      class="invalid-feedback"
+                      *ngIf="controlEmailHasError('required', i)"
+              >
+                  {{ 'VALIDATION.REQUIRED' | translate: {name:  'LABEL.EMAIL' | translate} }}
+              </div>
+              <div
+                      class="invalid-feedback"
+                      *ngIf="controlEmailHasError('noSelect', i)"
+              >
+                  {{ 'VALIDATION.NO_SELECT' | translate: {name: 'Email'} }}
+              </div>
+            </div>
+            <div class="col-md-1" *ngIf="emailListSize > 1">
+              <button class="btn btn-danger" [title]="'TOOLTIP.DELETE' | translate" (click)="eRemoveEmail(i)">
+                <i class="fas fa-trash p-0 icon-view-detail"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      
+      <ng-container *ngFor="let locale of control('listLocale').value">
+        <fieldset class="field-set-form mb-5">
+          <legend class="legend-locale">{{getLocaleName(locale)}}</legend>
+
+          <!-- Tiếng Việt -->
+          <div class="row form-group" *ngIf="locale == 'vi'">
+            <!-- <label class="col-md-2 form-label col-form-label" 
+                    for="toWhoVi">Người phê duyệt <span style="color: red;">*</span></label>
+            <div class="col-md-2">
+                <input
+                    type="text"
+                    name="toWhoVi"
+                    id="toWhoVi"
+                    class="form-control"
+                    formControlName="toWhoVi"
+                    [(ngModel)]="query.toWhoVi"
+                    [class.is-invalid]="isControlInvalid('toWhoVi')"
+                />
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'toWhoVi')"
+              >
+                {{ 'VALIDATION.REQUIRED' | translate: {name: 'Người phê duyệt'} }}
+              </div>
+            </div> -->
+    
+            <label class="col-md-2 form-label col-form-label" 
+                    for="branchVi">{{ 'LABEL.BRANCH' | translate }} <span style="color: red;">*</span></label>
+            <div class="col-md-3">
+                <input
+                    type="text"
+                    name="branchVi"
+                    id="branchVi"
+                    class="form-control"
+                    formControlName="branchVi"
+                    [(ngModel)]="query.branchVi"
+                    [class.is-invalid]="isControlInvalid('branchVi')"
+                    maxlength="200"
+                />
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'branchVi')"
+              >
+                {{ 'VALIDATION.REQUIRED' | translate: {name: 'LABEL.BRANCH' | translate } }}
+              </div>
+            </div>
+
+            <label class="col-md-2 form-label col-form-label" 
+                    for="jobNameVi"> {{ 'LABEL.TITLE' | translate }}  <span style="color: red;">*</span></label>
+            <div class="col-md-4">
+                <input
+                    type="text"
+                    name="jobNameVi"
+                    id="jobNameVi"
+                    class="form-control"
+                    formControlName="jobNameVi"
+                    [(ngModel)]="query.jobNameVi"
+                    [class.is-invalid]="isControlInvalid('jobNameVi')"
+                    maxlength="500"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="controlHasError('required', 'jobNameVi')"
+                >
+                  {{ 'VALIDATION.REQUIRED' | translate: {name:  'LABEL.TITLE' | translate  } }}
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+
+            <label class="col-md-2 form-label col-form-label mt-5" 
+                    for="baseVi">{{ 'LABEL.BASE' | translate  }} <span style="color: red;">*</span></label>
+            <div class="col-md-3 mt-5">
+                <textarea
+                    name="baseVi"
+                    id="baseVi"
+                    class="form-control"
+                    formControlName="baseVi"
+                    [(ngModel)]="query.baseVi"
+                    [class.is-invalid]="isControlInvalid('baseVi')"
+                    maxlength="1000"
+                ></textarea>
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'baseVi')"
+              >
+                {{ 'VALIDATION.REQUIRED' | translate: {name:  'LABEL.BASE' | translate  } }}
+              </div>
+            </div>
+
+            <label class="col-md-2 form-label col-form-label mt-5" 
+                    for="workingContentVi"> {{ 'LABEL.CONTENT' | translate }}  <span style="color: red;">*</span></label>
+            <div class="col-md-4 mt-5">
+                <textarea
+                    name="workingContentVi"
+                    id="workingContentVi"
+                    class="form-control"
+                    formControlName="workingContentVi"
+                    [(ngModel)]="query.workingContentVi"
+                    [class.is-invalid]="isControlInvalid('workingContentVi')"
+                    maxlength="2000"
+                ></textarea>
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'workingContentVi')"
+              >
+                {{ 'VALIDATION.REQUIRED' | translate: {name:  'LABEL.CONTENT' | translate } }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Tiếng Anh -->
+          <div class="row form-group" *ngIf="locale == 'en'">
+            <!-- <label class="col-md-2 form-label col-form-label" 
+                    for="toWhoEn">Người phê duyệt <span style="color: red;">*</span></label>
+            <div class="col-md-2">
+                <input
+                    type="text"
+                    name="toWhoEn"
+                    id="toWhoEn"
+                    class="form-control"
+                    formControlName="toWhoEn"
+                    [(ngModel)]="query.toWhoEn"
+                    [class.is-invalid]="isControlInvalid('toWhoEn')"
+                />
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'toWhoEn')"
+              >
+                {{ 'VALIDATION.REQUIRED' | translate: {name: 'Người phê duyệt'} }}
+              </div>
+            </div> -->
+    
+            <label class="col-md-2 form-label col-form-label" 
+                    for="branchEn">{{ 'LABEL.BRANCH' | translate }} <span style="color: red;">*</span></label>
+            <div class="col-md-3">
+                <input
+                    type="text"
+                    name="branchEn"
+                    id="branchEn"
+                    class="form-control"
+                    formControlName="branchEn"
+                    [(ngModel)]="query.branchEn"
+                    [class.is-invalid]="isControlInvalid('branchEn')"
+                    maxlength="200"
+                />
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'branchEn')"
+              >
+                {{ 'VALIDATION.REQUIRED' | translate: {name: 'LABEL.BRANCH' | translate } }}
+              </div>
+            </div>
+
+            <label class="col-md-2 form-label col-form-label" 
+                    for="jobNameEn"> {{ 'LABEL.TITLE' | translate }}  <span style="color: red;">*</span></label>
+            <div class="col-md-4">
+                <input
+                    type="text"
+                    name="jobNameEn"
+                    id="jobNameEn"
+                    class="form-control"
+                    formControlName="jobNameEn"
+                    [(ngModel)]="query.jobNameEn"
+                    [class.is-invalid]="isControlInvalid('jobNameEn')"
+                    maxlength="500"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="controlHasError('required', 'jobNameEn')"
+                >
+                  {{ 'VALIDATION.REQUIRED' | translate: {name:  'LABEL.TITLE' | translate  } }}
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            
+            <label class="col-md-2 form-label col-form-label mt-5" 
+                    for="baseEn">{{ 'LABEL.BASE' | translate  }} <span style="color: red;">*</span></label>
+            <div class="col-md-3 mt-5">
+                <textarea
+                    name="baseEn"
+                    id="baseEn"
+                    class="form-control"
+                    formControlName="baseEn"
+                    [(ngModel)]="query.baseEn"
+                    [class.is-invalid]="isControlInvalid('baseEn')"
+                    maxlength="1000"
+                ></textarea>
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'baseEn')"
+              >
+                {{ 'VALIDATION.REQUIRED' | translate: {name:  'LABEL.BASE' | translate  } }}
+              </div>
+            </div>
+
+            <label class="col-md-2 form-label col-form-label mt-5" 
+                    for="workingContentEn"> {{ 'LABEL.CONTENT' | translate }}  <span style="color: red;">*</span></label>
+            <div class="col-md-4 mt-5">
+                <textarea
+                    name="workingContentEn"
+                    id="workingContentEn"
+                    class="form-control"
+                    formControlName="workingContentEn"
+                    [(ngModel)]="query.workingContentEn"
+                    [class.is-invalid]="isControlInvalid('workingContentEn')"
+                    maxlength="2000"
+                ></textarea>
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'workingContentEn')"
+              >
+                {{ 'VALIDATION.REQUIRED' | translate: {name:  'LABEL.CONTENT' | translate } }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Tiếng Lào -->
+          <div class="row form-group" *ngIf="locale == 'la'">
+            <!-- <label class="col-md-2 form-label col-form-label" 
+                    for="toWhoLa">Người phê duyệt <span style="color: red;">*</span></label>
+            <div class="col-md-2">
+                <input
+                    type="text"
+                    name="toWhoLa"
+                    id="toWhoLa"
+                    class="form-control"
+                    formControlName="toWhoLa"
+                    [(ngModel)]="query.toWhoLa"
+                    [class.is-invalid]="isControlInvalid('toWhoLa')"
+                />
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'toWhoLa')"
+              >
+                {{ 'VALIDATION.REQUIRED' | translate: {name: 'Người phê duyệt'} }}
+              </div>
+            </div> -->
+    
+            <label class="col-md-2 form-label col-form-label" 
+                    for="branchLa">{{ 'LABEL.BRANCH' | translate }} <span style="color: red;">*</span></label>
+            <div class="col-md-3">
+                <input
+                    type="text"
+                    name="branchLa"
+                    id="branchLa"
+                    class="form-control"
+                    formControlName="branchLa"
+                    [(ngModel)]="query.branchLa"
+                    [class.is-invalid]="isControlInvalid('branchLa')"
+                    maxlength="200"
+                />
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'branchLa')"
+              >
+                {{ 'VALIDATION.REQUIRED' | translate: {name: 'LABEL.BRANCH' | translate} }}
+              </div>
+            </div>
+
+            <label class="col-md-2 form-label col-form-label" 
+                    for="jobNameLa"> {{ 'LABEL.TITLE' | translate }}  <span style="color: red;">*</span></label>
+            <div class="col-md-4">
+                <input
+                    type="text"
+                    name="jobNameLa"
+                    id="jobNameLa"
+                    class="form-control"
+                    formControlName="jobNameLa"
+                    [(ngModel)]="query.jobNameLa"
+                    [class.is-invalid]="isControlInvalid('jobNameLa')"
+                    maxlength="500"
+                />
+                <div
+                  class="invalid-feedback"
+                  *ngIf="controlHasError('required', 'jobNameLa')"
+                >
+                  {{ 'VALIDATION.REQUIRED' | translate: {name:  'LABEL.TITLE' | translate  } }}
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            
+            <label class="col-md-2 form-label col-form-label mt-5" 
+                    for="baseLa">{{ 'LABEL.BASE' | translate  }} <span style="color: red;">*</span></label>
+            <div class="col-md-3 mt-5">
+                <textarea
+                    name="baseLa"
+                    id="baseLa"
+                    class="form-control"
+                    formControlName="baseLa"
+                    [(ngModel)]="query.baseLa"
+                    [class.is-invalid]="isControlInvalid('baseLa')"
+                    maxlength="1000"
+                ></textarea>
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'baseLa')"
+              >
+                {{ 'VALIDATION.REQUIRED' | translate: {name:  'LABEL.BASE' | translate  } }}
+              </div>
+            </div>
+
+            <label class="col-md-2 form-label col-form-label mt-5" 
+                    for="workingContentLa"> {{ 'LABEL.CONTENT' | translate }}  <span style="color: red;">*</span></label>
+            <div class="col-md-4 mt-5">
+                <textarea
+                    name="workingContentLa"
+                    id="workingContentLa"
+                    class="form-control"
+                    formControlName="workingContentLa"
+                    [(ngModel)]="query.workingContentLa"
+                    [class.is-invalid]="isControlInvalid('workingContentLa')"
+                    maxlength="2000"
+                ></textarea>
+              <div
+                class="invalid-feedback"
+                *ngIf="controlHasError('required', 'workingContentLa')"
+              >
+                {{ 'VALIDATION.REQUIRED' | translate: {name:  'LABEL.CONTENT' | translate } }}
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </ng-container>
+
+      <div class="form-group row pb-0 mt-5">
+        <div class="col-md-12 text-center">
+          <button (click)="ePreview()" class="btn btn-outline-primary font-weight-bolder mx-2"
+            style="height: 38px; padding: 7px 32px; margin: auto;" [attr.disabled]="isEnabledSignVOffice() ? null : true">
+            {{'ACTION.PREVIEW' | translate}}
+          </button>
+          <button (click)="eSignVOffice()" class="btn btn-primary font-weight-bolder mx-2"
+            style="height: 38px; padding: 7px 32px; margin: auto;" [attr.disabled]="isEnabledSignVOffice() ? null : true">
+            {{'ACTION.SIGN' | translate}} VOffice
+          </button>
+        </div>
+      </div>
+    </form>
+    <!-- end: Filtration form -->
+  </div>
+  <!-- end: Trinh ky VOFFICE -->
+</div>

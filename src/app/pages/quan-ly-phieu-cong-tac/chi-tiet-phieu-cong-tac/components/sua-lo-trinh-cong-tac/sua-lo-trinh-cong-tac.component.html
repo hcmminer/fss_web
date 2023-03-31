@@ -1,0 +1,320 @@
+<div class="position-relative">
+  <div class="card-body">
+    <!-- begin: Filtration form -->
+    <form action="#" class="form form-label-right" [formGroup]="loTrinhForm">
+      <div class="font-weight-bolder mb-12" style="font-size: 1.275rem">{{'TITLE.UPDATE_ROUTE_OF_JOB' | translate }}&nbsp;
+        <span class="ma-phieu-view">
+          {{code}}
+        </span>
+      </div>
+      <div class="row form-group">
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 50px"
+                for="tenLoTrinh"> {{ 'LABEL.ROUTING_NAME' | translate  }} <span style="color: red;">*</span></label>
+        <div class="col-md-3">
+          <input
+              type="text"
+              name="tenLoTrinh"
+              id="tenLoTrinh"
+              class="form-control"
+              formControlName="tenLoTrinh"
+              [(ngModel)]="queryLoTrinh.tenLoTrinh"
+              [class.is-invalid]="isControlInvalidLoTrinh('tenLoTrinh')"
+          />
+          <div
+              class="invalid-feedback"
+              *ngIf="controlHasErrorDetail('required', 'tenLoTrinh')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: { name:   'LABEL.ROUTING_NAME' | translate  } }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 50px"
+                for="iValidStartDateLoTrinh">{{ 'DATE.FROM_DATE' | translate }} <span style="color: red;">*</span></label>
+        <div class="col-md-3">
+          <div class="input-group">
+            <input
+                type="text"
+                name="iValidStartDateLoTrinh"
+                id="iValidStartDateLoTrinh"
+                class="form-control"
+                autocomplete="off"
+                placeholder="dd/mm/yyyy"
+                ngbDatepicker
+                #fromDate="ngbDatepicker"
+                formControlName="iValidStartDateLoTrinh"
+                [(ngModel)]="queryLoTrinh.iValidStartDateLoTrinh"
+                [class.is-invalid]="isControlInvalidDate('iValidStartDateLoTrinh')"
+                (change)="formatDateValue('iValidStartDateLoTrinh')"
+            />
+            <div class="input-group-append" (click)="resetError('iValidStartDateLoTrinh');fromDate.toggle();">
+              <span class="input-group-text">
+                <i class="text-dark-50 flaticon-calendar"></i>
+              </span>
+            </div>
+          </div>
+          <div class="mb-1" *ngIf="startDateLoTrinhErrorMsg != ''">
+            <div style="color: red;">
+              {{startDateLoTrinhErrorMsg | translate}}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 50px"
+                for="iValidEndDateLoTrinh">{{ 'DATE.TO_DATE' | translate }} <span style="color: red;">*</span></label>
+        <div class="col-md-3">
+          <div class="input-group">
+            <input
+                type="text"
+                name="iValidEndDateLoTrinh"
+                id="iValidEndDateLoTrinh"
+                class="form-control"
+                autocomplete="off"
+                placeholder="dd/mm/yyyy"
+                ngbDatepicker
+                #toDate="ngbDatepicker"
+                formControlName="iValidEndDateLoTrinh"
+                [(ngModel)]="queryLoTrinh.iValidEndDateLoTrinh"
+                [class.is-invalid]="isControlInvalidDate('iValidEndDateLoTrinh')"
+                (change)="formatDateValue('iValidEndDateLoTrinh')"
+            />
+            <div class="input-group-append" (click)="resetError('iValidEndDateLoTrinh');toDate.toggle();">
+                          <span class="input-group-text">
+                            <i class="text-dark-50 flaticon-calendar"></i>
+                          </span>
+            </div>
+          </div>
+          <div class="mb-1" *ngIf="endDateLoTrinhErrorMsg != ''">
+            <div style="color: red;">
+              {{endDateLoTrinhErrorMsg | translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row form-group">
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 50px"
+                for="tinhDi">  {{ 'LABEL.PROVINCE_BEGIN' | translate }} <span style="color: red;">*</span></label>
+        <div class="col-md-3">
+          <select class="form-control"
+                  name="tinhDi"
+                  id="tinhDi"
+                  formControlName="tinhDi"
+                  [(ngModel)]="queryLoTrinh.tinhDi"
+                  [class.is-invalid]="isControlInvalidLoTrinh('tinhDi')"
+                  (change)="eChangeProvince('from')"
+          >
+            <option *ngFor="let tinhDi of quanLyPhieuCongTacService.cbxTinh | async"
+                    [value]="tinhDi.provinceId">{{ tinhDi.provinceName }}</option>
+          </select>
+          <div
+              class="invalid-feedback"
+              *ngIf="controlHasErrorDetail('required', 'tinhDi')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: { name:   'LABEL.PROVINCE_BEGIN' | translate  } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 50px"
+                for="tinhDen">  {{ 'LABEL.PROVINCE_END' | translate }} <span style="color: red;">*</span></label>
+        <div class="col-md-3">
+          <select class="form-control"
+                  name="tinhDen"
+                  id="tinhDen"
+                  formControlName="tinhDen"
+                  [(ngModel)]="queryLoTrinh.tinhDen"
+                  [class.is-invalid]="isControlInvalidLoTrinh('tinhDen')"
+                  (change)="eChangeProvince('to')"
+          >
+            <option *ngFor="let tinhDen of quanLyPhieuCongTacService.cbxTinh | async"
+                    [value]="tinhDen.provinceId">{{ tinhDen.provinceName }}</option>
+          </select>
+          <div
+              class="invalid-feedback"
+              *ngIf="controlHasErrorDetail('required', 'tinhDen')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: { name:  'LABEL.PROVINCE_END' | translate  } }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 50px"
+                for="donViDi">{{ 'LABEL.FROM_SHOP' | translate }} <span style="color: red;">*</span></label>
+        <div class="col-md-3">
+          <!-- <select class="form-control"
+                  name="donViDi"
+                  id="donViDi"
+                  formControlName="donViDi"
+                  [(ngModel)]="queryLoTrinh.donViDi"
+                  [class.is-invalid]="isControlInvalidLoTrinh('donViDi')"
+                  #selectDonViDi
+          >
+            <option *ngFor="let donViDi of donViDiList | async"
+                    [value]="donViDi.shopId">{{ donViDi.shopName }}</option>
+          </select> -->
+          <!-- <div
+              class="invalid-feedback"
+              *ngIf="controlHasErrorDetail('required', 'donViDi')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: { name: 'Đơn vị đi' } }}
+          </div> -->
+          <input type="text"  matInput class="form-control field-autocomplete"
+                 [formControl]="castFormControl(loTrinhControl('donViDi'))"
+                 [matAutocomplete]="auto"
+                 (click)="trigger.openPanel()"
+                 #trigger="matAutocompleteTrigger"
+                 [class.is-invalid]="isControlAutoCompleteInvalid('donViDi', 'shopId', true)"
+                 [class.field-autocomplete-error]="isControlAutoCompleteInvalid('donViDi', 'shopId', true)"
+          >
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnShop">
+            <mat-option *ngFor="let shop of donViDiList | async"
+                        [value]="shop">
+              {{ shop.shopName }}
+            </mat-option>
+          </mat-autocomplete>
+          <div
+            class="invalid-feedback"
+            *ngIf="controlHasErrorDetail('required', 'donViDi')"
+            >
+            {{ 'VALIDATION.REQUIRED' | translate: {name:  'LABEL.FROM_SHOP' | translate} }}
+          </div>
+          <div
+                  class="invalid-feedback"
+                  *ngIf="controlHasErrorDetail('noSelect', 'donViDi')"
+          >
+            {{ 'VALIDATION.NO_SELECT' | translate: { name: 'LABEL.FROM_SHOP' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 50px"
+                for="donViDen">{{ 'LABEL.TO_SHOP' | translate }} <span style="color: red;">*</span></label>
+        <div class="col-md-3">
+          <!-- <select class="form-control"
+                  name="donViDen"
+                  id="donViDen"
+                  formControlName="donViDen"
+                  [(ngModel)]="queryLoTrinh.donViDen"
+                  [class.is-invalid]="isControlInvalidLoTrinh('donViDen')"
+          >
+            <option *ngFor="let donViDen of donViDenList | async"
+                    [value]="donViDen.shopId">{{ donViDen.shopName }}</option>
+          </select> -->
+          <input type="text"  matInput class="form-control field-autocomplete"
+                [formControl]="castFormControl(loTrinhControl('donViDen'))"
+                [matAutocomplete]="autoShopDenSua"
+                (click)="triggerShopDenSua.openPanel()"
+                #triggerShopDenSua="matAutocompleteTrigger"
+                [class.is-invalid]="isControlAutoCompleteInvalid('donViDen', 'shopId', true)"
+                [class.field-autocomplete-error]="isControlAutoCompleteInvalid('donViDen', 'shopId', true)"
+          >
+          <mat-autocomplete #autoShopDenSua="matAutocomplete" [displayWith]="displayFnShop">
+              <mat-option *ngFor="let shop of donViDenList | async"
+                          [value]="shop">
+                  {{ shop.shopName }}
+              </mat-option>
+          </mat-autocomplete>
+          <div
+                  class="invalid-feedback"
+                  *ngIf="controlHasErrorDetail('required', 'donViDen')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: { name:  'LABEL.TO_SHOP' | translate } }}
+          </div>
+          <div
+                  class="invalid-feedback"
+                  *ngIf="controlHasErrorDetail('noSelect', 'donViDen')"
+          >
+            {{ 'VALIDATION.NO_SELECT' | translate: { name: 'Đơn vị đến' } }}
+          </div>
+        </div>
+      </div>
+  
+      <div class="row form-group">
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 50px"
+                for="dauMoiNhanSu">{{ 'LABEL.CLUE_STAFF_WORK' | translate }}</label>
+        <div class="col-md-3">
+          <!-- <select class="form-control"
+                  name="dauMoiNhanSu"
+                  id="dauMoiNhanSu"
+                  formControlName="dauMoiNhanSu"
+                  [(ngModel)]="queryLoTrinh.dauMoiNhanSu"
+                  [class.is-invalid]="isControlInvalidLoTrinh('dauMoiNhanSu')"
+          >
+            <option *ngFor="let dauMoiNhanSu of quanLyPhieuCongTacService.cbxNhanVienNoiBo | async"
+                    [value]="dauMoiNhanSu.staffId">{{ dauMoiNhanSu.staffName }}</option>
+          </select> -->
+          <input type="text"  matInput class="form-control field-autocomplete"
+                [formControl]="castFormControl(loTrinhControl('dauMoiNhanSu'))"
+                [matAutocomplete]="autoStaff"
+                (click)="triggerStaff.openPanel()"
+                #triggerStaff="matAutocompleteTrigger"
+                [class.is-invalid]="isControlAutoCompleteInvalid('dauMoiNhanSu', 'staffId', false)"
+                [class.field-autocomplete-error]="isControlAutoCompleteInvalid('dauMoiNhanSu', 'staffId', false)"
+          >
+          <mat-autocomplete #autoStaff="matAutocomplete" [displayWith]="displayFnStaff">
+              <mat-option *ngFor="let staff of dauMoiNhanVienList | async"
+                          [value]="staff">
+                  {{ staff.staffName }}
+              </mat-option>
+          </mat-autocomplete>
+          <div
+                  class="invalid-feedback"
+                  *ngIf="controlHasErrorDetail('noSelect', 'dauMoiNhanSu')"
+          >
+            {{ 'VALIDATION.NO_SELECT' | translate: { name: 'LABEL.CLUE_STAFF_WORK' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 50px"
+                for="doiTac">{{ 'LABEL.WORK_PARNER' | translate }}</label>
+        <div class="col-md-3">
+          <input
+              type="text"
+              name="doiTac"
+              id="doiTac"
+              class="form-control"
+              formControlName="doiTac"
+              [(ngModel)]="queryLoTrinh.doiTac"
+              [class.is-invalid]="isControlInvalidLoTrinh('doiTac')"
+          />
+        </div>
+      </div>
+  
+      <!-- <div class="row form-group">
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 50px"
+                for="ghiChu">Ghi chú</label>
+        <div class="col-md-2">
+          <textarea
+              type="text"
+              name="ghiChu"
+              id="ghiChu"
+              class="form-control"
+              formControlName="ghiChu"
+              [(ngModel)]="queryLoTrinh.ghiChu"
+              [class.is-invalid]="isControlInvalidLoTrinh('ghiChu')"
+          ></textarea>
+        </div>
+      </div> -->
+    </form>
+  
+    <!-- end: Filtration form -->
+    <div class="mt-5 d-flex justify-content-end mb-5">
+      <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">{{'COMMON_BUTTON.CLOSE' | translate}}</button>
+      <button class="btn btn-primary mx-3" style="width: 150px" (click)="eSuaLoTrinh()">{{'COMMON_BUTTON.SAVE' | translate}}</button>
+    </div>
+  </div>
+
+  <div class="pb-1"></div>
+  <ngx-spinner
+          bdColor="rgba(0,0,0,0.6)"
+          size="default"
+          color="#1dc5be"
+          type="ball-clip-rotate"
+          [fullScreen]="true"
+  ></ngx-spinner>
+</div>

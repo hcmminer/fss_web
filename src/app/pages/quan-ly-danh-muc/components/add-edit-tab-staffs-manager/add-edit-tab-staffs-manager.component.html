@@ -1,0 +1,232 @@
+<div class="position-relative">
+  <div class="container">
+    <h5 style="font-weight: 700">
+      {{ isUpdate ? ('TITLE.UPDATE_STAFF' | translate) : ('TITLE.ADD_NEW_STAFF' | translate) }}
+    </h5>
+    <hr />
+    <br />
+    <!-- tieu de add or update -->
+    <div class="row form-group justify-content-center" *ngIf="!isUpdate">
+      <label class="col-md-2 form-label col-form-label">{{ 'LABEL.METHOD' | translate }}</label>
+      <div class="col-md-9 d-flex align-items-center">
+        <mat-radio-group [(ngModel)]="addType" (change)="changeState()">
+          <mat-radio-button *ngFor="let type of addTypeList" [value]="type.value" [checked]="type.checked">
+            {{ type.name }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <!-- begin: form thêm đơn lẻ -->
+    <form action="#" class="form form-label-right" [formGroup]="addForm" *ngIf="addType == 'single'">
+      <div class="row form-group justify-content-center">
+        <label class="col-md-2 form-label col-form-label" for="staffCode">
+          {{ 'LABEL.STAFF_CODE' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-3">
+          <input
+            class="form-control"
+            name="staffCode"
+            id="staffCode"
+            formControlName="staffCode"
+            [class.is-invalid]="isControlInvalid('staffCode')"
+            maxlength="100"
+          />
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'staffCode')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.STAFF_CODE' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <label class="col-md-2 form-label col-form-label" for="staffName">
+          {{ 'LABEL.STAFF_NAME' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-3">
+          <input
+            class="form-control"
+            name="staffName"
+            id="staffName"
+            formControlName="staffName"
+            [class.is-invalid]="isControlInvalid('staffName')"
+            maxlength="200"
+          />
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'staffName')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.STAFF_NAME' | translate } }}
+          </div>
+        </div>
+      </div>
+      <div class="row form-group justify-content-center">
+        <label class="col-md-2 form-label col-form-label" for="provinceId">
+          {{ 'LABEL.PROVINCE_ID' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-3">
+          <select
+            class="form-control"
+            name="provinceId"
+            id="provinceId"
+            formControlName="provinceId"
+            [class.is-invalid]="isControlInvalid('provinceId')"
+          >
+            <option *ngFor="let item of categoryManagerService.cbxTinh | async" [value]="item.provinceId">
+              {{ item.provinceName }}
+            </option>
+          </select>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'provinceId')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.PROVINCE_ID' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <label class="col-md-2 form-label col-form-label" for="shopId"> {{ 'LABEL.SHOP' | translate }} <span style="color: red">*</span></label>
+        <div class="col-md-3">
+          <select class="form-control" name="shopId" id="shopId" formControlName="shopId" [class.is-invalid]="isControlInvalid('shopId')">
+            <option *ngFor="let item of categoryManagerService.cbxShopName | async" [value]="item.shopId">
+              {{ item.shopName }}
+            </option>
+          </select>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'shopId')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.SHOP' | translate } }}
+          </div>
+        </div>
+
+        <label class="col-md-2 form-label col-form-label d-none" for="staffType">
+          {{ 'LABEL.STAFF_TYPE' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-3 d-none">
+          <select class="form-control" name="staffType" id="staffType" formControlName="staffType" [class.is-invalid]="isControlInvalid('staffType')">
+            <option *ngFor="let item of categoryManagerService.cbxStaffType | async" [value]="item.value">{{ item.name | translate }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'staffType')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.STAFF_TYPE' | translate } }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row form-group justify-content-center">
+        <label class="col-md-2 form-label col-form-label" for="position"> {{ 'LABEL.POSITION' | translate }} <span style="color: red">*</span></label>
+        <div class="col-md-3">
+          <select class="form-control" name="position" id="position" formControlName="position" [class.is-invalid]="isControlInvalid('position')">
+            <option *ngFor="let item of categoryManagerService.cbxPosition | async" [value]="item.value">
+              {{ item.name }}
+            </option>
+          </select>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'position')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.POSITION' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <label class="col-md-2 form-label col-form-label" for="mobile">
+          {{ 'LABEL.PHONE_NUMBER' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-3">
+          <input class="form-control" name="mobile" id="mobile" formControlName="mobile" [class.is-invalid]="isControlInvalid('mobile')" />
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'mobile')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.PHONE_NUMBER' | translate } }}
+          </div>
+          <div class="invalid-feedback" *ngIf="addForm.controls['mobile'].hasError('maxlength')">
+            {{ 'VALIDATION.MAX_LENGTH_FIELD' | translate : { name: 'LABEL.PHONE_NUMBER' | translate } }} {{ maxLengthMobile }}
+          </div>
+        </div>
+      </div>
+
+      <div class="row form-group justify-content-center">
+        <label class="col-md-2 form-label col-form-label" for="gender"> {{ 'LABEL.GENDER' | translate }} <span style="color: red">*</span></label>
+        <div class="col-md-3">
+          <select class="form-control" name="gender" id="gender" formControlName="gender" [class.is-invalid]="isControlInvalid('gender')">
+            <option *ngFor="let item of categoryManagerService.cbxGender | async" [value]="item.value">{{ item.name | translate }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'gender')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.GENDER' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <label class="col-md-2 form-label col-form-label" for="title"> {{ 'LABEL.TITLE' | translate }} <span style="color: red">*</span></label>
+        <div class="col-md-3">
+          <select class="form-control" name="title" id="title" formControlName="title" [class.is-invalid]="isControlInvalid('title')">
+            <option *ngFor="let item of categoryManagerService.cbxTitle | async" [value]="item.value">
+              {{ item.name }}
+            </option>
+          </select>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'title')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.TITLE' | translate } }}
+          </div>
+        </div>
+      </div>
+      <div class="row form-group justify-content-center">
+        <label class="col-md-2 form-label col-form-label" type="email" for="email">
+          {{ 'LABEL.EMAIL' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-3">
+          <input class="form-control" name="email" id="email" formControlName="email" [class.is-invalid]="isControlInvalid('email')" maxlength="50" />
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'email')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.EMAIL' | translate } }}
+          </div>
+          <div class="invalid-feedback" *ngIf="controlHasError('email', 'email')">
+            {{ 'VALIDATION.INVALID' | translate : { name: 'LABEL.EMAIL' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-6"></div>
+      </div>
+      <!-- Đóng or lưu -->
+      <div class="d-flex justify-content-end my-5">
+        <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
+          {{ 'COMMON_BUTTON.CLOSE' | translate }}
+        </button>
+        <button class="btn btn-primary mx-3" style="width: 150px" (click)="eSave('single')">{{ 'COMMON_BUTTON.SAVE' | translate }}</button>
+      </div>
+    </form>
+
+    <form action="#" class="form form-label-right" [formGroup]="addFileForm" *ngIf="addType == 'file'">
+      <div class="row form-group">
+        <div class="col-md-3">
+          <button class="form-control btn btn-outline-primary mr-5" (click)="getTemplate()">
+            <i class="fas fa-download"></i>{{ 'COMMON_BUTTON.DOWNLOAD_TEMPLATE' | translate }}
+          </button>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group">
+            <button class="btn btn-primary sticky-input-button" type="button" mat-raised-button (click)="fileInput.click()">
+              {{ 'LABEL.SELECT_FLE' | translate }} *
+            </button>
+            <input
+              class="form-control"
+              hidden
+              (change)="onFileSelected($event)"
+              #fileInput
+              type="file"
+              accept=".xls, .xlsx"
+              name="chonFile"
+              id="chonFile"
+              formControlName="chonFile"
+            />
+            <span class="file-name form-control" [class.is-invalid]="isControlInvalidFile('chonFile')">
+              {{ selectedFile?.name | truncate : 50 }}
+            </span>
+            <div class="invalid-feedback" *ngIf="controlHasErrorFile('required', 'chonFile')">
+              {{ 'VALIDATION.REQUIRED' | translate : { name: 'File' } }}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-form-label" *ngIf="isHasResult">
+          <span style="color: red"
+            >Tổng lỗi: {{ totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{ totalRecord | number : '1.0' : 'en-US' }} bản ghi</span
+          >
+        </div>
+
+        <!-- <div class="col-md-9 col-form-label" *ngIf="resultFileData">
+                      <a style="color: #1a66c3;margin-left: 5px;cursor:pointer;" href="javascript:void(0)"  (click)="exportFile()">
+                          <i class="fas fa-download icon-color-primary-4 margin-left10 title-link"></i>
+                          <span class="title-link"> {{ 'COMMON_BUTTON.DOWNLOAD_RESULT_FILE' | translate }}</span>
+                      </a>
+                  </div> -->
+      </div>
+
+      <div class="d-flex justify-content-end my-5">
+        <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
+          {{ 'COMMON_BUTTON.CLOSE' | translate }}
+        </button>
+        <button class="btn btn-primary mx-3" style="width: 150px" (click)="eSave('file')">{{ 'COMMON_BUTTON.UPLOAD' | translate }}</button>
+      </div>
+    </form>
+  </div>
+  <div class="pb-1"></div>
+  <ngx-spinner bdColor="rgba(0,0,0,0.6)" size="default" color="#1dc5be" type="ball-clip-rotate" [fullScreen]="true"></ngx-spinner>
+</div>

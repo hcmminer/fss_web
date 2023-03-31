@@ -1,0 +1,29 @@
+<div class="position-relative" style="height: 100%">
+  <div id="kt_subheader" class="subheader py-2 py-lg-6 subheader-solid" ng-reflect-ng-class="subheader-solid">
+    <div class="d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap container-fluid" ng-reflect-ng-class="container-fluid">
+      <div class="d-flex align-items-center flex-wrap mr-1">
+        <!--bindings={}-->
+        <div class="d-flex align-items-baseline flex-wrap mr-5">
+          <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+            <li routerlinkactive="active" class="breadcrumb-item ng-star-inserted active" ng-reflect-router-link-active="active">
+              <a class="text-muted">{{ 'FSS_CATEGORY' | translate }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- begin: Chi tiet phieu cong tac -->
+  <div class="card card-custom gutter-b">
+    <mat-tab-group mat-stretch-tabs>
+      <mat-tab label="{{ 'TITLE.ROUTE_MANAGEMENT' | translate }}"><app-tab-quan-ly-lo-trinh></app-tab-quan-ly-lo-trinh></mat-tab>
+      <mat-tab label="{{ 'TITLE.NORM_BUSINESS_FEE' | translate }}"><app-tab-quan-ly-cong-tac-phi></app-tab-quan-ly-cong-tac-phi></mat-tab>
+      <mat-tab label="{{ 'TITLE.NORM_HOTEL' | translate }}"><app-tab-quan-ly-khach-san></app-tab-quan-ly-khach-san></mat-tab>
+      <mat-tab label="{{ 'TITLE.NORM_MOVE' | translate }}"><app-tab-dinh-muc-di-chuyen></app-tab-dinh-muc-di-chuyen></mat-tab>
+      <mat-tab label="{{ 'TITLE.STAFFS_MANAGER' | translate }}"><app-tab-staffs-manager></app-tab-staffs-manager></mat-tab>
+      <mat-tab label="{{ 'TITLE.DEPARTMENTS_MANAGER' | translate }}"><app-tab-departments-manager></app-tab-departments-manager></mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="pb-1"></div>
+  <ngx-spinner bdColor="rgba(0,0,0,0.6)" size="default" color="#1dc5be" type="ball-clip-rotate" [fullScreen]="true"></ngx-spinner>
+</div>

@@ -1,0 +1,120 @@
+
+img:hover{
+    cursor:pointer;
+  }
+  
+  img{
+    margin-right: 10px;
+  }
+  
+  .labelUpload{
+    text-decoration: underline;
+    cursor: pointer;
+    color:blue;
+  }
+  .form-select{
+    border-radius: 5px;
+    border-width: 2px;
+    border-color: #0171BB;
+  }
+  .form-input{
+    border: none !important;
+  }
+  
+  .action-row {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-evenly;
+  }
+  
+  .icon-view-detail {
+    color: #0171BB;
+    cursor: pointer;
+  }
+  
+  .icon-view-detail:hover {
+    color: #51b9ff;
+  }
+  
+  .icon-disable {
+    color: #b8b8b8;
+    cursor: unset !important;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  
+  :host ::ng-deep .mat-sort-header-container {
+    display: flex;
+    justify-content: center;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+  
+  td {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+  
+  th.mat-header-cell:first-of-type {
+    padding-left: 0px;
+  }
+  
+  th.mat-header-cell:last-of-type {
+    padding-right: 0px;
+  }
+  
+  .mat-column-index {
+    text-align: center;
+  }
+  .mat-column-fromProvinceName {
+    text-align: left;
+  }
+  .mat-column-toProvinceName {
+    text-align: left;
+  }
+  .mat-column-vehicleTypeName {
+    text-align: left;
+  }
+  .mat-column-price {
+    text-align: right;
+  }
+  .mat-column-soNguoiCongTac {
+    text-align: right;
+  }
+  .mat-column-tongChiPhi {
+    text-align: right;
+  }
+  .mat-column-note {
+    text-align: left;
+  }
+  .mat-column-hanhDong {
+    text-align: center;
+    min-width: 75px;
+  }
+  
+  .ma-phieu-view {
+    background: #dbe2f3;
+    color: #4674eb;
+    padding: 4px 10px;
+    font-weight: bold;
+    border-radius: 3px;
+  }
+
+  .field-autocomplete {
+    border: 1px solid #bdbdbd;
+    padding-left: 10px;
+    box-sizing: border-box;
+  }
+  
+  .field-autocomplete-error {
+    border-color: #F64E60;
+  }

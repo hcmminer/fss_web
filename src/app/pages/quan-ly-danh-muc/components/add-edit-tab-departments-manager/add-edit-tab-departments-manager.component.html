@@ -1,0 +1,144 @@
+<div class="position-relative">
+  <div class="container">
+    <h5 style="font-weight: 700">
+      {{ isUpdate ? ('TITLE.UPDATE_DEPARTMENT' | translate) : ('TITLE.ADD_NEW_DEPARTMENT' | translate) }}
+    </h5>
+    <hr />
+    <br />
+    <!-- phương thức (only add)-->
+    <div class="row form-group" *ngIf="!isUpdate">
+      <label class="col-md-4 form-label col-form-label" style="padding-left: 75px">{{ 'LABEL.METHOD' | translate }}</label>
+      <div class="col-md-7 d-flex align-items-center">
+        <mat-radio-group [(ngModel)]="addType" (change)="changeState()">
+          <mat-radio-button *ngFor="let type of addTypeList" [value]="type.value" [checked]="type.checked">
+            {{ type.name }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
+    <!-- begin: form thêm đơn lẻ -->
+    <form action="#" class="form form-label-right" [formGroup]="addForm" *ngIf="addType == 'single'">
+      <!-- start shopType -->
+      <div class="row form-group d-none">
+        <label class="col-md-4 form-label col-form-label" style="padding-left: 75px" for="shopType">
+          {{ 'LABEL.SHOP_TYPE' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-7">
+          <select class="form-control" name="shopType" id="shopType" formControlName="shopType" [class.is-invalid]="isControlInvalid('shopType')">
+            <option *ngFor="let item of categoryManagerService.cbxShopType | async" [value]="item.value">{{ item.name | translate }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'shopType')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.SHOP_TYPE' | translate } }}
+          </div>
+        </div>
+      </div>
+      <!-- end shopType -->
+      <!-- SHOP_CODE -->
+      <div class="row form-group">
+        <label class="col-md-4 form-label col-form-label" style="padding-left: 75px" for="shopCode">
+          {{ 'LABEL.SHOP_CODE' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-7">
+          <input class="form-control" name="shopCode" id="shopCode" formControlName="shopCode" [class.is-invalid]="isControlInvalid('shopCode')" maxlength="100"/>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'shopCode')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.SHOP_CODE' | translate } }}
+          </div>
+        </div>
+      </div>
+      <!-- END -->
+
+      <!-- PROVINCE_ID -->
+      <div class="row form-group">
+        <label class="col-md-4 form-label col-form-label" style="padding-left: 75px" for="provinceId">
+          {{ 'LABEL.PROVINCE' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-7">
+          <select
+            class="form-control"
+            name="provinceId"
+            id="provinceId"
+            formControlName="provinceId"
+            [class.is-invalid]="isControlInvalid('provinceId')"
+          >
+            <option *ngFor="let item of categoryManagerService.cbxTinh | async" [value]="item.provinceId">{{ item.provinceName }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'provinceId')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.PROVINCE' | translate } }}
+          </div>
+        </div>
+      </div>
+      <!-- END -->
+
+      <!-- SHOP_NAME -->
+      <div class="row form-group">
+        <label class="col-md-4 form-label col-form-label" style="padding-left: 75px" for="staffName">
+          {{ 'LABEL.SHOP_NAME' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-7">
+          <input class="form-control" name="shopName" id="shopName" formControlName="shopName" [class.is-invalid]="isControlInvalid('shopName')" maxlength="100" />
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'shopName')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.SHOP_NAME' | translate } }}
+          </div>
+        </div>
+      </div>
+      <!-- END -->
+      <!-- Close X-->
+      <div class="d-flex justify-content-end my-5">
+        <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
+          {{ 'COMMON_BUTTON.CLOSE' | translate }}
+        </button>
+        <button class="btn btn-primary mx-3" style="width: 150px" (click)="eSave('single')">{{ 'COMMON_BUTTON.SAVE' | translate }}</button>
+      </div>
+    </form>
+
+    <form action="#" class="form form-label-right" [formGroup]="addFileForm" *ngIf="addType == 'file'">
+      <div class="row form-group">
+        <div class="col-md-3" style="padding-left: 75px">
+          <button class="form-control btn btn-outline-primary mr-5" (click)="getTemplate()">
+            <i class="fas fa-download"></i>{{ 'COMMON_BUTTON.DOWNLOAD_TEMPLATE' | translate }}
+          </button>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group">
+            <button class="btn btn-primary sticky-input-button" type="button" mat-raised-button (click)="fileInput.click()">
+              {{ 'LABEL.SELECT_FLE' | translate }} *
+            </button>
+            <input
+              class="form-control"
+              hidden
+              (change)="onFileSelected($event)"
+              #fileInput
+              type="file"
+              accept=".xls, .xlsx"
+              name="chonFile"
+              id="chonFile"
+              formControlName="chonFile"
+            />
+            <span class="file-name form-control" [class.is-invalid]="isControlInvalidFile('chonFile')">
+              {{ selectedFile?.name | truncate : 50 }}
+            </span>
+            <div class="invalid-feedback" *ngIf="controlHasErrorFile('required', 'chonFile')">
+              {{ 'VALIDATION.REQUIRED' | translate : { name: 'File' } }}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-form-label" *ngIf="isHasResult">
+          <span style="color: red"
+            >Tổng lỗi: {{ totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{ totalRecord | number : '1.0' : 'en-US' }} bản ghi</span
+          >
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end my-5">
+        <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
+          {{ 'COMMON_BUTTON.CLOSE' | translate }}
+        </button>
+        <button class="btn btn-primary mx-3" style="width: 150px" (click)="eSave('file')">{{ 'COMMON_BUTTON.UPLOAD' | translate }}</button>
+      </div>
+    </form>
+  </div>
+  <div class="pb-1"></div>
+  <ngx-spinner bdColor="rgba(0,0,0,0.6)" size="default" color="#1dc5be" type="ball-clip-rotate" [fullScreen]="true"></ngx-spinner>
+</div>

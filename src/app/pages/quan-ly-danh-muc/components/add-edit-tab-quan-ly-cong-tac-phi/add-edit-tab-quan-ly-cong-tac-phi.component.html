@@ -1,0 +1,102 @@
+<div class="position-relative">
+    <div class="container">
+        <!-- begin: Filtration form -->
+        <form action="#" class="form form-label-right" [formGroup]="addForm">
+            <h5 style="font-weight: 700;">
+                {{ isUpdate ? ( 'TITLE.UPDATE_BUSINESS_FEE' | translate ) : 'TITLE.ADD_BUSINESS_FEE' | translate }}
+            </h5>
+            <hr>
+            <br>
+            <div class="row form-group">
+                <label class="col-md-2 form-label col-form-label"
+                    style="padding-left: 75px;"
+                    for="chucDanh">{{ 'LABEL.SUBJECT' | translate }} <span style="color: red;">*</span></label>
+                <div class="col-md-4">
+                    <select class="form-control"
+                            name="chucDanh"
+                            id="chucDanh"
+                            formControlName="chucDanh"
+                            [class.is-invalid]="isControlInvalid('chucDanh')"
+                            [attr.disabled]="isUpdate ? true : null"
+                    >
+                        <option *ngFor="let chucDanh of quanLyPhieuCongTacService.cbxChucDanh | async"
+                                [value]="chucDanh.value">{{ chucDanh.name }}</option>
+                    </select>
+                    <div
+                            class="invalid-feedback"
+                            *ngIf="controlHasError('required', 'chucDanh')"
+                    >
+                        {{ 'VALIDATION.REQUIRED' | translate: {name: 'LABEL.SUBJECT' | translate } }}
+                    </div>
+                </div>
+                
+                <label class="col-md-2 form-label col-form-label"
+                    style="padding-left: 75px;"
+                    for="chiPhi"> {{ 'LABEL.COST' | translate }} <span style="color: red;">*</span></label>
+                <div class="col-md-3">
+                    <input class="form-control"
+                        NumbersOnly
+                        [allowDecimals]="false"
+                        [allowSign]="false"
+                        [allowThousandSeparator]="true"
+                        name="chiPhi"
+                        id="chiPhi"
+                        formControlName="chiPhi"
+                        [class.is-invalid]="isControlInvalid('chiPhi')"
+                        maxlength="30"
+                        autocomplete="off"
+                    >
+                    <div
+                            class="invalid-feedback"
+                            *ngIf="controlHasError('required', 'chiPhi')"
+                    >
+                        {{ 'VALIDATION.REQUIRED' | translate: {name:  'LABEL.COST' | translate} }}
+                    </div>
+                    <div
+                            class="invalid-feedback"
+                            *ngIf="controlHasError('pattern', 'chiPhi')"
+                    >
+                        {{ 'VALIDATION.MUST_BE_POSITIVE_INTEGER' | translate: { name:  'LABEL.COST' | translate } }}
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+    
+            <div class="row form-group">
+                <label class="col-md-2 form-label col-form-label"
+                    style="padding-left: 75px;"
+                    for="ghiChu">{{ 'LABEL.NOTE' | translate }}</label>
+                <div class="col-md-4">
+                    <textarea class="form-control"
+                            name="ghiChu"
+                            id="ghiChu"
+                            formControlName="ghiChu"
+                            [class.is-invalid]="isControlInvalid('ghiChu')"
+                            maxlength="1000"
+                    >
+                    </textarea>
+                    <!-- <div
+                            class="invalid-feedback"
+                            *ngIf="controlHasError('required', 'ghiChu')"
+                    >
+                        {{ 'VALIDATION.REQUIRED' | translate: {name: 'Ghi chú' | translate} }}
+                    </div> -->
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+    
+            <div class="d-flex justify-content-end my-5">
+                <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">{{'COMMON_BUTTON.CLOSE' | translate}}</button>
+                <button class="btn btn-primary mx-3" style="width: 150px" (click)="eSave()">{{'COMMON_BUTTON.SAVE' | translate}}</button>
+            </div>
+        </form>
+    </div>
+    <div class="pb-1"></div>
+    <ngx-spinner
+            bdColor="rgba(0,0,0,0.6)"
+            size="default"
+            color="#1dc5be"
+            type="ball-clip-rotate"
+            [fullScreen]="true"
+    ></ngx-spinner>
+</div>

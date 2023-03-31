@@ -1,0 +1,57 @@
+$dz-bg: #fff;
+$dz-border: #717386;
+
+:host {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  background: $dz-bg;
+  cursor: pointer;
+  color: #000;
+  border-radius: 5px;
+  font-size: 13px;
+  justify-content: start;
+  &.custom-dz-hovered {
+    border-style: solid;
+  }
+
+  &.custom-dz-disabled {
+    opacity: 0.5;
+    cursor: no-drop;
+    pointer-events: none;
+  }
+
+  /** The default scroll-to-side styles **/
+
+  &.expandable {
+    overflow: hidden;
+    height: unset;
+    min-height: 180px;
+    flex-wrap: wrap;
+  }
+
+  &.unclickable {
+    cursor: default;
+  }
+
+  ::ng-deep custom-dropzone-label {
+    text-align: center;
+    z-index: 10;
+  }
+
+  & input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+
+    &:focus + ::ng-deep custom-dropzone-label {
+      /* Fallback for older browsers */
+      outline: 1px dotted #000;
+
+      outline: -webkit-focus-ring-color auto 5px;
+    }
+  }
+}

@@ -1,0 +1,210 @@
+
+.dialog-wrapper {
+  background: #FFFFFF;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  border: none;
+
+  .btn-warning {
+    color: white;
+    background: #F29F24;;
+  }
+
+  .btn-outline-danger {
+    font-size: 13px;
+    line-height: 18px;
+
+    &:hover {
+      background: unset !important;
+      color: #dc3545;
+    }
+  }
+
+  .btn-outline-success {
+    font-size: 13px;
+    line-height: 18px;
+
+    &:hover {
+      background: unset !important;
+      color: #4DC033;
+    }
+  }
+
+  .btn-outline-info {
+    font-size: 13px;
+    line-height: 18px;
+
+    &:hover {
+      background: unset !important;
+      color: #4674EB;
+    }
+  }
+
+  .btn-outline-warning {
+    font-size: 13px;
+    line-height: 18px;
+
+    &:hover {
+      background: unset !important;
+      color: #ffc107;
+    }
+  }
+
+  .btn-cancel {
+    min-width: 110px;
+    height: 35px;
+  }
+
+  .btn-dialog-close {
+    min-width: 110px;
+    height: 35px;
+    margin-left: 12px;
+  }
+
+
+  .dialog-header {
+    &.success {
+      background: #D0F5C7;
+    }
+
+    &.danger {
+      background: #FFDFDC;
+    }
+
+    &.warning {
+      background: #FFE8C6;
+    }
+
+    &.info {
+      background: #DBE2F3;
+    }
+
+    .title {
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 20px;
+      /* identical to box height, or 143% */
+
+      display: flex;
+      align-items: center;
+      text-transform: uppercase;
+
+      &.success {
+        color: #4DC033;
+      }
+
+      &.danger {
+        color: #CC3E35;
+      }
+
+      &.warning {
+        color: #F29F24;
+      }
+
+      &.info {
+        color: #4674EB;
+      }
+    }
+
+    display: flex;
+    align-items: center;
+    height: 56px;
+    padding: 18px 20px 18px 20px;
+    border-radius: 6px 6px 0px 0px;
+
+    button:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+
+  .dialog-content {
+    padding: 30px 20px 20px 20px;
+
+    .text-content {
+      flex: 1;
+      margin-left: 25px;
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 22px;
+      color: #1E1E1E;
+      white-space: pre-line;
+      overflow-wrap: anywhere;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+button.dialog-button {
+  min-width: 110px;
+  height: 35px;
+  position: relative;
+  margin-left: 12px;
+
+  span {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 18px;
+    /* identical to box height, or 138% */
+    text-align: center;
+    text-transform: uppercase;
+    color: #FFFFFF;
+  }
+
+  &.success {
+    background: #4DC033;
+  }
+
+  &.danger {
+    background: #F64F45;
+    border-radius: 5px;
+  }
+
+  &.warning {
+    background: #F29F24;
+  }
+
+  &.info {
+    background: #4674EB;
+  }
+}
+
+a.dialog-button-link {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 18px;
+  text-align: center;
+  text-transform: uppercase;
+
+  &.success {
+    color: #4DC033;
+  }
+
+  &.danger {
+    background: #F64F45;
+  }
+
+  &.warning {
+    color: #F29F24;
+  }
+
+  &.info {
+    color: #4674EB;
+  }
+}

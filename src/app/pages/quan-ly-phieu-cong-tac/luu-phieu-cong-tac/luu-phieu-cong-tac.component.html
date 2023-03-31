@@ -1,0 +1,120 @@
+<div class="position-relative">
+  <div class="container">
+    <h4 class="text-uppercase font-weight-bold mb-5">{{isUpdate ? ('TITLE.UPDATE_JOB' | translate) : 'TITLE.ADD_JOB' | translate }}</h4>
+    <hr>
+    <form action="#" class="form form-label-right" [formGroup]="saveForm">
+      <div class="row form-group gx-6 mb-0">
+        <label class="col-md-2 form-label col-form-label"
+                for="tenPhieuCongTac">{{ 'LABEL.JOB_NAME' | translate }} <span style="color: red">*</span></label>
+        <div class="col-md-3">
+            <input
+                type="text"
+                name="tenPhieuCongTac"
+                id="tenPhieuCongTac"
+                class="form-control"
+                formControlName="tenPhieuCongTac"
+                [class.is-invalid]="isControlInvalid('tenPhieuCongTac')"
+                maxlength="200"
+            />
+          <div
+            class="invalid-feedback"
+            *ngIf="controlHasError('required', 'tenPhieuCongTac')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: { name:  'LABEL.JOB_NAME' | translate | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <label class="col-md-2 form-label col-form-label"
+                for="mucDichCongTac"> {{ 'LABEL.PURPOSE_JOB' | translate }} <span style="color: red">*</span></label>
+        <div class="col-md-3">
+          <select class="form-control"
+                  name="mucDichCongTac"
+                  id="mucDichCongTac"
+                  formControlName="mucDichCongTac"
+                  [class.is-invalid]="isControlInvalid('mucDichCongTac')"
+          >
+            <option *ngFor="let mucDichCongTac of quanLyPhieuCongTacService.cbxMucDichCongTac | async"
+                    [value]="mucDichCongTac.value">{{ mucDichCongTac.name }}</option>
+          </select>
+          <div
+            class="invalid-feedback"
+            *ngIf="controlHasError('required', 'mucDichCongTac')"
+          >
+           {{ 'VALIDATION.REQUIRED' | translate: { name:  'LABEL.PURPOSE_JOB' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      
+      <div class="row form-group gx-6 mb-0">
+        <label class="col-md-2 form-label col-form-label"
+                for="nguonKinhPhi">{{'LABEL.FUNDING' | translate}}</label>
+        <div class="col-md-3">
+            <input
+                type="text"
+                name="nguonKinhPhi"
+                id="nguonKinhPhi"
+                class="form-control"
+                formControlName="nguonKinhPhi"
+                [class.is-invalid]="isControlInvalid('nguonKinhPhi')"
+                maxlength="200"
+            />
+          <div
+            class="invalid-feedback"
+            *ngIf="controlHasError('required', 'nguonKinhPhi')"
+          >
+            
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <label class="col-md-2 form-label col-form-label"
+                for="moTaChiTiet">{{'LABEL.DETAIL_JOB' | translate}} <span style="color: red">*</span></label>
+        <div class="col-md-3">
+            <textarea
+                name="moTaChiTiet"
+                id="moTaChiTiet"
+                class="form-control"
+                formControlName="moTaChiTiet"
+                [class.is-invalid]="isControlInvalid('moTaChiTiet')"
+                maxlength="1000"
+            ></textarea>
+          <div
+            class="invalid-feedback"
+            *ngIf="controlHasError('required', 'moTaChiTiet')"
+          >
+            {{ 'VALIDATION.REQUIRED' | translate: { name: 'LABEL.DETAIL_JOB' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+
+      <div class="row form-group gx-6 mb-0">
+        <label class="col-md-2 form-label col-form-label"
+                for="ghiChu">{{ 'LABEL.NOTE' | translate }}</label>
+        <div class="col-md-3">
+            <textarea
+                name="ghiChu"
+                id="ghiChu"
+                class="form-control"
+                formControlName="ghiChu"
+                [class.is-invalid]="isControlInvalid('ghiChu')"
+                maxlength="2000"
+            ></textarea>
+        </div>
+      </div>
+    </form>
+
+    <div class="d-flex justify-content-end mb-5">
+      <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">{{'COMMON_BUTTON.CLOSE' | translate}}</button>
+      <button class="btn btn-primary mx-3" style="width: 150px" (click)="confirmSave()">{{(isUpdate ? 'COMMON_BUTTON.SAVE' : 'COMMON_BUTTON.ADD_NEW') | translate}}</button>
+    </div>
+  </div>
+  <div class="pb-1"></div>
+  <ngx-spinner
+          bdColor="rgba(0,0,0,0.6)"
+          size="default"
+          color="#1dc5be"
+          type="ball-clip-rotate"
+          [fullScreen]="true"
+  ></ngx-spinner>
+</div>

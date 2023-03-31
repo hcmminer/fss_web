@@ -1,0 +1,166 @@
+<div class="card-header border-bottom-0 pb-0 d-flex align-items-center">
+    <h5 class="card-label" style="margin: 10px">
+        {{ 'TITLE.LIST_HOTEL' | translate }}
+    </h5>
+    <div (click)="eSearch()" class="btn cursor-pointer" title="{{'TOOLTIP.RELOAD' | translate}}">
+        <i class="fas fa-sync-alt"></i>
+    </div>
+    <div (click)="addNew()" class="btn cursor-pointer" title="{{'ACTION.ADD' | translate}}">
+        <i class="fas fa-plus" style="color: green;"></i>
+    </div>
+</div>
+
+<div class="card-body">
+    <mat-form-field appearance="standard">
+        <mat-label><i class="fas fa-search"></i> {{ 'TITLE.SEARCH_ADVANCE' | translate }}</mat-label>
+        <input matInput (keyup)="applyFilter($event)" #input>
+    </mat-form-field>
+    <!-- begin:Table -->
+    <table mat-table [dataSource]="dataSource" width="100%">
+        <ng-container matColumnDef="provinceName">
+            <th mat-header-cell *matHeaderCellDef class="text-center">
+                <span [style.paddingLeft.px]="40"> {{ 'LABEL.PROVINCE' | translate }} </span>
+            </th>
+            <td mat-cell *matCellDef="let data" style="text-align: left;">
+                <div class="row">
+                    <div class=" d-flex align-items-center cursor-pointer" (click)="treeControl.toggle(data)">
+                        <div mat-icon-buttonyy [style.visibility]="!data.expandable ? 'hidden' : ''"
+                            [style.marginLeft.px]="data.level * 32">
+                            <mat-icon class="mat-icon-rtl-mirror">
+                                {{treeControl.isExpanded(data) ? 'expand_more' : 'chevron_right'}}
+                            </mat-icon>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center" *ngIf="data.isEdit">
+                        <select class="form-control" name="province" id="province"
+                            (change)="changeValue($event,data,'province')" *ngIf="!data.id && data.hotelId">
+                            <option *ngFor="let province of quanLyPhieuCongTacService.cbxTinh | async"
+                                [selected]="data.provinceId==province.provinceId" [value]="province.provinceId">{{
+                                province.provinceName }}</option>
+                        </select>
+                        <span *ngIf="data.id && data.hotelId">{{data.provinceName}}</span>
+                    </div>
+                    <div class=" d-flex align-items-center" *ngIf="!data.isEdit">
+                        <span>{{data.provinceName}}</span>
+                    </div>
+                </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="hotelName">
+            <th mat-header-cell *matHeaderCellDef class="text-center"> {{ 'LABEL.NAME_HOTEL' | translate }} </th>
+            <td mat-cell *matCellDef="let data" style="text-align: left;">
+                <div class=" d-flex align-items-center" *ngIf="data.isEdit">
+                    <span *ngIf="data.id && data.hotelId">{{data.hotelName}}</span>
+                    <input *ngIf="!data.id && data.hotelId" class="form-control" value="{{data.hotelName}}" maxlength="500"
+                        (change)="changeValue($event,data,'hotelName')" />
+                </div>
+                <div class=" d-flex align-items-center" *ngIf="!data.isEdit">
+                    <span>{{data.hotelName}}</span>
+                </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="telephone">
+            <th mat-header-cell *matHeaderCellDef class="text-center"> {{ 'LABEL.PHONE_NUMBER' | translate }} </th>
+            <td mat-cell *matCellDef="let data" style="text-align: left;">
+                <div class=" d-flex align-items-center" *ngIf="data.isEdit">
+                    <span *ngIf="data.id && data.hotelId">{{data.telephone}}</span>
+                    <input *ngIf="!data.id && data.hotelId" 
+                        NumbersOnly
+                        [allowDecimals]="false"
+                        [allowSign]="false"
+                        type="text" class="form-control" value="{{data.telephone}}" maxlength="15"
+                        (change)="changeValue($event,data,'telephone')"
+                        autocomplete="off" />
+                </div>
+                <div class=" d-flex align-items-center" *ngIf="!data.isEdit">
+                    <span>{{data.telephone}}</span>
+                </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="roomType">
+            <th mat-header-cell *matHeaderCellDef class="text-center"> {{ 'LABEL.ROOM_TYPE' | translate }} </th>
+            <td mat-cell *matCellDef="let data" style="text-align: left;">
+                <div class="d-flex align-items-center" *ngIf="data.isEdit">
+                    <select class="form-control" name="roomType" id="roomType"
+                        (change)="changeValue($event,data,'roomType')" *ngIf="data.id && data.hotelId">
+                        <option *ngFor="let roomType of quanLyPhieuCongTacService.cbxLoaiPhong | async"
+                            [selected]="data.roomType==roomType.value" [value]="roomType.value">{{
+                            roomType.name }}</option>
+                    </select>
+                    <span *ngIf="!data.id && data.hotelId">{{data.roomTypeName}}</span>
+                </div>
+                <div class=" d-flex align-items-center" *ngIf="!data.isEdit">
+                    <span>{{data.roomTypeName}}</span>
+                </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef class="text-center">  {{ 'LABEL.COST' | translate }} </th>
+            <td mat-cell *matCellDef="let data" style="text-align: left;">
+                <div class=" d-flex" style="justify-content: flex-end;" *ngIf="data.isEdit">
+                    <input *ngIf="data.id && data.hotelId" class="form-control" type="text" style="text-align: right" maxlength="30"
+                        NumbersOnly
+                        [allowDecimals]="false"
+                        [allowSign]="false"
+                        [allowThousandSeparator]="true"
+                        (change)="changeValue($event,data,'price')" value="{{data.price}}" 
+                        autocomplete="off"/>
+                    <span *ngIf="!data.id && data.routingId">{{data.price | number: '1.0' : 'en-US'}}</span>
+                </div>
+                <div class=" d-flex" style="justify-content: flex-end;" *ngIf="!data.isEdit">
+                    <span>{{data.price | number: '1.0' : 'en-US'}}</span>
+                </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="text-center"> {{ 'LABEL.ACTION' | translate }} </th>
+            <td mat-cell *matCellDef="let data" style="text-align: left;">
+                <div class=" d-flex align-items-center" style="justify-content: center !important;">
+                    <div (click)="eEditRow(data)" *ngIf="!isAddNew && !data.isEdit && !data.id && data.hotelId"
+                        class="p-2">
+                        <i title="{{'ACTION.EDIT' | translate}}"
+                            class="fas fa-edit p-0 icon-view-detail cursor-pointer"></i>
+                    </div>
+                    <div (click)="eEditAddNew()" class="p-2"
+                        *ngIf="!isAddNew && data.isEdit && data.id==null && data.hotelId">
+                        <i title="{{'ACTION.ADD' | translate}}" class="fas fa-plus cursor-pointer icon-view-detail"
+                            style="color: green;"></i>
+                    </div>
+                    <div (click)="eUpdate(data)" *ngIf="!isAddNew && data.isEdit && !data.id && data.hotelId"
+                        class="p-2">
+                        <mat-icon title="{{'ACTION.UPDATE' | translate}}"
+                            class="cursor-pointer icon-view-detail green-color">update</mat-icon>
+                    </div>
+                    <div (click)="eDeleteDetail(data)" class="p-2" *ngIf="!isAddNew && data.isEdit && data.hotelId">
+                        <i title="{{'TOOLTIP.DELETE' | translate}}"
+                            class="fas fa-trash p-0 icon-view-detail cursor-pointer"></i>
+                    </div>
+                    <div (click)="eAddNew()" *ngIf="isAddNew && !data.id && data.hotelId" class="p-2">
+                        <i title="{{'ACTION.ADD' | translate}}" class="fas fa-plus cursor-pointer icon-view-detail"
+                            style="color: green;"></i>
+                    </div>
+                    <div (click)="eSave()" *ngIf="isAddNew && !data.id && data.hotelId" class="p-2">
+                        <mat-icon title="{{'ACTION.SAVE' | translate}}" class="cursor-pointer icon-view-detail">save
+                        </mat-icon>
+                    </div>
+                    <div (click)="eDeleteDetailForAdd(data)" class="p-5"
+                        *ngIf="isAddNew && data.hotelId && data.id !=null">
+                        <i title="{{'TOOLTIP.DELETE' | translate}}"
+                            class="fas fa-trash p-0 icon-view-detail cursor-pointer"></i>
+                    </div>
+                    <div (click)="eCancel()" *ngIf="data.isEdit && !data.id && data.hotelId" class="p-2">
+                        <mat-icon title="{{'ACTION.CANCEL' | translate}}"
+                            class="cursor-pointer icon-view-detail red-color">cancel</mat-icon>
+                    </div>
+
+                </div>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="6">{{'MESSAGE.NO_MATCH_DATA' | translate}} {{input.value}}</td>
+        </tr>
+    </table>
+</div>
+<!-- end: Khach san/nha nghi list -->

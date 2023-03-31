@@ -1,0 +1,184 @@
+<div class="position-relative">
+  <div class="container">
+    <h5 style="font-weight: 700">
+      {{ isUpdate ? ('TITLE.UPDATE_NORM_MOVE' | translate) : ('TITLE.ADD_NORM_MOVE' | translate) }}
+    </h5>
+    <hr />
+    <br />
+    <div class="row form-group" *ngIf="!isUpdate">
+      <label class="col-md-2 form-label col-form-label" style="padding-left: 75px" for="tinhDi">{{ 'LABEL.METHOD' | translate }}</label>
+      <div class="col-md-4 d-flex align-items-center">
+        <mat-radio-group [(ngModel)]="addType" (change)="changeState()">
+          <mat-radio-button *ngFor="let type of addTypeList" [value]="type.value" [checked]="type.checked">
+            {{ type.name }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
+    <!-- begin: Filtration form -->
+    <form action="#" class="form form-label-right" [formGroup]="addForm" *ngIf="addType == 'single'">
+      <div class="row form-group">
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 75px" for="tinhDi">
+          {{ 'LABEL.FROM_PROVINCE' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-4">
+          <select class="form-control" name="tinhDi" id="tinhDi" formControlName="tinhDi" [class.is-invalid]="isControlInvalid('tinhDi')">
+            <option *ngFor="let tinhDi of quanLyPhieuCongTacService.cbxTinh | async" [value]="tinhDi.provinceId">{{ tinhDi.provinceName }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'tinhDi')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.FROM_PROVINCE' | translate } }}
+          </div>
+        </div>
+
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 75px" for="tinhDen">
+          {{ 'LABEL.TO_PROVINCE' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-3">
+          <select class="form-control" name="tinhDen" id="tinhDen" formControlName="tinhDen" [class.is-invalid]="isControlInvalid('tinhDen')">
+            <option *ngFor="let tinhDen of quanLyPhieuCongTacService.cbxTinh | async" [value]="tinhDen.provinceId">{{ tinhDen.provinceName }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'tinhDen')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.TO_PROVINCE' | translate } }}
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 75px" for="phuongTien">
+          {{ 'LABEL.VEHICLE' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-4">
+          <select
+            class="form-control"
+            name="phuongTien"
+            id="phuongTien"
+            formControlName="phuongTien"
+            [class.is-invalid]="isControlInvalid('phuongTien')"
+          >
+            <option *ngFor="let phuongTien of quanLyPhieuCongTacService.cbxPhuongTien | async" [value]="phuongTien.value">
+              {{ phuongTien.name }}
+            </option>
+          </select>
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'phuongTien')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.VEHICLE' | translate } }}
+          </div>
+        </div>
+
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 75px" for="chiPhi">
+          {{ 'LABEL.COST' | translate }} <span style="color: red">*</span></label
+        >
+        <div class="col-md-3">
+          <input
+            class="form-control"
+            NumbersOnly
+            [allowDecimals]="false"
+            [allowSign]="false"
+            [allowThousandSeparator]="true"
+            name="chiPhi"
+            id="chiPhi"
+            formControlName="chiPhi"
+            [class.is-invalid]="isControlInvalid('chiPhi')"
+            maxlength="30"
+            autocomplete="off"
+          />
+          <div class="invalid-feedback" *ngIf="controlHasError('required', 'chiPhi')">
+            {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.COST' | translate } }}
+          </div>
+          <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'chiPhi')">
+            {{ 'VALIDATION.MUST_BE_POSITIVE_INTEGER' | translate : { name: 'LABEL.COST' | translate } }}
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+
+      <div class="row form-group">
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 75px" for="ghiChu">{{ 'LABEL.NOTE' | translate }}</label>
+        <div class="col-md-4">
+          <textarea
+            class="form-control"
+            name="ghiChu"
+            id="ghiChu"
+            formControlName="ghiChu"
+            [class.is-invalid]="isControlInvalid('ghiChu')"
+            maxlength="1000"
+          >
+          </textarea>
+          <!-- <div
+                            class="invalid-feedback"
+                            *ngIf="controlHasError('required', 'ghiChu')"
+                    >
+                        {{ 'VALIDATION.REQUIRED' | translate: {name: 'Ghi chú' | translate} }}
+                    </div> -->
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+
+      <div class="d-flex justify-content-end my-5">
+        <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
+          {{ 'COMMON_BUTTON.CLOSE' | translate }}
+        </button>
+        <button class="btn btn-primary mx-3" style="width: 150px" (click)="eSave('single')">{{ 'COMMON_BUTTON.SAVE' | translate }}</button>
+      </div>
+    </form>
+
+    <form action="#" class="form form-label-right" [formGroup]="addFileForm" *ngIf="addType == 'file'">
+      <div class="row form-group">
+        <!-- <div class="col-md-4 form-label col-form-label"
+                        style="padding-left: 75px">
+                    
+                </div> -->
+        <div class="col-md-3" style="padding-left: 75px">
+          <button class="form-control btn btn-outline-primary mr-5" (click)="getTemplate()">
+            <i class="fas fa-download"></i>{{ 'COMMON_BUTTON.DOWNLOAD_TEMPLATE' | translate }}
+          </button>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group">
+            <button class="btn btn-primary sticky-input-button" type="button" mat-raised-button (click)="fileInput.click()">
+              {{ 'LABEL.SELECT_FLE' | translate }} *
+            </button>
+            <input
+              class="form-control"
+              hidden
+              (change)="onFileSelected($event)"
+              #fileInput
+              type="file"
+              accept=".xls, .xlsx"
+              name="chonFile"
+              id="chonFile"
+              formControlName="chonFile"
+            />
+            <span class="file-name form-control" [class.is-invalid]="isControlInvalidFile('chonFile')">
+              {{ selectedFile?.name | truncate : 50 }}
+            </span>
+            <div class="invalid-feedback" *ngIf="controlHasErrorFile('required', 'chonFile')">
+              {{ 'VALIDATION.REQUIRED' | translate : { name: 'File' } }}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-form-label" *ngIf="isHasResult">
+          <span style="color: red"
+            >Tổng lỗi: {{ totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{ totalRecord | number : '1.0' : 'en-US' }} bản ghi</span
+          >
+        </div>
+
+        <!-- <div class="col-md-4 col-form-label" *ngIf="resultFileData">
+                    <a style="color: #1a66c3;margin-left: 5px;cursor:pointer;" href="javascript:void(0)"  (click)="exportFile()">
+                        <i class="fas fa-download icon-color-primary-4 margin-left10 title-link"></i>
+                        <span class="title-link"> {{ 'COMMON_BUTTON.DOWNLOAD_RESULT_FILE' | translate }}</span>
+                    </a>
+                </div> -->
+      </div>
+
+      <div class="d-flex justify-content-end my-5">
+        <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
+          {{ 'COMMON_BUTTON.CLOSE' | translate }}
+        </button>
+        <button class="btn btn-primary mx-3" style="width: 150px" (click)="eSave('file')">{{ 'COMMON_BUTTON.UPLOAD' | translate }}</button>
+      </div>
+    </form>
+  </div>
+  <div class="pb-1"></div>
+  <ngx-spinner bdColor="rgba(0,0,0,0.6)" size="default" color="#1dc5be" type="ball-clip-rotate" [fullScreen]="true"></ngx-spinner>
+</div>
