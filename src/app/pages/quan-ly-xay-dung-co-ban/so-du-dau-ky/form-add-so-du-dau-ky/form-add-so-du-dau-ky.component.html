@@ -1,0 +1,138 @@
+<div class="pt-5 pl-5 pr-5">
+    <div class="">
+        <!-- begin: Filtration form -->
+        <div class="font-weight-bolder mb-7" style="font-size: 1.275rem">
+            {{'APPRAISAL.LOAN_REFUSAL' | translate }}</div>
+        <form action="#" class="form form-label-right" [formGroup]="addEditForm">
+
+            <div class="row form-group">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <label class="col-md-2 form-label col-form-label font-14" for="assetCode">{{
+                            'LABEL.ASSETCODE' | translate }} <span style="color: red">*</span></label>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="50" class="form-control" id="assetCode" autocomplete="off"
+                                formControlName="assetCode" />
+
+                            <div
+                                *ngIf="addEditForm.get('assetCode').invalid && (addEditForm.get('assetCode').dirty || addEditForm.get('assetCode').touched)">
+                                <small class="form-text text-danger"
+                                    *ngIf="addEditForm.get('assetCode').errors.required">
+                                    {{'VALIDATION.REQUIRED' | translate
+                                    : {
+                                    name: 'LABEL.ASSETCODE' | translate
+                                    }
+                                    }}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
+                            'LABEL.ORGANISATION' | translate }}<span style="color: red">*</span></label>
+                        <div class="col-md-3">
+                            <input type="text" maxlength="50" class="form-control" id="organisation" autocomplete="off"
+                                formControlName="organisation" />
+
+                            <div
+                                *ngIf="addEditForm.get('organisation').invalid && (addEditForm.get('organisation').dirty || addEditForm.get('organisation').touched)">
+                                <small class="form-text text-danger"
+                                    *ngIf="addEditForm.get('organisation').errors.required">
+                                    {{'VALIDATION.REQUIRED' | translate
+                                    : {
+                                    name: 'LABEL.ORGANISATION' | translate
+                                    }
+                                    }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <label class="col-md-2 form-label col-form-label font-14" for="contract">{{
+                            'LABEL.CONTRACT' | translate }}<span style="color: red">*</span></label>
+                        <div class="col-md-3">
+                            <input type="text" name="contract" id="contract" class="form-control"
+                                formControlName="contract" maxlength="100" />
+                            <div
+                                *ngIf="addEditForm.get('contract').invalid && (addEditForm.get('contract').dirty || addEditForm.get('contract').touched)">
+                                <small class="form-text text-danger"
+                                    *ngIf="addEditForm.get('contract').errors.required">
+                                    {{'VALIDATION.REQUIRED' | translate
+                                    : {
+                                    name: 'LABEL.CONTRACT' | translate
+                                    }
+                                    }}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <label class="col-md-2 form-label col-form-label font-14" for="material">{{ 'LABEL.MATERIAL'
+                            | translate }}<span style="color: red">*</span></label>
+                        <div class="col-md-3">
+                            <input type="text" name="material" id="material" class="form-control"
+                                formControlName="material" maxlength="100" NumbersOnly
+                                [allowThousandSeparator]="true" />
+                            <div
+                                *ngIf="addEditForm.get('material').invalid && (addEditForm.get('material').dirty || addEditForm.get('material').touched)">
+                                <small class="form-text text-danger"
+                                    *ngIf="addEditForm.get('material').errors.required">
+                                    {{'VALIDATION.REQUIRED' | translate
+                                    : {
+                                    name: 'LABEL.MATERIAL' | translate
+                                    }
+                                    }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <label class="col-md-2 form-label col-form-label font-14" for="labor">{{
+                            'LABEL.LABOR' | translate }}<span style="color: red">*</span></label>
+                        <div class="col-md-3">
+                            <input type="text" name="labor" id="labor" class="form-control" formControlName="labor"
+                                maxlength="100" NumbersOnly [allowThousandSeparator]="true" />
+                            <div
+                                *ngIf="addEditForm.get('labor').invalid && (addEditForm.get('labor').dirty || addEditForm.get('labor').touched)">
+                                <small class="form-text text-danger"
+                                    *ngIf="addEditForm.get('labor').errors.required">
+                                    {{'VALIDATION.REQUIRED' | translate
+                                    : {
+                                    name: 'LABEL.LABOR' | translate
+                                    }
+                                    }}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr">{{
+                            'LABEL.CONSTRUCTION_DATE'
+                            | translate }}</label>
+                        <div class="col-md-3">
+                            <mat-form-field appearance="fill">
+                                <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
+                                    (input)="eInputDate($event)">
+                                <mat-hint>DD/MM/YYYY</mat-hint>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                                <div style="color: red" *ngIf="constructionDateErrorMsg != ''">{{
+                                    constructionDateErrorMsg | translate }}</div>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <div class="d-flex justify-content-end my-5">
+                <button type="button" class="font-weight-bolder btn btn-outline-primary mx-3" (click)="closeDialog()"
+                    style="padding: 8px 32px !important;">{{ 'BUTTON.CANCEL2' | translate }}</button>
+                <button type="button" class=" font-weight-bolder btn btn-outline-primary mx-3"
+                    [disabled]="addEditForm.invalid" (click)="save() ;" style="padding: 8px 32px !important;">
+                    {{ 'BUTTON.SAVE' | translate }}
+                </button>
+            </div>
+        </form>
+        <!-- end: Filtration form -->
+    </div>
+</div>

@@ -27,8 +27,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgbDateCustomParserFormatter} from '../_metronic/core/utils/ngb-date-custom-parser-formatter';
 import {SharedLanguageSelectionModule} from '../_metronic/shared/shared-language-selection/shared-language-selection.module';
 
-
-
 @NgModule({
   declarations: [
     LayoutComponent,
@@ -52,7 +50,7 @@ import {SharedLanguageSelectionModule} from '../_metronic/shared/shared-language
     NgbProgressbarModule,
     CoreModule,
     SubheaderModule,
-    SharedLanguageSelectionModule
+    SharedLanguageSelectionModule,
   ],
   exports: [
     ScriptsInitComponent,

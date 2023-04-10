@@ -28,6 +28,11 @@ const routes: Routes = [
             import('./quan-ly-lich-trinh/quan-ly-phieu-cong-tac.module').then((m) => m.QuanLyPhieuCongTacModule),
       },
       {
+        path: 'basic-construction',
+        loadChildren: () =>
+            import('./quan-ly-xay-dung-co-ban/quan-ly-xay-dung-co-ban.module').then((m) => m.QuanLyXayDungCoBanModule),
+      },
+      {
         path: '',
         redirectTo: '',
         pathMatch: 'full',

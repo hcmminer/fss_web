@@ -42,3 +42,39 @@ export const getDateInputWithFormat = (date, format: string = 'dd/MM/yyy') => {
 
   return formatDate(result, format, 'en-US');
 };
+
+export const timeToName = (t) => {
+  let a = new Date(t).toString().split(/\s/);
+  let b =
+    a[2] +
+    '/' +
+    {
+      Jan: '01',
+      Feb: '02',
+      Mar: '03',
+      Apr: '04',
+      May: '05',
+      Jun: '06',
+      Jul: '07',
+      Aug: '08',
+      Sep: '09',
+      Oct: '10',
+      Nov: '11',
+      Dec: '12',
+    }[a[1]] +
+    '/' +
+    a[3] +
+    ' ' +
+    a[4];
+
+  // '24/03/2023 14:12:55'
+  let b1 = b.split(' ')[0];
+  let b11 = b1.replace(/\//g, '-');
+
+  let b2 = b.split(' ')[1];
+  let b21 = b2.split(':');
+  let b211 = b21[0] + 'h' + b21[1] + 'm' + b21[2] + 's';
+
+  let name = b11 + '_' + b211;
+  return name;
+};

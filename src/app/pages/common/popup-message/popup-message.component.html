@@ -1,0 +1,29 @@
+<div class="modal-header justify-content-between">
+    <h4 class="font-weight-bolder">{{'ACTION.CLOSE' | translate}} {{'COMMON.POPUP' | translate}} </h4>
+    <button type="button" class="close align-content-end" aria-label="Close" (click)="handleCloseSubContent()">
+        X
+    </button>
+</div>
+<div class="px-6">
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <form action="#" class="form form-label-right">
+                <h4 class="font-weight-bolder mb-12">{{'ACTION.CONFIRM_CLOSE' | translate }}
+                </h4>
+                <div class="form-group row pb-0">
+                    <div class="col-md-12 text-center">
+
+                        <div (click)="handleCloseSubContent()" class="btn font-weight-bolder btn-secondary mr-5 "
+                             style="color: #000; height: 38px; padding: 7px 32px">
+                            {{'ACTION.CANCEL' | translate}}
+                        </div>
+                        <div (click)="closeAll()" class="btn font-weight-bolder mr-5"
+                             style="background: #0171bb; color: #fff; height: 38px; padding: 7px 32px">
+                            {{'ACTION.YES' | translate}}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

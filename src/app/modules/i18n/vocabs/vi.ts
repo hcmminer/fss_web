@@ -110,6 +110,17 @@ export const locale = {
       METHOD: 'Phương thức',
       INPUT_SINGLE: 'Nhập đơn lẻ',
       UPLOAD_FILE: 'Upload file',
+
+      //Số dư đầu kỳ
+      ORGANISATION: 'Tổ chức',
+      ASSETCODE: 'Mã tài sản',
+      CONTRACT:  'Hợp đồng',
+      LABOR: 'Nhân công',
+      MATERIAL: 'Vật liệu',
+      CONSTRUCTION_DATE: 'Ngày xây dựng',
+      CREATED_DATE: 'Ngày tạo',
+      ADD_SINGLE: 'Thêm đơn lẻ',
+      LIST_OPEN_BALANCE: 'Danh sách số dư đầu kỳ'
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -164,6 +175,8 @@ export const locale = {
       SHOP_CODE: 'Mã đơn vị',
       UPDATE_DEPARTMENT: 'Cập nhật đơn vị',
       ADD_NEW_DEPARTMENT: 'Thêm mới đơn vị',
+      //Số dư đầu kỳ
+      OPEN_BALANCE: 'Số dư đầu kỳ'
     },
     REQUIRED: {
       REASON_REFUSE: 'Bắt buộc nhập lý do từ chối',
@@ -304,6 +317,10 @@ export const locale = {
       DELETE_ROUTING: 'Bạn muốn xóa lộ trình',
       ADD_ROUTING: 'Bạn muốn thêm mới lộ trình',
       UPDATE_STAFF: 'Bạn có muốn cập nhật nhân viên này?',
+
+      //Số dư đầu kỳ
+      UPDATE_OPEN_BALANCE: 'Bạn có muốn cập nhật số dư đầu kỳ này không',
+      ADD_OPEN_BALANCE: 'Bạn có muốn thêm mới số dư đầu kỳ này không'
     },
     TOOLTIP: {
       REFUSE: 'Từ chối',
