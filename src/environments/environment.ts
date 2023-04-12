@@ -7,12 +7,11 @@ export const environment = {
   appVersion: 'v01ems',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: false,
-  // apiUrl: 'http://183.182.100.186:8086/nqm-gw/api/v1/redirect', // smv
-  // apiUrl: 'http://10.120.44.68:8086/nqm-gw/api/v1/redirect', // smv
-  apiUrl: 'http://10.120.44.68:8885/fss/api', // smv
-  // apiUrl: 'http://localhost:8322/api', // dev
-  // apiUrl: 'http://183.182.100.186:8086/cms-gw/api/v1/redirect', // dev
-  // apiUrl: 'https://183.182.118.7:9094/nqm-gw/api/v1/redirect', // real
+  // local
+  apiUrl: 'http://localhost:8322/api',
+  // test
+  // apiUrl: 'http://10.120.44.68:8885/fss/api',
+
   defaultLanguage: 'vi',
 };
 
