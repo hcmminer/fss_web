@@ -1,19 +1,19 @@
-import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { CONFIG } from 'src/app/utils/constants';
 import { openingBalanceService } from '../../_services/opening-balance.service';
+import { ToastrService } from 'ngx-toastr';
 import { GlobalService } from '../../_services/global.service';
+import { CONFIG } from 'src/app/utils/constants';
+import { DatePipe } from '@angular/common';
 import { RequestApiModelOld } from '../../_models/requestOld-api.model';
-import { FormAddEditSoDuDauKyComponent } from './form-add-so-du-dau-ky/form-add-edit-so-du-dau-ky.component';
+import { FormAddEditPhatSinhTangComponent } from './form-add-edit-phat-sinh-tang/form-add-edit-phat-sinh-tang.component';
 
 const queryInit = {
   groupFilter: '',
@@ -39,11 +39,11 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-so-du-dau-ky',
-  templateUrl: './so-du-dau-ky.component.html',
-  styleUrls: ['./so-du-dau-ky.component.scss']
+  selector: 'app-phat-sinh-tang',
+  templateUrl: './phat-sinh-tang.component.html',
+  styleUrls: ['./phat-sinh-tang.component.scss']
 })
-export class SoDuDauKyComponent implements OnInit {
+export class PhatSinhTangComponent implements OnInit {
   currentPage = 1;
   @ViewChild('autoFocus') private _inputElement: ElementRef; // autofocus
   pageSize: number = 10;
@@ -62,18 +62,26 @@ export class SoDuDauKyComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('paginatorDetail') paginatorDetail: MatPaginator;
   @ViewChild('updateRefuse') updateRefuse: ElementRef;
   searchForm: FormGroup;
 
   @ViewChild('formSearch') formSearch: ElementRef;
+  isShowUpdate = new BehaviorSubject<boolean>(false);
+  isShowOffStation = new BehaviorSubject<boolean>(false);
   startDateErrorMsg = '';
   endDateErrorMsg = '';
+  startDateLoTrinhErrorMsg = '';
+  endDateLoTrinhErrorMsg = '';
   isLoading$ = false;
   userRes: any;
   userName: string;
   staffId: number;
   isAdmin: any;
+  isHandlingLoTrinhCongTac = false;
   selectedTabIndex = 0;
+  typeActionVoffice: number;
+  currentLoTrinhPage = 0;
   private modal: any;
   query = {
     ...queryInit,
@@ -226,7 +234,7 @@ export class SoDuDauKyComponent implements OnInit {
   }
 
   displayFormAdd(item: any, isUpdate, isUpdateFile) {
-    const modalRef = this.modalService.open(FormAddEditSoDuDauKyComponent, {
+    const modalRef = this.modalService.open(FormAddEditPhatSinhTangComponent, {
       centered: true,
       backdrop: 'static',
       size: 'xl',
@@ -296,4 +304,5 @@ export class SoDuDauKyComponent implements OnInit {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
+
 }

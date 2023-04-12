@@ -27,6 +27,11 @@ import { SoDuDauKyComponent } from './so-du-dau-ky/so-du-dau-ky.component';
 import { QuanLyXayDungCoBanComponent } from './quan-ly-xay-dung-co-ban.component';
 import { FormAddEditSoDuDauKyComponent } from './so-du-dau-ky/form-add-so-du-dau-ky/form-add-edit-so-du-dau-ky.component';
 import { PopupMessageComponent } from '../common/popup-message/popup-message.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { PhatSinhTangComponent } from './phat-sinh-tang/phat-sinh-tang.component';
+import { PhatSinhGiamComponent } from './phat-sinh-giam/phat-sinh-giam.component';
+import { FormAddEditPhatSinhTangComponent } from './phat-sinh-tang/form-add-edit-phat-sinh-tang/form-add-edit-phat-sinh-tang.component';
+import { FormAddEditPhatSinhGiamComponent } from './phat-sinh-giam/form-add-edit-phat-sinh-giam/form-add-edit-phat-sinh-giam.component';
 
 @NgModule({
   imports: [
@@ -55,13 +60,18 @@ import { PopupMessageComponent } from '../common/popup-message/popup-message.com
     MatTabsModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    MatRadioModule,
   ],
   declarations: [
     PopupMessageComponent,
     QuanLyXayDungCoBanComponent,
     SoDuDauKyComponent,
     FormAddEditSoDuDauKyComponent,
+    PhatSinhTangComponent,
+    PhatSinhGiamComponent,
+    FormAddEditPhatSinhTangComponent,
+    FormAddEditPhatSinhGiamComponent,
   ],
   exports: [
     PopupMessageComponent,

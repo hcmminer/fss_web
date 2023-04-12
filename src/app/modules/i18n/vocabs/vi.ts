@@ -119,10 +119,11 @@ export const locale = {
       MATERIAL: 'Vật liệu',
       CONSTRUCTION_DATE: 'Ngày xây dựng',
       CREATED_DATE: 'Ngày tạo',
-      ADD_SINGLE: 'Thêm đơn lẻ',
-      LIST_OPEN_BALANCE: 'Danh sách số dư đầu kỳ'
+      ADD_OPEN_BALANCE: 'Thêm mới số dư đầu kỳ',
+      LIST_OPEN_BALANCE: 'Danh sách số dư đầu kỳ',
+      ERROR_MSG: 'Thông tin lỗi',
     },
-    TITLE: {
+    TITLE: {  
       // Quản lý phiếu công tác
       LIST_JOB: 'Danh sách phiếu công tác',
       SEARCH_JOB: 'Tìm kiếm phiếu công tác',
@@ -176,13 +177,18 @@ export const locale = {
       UPDATE_DEPARTMENT: 'Cập nhật đơn vị',
       ADD_NEW_DEPARTMENT: 'Thêm mới đơn vị',
       //Số dư đầu kỳ
-      OPEN_BALANCE: 'Số dư đầu kỳ'
+      OPEN_BALANCE: 'Số dư đầu kỳ',
+      ADD_OPEN_BALANCE: 'Thêm mới số dư đầu kỳ',
+      UPDATE_OPEN_BALANCE: 'Cập nhật số dư đầu kỳ',
     },
     REQUIRED: {
       REASON_REFUSE: 'Bắt buộc nhập lý do từ chối',
       INPUT_REASON_REFUSE: 'Nhập lý do từ chối',
     },
     MESSAGE: {
+      //common
+      CF_UPLOAD_FILE: 'Bạn có chắc chắn tải file này lên không?',
+      UPLOAD_FILE_SC: 'Tải lên file thành công',
       //I.Lập phiếu công tác
       // 1.Danh sách phiếu công tác
       SUBMIT_REQUEST_SIGN_SUCCESS: 'Gửi yêu cầu trình ký thành công!',
@@ -268,6 +274,13 @@ export const locale = {
       PROVINCE_BEGIN_NOT_MATCH: 'Tỉnh đi thuộc chặng đầu tiên không khớp với tỉnh bắt đầu của lộ trình',
       NOT_HOTEL: 'Chưa có phòng nào cho khách sạn/nhà nghỉ này',
       NO_MATCH_DATA: 'Không có dữ liệu',
+
+      //Openning balance
+      CF_ADD_OP_BL_BY_FILE: "Bạn có chắc chắn muốn thêm số dư đầu kỳ theo file không",
+      CF_UPDATE_OP_BL_BY_FILE: "Bạn có chắc chắn muốn cập nhật số dư đầu kỳ theo file không",
+      UPDATE_OP_BL_FROM_FILE_SC: "Cập nhật số dư đầu kỳ theo file thành công",
+      ADD_OP_BL_FROM_FILE_SC: "Thêm số dư đầu kỳ theo file thành công",
+
     },
     CONFIRM: {
       //I.Lập phiếu công tác

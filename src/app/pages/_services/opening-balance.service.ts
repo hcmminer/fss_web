@@ -17,8 +17,11 @@ import { catchError, finalize, map } from "rxjs/operators";
 
   export class openingBalanceService {
     subscriptions: Subscription[] = [];
-    cbxLoanOrganisation = new BehaviorSubject<any[]>([]);
-    listOpeningBalance = new BehaviorSubject<any[]>([]); //v
+    getErrOpeningBalanceFile = new BehaviorSubject<any>({});//v
+    getSuccessOpeningBalanceFile = new BehaviorSubject<any>({});
+    cbxOrganisation = new BehaviorSubject<any[]>([]);
+    listOpeningBalance = new BehaviorSubject<any[]>([]);
+    errOpeningBalanceList = new BehaviorSubject<any[]>([]);
     initHeader: {};
     header = {
         'Content-Type': 'application/json',
@@ -46,16 +49,16 @@ import { catchError, finalize, map } from "rxjs/operators";
           .pipe(
             map((response) => {
               if (response.errorCode != '0') {
-                this.cbxLoanOrganisation.next([]);
+                this.cbxOrganisation.next([]);
                 throw new Error(response.description);
               }
               if (typeof response.data !== 'undefined' && response.data !== null) {
-                this.cbxLoanOrganisation.next(response.data);
+                this.cbxOrganisation.next(response.data);
               } else {
-                this.cbxLoanOrganisation.next([]);
+                this.cbxOrganisation.next([]);
               }
               if (allowDefault)
-                this.cbxLoanOrganisation.value.unshift({
+                this.cbxOrganisation.value.unshift({
                   code: '',
                   name: this.translateService.instant('DEFAULT_OPTION.SELECT'),
                 });
