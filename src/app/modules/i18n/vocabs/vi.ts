@@ -122,6 +122,10 @@ export const locale = {
       ADD_OPEN_BALANCE: 'Thêm mới số dư đầu kỳ',
       LIST_OPEN_BALANCE: 'Danh sách số dư đầu kỳ',
       ERROR_MSG: 'Thông tin lỗi',
+      TOTAL_MATERIAL: 'Tổng vật liệu hiện tại',
+      TOTAL_LABOR: 'Tổng nhân công hiện tại',
+      TOTAL_DESIRED_MATERIAL: 'Tổng vật liệu mong muốn',
+      TOTAL_DESIRED_LABOR: 'Tổng nhân công mong muốn',
     },
     TITLE: {  
       // Quản lý phiếu công tác
