@@ -32,6 +32,7 @@ import { PhatSinhTangComponent } from './phat-sinh-tang/phat-sinh-tang.component
 import { PhatSinhGiamComponent } from './phat-sinh-giam/phat-sinh-giam.component';
 import { FormAddEditPhatSinhTangComponent } from './phat-sinh-tang/form-add-edit-phat-sinh-tang/form-add-edit-phat-sinh-tang.component';
 import { FormAddEditPhatSinhGiamComponent } from './phat-sinh-giam/form-add-edit-phat-sinh-giam/form-add-edit-phat-sinh-giam.component';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   imports: [
@@ -72,6 +73,7 @@ import { FormAddEditPhatSinhGiamComponent } from './phat-sinh-giam/form-add-edit
     PhatSinhGiamComponent,
     FormAddEditPhatSinhTangComponent,
     FormAddEditPhatSinhGiamComponent,
+    ReportComponent,
   ],
   exports: [
     PopupMessageComponent,
