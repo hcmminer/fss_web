@@ -2,7 +2,8 @@
     <div class="">
         <!-- begin: Filtration form -->
         <h5 style="font-weight: 700">
-            {{ isUpdate || isUpdateFile ? ('TITLE.UPDATE_OPEN_BALANCE' | translate) : ('TITLE.ADD_OPEN_BALANCE' | translate) }}
+            {{ isUpdate || isUpdateFile ? ('TITLE.UPDATE_OPEN_BALANCE' | translate) : ('TITLE.ADD_OPEN_BALANCE' |
+            translate) }}
         </h5>
         <hr />
         <br />
@@ -18,8 +19,139 @@
             </div>
         </div>
         <div *ngIf="addType == 'single' && !isUpdateFile">
-            <form action="#" class="form form-label-right" [formGroup]="addEditForm">
+            <!-- add form -->
+            <form action="#" class="form form-label-right" [formGroup]="addEditForm" *ngIf="!isUpdate">
 
+                <div class="row form-group">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <label class="col-md-2 form-label col-form-label font-14" for="assetCode">{{
+                                'LABEL.ASSETCODE' | translate }} <span style="color: red">*</span></label>
+                            <div class="col-md-3">
+                                <input type="text" maxlength="50" class="form-control" id="assetCode" autocomplete="off"
+                                    formControlName="assetCode" />
+
+                                <div
+                                    *ngIf="addEditForm.get('assetCode').invalid && (addEditForm.get('assetCode').dirty || addEditForm.get('assetCode').touched)">
+                                    <small class="form-text text-danger"
+                                        *ngIf="addEditForm.get('assetCode').errors.required">
+                                        {{'VALIDATION.REQUIRED' | translate
+                                        : {
+                                        name: 'LABEL.ASSETCODE' | translate
+                                        }
+                                        }}
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-md-2"></div>
+                            <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
+                                'LABEL.ORGANISATION' | translate }}<span style="color: red">*</span></label>
+                            <div class="col-md-3">
+                                <select class="form-control font-14" [attr.disabled]="isUpdate" name="organisation"
+                                    id="organisation" formControlName="organisation">
+                                    <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation| async">
+                                        <option [value]="item.code">
+                                            {{ item.name }}
+                                        </option>
+                                    </ng-container>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <label class="col-md-2 form-label col-form-label font-14" for="contract">{{
+                                'LABEL.CONTRACT' | translate }}<span style="color: red">*</span></label>
+                            <div class="col-md-3">
+                                <input type="text" name="contract" id="contract" class="form-control"
+                                    formControlName="contract" maxlength="100" />
+                                <div
+                                    *ngIf="addEditForm.get('contract').invalid && (addEditForm.get('contract').dirty || addEditForm.get('contract').touched)">
+                                    <small class="form-text text-danger"
+                                        *ngIf="addEditForm.get('contract').errors.required">
+                                        {{'VALIDATION.REQUIRED' | translate
+                                        : {
+                                        name: 'LABEL.CONTRACT' | translate
+                                        }
+                                        }}
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-md-2"></div>
+                            <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr">{{
+                                'LABEL.CONSTRUCTION_DATE'
+                                | translate }}<span style="color: red">*</span></label>
+                            <div class="col-md-3">
+                                <mat-form-field appearance="fill">
+                                    <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
+                                        (input)="eInputDate($event)" placeholder="Construction date">
+                                    <mat-hint>DD/MM/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"
+                                        class="icon-datePicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                    <div style="color: red" *ngIf="constructionDateErrorMsg != ''">{{
+                                        constructionDateErrorMsg | translate }}</div>
+                                </mat-form-field>
+
+                            </div>
+
+                        </div>
+                        <div class="row mt-3">
+                            <label class="col-md-2 form-label col-form-label font-14" for="labor">{{
+                                'LABEL.LABOR' | translate }}<span style="color: red">*</span></label>
+                            <div class="col-md-3">
+                                <input type="text" name="labor" id="labor" class="form-control" formControlName="labor"
+                                    maxlength="100" NumbersOnly [allowThousandSeparator]="true" />
+                                <div
+                                    *ngIf="addEditForm.get('labor').invalid && (addEditForm.get('labor').dirty || addEditForm.get('labor').touched)">
+                                    <small class="form-text text-danger"
+                                        *ngIf="addEditForm.get('labor').errors.required">
+                                        {{'VALIDATION.REQUIRED' | translate
+                                        : {
+                                        name: 'LABEL.LABOR' | translate
+                                        }
+                                        }}
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-md-2"></div>
+                            <label class="col-md-2 form-label col-form-label font-14" for="material">{{
+                                'LABEL.MATERIAL'
+                                | translate }}<span style="color: red">*</span></label>
+                            <div class="col-md-3">
+                                <input type="text" name="material" id="material" class="form-control"
+                                    formControlName="material" maxlength="100" NumbersOnly
+                                    [allowThousandSeparator]="true" />
+                                <div
+                                    *ngIf="addEditForm.get('material').invalid && (addEditForm.get('material').dirty || addEditForm.get('material').touched)">
+                                    <small class="form-text text-danger"
+                                        *ngIf="addEditForm.get('material').errors.required">
+                                        {{'VALIDATION.REQUIRED' | translate
+                                        : {
+                                        name: 'LABEL.MATERIAL' | translate
+                                        }
+                                        }}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+                <div class="d-flex justify-content-end my-5">
+                    <button type="button" class="font-weight-bolder btn btn-outline-primary mx-3"
+                        (click)="closeDialog()" style="padding: 8px 32px !important;">{{ 'BUTTON.CANCEL2' | translate
+                        }}</button>
+                    <button type="button" class=" font-weight-bolder btn btn-outline-primary mx-3"
+                        [disabled]="addEditForm.invalid" (click)="save() ;" style="padding: 8px 32px !important;">
+                        {{ 'BUTTON.SAVE' | translate }}
+                    </button>
+                </div>
+            </form>
+
+
+            <!-- edit form -->
+            <form action="#" class="form form-label-right" [formGroup]="addEditForm" *ngIf="isUpdate">
                 <div class="row form-group">
                     <div class="col-md-1"></div>
                     <div class="col-md-10">
@@ -76,45 +208,6 @@
                                 </div>
                             </div>
                             <div class="col-md-2"></div>
-                            <label class="col-md-2 form-label col-form-label font-14" for="material">{{ 'LABEL.MATERIAL'
-                                | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <input type="text" name="material" id="material" class="form-control"
-                                    formControlName="material" maxlength="100" NumbersOnly
-                                    [allowThousandSeparator]="true" />
-                                <div
-                                    *ngIf="addEditForm.get('material').invalid && (addEditForm.get('material').dirty || addEditForm.get('material').touched)">
-                                    <small class="form-text text-danger"
-                                        *ngIf="addEditForm.get('material').errors.required">
-                                        {{'VALIDATION.REQUIRED' | translate
-                                        : {
-                                        name: 'LABEL.MATERIAL' | translate
-                                        }
-                                        }}
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <label class="col-md-2 form-label col-form-label font-14" for="labor">{{
-                                'LABEL.LABOR' | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <input type="text" name="labor" id="labor" class="form-control" formControlName="labor"
-                                    maxlength="100" NumbersOnly [allowThousandSeparator]="true" />
-                                <div
-                                    *ngIf="addEditForm.get('labor').invalid && (addEditForm.get('labor').dirty || addEditForm.get('labor').touched)">
-                                    <small class="form-text text-danger"
-                                        *ngIf="addEditForm.get('labor').errors.required">
-                                        {{'VALIDATION.REQUIRED' | translate
-                                        : {
-                                        name: 'LABEL.LABOR' | translate
-                                        }
-                                        }}
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-2"></div>
                             <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr">{{
                                 'LABEL.CONSTRUCTION_DATE'
                                 | translate }}<span style="color: red">*</span></label>
@@ -130,6 +223,67 @@
                                         constructionDateErrorMsg | translate }}</div>
                                 </mat-form-field>
                             </div>
+                        </div>
+                        <div class="row mt-3">
+                            <label class="col-md-2 form-label col-form-label font-14" for="totalLabor">{{
+                                'LABEL.TOTAL_LABOR' | translate }}<span style="color: red">*</span></label>
+                            <div class="col-md-3">
+                                <input type="text" name="totalLabor" id="totalLabor" [attr.disabled]="isUpdate"
+                                    class="form-control" [value]="addEditForm?.get('totalLabor').value" maxlength="100"
+                                    NumbersOnly [allowThousandSeparator]="true" />
+                            </div>
+                            <div class="col-md-2"></div>
+                            <label class="col-md-2 form-label col-form-label font-14" for="labor">{{
+                                'LABEL.TOTAL_DESIRED_LABOR' | translate }}<span style="color: red">*</span></label>
+                            <div class="col-md-3">
+                                <input type="text" name="labor" id="labor" class="form-control" formControlName="labor"
+                                    maxlength="15" NumbersOnly [allowThousandSeparator]="true" />
+                                <div
+                                    *ngIf="addEditForm.get('labor').invalid && (addEditForm.get('labor').dirty || addEditForm.get('labor').touched)">
+                                    <small class="form-text text-danger"
+                                        *ngIf="addEditForm.get('labor').errors.required">
+                                        {{'VALIDATION.REQUIRED' | translate
+                                        : {
+                                        name: 'LABEL.TOTAL_DESIRED_LABOR' | translate
+                                        }
+                                        }}
+                                    </small>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- material -->
+                        <div class="row mt-3">
+                            <label class="col-md-2 form-label col-form-label font-14" for="totalMaterial">{{
+                                'LABEL.TOTAL_MATERIAL' | translate }}<span style="color: red">*</span></label>
+                            <div class="col-md-3">
+                                <input type="text" name="totalMaterial" id="totalMaterial" class="form-control"
+                                    [value]="addEditForm?.get('totalMaterial').value" maxlength="100" NumbersOnly
+                                    [allowThousandSeparator]="true" [attr.disabled]="isUpdate" />
+                            </div>
+
+                            <div class="col-md-2"></div>
+                            <label class="col-md-2 form-label col-form-label font-14" for="material">{{
+                                'LABEL.TOTAL_DESIRED_MATERIAL'
+                                | translate }}<span style="color: red">*</span></label>
+                            <div class="col-md-3">
+                                <input type="text" name="material" id="material" class="form-control"
+                                    formControlName="material" maxlength="15" NumbersOnly
+                                    [allowThousandSeparator]="true" />
+                                <div
+                                    *ngIf="addEditForm.get('material').invalid && (addEditForm.get('material').dirty || addEditForm.get('material').touched)">
+                                    <small class="form-text text-danger"
+                                        *ngIf="addEditForm.get('material').errors.required">
+                                        {{'VALIDATION.REQUIRED' | translate
+                                        : {
+                                        name: 'LABEL.TOTAL_DESIRED_MATERIAL' | translate
+                                        }
+                                        }}
+                                    </small>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <div class="col-md-1"></div>
@@ -188,7 +342,7 @@
                                         mat-raised-button (click)="fileInput.click()" style="margin-right: -3px;">
                                         {{ 'SELECT_FILE_UPLOAD' | translate }} *
                                     </button>
-                                    <input class="form-control" hidden (change)="onFileSelected($event)" 
+                                    <input class="form-control" hidden (change)="onFileSelected($event)"
                                         (click)="onFileResset($event)" #fileInput type="file" accept=".xls, .xlsx"
                                         name="chonFile" id="chonFile" formControlName="chonFile" />
                                     <span class="file-name form-control input-field"
@@ -206,7 +360,8 @@
                         <div class="row">
                             <div class="col-md-4"></div>
                             <div class="col-md-8 col-form-label" *ngIf="isHasResult">
-                                <span *ngIf="isHasResult" style="color: red; padding-left: 13px;">{{'TOTAL_ERROR' | translate}}: {{
+                                <span *ngIf="isHasResult" style="color: red; padding-left: 13px;">{{'TOTAL_ERROR' |
+                                    translate}}: {{
                                     totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{ totalRecord | number :
                                     '1.0' : 'en-US' }} {{'RECORD' | translate}}
                                     {{ dataNullErr ? ('DATA_NUL_ERR' | translate) : '' }}</span>
@@ -246,7 +401,8 @@
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                         {{ 'LABEL.ORGANISATION' | translate }}
                                     </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.organisation }}</td>
+                                    <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.organisation }}
+                                    </td>
                                 </ng-container>
                                 <!-- Mã tài sản -->
                                 <ng-container matColumnDef="assetCode">
@@ -257,16 +413,16 @@
                                         {{item.assetCode}}
                                     </td>
                                 </ng-container>
-                                 <!-- Hợp đồng -->
-                                 <ng-container matColumnDef="contract">
+                                <!-- Hợp đồng -->
+                                <ng-container matColumnDef="contract">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                         {{ 'LABEL.CONTRACT' | translate }}
                                     </th>
                                     <td mat-cell *matCellDef="let item" style="text-align: center">{{
                                         item.contract }}</td>
                                 </ng-container>
-                                  <!-- vật tư -->
-                                  <ng-container matColumnDef="material">
+                                <!-- vật tư -->
+                                <ng-container matColumnDef="material">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                         {{ 'LABEL.MATERIAL' | translate }}
                                     </th>

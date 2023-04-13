@@ -109,12 +109,39 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
 
   ngOnInit(): void {
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
-    this.loadAddForm();
     console.log(this.item);
     console.log(this.isUpdate + 'update');
     if(this.isUpdateFile){
       this.addType = 'file';
       this.loadAddFileForm()
+    }
+       
+  if(this.isUpdate){
+
+      this.loadAddForm();
+      let request = this.apiGetSum().subscribe(
+        (res) => {
+          if (res.errorCode == '0') {
+        
+            this.addEditForm.get('totalMaterial').patchValue( formatNumber(+res.data.material, 'en-US', '1.0'))
+            this.addEditForm.get('totalLabor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'))
+            this.addEditForm.get('material').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'))
+            this.addEditForm.get('labor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'))
+            console.log(this.addEditForm);           
+          } else if (res.errorCode == '1') {
+            this.toastService.error(res.description);
+          } else {
+            this.toastService.error(res.description);
+          }
+        },
+        (error) => {
+          this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
+        },
+      );
+      this.subscriptions.push(request);
+  
+    }else{
+      this.loadAddForm();
     }
   }
 
@@ -125,8 +152,10 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       assetCode: [this.isUpdate ? this.item.assetCode : '', [Validators.required]],
       contract: [this.isUpdate ? this.item.contract : '', [Validators.required]],
       constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
-      material: [this.isUpdate ? formatNumber(+this.item.material, 'en-US', '1.0') : '', [Validators.required]],
-      labor: [this.isUpdate ? formatNumber(+this.item.labor, 'en-US', '1.0') : '', [Validators.required]],
+      material: ['', [Validators.required]],
+      labor: ['', [Validators.required]],
+      totalMaterial: [''],
+      totalLabor: [''],
     });
   }
 
@@ -135,6 +164,17 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       chonFile: [null, [Validators.required]],
     });
   }
+
+  // lấy tổng material và labor
+apiGetSum() {
+  const req = {
+    userName: this.userName,
+    constructionDTO:{ 
+      assetCode: this.item.assetCode
+  }
+  }
+  return this.globalService.globalApi(req, 'get-bc-sum-current');
+}
 
   //change page
   onPaginateChange(event) {
@@ -206,6 +246,8 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
         constructionDateStr: this.transform(this.addEditForm.get('constructionDateStr').value),
         material: Number(this.addEditForm.get('material').value.replaceAll(',', '')),
         labor: Number(this.addEditForm.get('labor').value.replaceAll(',', '')),
+        materialTotal: Number(this.addEditForm.get('totalMaterial').value.replaceAll(',', '')),
+        laborTotal: Number(this.addEditForm.get('totalLabor').value.replaceAll(',', '')),
       }
     };
     if (this.isUpdate) {
@@ -262,7 +304,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     const req = {
       userName: this.userName
     }
-    return this.globalService.globalApi(req, 'down-template-bc-opening');
+    return this.globalService.globalApi(req, this.isUpdateFile?'down-temp-update-bc-opening' : 'down-temp-add-bc-opening');
   }
   getTemplate() {
     const sub = this.apiGetTemplate().subscribe((res) => {
@@ -328,7 +370,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
             // responseType: 'blob',
             // observe: 'response',
           };
-          debugger
+      
           this.dataSource = new MatTableDataSource([]);
           let request = this.globalService.globalApi(requestTarget, this.isUpdateFile ? 'update-bc-opening-by-file' :'add-bc-opening-by-file').subscribe(
             (res) => {
