@@ -1,0 +1,37 @@
+{
+  "id": 29,
+  "code": "8",
+  "name": "8",
+  "account": "2",
+  "depreciationFrame": 2,
+  "description": "2",
+  "status": 1,
+  "createdDatetime": "11/04/2023",
+  "createdBy": "stl111004548",
+  "lastUpdatedDatetime": "11/04/2023",
+  "lastUpdatedBy": "stl111004548"
+}
+CREATED_DATETIME: 'Ngày tạo',
+CREATED_BY: 'Người tạo',
+LAST_UPDATED_DATETIME: 'Ngày cập nhật',
+LAST_UPDATED_BY: 'Người cập nhật',
+
+TYPE_OF_ASSET: {
+  TITLE: 'Loại tài sản',
+  LIST: 'Danh sách loại tài sản',
+  CODE: 'Mã loại tài sản',
+  NAME: 'Tên loại tài sản',
+  ACCOUNT: 'Tài khoản',
+  DEPRECIATION_FRAME: 'Khung khấu hao (năm)',
+  DESCRIPTION: 'Mô tả',
+},
+{
+  "userName": "stl111004548",
+  "typeOfAssetDTO": {
+   "code": "8",
+   "name": "8",
+   "account": "3",
+   "depreciationFrame": "3",
+   "description": "3"
+  }
+}

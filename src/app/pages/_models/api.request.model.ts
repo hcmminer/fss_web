@@ -13,5 +13,6 @@ export class RequestApiModel {
   formData?: any;
   params?: any;
   responseType?: any;
-  observe?: any
+  observe?: any;
+  typeOfAssetDTO?: any;
 }

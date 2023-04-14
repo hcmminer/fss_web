@@ -3,9 +3,18 @@ export const locale = {
   lang: 'vi',
   data: {
     // bandv >>
+    'asset-manage': 'Quản lý tài sản',
+    CREATED_DATETIME: 'Ngày tạo',
+    CREATED_BY: 'Người tạo',
+    LAST_UPDATED_DATETIME: 'Ngày cập nhật',
+    LAST_UPDATED_BY: 'Người cập nhật',
     FUNCTION: {
       ADD: 'Thêm mới',
+      SUCCSESS_ADD: 'Thêm mới thành công',
+      CONFIRM_ADD: 'Bạn có chắc chắn thêm mới không?',
       UPDATE: 'Cập nhật',
+      SUCCSESS_UPDATE: 'Cập nhật thành công',
+      CONFIRM_UPDATE: 'Bạn có chắc chắn cập nhật không?',
       UPDATE_BY_FILE: 'cập nhật theo file',
     },
     TYPE_OF_ASSET: {
@@ -14,7 +23,7 @@ export const locale = {
       CODE: 'Mã loại tài sản',
       NAME: 'Tên loại tài sản',
       ACCOUNT: 'Tài khoản',
-      DEPRECIATIONFRAME: 'Khung khấu hao (năm)',
+      DEPRECIATION_FRAME: 'Khung khấu hao (năm)',
       DESCRIPTION: 'Mô tả',
     },
     // bandv <<
