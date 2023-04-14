@@ -178,7 +178,7 @@
                             <div class="col-md-2">
                                 <button class="form-control btn btn-outline-primary mr-5 font-14"
                                     (click)="getTemplate()">
-                                    <i class="fas fa-download"></i>{{ 'DOWNLOAD_TEMPLATE' | translate }}
+                                    <i class="fas fa-download"></i>{{ 'COMMON_BUTTON.DOWNLOAD_TEMPLATE' | translate }}
                                 </button>
                             </div>
                             <div class="col-md-1"></div>
@@ -186,7 +186,7 @@
                                 <div class="input-group">
                                     <button class="btn btn-primary sticky-input-button font-14" type="button"
                                         mat-raised-button (click)="fileInput.click()" style="margin-right: -3px;">
-                                        {{ 'SELECT_FILE_UPLOAD' | translate }} *
+                                        {{ 'LABEL.SELECT_FLE' | translate }} *
                                     </button>
                                     <input class="form-control" hidden (change)="onFileSelected($event)" 
                                         (click)="onFileResset($event)" #fileInput type="file" accept=".xls, .xlsx"
@@ -212,7 +212,7 @@
                             </div>
                         </div>
                         <!-- >> so ban ghi loi -->
-                        <div style="  overflow-x: scroll;">
+                        <div style="overflow-x: scroll;">
                             <div class="container-fluid mt-4 mb-4" *ngIf="isErrorFile">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <h6 class="form-label">

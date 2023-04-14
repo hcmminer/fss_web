@@ -8,6 +8,11 @@ export const locale = {
     FSS_MANAGEMENT_JOB_REQUEST: 'Quản lý phiếu công tác',
     FSS_CATEGORY: 'Quản lý danh mục',
     SYSTEM_ERROR: 'Lỗi hệ thống, vui lòng thử lại sau!',
+    'OPENING-BALANCE': {
+      TITLE: 'Số dư đầu kỳ',
+    },
+    'import-increase':'Phát sinh tăng',
+     
     LABEL: {
       // Quản lý phiếu công tác
       USER: 'Tên đăng nhập',
@@ -114,7 +119,7 @@ export const locale = {
       //Số dư đầu kỳ
       ORGANISATION: 'Tổ chức',
       ASSETCODE: 'Mã tài sản',
-      CONTRACT:  'Hợp đồng',
+      CONTRACT: 'Hợp đồng',
       LABOR: 'Nhân công',
       MATERIAL: 'Vật liệu',
       CONSTRUCTION_DATE: 'Ngày xây dựng',
@@ -122,12 +127,19 @@ export const locale = {
       ADD_OPEN_BALANCE: 'Thêm mới số dư đầu kỳ',
       LIST_OPEN_BALANCE: 'Danh sách số dư đầu kỳ',
       ERROR_MSG: 'Thông tin lỗi',
-      TOTAL_MATERIAL: 'Tổng vật liệu hiện tại',
-      TOTAL_LABOR: 'Tổng nhân công hiện tại',
-      TOTAL_DESIRED_MATERIAL: 'Tổng vật liệu mong muốn',
-      TOTAL_DESIRED_LABOR: 'Tổng nhân công mong muốn',
+      TOTAL_MATERIAL: 'Vật liệu hiện tại',
+      TOTAL_LABOR: 'Nhân công hiện tại',
+      TOTAL_DESIRED_MATERIAL: 'Vật liệu mong muốn',
+      TOTAL_DESIRED_LABOR: 'Nhân công mong muốn',
+      EDIT_OPEN_BALANCE_FILE: 'Cập nhật số dư đầu kỳ theo file',
+
+      //Phát sinh tăng
+      ADD_IMPORT_INCREASE: 'Thêm mới phát sinh tăng',
+      EDIT_IMPORT_INCREASE_FILE: 'Cập nhật phát sinh tăng theo file',
+
+      PER_PAGE_LABEL: 'Số bản ghi/trang'
     },
-    TITLE: {  
+    TITLE: {
       // Quản lý phiếu công tác
       LIST_JOB: 'Danh sách phiếu công tác',
       SEARCH_JOB: 'Tìm kiếm phiếu công tác',
@@ -184,6 +196,11 @@ export const locale = {
       OPEN_BALANCE: 'Số dư đầu kỳ',
       ADD_OPEN_BALANCE: 'Thêm mới số dư đầu kỳ',
       UPDATE_OPEN_BALANCE: 'Cập nhật số dư đầu kỳ',
+
+      //Phát sinh tăng
+      IMPORT_INCREASE: 'Phát sinh tăng',
+      ADD_IMPORT_INCREASE: 'Thêm mới số dư đầu kỳ',
+      UPDATE_IMPORT_INCREASE: 'Cập nhật số dư đầu kỳ',
     },
     REQUIRED: {
       REASON_REFUSE: 'Bắt buộc nhập lý do từ chối',

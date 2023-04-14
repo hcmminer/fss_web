@@ -4,6 +4,7 @@ import { SoDuDauKyComponent } from './so-du-dau-ky/so-du-dau-ky.component';
 import { QuanLyXayDungCoBanComponent } from './quan-ly-xay-dung-co-ban.component';
 import { PhatSinhTangComponent } from './phat-sinh-tang/phat-sinh-tang.component';
 import { PhatSinhGiamComponent } from './phat-sinh-giam/phat-sinh-giam.component';
+import { ReportComponent } from './report/report.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,7 @@ const routes: Routes = [
       { path: 'opening-balance', component: SoDuDauKyComponent},
       { path: 'import-increase', component: PhatSinhTangComponent},
       { path: 'transfer-to-asset', component: PhatSinhGiamComponent},
+      { path: 'report', component: ReportComponent},
       { path: '', component: SoDuDauKyComponent },
       { path: '**', redirectTo: 'error/404', pathMatch: 'full' },
     ],

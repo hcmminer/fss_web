@@ -1,8 +1,16 @@
-img:hover {
-    cursor: pointer;
+
+  
+  .sticky-input-button {
+    border-radius: 7px 0px 0px 7px;
   }
   
+  .border-fieldset {
+    border-color: rgb(0 0 0 / 10%) !important;
+  }
   
+  img:hover {
+    cursor: pointer;
+  }
   
   tr.example-element-row:not(.example-expanded-row):hover {
     background: rgb(163, 236, 160);
@@ -29,6 +37,12 @@ img:hover {
     border: none !important;
   }
   
+  .action-row {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-evenly;
+  }
   
   .icon-disable {
     color: #b8b8b8;
@@ -62,19 +76,6 @@ img:hover {
   
   th.mat-header-cell:last-of-type {
     padding-right: 0px;
-  }
-  
-  .mat-table {
-    width: 100%;
-  }
-  
-  th,td {
-    font-size: 15px !important;
-  }
-  
-  .mat-cell {
-    max-width: 150px;
-    word-wrap: break-word;
   }
   
   .blue {
@@ -129,15 +130,46 @@ img:hover {
     }
   }
   
-  
-  ::ng-deep .mat-form-field-flex {
-    padding-top: 0px !important;
-  }
-  
-  .icon-datePicker {
-    position: absolute;
-    top: -13px;
-    right: -5px;
+  ::ng-deep .cdk-overlay-container {
+    z-index: 7777 !important;
   }
   
   
+  .btn-none {
+    cursor: not-allowed;
+    pointer-events: none !important;
+    display: none !important;
+  }
+  
+  .title {
+    width: 15%;
+    font-weight: 700;
+  }
+  
+  .data {
+    width: 30%;
+    max-width: 35%;
+    word-break: break-word;
+  }
+  
+  .tableData td {
+    text-align: left;
+    padding: 6px 0;
+  }
+  
+  .titleInfo {
+    font-size: 16px;
+    font-weight: 700;
+  }
+  
+  .tableData tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .padding-popup {
+    padding: 13px 16px;
+  }
+
+  .margin-auto0{
+    margin: auto 0 !important;
+  }

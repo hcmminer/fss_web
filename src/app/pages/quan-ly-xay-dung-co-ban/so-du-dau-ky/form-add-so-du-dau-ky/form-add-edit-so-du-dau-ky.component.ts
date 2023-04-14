@@ -49,6 +49,7 @@ export const MY_FORMATS = {
 })
 export class FormAddEditSoDuDauKyComponent implements OnInit {
   //biến
+  req;
   isUpdate;
   isUpdateFile;
   item;
@@ -89,7 +90,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   totalSuccess: number = null;
   totalRecord: number = null;
   isHasResult: boolean = false;
-  columnsToDisplay = ['index', 'organisation', 'assetCode', 'contract', 'material', 'labor', 'errorMsg'];
+  columnsToDisplay: any;
 
   //
 
@@ -104,30 +105,33 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     public openingBalanceService: openingBalanceService,
     private _liveAnnouncer: LiveAnnouncer,
     @Inject(Injector) private readonly injector: Injector,
-  ) {     
+  ) {
   }
 
   ngOnInit(): void {
+    console.log(!this.isUpdate);
+    
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
-    console.log(this.item);
-    console.log(this.isUpdate + 'update');
-    if(this.isUpdateFile){
+    if (this.isUpdateFile) {
+      this.columnsToDisplay = ['index', 'assetCode', 'laborStr', 'laborTotalStr', 'materialStr', 'materialTotalStr', 'errorMsg'];
       this.addType = 'file';
       this.loadAddFileForm()
+    } else {
+      this.columnsToDisplay = ['index', 'organisation', 'assetCode', 'contract', 'material', 'labor', 'errorMsg'];
     }
-       
-  if(this.isUpdate){
+
+    if (this.isUpdate) {
 
       this.loadAddForm();
       let request = this.apiGetSum().subscribe(
         (res) => {
           if (res.errorCode == '0') {
-        
-            this.addEditForm.get('totalMaterial').patchValue( formatNumber(+res.data.material, 'en-US', '1.0'))
+
+            this.addEditForm.get('totalMaterial').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'))
             this.addEditForm.get('totalLabor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'))
             this.addEditForm.get('material').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'))
             this.addEditForm.get('labor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'))
-            console.log(this.addEditForm);           
+            console.log(this.addEditForm);
           } else if (res.errorCode == '1') {
             this.toastService.error(res.description);
           } else {
@@ -139,8 +143,8 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
         },
       );
       this.subscriptions.push(request);
-  
-    }else{
+
+    } else {
       this.loadAddForm();
     }
   }
@@ -166,15 +170,15 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   }
 
   // lấy tổng material và labor
-apiGetSum() {
-  const req = {
-    userName: this.userName,
-    constructionDTO:{ 
-      assetCode: this.item.assetCode
+  apiGetSum() {
+    const req = {
+      userName: this.userName,
+      constructionDTO: {
+        assetCode: this.item.assetCode
+      }
+    }
+    return this.globalService.globalApi(req, 'get-bc-open-sum-current');
   }
-  }
-  return this.globalService.globalApi(req, 'get-bc-sum-current');
-}
 
   //change page
   onPaginateChange(event) {
@@ -301,10 +305,15 @@ apiGetSum() {
 
   //theo file
   apiGetTemplate() {
-    const req = {
-      userName: this.userName
+    let req;
+    if (this.isUpdateFile) {
+      req = this.req;
+    } else {
+      req = {
+        userName: this.userName
+      }
     }
-    return this.globalService.globalApi(req, this.isUpdateFile?'down-temp-update-bc-opening' : 'down-temp-add-bc-opening');
+    return this.globalService.globalApi(req, this.isUpdateFile ? 'down-temp-update-bc-opening' : 'down-temp-add-bc-opening');
   }
   getTemplate() {
     const sub = this.apiGetTemplate().subscribe((res) => {
@@ -358,58 +367,54 @@ apiGetSum() {
     modalRef.result.then(
       (result) => {
         this.isHasResult = false;
-        if (!this.isUpdate) {
-          this.resultFileData = null;
-          const formData: FormData = new FormData();
-          formData.append('fileCreateRequest', this.selectedFile);
-          const requestTarget = {
-            params: {
-              userName: this.userName,
-            },
-            formData: formData
-            // responseType: 'blob',
-            // observe: 'response',
-          };
-      
-          this.dataSource = new MatTableDataSource([]);
-          let request = this.globalService.globalApi(requestTarget, this.isUpdateFile ? 'update-bc-opening-by-file' :'add-bc-opening-by-file').subscribe(
-            (res) => {
-              if (res.errorCode == '0') {
-                this.toastService.success(this.translate.instant('MESSAGE.UPLOAD_FILE_SC'));
-                this.openingBalanceService.errOpeningBalanceList.next(res.data);
-                this.dataSource = new MatTableDataSource(this.openingBalanceService.errOpeningBalanceList.value);
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-                let isError = res.data.find((item) => item.errorMsg != '');
-                this.totalSuccess = res.data.filter((item) => item.errorMsg == '').length;
-                this.totalRecord = res.data.length;
-                this.isHasResult = true;
-                if (isError) {
-                  this.openingBalanceService.getErrOpeningBalanceFile.next(res);
-                  this.isErrorFile = true;
-                } else {
-                  this.openingBalanceService.getErrOpeningBalanceFile.next(null);
-                  this.isErrorFile = false;
-                }
-                this.magicButtonUpdate = isError ? false : true;
-                this.dataNullErr = false;
-              } else if (res.errorCode == '1') {
-                this.isHasResult = true;
-                this.totalSuccess = 0;
-                this.totalRecord = 0;
+        this.resultFileData = null;
+        const formData: FormData = new FormData();
+        formData.append('fileCreateRequest', this.selectedFile);
+        const requestTarget = {
+          params: {
+            userName: this.userName,
+          },
+          formData: formData
+        };
+
+        this.dataSource = new MatTableDataSource([]);
+        let request = this.globalService.globalApi(requestTarget, this.isUpdateFile ? 'update-bc-opening-by-file' : 'add-bc-opening-by-file').subscribe(
+          (res) => {
+            if (res.errorCode == '0') {
+              this.toastService.success(this.translate.instant('MESSAGE.UPLOAD_FILE_SC'));
+              this.openingBalanceService.errOpeningBalanceList.next(res.data);
+              this.dataSource = new MatTableDataSource(this.openingBalanceService.errOpeningBalanceList.value);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+              let isError = res.data.find((item) => item.errorMsg != '');
+              this.totalSuccess = res.data.filter((item) => item.errorMsg == '').length;
+              this.totalRecord = res.data.length;
+              this.isHasResult = true;
+              if (isError) {
+                this.openingBalanceService.getErrOpeningBalanceFile.next(res);
                 this.isErrorFile = true;
-                this.dataNullErr = true;
-                this.toastService.error(res.description);
               } else {
-                this.toastService.error(res.description);
+                this.openingBalanceService.getErrOpeningBalanceFile.next(null);
+                this.isErrorFile = false;
               }
-            },
-            (error) => {
-              this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
-            },
-          );
-          this.subscriptions.push(request);
-        }
+              this.magicButtonUpdate = isError ? false : true;
+              this.dataNullErr = false;
+            } else if (res.errorCode == '1') {
+              this.isHasResult = true;
+              this.totalSuccess = 0;
+              this.totalRecord = 0;
+              this.isErrorFile = true;
+              this.dataNullErr = true;
+              this.toastService.error(res.description);
+            } else {
+              this.toastService.error(res.description);
+            }
+          },
+          (error) => {
+            this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
+          },
+        );
+        this.subscriptions.push(request);
       },
       (reason) => { },
     );
@@ -422,10 +427,11 @@ apiGetSum() {
       userName: this.userName,
       listConstructionDTO: this.openingBalanceService.errOpeningBalanceList.value,
     };
-    return this.globalService.globalApi(req, this.isUpdateFile ? 'confirm-add-bc-opening-by-file' : 'confirm-update-bc-opening-by-file');
+    return this.globalService.globalApi(req, this.isUpdateFile ? 'confirm-update-bc-opening-by-file' : 'confirm-add-bc-opening-by-file');
   }
 
   eDownloadFileSuccess() {
+    debugger
     const sub = this.openingBalanceService.getSuccessOpeningBalanceFile.subscribe((res) => {
       if (res.errorCode == '0' || res.errorCode == '2') {
         this.toastService.success(this.translate.instant('TOAST.DOWNLOAD_SUCCESS'));
@@ -497,7 +503,7 @@ apiGetSum() {
               this.resultDesc = res.description;
               this.resultCode = 'success';
               this.toastService.success(this.isUpdateFile ? this.translate.instant('MESSAGE.UPDATE_OP_BL_FROM_FILE_SC') : this.translate.instant('ADD_OP_BL_FROM_FILE_SC'));
-            } else if (res.errorCode == '2') {
+            } else if (res.errorCode == '3') {
               this.resultDesc = res.description;
               this.resultCode = 'warning';
               this.isHasSuccessFile = true;
@@ -517,11 +523,12 @@ apiGetSum() {
   }
 
   eDownloadErrFile() {
-    const sub = this.openingBalanceService.getSuccessOpeningBalanceFile.subscribe((res) => {
+    debugger
+    const sub = this.openingBalanceService.getErrOpeningBalanceFile.subscribe((res) => {
       if (res.errorCode == '0') {
         this.toastService.success(this.translate.instant('TOAST.DOWNLOAD_SUCCESS'));
         this.spinner.hide();
-        const byteCharacters = atob(res.dataResult);
+        const byteCharacters = atob(res.dataExtension);
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
           byteNumbers[i] = byteCharacters.charCodeAt(i);
