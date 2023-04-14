@@ -46,11 +46,11 @@ export const MY_FORMATS = {
 export class AddEditLoaiTaiSanComponent implements OnInit {
   propData;
   propAction;
-  code = '';
-  name = '';
-  account = '';
-  depreciationFrame = '';
-  description = '';
+  code;
+  name;
+  account;
+  depreciationFrame;
+  description;
 
   userName: any;
   @ViewChild('paginator') paginator: MatPaginator;
