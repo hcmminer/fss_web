@@ -2,6 +2,22 @@
 export const locale = {
   lang: 'vi',
   data: {
+    // bandv >>
+    FUNCTION: {
+      ADD: 'Thêm mới',
+      UPDATE: 'Cập nhật',
+      UPDATE_BY_FILE: 'cập nhật theo file',
+    },
+    TYPE_OF_ASSET: {
+      TITLE: 'Loại tài sản',
+      LIST: 'Danh sách loại tài sản',
+      CODE: 'Mã loại tài sản',
+      NAME: 'Tên loại tài sản',
+      ACCOUNT: 'Tài khoản',
+      DEPRECIATIONFRAME: 'Khung khấu hao (năm)',
+      DESCRIPTION: 'Mô tả',
+    },
+    // bandv <<
     SESSION_EXPIRED: 'Phiên đã quá hạn',
     INTERNET_ERROR: 'Lỗi mạng',
     FSS_JOB_REQUEST: 'Lập phiếu công tác',
@@ -114,7 +130,7 @@ export const locale = {
       //Số dư đầu kỳ
       ORGANISATION: 'Tổ chức',
       ASSETCODE: 'Mã tài sản',
-      CONTRACT:  'Hợp đồng',
+      CONTRACT: 'Hợp đồng',
       LABOR: 'Nhân công',
       MATERIAL: 'Vật liệu',
       CONSTRUCTION_DATE: 'Ngày xây dựng',
@@ -127,7 +143,7 @@ export const locale = {
       TOTAL_DESIRED_MATERIAL: 'Tổng vật liệu mong muốn',
       TOTAL_DESIRED_LABOR: 'Tổng nhân công mong muốn',
     },
-    TITLE: {  
+    TITLE: {
       // Quản lý phiếu công tác
       LIST_JOB: 'Danh sách phiếu công tác',
       SEARCH_JOB: 'Tìm kiếm phiếu công tác',
@@ -223,7 +239,8 @@ export const locale = {
       ADD_JOB_REQUEST_SUCCESS: 'Thêm mới phiếu công tác thành công!',
       REFUSE_JOB_SUCCESS: 'Từ chối phiếu công tác thành công!',
       //Quản lý danh mục
-      UPDATE_FILE_NORM_MOVING_SUCCESS: 'Upload file định mức di chuyển thành công. Vui lòng kiểm tra các bản ghi lỗi trong file trả về!',
+      UPDATE_FILE_NORM_MOVING_SUCCESS:
+        'Upload file định mức di chuyển thành công. Vui lòng kiểm tra các bản ghi lỗi trong file trả về!',
       NORM_MOVING_EXIST: 'Định mức di chuyển này đã tồn tại trên hệ thống!',
       STAFF_EXIST: 'Nhân viên này đã tồn tại trên hệ thống ',
       UPDATE_NORM_MOVES_SUCCESS: 'Cập nhật định mức di chuyển thành công!',
@@ -280,11 +297,10 @@ export const locale = {
       NO_MATCH_DATA: 'Không có dữ liệu',
 
       //Openning balance
-      CF_ADD_OP_BL_BY_FILE: "Bạn có chắc chắn muốn thêm số dư đầu kỳ theo file không",
-      CF_UPDATE_OP_BL_BY_FILE: "Bạn có chắc chắn muốn cập nhật số dư đầu kỳ theo file không",
-      UPDATE_OP_BL_FROM_FILE_SC: "Cập nhật số dư đầu kỳ theo file thành công",
-      ADD_OP_BL_FROM_FILE_SC: "Thêm số dư đầu kỳ theo file thành công",
-
+      CF_ADD_OP_BL_BY_FILE: 'Bạn có chắc chắn muốn thêm số dư đầu kỳ theo file không',
+      CF_UPDATE_OP_BL_BY_FILE: 'Bạn có chắc chắn muốn cập nhật số dư đầu kỳ theo file không',
+      UPDATE_OP_BL_FROM_FILE_SC: 'Cập nhật số dư đầu kỳ theo file thành công',
+      ADD_OP_BL_FROM_FILE_SC: 'Thêm số dư đầu kỳ theo file thành công',
     },
     CONFIRM: {
       //I.Lập phiếu công tác
@@ -337,7 +353,7 @@ export const locale = {
 
       //Số dư đầu kỳ
       UPDATE_OPEN_BALANCE: 'Bạn có muốn cập nhật số dư đầu kỳ này không',
-      ADD_OPEN_BALANCE: 'Bạn có muốn thêm mới số dư đầu kỳ này không'
+      ADD_OPEN_BALANCE: 'Bạn có muốn thêm mới số dư đầu kỳ này không',
     },
     TOOLTIP: {
       REFUSE: 'Từ chối',
