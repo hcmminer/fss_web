@@ -13,18 +13,6 @@ import { GlobalService } from '../../_services/global.service';
 import { CONFIG } from 'src/app/utils/constants';
 import { DatePipe } from '@angular/common';
 import { RequestApiModelOld } from '../../_models/requestOld-api.model';
-import { FormAddEditPhatSinhGiamComponent } from './form-add-edit-phat-sinh-giam/form-add-edit-phat-sinh-giam.component';
-
-const queryInit = {
-  groupFilter: '',
-  organisation: '',
-  assetCode: '',
-  contract: '',
-  startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-  // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
-  endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
-  // iValidEndDate: new NgbDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
-};
 
 export const MY_FORMATS = {
   parse: {
@@ -38,13 +26,24 @@ export const MY_FORMATS = {
   },
 };
 
+const queryInit = {
+  groupFilter: '',
+  organisation: '',
+  assetCode: '',
+  contract: '',
+  startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+  // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
+  endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
+  // iValidEndDate: new NgbDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
+};
 
 @Component({
-  selector: 'app-phat-sinh-giam',
-  templateUrl: './phat-sinh-giam.component.html',
-  styleUrls: ['./phat-sinh-giam.component.scss']
+  selector: 'app-report',
+  templateUrl: './report.component.html',
+  styleUrls: ['./report.component.scss']
 })
-export class PhatSinhGiamComponent implements OnInit {
+export class ReportComponent implements OnInit {
+
   currentPage = 1;
   @ViewChild('autoFocus') private _inputElement: ElementRef; // autofocus
   pageSize: number = 10;
@@ -235,17 +234,17 @@ export class PhatSinhGiamComponent implements OnInit {
   }
 
   displayFormAdd(item: any, isUpdate, isUpdateFile) {
-    const modalRef = this.modalService.open(FormAddEditPhatSinhGiamComponent, {
-      centered: true,
-      backdrop: 'static',
-      size: 'xl',
-    });
-    modalRef.componentInstance.item = item;
-    modalRef.componentInstance.isUpdate = isUpdate;
-    modalRef.componentInstance.isUpdateFile = isUpdateFile;
-    modalRef.result.then((result) => {
-      this.eSearch();
-    });
+    // const modalRef = this.modalService.open(FormAddEditPhatSinhGiamComponent, {
+    //   centered: true,
+    //   backdrop: 'static',
+    //   size: 'xl',
+    // });
+    // modalRef.componentInstance.item = item;
+    // modalRef.componentInstance.isUpdate = isUpdate;
+    // modalRef.componentInstance.isUpdateFile = isUpdateFile;
+    // modalRef.result.then((result) => {
+    //   this.eSearch();
+    // });
   }
 
   // helpers for View

@@ -113,7 +113,7 @@ export class PhatSinhTangComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = this.translate.instant('TRANS.PER_PAGE_LABEL');
+    this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.isAdmin = this.userRes.isAdmin;
@@ -183,7 +183,7 @@ export class PhatSinhTangComponent implements OnInit {
   conditionSearch() {
     const requestTarget = {
       userName: this.userName,
-      loanTransDTO: {
+      searchDTO: {
         groupFilter: this.query.groupFilter,
         assetCode: this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
@@ -196,7 +196,7 @@ export class PhatSinhTangComponent implements OnInit {
         pageLimit: 1000000,
       },
     };
-    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-bc-opening');
+    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-bc-increase');
   }
 
   eResetForm() {

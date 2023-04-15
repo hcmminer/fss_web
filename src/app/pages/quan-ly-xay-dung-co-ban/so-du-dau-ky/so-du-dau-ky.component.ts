@@ -14,6 +14,7 @@ import { openingBalanceService } from '../../_services/opening-balance.service';
 import { GlobalService } from '../../_services/global.service';
 import { RequestApiModelOld } from '../../_models/requestOld-api.model';
 import { FormAddEditSoDuDauKyComponent } from './form-add-so-du-dau-ky/form-add-edit-so-du-dau-ky.component';
+import { ViewDetailOpenBalanceComponent } from './view-detail-open-balance/view-detail-open-balance.component';
 
 const queryInit = {
   groupFilter: '',
@@ -105,7 +106,7 @@ export class SoDuDauKyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = this.translate.instant('TRANS.PER_PAGE_LABEL');
+    this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.isAdmin = this.userRes.isAdmin;
@@ -134,18 +135,18 @@ export class SoDuDauKyComponent implements OnInit {
     });
   }
 
-  eViewTran(item: any) {
-    // console.log('eViewTran', item);
-    // const modalRef = this.modalService.open(ViewAppraisalComponent, {
-    //   centered: true,
-    //   backdrop: 'static',
-    //   size: 'xl',
-    //   keyboard: false,
-    // });
-    // modalRef.componentInstance.data = item;
-    // modalRef.result.then((result) => {
-    //   this.eSearch();
-    // });
+  eViewDetail(item: any) {
+    console.log('view detail', item);
+    const modalRef = this.modalService.open(ViewDetailOpenBalanceComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl',
+      keyboard: false,
+    });
+    modalRef.componentInstance.data = item;
+    modalRef.result.then((result) => {
+      this.eSearch();
+    });
   }
   transform(value: string) {
     let datePipe = new DatePipe('en-US');
@@ -157,6 +158,7 @@ export class SoDuDauKyComponent implements OnInit {
       this.searchForm.markAllAsTouched();
       return;
     }
+
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
@@ -175,17 +177,13 @@ export class SoDuDauKyComponent implements OnInit {
   conditionSearch() {
     const requestTarget = {
       userName: this.userName,
-      loanTransDTO: {
+      searchDTO: {
         groupFilter: this.query.groupFilter,
         assetCode: this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
         contract: this.searchForm.get('contract').value,
-        fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
-        toCreatedDateStr: this.transform(this.searchForm.get('end').value),
-      },
-      dataParams: {
-        currentPage: 1,
-        pageLimit: 1000000,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-bc-opening');
@@ -199,32 +197,6 @@ export class SoDuDauKyComponent implements OnInit {
     this.loadSearchForm();
   }
 
-  displayPopupUpdateRefuse() {
-    // const modalRef = this.modalService.open(UpdateRefuseFileComponent, {
-    //   centered: true,
-    //   backdrop: 'static',
-    //   size: 'xl',
-    // });
-
-    // const requestTarget = {
-    //   loanTransDTO: {
-    //     groupFilter: this.query.groupFilter,
-    //     status: this.searchForm.get('status').value,
-    //     fromDate: this.transform(this.searchForm.get('start').value),
-    //     toDate: this.transform(this.searchForm.get('end').value),
-    //   },
-    //   dataParams: {
-    //     currentPage: 1,
-    //     pageLimit: 1000000,
-    //   },
-    // };
-    // modalRef.componentInstance.data = requestTarget;
-
-    // modalRef.result.then((result) => {
-    //   this.eSearch();
-    // });
-  }
-
   displayFormAdd(item: any, isUpdate, isUpdateFile) {
     const modalRef = this.modalService.open(FormAddEditSoDuDauKyComponent, {
       centered: true,
@@ -234,6 +206,18 @@ export class SoDuDauKyComponent implements OnInit {
     modalRef.componentInstance.item = item;
     modalRef.componentInstance.isUpdate = isUpdate;
     modalRef.componentInstance.isUpdateFile = isUpdateFile;
+    const requestTarget = {
+      userName: this.userName,
+      searchDTO: {
+        groupFilter: this.query.groupFilter,
+        assetCode: this.searchForm.get('assetCode').value,
+        organisation: this.searchForm.get('organisation').value,
+        contract: this.searchForm.get('contract').value,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+      },
+    };
+    modalRef.componentInstance.req = requestTarget;
     modalRef.result.then((result) => {
       this.eSearch();
     });
