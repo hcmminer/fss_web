@@ -25,6 +25,9 @@ TYPE_OF_ASSET: {
   DEPRECIATION_FRAME: 'Khung khấu hao (năm)',
   DESCRIPTION: 'Mô tả',
 },
+
+CONFIRM_DELETE: 'Bạn có chắc chắn xóa không?',
+SUCCSESS_DELETE: 'Xóa thành công',
 {
   "userName": "stl111004548",
   "typeOfAssetDTO": {
@@ -35,3 +38,14 @@ TYPE_OF_ASSET: {
    "description": "3"
   }
 }
+(id                             NUMBER ,
+code                           VARCHAR2(200 CHAR),
+name                           NVARCHAR2(500),
+account                        VARCHAR2(200 CHAR),
+depreciation_frame             NUMBER(3,0),
+description                    NVARCHAR2(500),
+status                         NUMBER(1,0) DEFAULT 1 NOT NULL,
+created_datetime               DATE,
+created_by                     VARCHAR2(100 BYTE),
+last_updated_datetime          DATE,
+last_updated_by                VARCHAR2(100 BYTE))

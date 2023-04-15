@@ -5,7 +5,6 @@ import { HTTPService } from './http.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { RequestApiModel } from '../_models/request-api.model';
 import { environment } from '../../../environments/environment';
 import { catchError, finalize } from 'rxjs/operators';
 import { RequestApiModelOld } from '../_models/requestOld-api.model';

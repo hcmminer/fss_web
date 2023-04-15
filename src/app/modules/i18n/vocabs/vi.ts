@@ -16,6 +16,8 @@ export const locale = {
       SUCCSESS_UPDATE: 'Cập nhật thành công',
       CONFIRM_UPDATE: 'Bạn có chắc chắn cập nhật không?',
       UPDATE_BY_FILE: 'cập nhật theo file',
+      CONFIRM_DELETE: 'Bạn có chắc chắn xóa không?',
+      SUCCSESS_DELETE: 'Xóa thành công',
     },
     TYPE_OF_ASSET: {
       TITLE: 'Loại tài sản',

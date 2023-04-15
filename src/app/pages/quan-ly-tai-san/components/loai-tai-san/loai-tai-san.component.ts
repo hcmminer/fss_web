@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Subscription, fromEvent } from 'rxjs';
@@ -14,6 +14,7 @@ import { CONFIG } from 'src/app/utils/constants';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { RequestApiModel } from 'src/app/pages/_models/api.request.model';
 import { AddEditLoaiTaiSanComponent } from './add-edit-loai-tai-san/add-edit-loai-tai-san.component';
+import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
 
 const queryInit = {
   groupFilter: '',
@@ -47,7 +48,6 @@ export class LoaiTaiSanComponent implements OnInit {
 
   startDateErrorMsg = '';
   endDateErrorMsg = '';
-  isLoading$ = false;
   userRes: any;
   userName: string;
   query = {
@@ -74,6 +74,7 @@ export class LoaiTaiSanComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
     public toastrService: ToastrService,
+    private activeModal: NgbActiveModal,
     @Inject(Injector) private readonly injector: Injector,
   ) {}
 
@@ -96,13 +97,14 @@ export class LoaiTaiSanComponent implements OnInit {
 
   eSearch() {
     const rq = this.httpSearch().subscribe((res) => {
-      this.isLoading$ = false;
       if (res.errorCode == '0') {
-        this.dataSource = new MatTableDataSource(res.data);
+        this.assetManageService.listTypeOfAsset.next(res.data);
+        this.dataSource = new MatTableDataSource(this.assetManageService.listTypeOfAsset.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.dataSource = new MatTableDataSource([]);
+        this.assetManageService.listTypeOfAsset.next([]);
+        this.dataSource = new MatTableDataSource(this.assetManageService.listTypeOfAsset.value);
       }
     });
     this.subscriptions.push(rq);
@@ -131,6 +133,50 @@ export class LoaiTaiSanComponent implements OnInit {
     modalRef.result.then(() => {
       this.eSearch();
     });
+  }
+
+  httpDelete(item) {
+    const requestTarget = {
+      userName: this.userName,
+      typeOfAssetDTO: {
+        id: item.id,
+      },
+    };
+    return this.globalService.globalApi(requestTarget as RequestApiModel, 'removeTypeOfAsset');
+  }
+
+  // common modal confirm alert
+  eDelete(item) {
+    const modalRef = this.modalService.open(CommonAlertDialogComponent, {
+      centered: true,
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.data = {
+      type: 'WARNING',
+      title: 'COMMON_MODAL.WARNING',
+      message: this.translate.instant('FUNCTION.CONFIRM_DELETE'),
+      continue: true,
+      cancel: true,
+      btn: [
+        { text: this.translate.instant('CANCEL'), className: 'btn-outline-warning btn uppercase mx-2' },
+        { text: this.translate.instant('CONTINUE'), className: 'btn btn-warning uppercase mx-2' },
+      ],
+    };
+    modalRef.result.then(
+      () => {
+        let request = this.httpDelete(item).subscribe((res) => {
+          if (res.errorCode === '0') {
+            this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_DELETE'));
+            // this.activeModal.close();
+            this.eSearch();
+          } else {
+            this.toastrService.error(res.description);
+          }
+        });
+        this.subscriptions.push(request);
+      },
+      () => {},
+    );
   }
 
   // helpers for View

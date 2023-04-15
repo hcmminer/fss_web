@@ -17,6 +17,7 @@ import { catchError, finalize, map } from "rxjs/operators";
 
   export class AssetManageService {
     subscriptions: Subscription[] = [];
+    listTypeOfAsset = new BehaviorSubject<any[]>([]);
     cbxTypeOfAsset = new BehaviorSubject<any[]>([]);
     initHeader: {};
     header = {

@@ -75,10 +75,10 @@ export class AddEditLoaiTaiSanComponent implements OnInit {
   ngOnInit(): void {
     if (this.propAction == 'update') {
       this.code = this.propData.code;
-      this.name = this.propData.code;
-      this.account = this.propData.code;
-      this.depreciationFrame = this.propData.code;
-      this.description = this.propData.code;
+      this.name = this.propData.name;
+      this.account = this.propData.account;
+      this.depreciationFrame = this.propData.depreciationFrame;
+      this.description = this.propData.description;
     }
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.loadAddEditForm();
@@ -98,18 +98,21 @@ export class AddEditLoaiTaiSanComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       typeOfAssetDTO: {
-        code: this.code,
-        name: this.name,
-        account: this.account,
-        depreciationFrame: this.depreciationFrame,
-        description: this.description,
+        code: this.addEditForm.get('code').value,
+        name: this.addEditForm.get('name').value,
+        account: this.addEditForm.get('account').value,
+        depreciationFrame: this.addEditForm.get('depreciationFrame').value,
+        description: this.addEditForm.get('description').value,
       },
     };
     if (this.propAction == 'add') {
       return this.globalService.globalApi(requestTarget as RequestApiModel, 'addTypeOfAsset');
     } else if (this.propAction == 'update') {
       return this.globalService.globalApi(
-        { ...requestTarget, id: this.propData.id } as RequestApiModel,
+        {
+          ...requestTarget,
+          typeOfAssetDTO: { ...requestTarget.typeOfAssetDTO, id: this.propData.id },
+        } as RequestApiModel,
         'editTypeOfAsset',
       );
     }
@@ -151,7 +154,7 @@ export class AddEditLoaiTaiSanComponent implements OnInit {
         });
         this.subscriptions.push(request);
       },
-      (reason) => {},
+      () => {},
     );
   }
 
