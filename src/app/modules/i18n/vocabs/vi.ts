@@ -4,6 +4,7 @@ export const locale = {
   data: {
     // bandv >>
     'asset-manage': 'Quản lý tài sản',
+    'type-of-asset': 'Loại khấu hao',
     CREATED_DATETIME: 'Ngày tạo',
     CREATED_BY: 'Người tạo',
     LAST_UPDATED_DATETIME: 'Ngày cập nhật',
