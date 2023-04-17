@@ -164,7 +164,7 @@ export const locale = {
       //Phát sinh tăng
       ADD_IMPORT_INCREASE: 'Thêm mới phát sinh tăng',
       EDIT_IMPORT_INCREASE_FILE: 'Cập nhật phát sinh tăng theo file',
-
+      LIST_IMPORT_INCREASE: 'Danh sách phát sinh tăng',
       PER_PAGE_LABEL: 'Số bản ghi/trang'
     },
     TITLE: {
@@ -227,8 +227,10 @@ export const locale = {
 
       //Phát sinh tăng
       IMPORT_INCREASE: 'Phát sinh tăng',
-      ADD_IMPORT_INCREASE: 'Thêm mới số dư đầu kỳ',
-      UPDATE_IMPORT_INCREASE: 'Cập nhật số dư đầu kỳ',
+      ADD_IMPORT_INCREASE: 'Thêm mới phát sinh tăng',
+      UPDATE_IMPORT_INCREASE: 'Cập nhật phát sinh tăng',
+
+      LIST_ERR_FILE: 'Danh sách file lỗi'
     },
     REQUIRED: {
       REASON_REFUSE: 'Bắt buộc nhập lý do từ chối',
@@ -330,6 +332,12 @@ export const locale = {
       CF_UPDATE_OP_BL_BY_FILE: 'Bạn có chắc chắn muốn cập nhật số dư đầu kỳ theo file không',
       UPDATE_OP_BL_FROM_FILE_SC: 'Cập nhật số dư đầu kỳ theo file thành công',
       ADD_OP_BL_FROM_FILE_SC: 'Thêm số dư đầu kỳ theo file thành công',
+      //phát sinh tăng
+      CF_ADD_IM_INCREASE_BY_FILE: "Bạn có chắc chắn muốn thêm phát sinh tăng theo file không",
+      CF_UPDATE_IM_INCREASE_BY_FILE: "Bạn có chắc chắn muốn cập nhật phát tinh tăng theo file không",
+      UPDATE_IM_INCREASE_FROM_FILE_SC: "Cập nhật phát sinh tăng theo file thành công",
+      ADD_IM_INCREASE_FROM_FILE_SC: "Thêm phát sinh tăng theo file thành công",
+
     },
     CONFIRM: {
       //I.Lập phiếu công tác
@@ -382,7 +390,7 @@ export const locale = {
 
       //Số dư đầu kỳ
       UPDATE_OPEN_BALANCE: 'Bạn có muốn cập nhật số dư đầu kỳ này không',
-      ADD_OPEN_BALANCE: 'Bạn có muốn thêm mới số dư đầu kỳ này không',
+      ADD_OPEN_BALANCE: 'Bạn có muốn thêm mới số dư đầu kỳ này không'
     },
     TOOLTIP: {
       REFUSE: 'Từ chối',
@@ -566,7 +574,7 @@ export const locale = {
     DEFAULT_OPTION: {
       SELECT: '--Chọn--',
       ALL: '--Tất cả--',
-    },
+    }, 
     COMMON: {
       INDEX: 'STT',
       VALID_FROM_FATE: 'Ngày hiệu lực',
@@ -583,6 +591,7 @@ export const locale = {
         CREATE_SUCCESS: 'Thêm mới thành công',
         UPDATE_SUCCESS: 'Sửa thành công',
         DELETE_SUCCESS: 'Xóa thành công',
+        DOWNLOAD_SUCCESS: 'Tải xuống thành công'
       },
     },
     LIST_STATUS: {

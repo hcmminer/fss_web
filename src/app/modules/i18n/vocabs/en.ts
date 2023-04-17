@@ -8,6 +8,11 @@ export const locale = {
     FSS_MANAGEMENT_JOB_REQUEST: 'Manage job requests',
     FSS_CATEGORY: 'Manage categories',
     SYSTEM_ERROR: 'System error, please try again later!',
+    'OPENING-BALANCE': {
+      TITLE: 'Sádasdasd',
+    },
+    'import-increase':'Psadasdg',
+     
     LABEL: {
       // Quản lý phiếu công tác
       USER: 'Username',

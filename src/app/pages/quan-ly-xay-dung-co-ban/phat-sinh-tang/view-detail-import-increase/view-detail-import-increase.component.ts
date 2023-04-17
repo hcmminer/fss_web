@@ -1,6 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, EventEmitter, Inject, Injector, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,11 +14,11 @@ import { GlobalService } from 'src/app/pages/_services/global.service';
 import { CONFIG } from 'src/app/utils/constants';
 
 @Component({
-  selector: 'app-view-detail-open-balance',
-  templateUrl: './view-detail-open-balance.component.html',
-  styleUrls: ['./view-detail-open-balance.component.scss']
+  selector: 'app-view-detail-import-increase',
+  templateUrl: './view-detail-import-increase.component.html',
+  styleUrls: ['./view-detail-import-increase.component.scss']
 })
-export class ViewDetailOpenBalanceComponent implements OnInit {
+export class ViewDetailImportIncreaseComponent implements OnInit {
   data;
   currentPage = 1;
   pageSize;
@@ -47,9 +46,6 @@ export class ViewDetailOpenBalanceComponent implements OnInit {
   constructor(
     public router: Router,
     public translate: TranslateService,
-    private fb: FormBuilder,
-    private modalService: NgbModal,
-    private tranService: TranslateService,
     public commonService: CommonService,
     public toastrService: ToastrService,
     public spinner: NgxSpinnerService,
@@ -72,7 +68,7 @@ export class ViewDetailOpenBalanceComponent implements OnInit {
     }
     };
     const subCall = this.globalService
-      .globalApi(reqTar, 'get-detail-bc-opening')
+      .globalApi(reqTar, 'get-detail-bc-increase')
       .subscribe((res) => {
         this.isLoading$ = false;
         if (res.errorCode == '0') {
@@ -118,8 +114,6 @@ export class ViewDetailOpenBalanceComponent implements OnInit {
   }
  
 
-
-
   public get toastService() {
     return this.injector.get(ToastrService);
   }
@@ -127,4 +121,5 @@ export class ViewDetailOpenBalanceComponent implements OnInit {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
+
 }

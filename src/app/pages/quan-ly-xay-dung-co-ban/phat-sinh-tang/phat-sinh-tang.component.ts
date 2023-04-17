@@ -14,6 +14,7 @@ import { CONFIG } from 'src/app/utils/constants';
 import { DatePipe } from '@angular/common';
 import { RequestApiModelOld } from '../../_models/requestOld-api.model';
 import { FormAddEditPhatSinhTangComponent } from './form-add-edit-phat-sinh-tang/form-add-edit-phat-sinh-tang.component';
+import { ViewDetailImportIncreaseComponent } from './view-detail-import-increase/view-detail-import-increase.component';
 
 const queryInit = {
   groupFilter: '',
@@ -62,26 +63,18 @@ export class PhatSinhTangComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('paginatorDetail') paginatorDetail: MatPaginator;
   @ViewChild('updateRefuse') updateRefuse: ElementRef;
   searchForm: FormGroup;
 
   @ViewChild('formSearch') formSearch: ElementRef;
-  isShowUpdate = new BehaviorSubject<boolean>(false);
-  isShowOffStation = new BehaviorSubject<boolean>(false);
   startDateErrorMsg = '';
   endDateErrorMsg = '';
-  startDateLoTrinhErrorMsg = '';
-  endDateLoTrinhErrorMsg = '';
   isLoading$ = false;
   userRes: any;
   userName: string;
   staffId: number;
   isAdmin: any;
-  isHandlingLoTrinhCongTac = false;
   selectedTabIndex = 0;
-  typeActionVoffice: number;
-  currentLoTrinhPage = 0;
   private modal: any;
   query = {
     ...queryInit,
@@ -142,18 +135,18 @@ export class PhatSinhTangComponent implements OnInit {
     });
   }
 
-  eViewTran(item: any) {
-    // console.log('eViewTran', item);
-    // const modalRef = this.modalService.open(ViewAppraisalComponent, {
-    //   centered: true,
-    //   backdrop: 'static',
-    //   size: 'xl',
-    //   keyboard: false,
-    // });
-    // modalRef.componentInstance.data = item;
-    // modalRef.result.then((result) => {
-    //   this.eSearch();
-    // });
+  eViewDetail(item: any) {
+    console.log('view detail', item);
+    const modalRef = this.modalService.open(ViewDetailImportIncreaseComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl',
+      keyboard: false,
+    });
+    modalRef.componentInstance.data = item;
+    modalRef.result.then((result) => {
+      this.eSearch();
+    });
   }
   transform(value: string) {
     let datePipe = new DatePipe('en-US');
@@ -165,6 +158,7 @@ export class PhatSinhTangComponent implements OnInit {
       this.searchForm.markAllAsTouched();
       return;
     }
+
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
@@ -188,12 +182,8 @@ export class PhatSinhTangComponent implements OnInit {
         assetCode: this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
         contract: this.searchForm.get('contract').value,
-        fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
-        toCreatedDateStr: this.transform(this.searchForm.get('end').value),
-      },
-      dataParams: {
-        currentPage: 1,
-        pageLimit: 1000000,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-bc-increase');
@@ -207,32 +197,6 @@ export class PhatSinhTangComponent implements OnInit {
     this.loadSearchForm();
   }
 
-  displayPopupUpdateRefuse() {
-    // const modalRef = this.modalService.open(UpdateRefuseFileComponent, {
-    //   centered: true,
-    //   backdrop: 'static',
-    //   size: 'xl',
-    // });
-
-    // const requestTarget = {
-    //   loanTransDTO: {
-    //     groupFilter: this.query.groupFilter,
-    //     status: this.searchForm.get('status').value,
-    //     fromDate: this.transform(this.searchForm.get('start').value),
-    //     toDate: this.transform(this.searchForm.get('end').value),
-    //   },
-    //   dataParams: {
-    //     currentPage: 1,
-    //     pageLimit: 1000000,
-    //   },
-    // };
-    // modalRef.componentInstance.data = requestTarget;
-
-    // modalRef.result.then((result) => {
-    //   this.eSearch();
-    // });
-  }
-
   displayFormAdd(item: any, isUpdate, isUpdateFile) {
     const modalRef = this.modalService.open(FormAddEditPhatSinhTangComponent, {
       centered: true,
@@ -242,6 +206,18 @@ export class PhatSinhTangComponent implements OnInit {
     modalRef.componentInstance.item = item;
     modalRef.componentInstance.isUpdate = isUpdate;
     modalRef.componentInstance.isUpdateFile = isUpdateFile;
+    const requestTarget = {
+      userName: this.userName,
+      searchDTO: {
+        groupFilter: this.query.groupFilter,
+        assetCode: this.searchForm.get('assetCode').value,
+        organisation: this.searchForm.get('organisation').value,
+        contract: this.searchForm.get('contract').value,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+      },
+    };
+    modalRef.componentInstance.req = requestTarget;
     modalRef.result.then((result) => {
       this.eSearch();
     });
@@ -304,5 +280,4 @@ export class PhatSinhTangComponent implements OnInit {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
-
 }

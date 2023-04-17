@@ -56,6 +56,7 @@ export class AsideDynamicComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       });
     this.subscriptions.push(routerSubscr);
+    
     // menu load
     const menuSubscr = this.menu.menuConfig$.subscribe((res) => {
       this.menuConfig = res;

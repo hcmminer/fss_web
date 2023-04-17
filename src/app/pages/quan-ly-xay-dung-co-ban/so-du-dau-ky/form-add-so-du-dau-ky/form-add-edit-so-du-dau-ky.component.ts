@@ -110,14 +110,14 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(!this.isUpdate);
-    
+
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
-      this.columnsToDisplay = ['index', 'assetCode', 'laborStr', 'laborTotalStr', 'materialStr', 'materialTotalStr', 'errorMsg'];
+      this.columnsToDisplay = ['index', 'assetCode', 'materialTotalStr', 'materialStr', 'laborTotalStr', 'laborStr', 'errorMsg'];
       this.addType = 'file';
       this.loadAddFileForm()
     } else {
-      this.columnsToDisplay = ['index', 'organisation', 'assetCode', 'contract', 'material', 'labor', 'errorMsg'];
+      this.columnsToDisplay = ['index', 'organisation', 'assetCode', 'contract', 'material', 'labor', 'constructionDateStr', 'errorMsg'];
     }
 
     if (this.isUpdate) {
@@ -288,7 +288,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       (result) => {
         let request = this.conditionAddEdit().subscribe(res => {
           if (res.errorCode === '0') {
-            this.toastrService.success(this.translate.instant('TRANS.STATUS_REFUSE'));
+            this.toastrService.success(this.isUpdate ? this.translate.instant('COMMON.MESSAGE.UPDATE_SUCCESS') : this.translate.instant('COMMON.MESSAGE.CREATE_SUCCESS'));
             this.activeModal.close();
             this.handleClose();
           } else {
@@ -318,7 +318,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   getTemplate() {
     const sub = this.apiGetTemplate().subscribe((res) => {
       if (res.errorCode == '0') {
-        this.toastService.success(this.translate.instant('TOAST.DOWNLOAD_SUCCESS'));
+        this.toastService.success(this.translate.instant('COMMON.MESSAG.DOWNLOAD_SUCCESS'));
         this.spinner.hide();
         const byteCharacters = atob(res.dataExtension);
         const byteNumbers = new Array(byteCharacters.length);
@@ -431,10 +431,9 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   }
 
   eDownloadFileSuccess() {
-    debugger
     const sub = this.openingBalanceService.getSuccessOpeningBalanceFile.subscribe((res) => {
       if (res.errorCode == '0' || res.errorCode == '2') {
-        this.toastService.success(this.translate.instant('TOAST.DOWNLOAD_SUCCESS'));
+        this.toastService.success(this.translate.instant('COMMON.MESSAG.DOWNLOAD_SUCCESS'));
         this.spinner.hide();
         const byteCharacters = atob(res.data);
         const byteNumbers = new Array(byteCharacters.length);
@@ -451,7 +450,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
         link.click();
         document.body.removeChild(link);
       } else if (res.errorCode == '2') {
-        this.toastService.success(this.translate.instant('TOAST.DOWNLOAD_SUCCESS'));
+        this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
         this.spinner.hide();
         const byteCharacters = atob(res.data);
         const byteNumbers = new Array(byteCharacters.length);
@@ -523,10 +522,9 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   }
 
   eDownloadErrFile() {
-    debugger
     const sub = this.openingBalanceService.getErrOpeningBalanceFile.subscribe((res) => {
       if (res.errorCode == '0') {
-        this.toastService.success(this.translate.instant('TOAST.DOWNLOAD_SUCCESS'));
+        this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
         this.spinner.hide();
         const byteCharacters = atob(res.dataExtension);
         const byteNumbers = new Array(byteCharacters.length);
