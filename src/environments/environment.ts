@@ -8,9 +8,9 @@ export const environment = {
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: false,
   // local
-  apiUrl: 'http://localhost:8322/api',
+  // apiUrl: 'http://localhost:8322/api',
   // test
-  // apiUrl: 'http://10.120.44.68:8885/fss/api',
+  apiUrl: 'http://10.120.44.68:8885/fss/api',
   defaultLanguage: 'vi',
 };
 

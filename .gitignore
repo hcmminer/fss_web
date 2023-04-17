@@ -51,5 +51,4 @@ package-lock.json
 .DS_Store
 Thumbs.db
 
-# env
-src\environments\environment.ts
+
