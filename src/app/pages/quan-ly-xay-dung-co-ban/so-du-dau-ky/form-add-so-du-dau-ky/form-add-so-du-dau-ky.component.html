@@ -213,7 +213,8 @@
                             <div class="col-md-3">
                                 <mat-form-field appearance="fill">
                                     <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
-                                        (input)="eInputDate($event)" [disabled]="isUpdate" placeholder="Construction date">
+                                        (input)="eInputDate($event)" [disabled]="isUpdate"
+                                        placeholder="Construction date">
                                     <mat-hint>DD/MM/YYYY</mat-hint>
                                     <mat-datepicker-toggle matIconSuffix [for]="picker"
                                         class="icon-datePicker"></mat-datepicker-toggle>
@@ -352,7 +353,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-8 col-form-label" *ngIf="isHasResult">
+                            <div class="col-md-4 col-form-label" *ngIf="isHasResult">
                                 <span *ngIf="isHasResult" style="color: red; padding-left: 13px;">{{'TOTAL_ERROR' |
                                     translate}}: {{
                                     totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{ totalRecord | number :
@@ -365,7 +366,7 @@
                             <div class="container-fluid mt-4 mb-4" *ngIf="isErrorFile">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <h6 class="form-label">
-                                        {{ 'TRANS.LIST_ERR_FILE' | translate }}
+                                        {{ 'TITLE.LIST_ERR_FILE' | translate }}
                                     </h6>
                                     <div class="" *ngIf="!dataNullErr">
                                         <div (click)="eDownloadErrFile()"
@@ -429,6 +430,14 @@
                                     </th>
                                     <td mat-cell *matCellDef="let item" style="text-align: center">{{
                                         item.labor | number : '1.0-0'}}</td>
+                                </ng-container>constructionDateStr
+                                <!-- Ngày xây dựng -->
+                                <ng-container matColumnDef="constructionDateStr">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
+                                    </th>
+                                    <td mat-cell *matCellDef="let item" style="text-align: center">{{
+                                        item.constructionDateStr}}</td>
                                 </ng-container>
                                 <!-- errorMsg -->
                                 <ng-container matColumnDef="errorMsg">
@@ -497,14 +506,13 @@
                     <br />
                     <form action="#" class="form form-label-right" [formGroup]="addFileForm">
                         <div class="row form-group">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <button class="form-control btn btn-outline-primary mr-5 font-14"
                                     (click)="getTemplate()">
                                     <i class="fas fa-download"></i>{{ 'COMMON_BUTTON.DOWNLOAD_TEMPLATE' | translate }}
                                 </button>
                             </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="input-group">
                                     <button class="btn btn-primary sticky-input-button font-14" type="button"
                                         mat-raised-button (click)="fileInput.click()" style="margin-right: -3px;">
@@ -523,11 +531,7 @@
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4"></div>
-                            <div class="col-md-8 col-form-label" *ngIf="isHasResult">
+                            <div class="col-md-4 col-form-label" *ngIf="isHasResult">
                                 <span *ngIf="isHasResult" style="color: red; padding-left: 13px;">{{'TOTAL_ERROR' |
                                     translate}}: {{
                                     totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{ totalRecord | number :
@@ -540,7 +544,7 @@
                             <div class="container-fluid mt-4 mb-4" *ngIf="isErrorFile">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <h6 class="form-label">
-                                        {{ 'TRANS.LIST_ERR_FILE' | translate }}
+                                        {{ 'TITLE.LIST_ERR_FILE' | translate }}
                                     </h6>
                                     <div class="" *ngIf="!dataNullErr">
                                         <div (click)="eDownloadErrFile()"
@@ -573,13 +577,22 @@
                                         {{item.assetCode}}
                                     </td>
                                 </ng-container>
-                                <!--labor -->
-                                <ng-container matColumnDef="laborStr">
+                                <!--total material -->
+                                <ng-container matColumnDef="materialTotalStr">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.LABOR' | translate }}
+                                        {{ 'LABEL.TOTAL_MATERIAL' | translate }}
                                     </th>
                                     <td mat-cell *matCellDef="let item" style="text-align: right">{{
-                                        item.laborStr}}</td>
+                                        item.materialTotal  | number : '1.0-0'}}</td>
+                                </ng-container>
+
+                                <!-- material -->
+                                <ng-container matColumnDef="materialStr">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        {{ 'LABEL.TOTAL_DESIRED_MATERIAL' | translate }}
+                                    </th>
+                                    <td mat-cell *matCellDef="let item" style="text-align: right">{{
+                                        item.material| number : '1.0-0'}}</td>
                                 </ng-container>
                                 <!--total labor -->
                                 <ng-container matColumnDef="laborTotalStr">
@@ -587,27 +600,17 @@
                                         {{ 'LABEL.TOTAL_LABOR' | translate }}
                                     </th>
                                     <td mat-cell *matCellDef="let item" style="text-align: right">{{
-                                        item.laborTotalStr}}</td>
+                                        item.laborTotal | number : '1.0-0'}}</td>
+                                </ng-container>
+                                <!-- labor -->
+                                <ng-container matColumnDef="laborStr">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        {{ 'LABEL.TOTAL_DESIRED_LABOR' | translate }}
+                                    </th>
+                                    <td mat-cell *matCellDef="let item" style="text-align: right">{{
+                                        item.labor | number : '1.0-0'}}</td>
                                 </ng-container>
 
-                                  <!--material -->
-                                  <ng-container matColumnDef="materialStr">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.MATERIAL' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: right">{{
-                                        item.materialStr}}</td>
-                                </ng-container>
-                                
-                                  <!--total material -->
-                                  <ng-container matColumnDef="materialTotalStr">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.TOTAL_MATERIAL' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: right">{{
-                                        item.materialTotalStr}}</td>
-                                </ng-container>
-                               
                                 <!-- errorMsg -->
                                 <ng-container matColumnDef="errorMsg">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>

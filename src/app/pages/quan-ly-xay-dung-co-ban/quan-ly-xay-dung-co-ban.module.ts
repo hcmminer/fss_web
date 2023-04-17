@@ -34,6 +34,7 @@ import { FormAddEditPhatSinhTangComponent } from './phat-sinh-tang/form-add-edit
 import { FormAddEditPhatSinhGiamComponent } from './phat-sinh-giam/form-add-edit-phat-sinh-giam/form-add-edit-phat-sinh-giam.component';
 import { ReportComponent } from './report/report.component';
 import { ViewDetailOpenBalanceComponent } from './so-du-dau-ky/view-detail-open-balance/view-detail-open-balance.component';
+import { ViewDetailImportIncreaseComponent } from './phat-sinh-tang/view-detail-import-increase/view-detail-import-increase.component';
 
 @NgModule({
   imports: [
@@ -76,6 +77,7 @@ import { ViewDetailOpenBalanceComponent } from './so-du-dau-ky/view-detail-open-
     FormAddEditPhatSinhGiamComponent,
     ReportComponent,
     ViewDetailOpenBalanceComponent,
+    ViewDetailImportIncreaseComponent,
   ],
   exports: [
     PopupMessageComponent,

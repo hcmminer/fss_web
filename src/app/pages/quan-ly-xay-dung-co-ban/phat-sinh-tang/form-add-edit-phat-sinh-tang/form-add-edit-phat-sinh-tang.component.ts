@@ -37,275 +37,325 @@ export const MY_FORMATS = {
   styleUrls: ['./form-add-edit-phat-sinh-tang.component.scss']
 })
 export class FormAddEditPhatSinhTangComponent implements OnInit {
-//biến
-isUpdate;
-isUpdateFile;
-item;
-@Output() closeContent = new EventEmitter<any>();
-@ViewChild('popupMessage') popupMessage: ElementRef;
-@ViewChild('paginator') paginator: MatPaginator;
-@ViewChild(MatSort) sort: MatSort;
-magicButtonUpdate: boolean = false;
-dataSource: MatTableDataSource<any>;
-isErrorFile: boolean = false;
-isHasSuccessFile: boolean = false;
-constructionDateErrorMsg = '';
-valueChange: boolean = false;
-dataNullErr: boolean = false;
-currentPage = 1;
-pageSize;
-resultDesc;
-resultCode: string;
-userName: any;
-addEditForm: FormGroup;
-addFileForm: FormGroup;
-addType: string = 'single';
-addTypeList = [
-  {
-    value: 'single',
-    name: this.translate.instant('LABEL.INPUT_SINGLE'),
-    checked: true,
-  },
-  {
-    value: 'file',
-    name: this.translate.instant('LABEL.UPLOAD_FILE'),
-    checked: false,
-  },
-];
-private subscriptions: Subscription[] = [];
-selectedFile: any = null;
-resultFileData: any = null;
-totalSuccess: number = null;
-totalRecord: number = null;
-isHasResult: boolean = false;
-columnsToDisplay = ['index', 'organisation', 'assetCode', 'contract', 'material', 'labor', 'errorMsg'];
+  //biến
+  req;
+  isUpdate;
+  isUpdateFile;
+  item;
+  @Output() closeContent = new EventEmitter<any>();
+  @ViewChild('popupMessage') popupMessage: ElementRef;
+  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  magicButtonUpdate: boolean = false;
+  dataSource: MatTableDataSource<any>;
+  isErrorFile: boolean = false;
+  isHasSuccessFile: boolean = false;
+  constructionDateErrorMsg = '';
+  valueChange: boolean = false;
+  dataNullErr: boolean = false;
+  currentPage = 1;
+  pageSize;
+  resultDesc;
+  resultCode: string;
+  userName: any;
+  addEditForm: FormGroup;
+  addFileForm: FormGroup;
+  addType: string = 'single';
+  addTypeList = [
+    {
+      value: 'single',
+      name: this.translate.instant('LABEL.INPUT_SINGLE'),
+      checked: true,
+    },
+    {
+      value: 'file',
+      name: this.translate.instant('LABEL.UPLOAD_FILE'),
+      checked: false,
+    },
+  ];
+  private subscriptions: Subscription[] = [];
+  selectedFile: any = null;
+  resultFileData: any = null;
+  totalSuccess: number = null;
+  totalRecord: number = null;
+  isHasResult: boolean = false;
+  columnsToDisplay: any;
 
-//
+  //
 
-constructor(
-  public fb: FormBuilder,
-  private globalService: GlobalService,
-  public modalService: NgbModal,
-  public translate: TranslateService,
-  public toastrService: ToastrService,
-  private activeModal: NgbActiveModal,
-  public spinner: NgxSpinnerService,
-  public openingBalanceService: openingBalanceService,
-  private _liveAnnouncer: LiveAnnouncer,
-  @Inject(Injector) private readonly injector: Injector,
-) {     
-}
-
-ngOnInit(): void {
-  this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
-  this.loadAddForm();
-  console.log(this.item);
-  console.log(this.isUpdate + 'update');
-  if(this.isUpdateFile){
-    this.addType = 'file';
-    this.loadAddFileForm()
+  constructor(
+    public fb: FormBuilder,
+    private globalService: GlobalService,
+    public modalService: NgbModal,
+    public translate: TranslateService,
+    public toastrService: ToastrService,
+    private activeModal: NgbActiveModal,
+    public spinner: NgxSpinnerService,
+    public openingBalanceService: openingBalanceService,
+    private _liveAnnouncer: LiveAnnouncer,
+    @Inject(Injector) private readonly injector: Injector,
+  ) {
   }
-}
 
+  ngOnInit(): void {
+    console.log(!this.isUpdate);
 
-loadAddForm() {
-  this.addEditForm = this.fb.group({
-    organisation: [this.isUpdate ? this.item.organisation : '', [Validators.required]],
-    assetCode: [this.isUpdate ? this.item.assetCode : '', [Validators.required]],
-    contract: [this.isUpdate ? this.item.contract : '', [Validators.required]],
-    constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
-    material: [this.isUpdate ? formatNumber(+this.item.material, 'en-US', '1.0') : '', [Validators.required]],
-    labor: [this.isUpdate ? formatNumber(+this.item.labor, 'en-US', '1.0') : '', [Validators.required]],
-  });
-}
+    this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
+    if (this.isUpdateFile) {
+      this.columnsToDisplay = ['index', 'assetCode', 'materialTotalStr', 'materialStr', 'laborTotalStr', 'laborStr', 'errorMsg'];
+      this.addType = 'file';
+      this.loadAddFileForm()
+    } else {
+      this.columnsToDisplay = ['index', 'organisation', 'assetCode', 'contract', 'material', 'labor', 'constructionDateStr', 'errorMsg'];
+    }
 
-loadAddFileForm() {
-  this.addFileForm = this.fb.group({
-    chonFile: [null, [Validators.required]],
-  });
-}
+    if (this.isUpdate) {
 
-//change page
-onPaginateChange(event) {
-  if (event) {
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
+      this.loadAddForm();
+      let request = this.apiGetSum().subscribe(
+        (res) => {
+          if (res.errorCode == '0') {
+
+            this.addEditForm.get('totalMaterial').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'))
+            this.addEditForm.get('totalLabor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'))
+            this.addEditForm.get('material').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'))
+            this.addEditForm.get('labor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'))
+            console.log(this.addEditForm);
+          } else if (res.errorCode == '1') {
+            this.toastService.error(res.description);
+          } else {
+            this.toastService.error(res.description);
+          }
+        },
+        (error) => {
+          this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
+        },
+      );
+      this.subscriptions.push(request);
+
+    } else {
+      this.loadAddForm();
+    }
   }
-}
 
-//check input date
-eInputDate(event: any) {
-  let value = event.target.value;
-  if (typeof value == 'string' && value == '') {
-    this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
+
+  loadAddForm() {
+    this.addEditForm = this.fb.group({
+      organisation: [this.isUpdate ? this.item.organisation : '', [Validators.required]],
+      assetCode: [this.isUpdate ? this.item.assetCode : '', [Validators.required]],
+      contract: [this.isUpdate ? this.item.contract : '', [Validators.required]],
+      constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
+      material: ['', [Validators.required]],
+      labor: ['', [Validators.required]],
+      totalMaterial: [''],
+      totalLabor: [''],
+    });
   }
-  if (value != '') {
-    this.constructionDateErrorMsg = '';
+
+  loadAddFileForm() {
+    this.addFileForm = this.fb.group({
+      chonFile: [null, [Validators.required]],
+    });
   }
-}
 
-handleClose() {
-  this.closeContent.emit(true);
-}
+  // lấy tổng material và labor
+  apiGetSum() {
+    const req = {
+      userName: this.userName,
+      constructionDTO: {
+        assetCode: this.item.assetCode
+      }
+    }
+    return this.globalService.globalApi(req, 'get-bc-increase-sum-current');
+  }
 
-closeDialog() {
-  this.activeModal.close();
-}
+  //change page
+  onPaginateChange(event) {
+    if (event) {
+      this.currentPage = event.pageIndex;
+      this.pageSize = event.pageSize;
+    }
+  }
 
-openModal(_content) {
-  this.modalService.open(_content, {
-    backdrop: 'static',
-    keyboard: false,
-    size: 'lg',
-    centered: true
-  });
-}
-isValidForm(): boolean {
-  let isValid = true;
-  Object.keys(this.addEditForm.controls).forEach((key) => {
-    const controlErrors: ValidationErrors =
-      this.addEditForm.get(key).errors;
+  //check input date
+  eInputDate(event: any) {
+    let value = event.target.value;
+    if (typeof value == 'string' && value == '') {
+      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
+    }
+    if (value != '') {
+      this.constructionDateErrorMsg = '';
+    }
+  }
 
-    if (controlErrors) {
+  handleClose() {
+    this.closeContent.emit(true);
+  }
+
+  closeDialog() {
+    this.activeModal.close();
+  }
+
+  openModal(_content) {
+    this.modalService.open(_content, {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg',
+      centered: true
+    });
+  }
+  isValidForm(): boolean {
+    let isValid = true;
+    Object.keys(this.addEditForm.controls).forEach((key) => {
+      const controlErrors: ValidationErrors =
+        this.addEditForm.get(key).errors;
+
+      if (controlErrors) {
+        isValid = false;
+      }
+    });
+
+    if (this.constructionDateErrorMsg !== '') {
       isValid = false;
     }
-  });
-
-  if (this.constructionDateErrorMsg !== '') {
-    isValid = false;
+    return isValid;
   }
-  return isValid;
-}
 
-changeState() {
-  if (this.addType == 'single') {
-    this.loadAddForm();
-  } else {
-    this.loadAddFileForm();
-  }
-}
-
-conditionAddEdit() {
-  const requestTarget = {
-    userName: this.userName,
-    constructionDTO: {
-      assetCode: this.addEditForm.get('assetCode').value,
-      organisation: this.addEditForm.get('organisation').value,
-      contract: this.addEditForm.get('contract').value,
-      constructionDateStr: this.transform(this.addEditForm.get('constructionDateStr').value),
-      material: Number(this.addEditForm.get('material').value.replaceAll(',', '')),
-      labor: Number(this.addEditForm.get('labor').value.replaceAll(',', '')),
-    }
-  };
-  if (this.isUpdate) {
-    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'update-bc-opening-single');
-  }
-  return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'add-bc-opening-single');
-}
-
-//thay đổi format date
-transform(value: string) {
-  let datePipe = new DatePipe('en-US');
-  value = datePipe.transform(value, 'dd/MM/yyyy');
-  return value;
-}
-
-//add hoặc edit 
-save() {
-  const modalRef = this.modalService.open(CommonAlertDialogComponent, {
-    centered: true,
-    backdrop: 'static',
-  });
-  modalRef.componentInstance.data = {
-    type: 'WARNING',
-    title: 'COMMON_MODAL.WARNING',
-    message: this.isUpdate ? this.translate.instant('CONFIRM.UPDATE_OPEN_BALANCE') : this.translate.instant('CONFIRM.ADD_OPEN_BALANCE'),
-    continue: true,
-    cancel: true,
-    btn: [
-      { text: this.translate.instant('CANCEL'), className: 'btn-outline-warning btn uppercase mx-2' },
-      { text: this.translate.instant('CONTINUE'), className: 'btn btn-warning uppercase mx-2' },
-    ],
-  };
-  modalRef.result.then(
-    (result) => {
-      let request = this.conditionAddEdit().subscribe(res => {
-        if (res.errorCode === '0') {
-          this.toastrService.success(this.translate.instant('TRANS.STATUS_REFUSE'));
-          this.activeModal.close();
-          this.handleClose();
-        } else {
-          this.toastrService.error(res.description);
-          this.handleClose();
-        }
-      });
-      this.subscriptions.push(request)
-    },
-    (reason) => { },
-  );
-}
-
-
-//theo file
-apiGetTemplate() {
-  const req = {
-    userName: this.userName
-  }
-  return this.globalService.globalApi(req, 'down-template-bc-opening');
-}
-getTemplate() {
-  const sub = this.apiGetTemplate().subscribe((res) => {
-    if (res.errorCode == '0') {
-      this.toastService.success(this.translate.instant('TOAST.DOWNLOAD_SUCCESS'));
-      this.spinner.hide();
-      const byteCharacters = atob(res.dataExtension);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const file = new Blob([byteArray], { type: res.extension });
-      const urlDown = URL.createObjectURL(file);
-      const link = document.createElement('a');
-      link.href = urlDown;
-      link.download = `Template_${timeToName(new Date())}.${res.extension}`; // đặt tên file tải về
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  changeState() {
+    if (this.addType == 'single') {
+      this.loadAddForm();
     } else {
-      this.toastService.error(res.description);
+      this.loadAddFileForm();
     }
-  });
-  this.subscriptions.push(sub);
-}
-
-eUpdateFromFile() {
-  if (!this.isValidFileForm()) {
-    this.addFileForm.markAllAsTouched();
-    return;
   }
-  const modalRef = this.modalService.open(CommonAlertDialogComponent, {
-    centered: true,
-    backdrop: 'static',
-  });
-  modalRef.componentInstance.data = {
-    type: 'WARNING',
-    title: 'MODAL_WARNING',
-    message: this.translate.instant('MESSAGE.CF_UPLOAD_FILE'),
-    continue: true,
-    cancel: true,
-    btn: [
-      {
-        text: 'CANCEL',
-        className: 'btn-outline-warning btn uppercase mx-2',
+
+  conditionAddEdit() {
+    const requestTarget = {
+      userName: this.userName,
+      constructionDTO: {
+        assetCode: this.addEditForm.get('assetCode').value,
+        organisation: this.addEditForm.get('organisation').value,
+        contract: this.addEditForm.get('contract').value,
+        constructionDateStr: this.transform(this.addEditForm.get('constructionDateStr').value),
+        material: Number(this.addEditForm.get('material').value.replaceAll(',', '')),
+        labor: Number(this.addEditForm.get('labor').value.replaceAll(',', '')),
+        materialTotal: Number(this.addEditForm.get('totalMaterial').value.replaceAll(',', '')),
+        laborTotal: Number(this.addEditForm.get('totalLabor').value.replaceAll(',', '')),
+      }
+    };
+    if (this.isUpdate) {
+      return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'update-bc-increase-single');
+    }
+    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'add-bc-increase-single');
+  }
+
+  //thay đổi format date
+  transform(value: string) {
+    let datePipe = new DatePipe('en-US');
+    value = datePipe.transform(value, 'dd/MM/yyyy');
+    return value;
+  }
+
+  //add hoặc edit 
+  save() {
+    const modalRef = this.modalService.open(CommonAlertDialogComponent, {
+      centered: true,
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.data = {
+      type: 'WARNING',
+      title: 'COMMON_MODAL.WARNING',
+      message: this.isUpdate ? this.translate.instant('CONFIRM.UPDATE_IMPORT_INCREASE') : this.translate.instant('CONFIRM.ADD_IMPORT_INCREASE'),
+      continue: true,
+      cancel: true,
+      btn: [
+        { text: this.translate.instant('CANCEL'), className: 'btn-outline-warning btn uppercase mx-2' },
+        { text: this.translate.instant('CONTINUE'), className: 'btn btn-warning uppercase mx-2' },
+      ],
+    };
+    modalRef.result.then(
+      (result) => {
+        let request = this.conditionAddEdit().subscribe(res => {
+          if (res.errorCode === '0') {
+            this.toastrService.success(this.isUpdate ? this.translate.instant('COMMON.MESSAGE.UPDATE_SUCCESS') : this.translate.instant('COMMON.MESSAGE.CREATE_SUCCESS'));
+            this.activeModal.close();
+            this.handleClose();
+          } else {
+            this.toastrService.error(res.description);
+            this.handleClose();
+          }
+        });
+        this.subscriptions.push(request)
       },
-      { text: 'CONTINUE', className: 'btn btn-warning uppercase mx-2' },
-    ],
-  };
-  modalRef.result.then(
-    (result) => {
-      this.isHasResult = false;
-      if (!this.isUpdate) {
+      (reason) => { },
+    );
+  }
+
+
+  //theo file
+  apiGetTemplate() {
+    let req;
+    if (this.isUpdateFile) {
+      req = this.req;
+    } else {
+      req = {
+        userName: this.userName
+      }
+    }
+    return this.globalService.globalApi(req, this.isUpdateFile ? 'down-temp-update-bc-increase' : 'down-template-add-bc-increase');
+  }
+  getTemplate() {
+    const sub = this.apiGetTemplate().subscribe((res) => {
+      if (res.errorCode == '0') {
+        this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
+        this.spinner.hide();
+        const byteCharacters = atob(res.dataExtension);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const file = new Blob([byteArray], { type: res.extension });
+        const urlDown = URL.createObjectURL(file);
+        const link = document.createElement('a');
+        link.href = urlDown;
+        link.download = `Template_${timeToName(new Date())}.${res.extension}`; // đặt tên file tải về
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        this.toastService.error(res.description);
+      }
+    });
+    this.subscriptions.push(sub);
+  }
+
+  eUpdateFromFile() {
+    if (!this.isValidFileForm()) {
+      this.addFileForm.markAllAsTouched();
+      return;
+    }
+    const modalRef = this.modalService.open(CommonAlertDialogComponent, {
+      centered: true,
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.data = {
+      type: 'WARNING',
+      title: 'MODAL_WARNING',
+      message: this.translate.instant('MESSAGE.CF_UPLOAD_FILE'),
+      continue: true,
+      cancel: true,
+      btn: [
+        {
+          text: 'CANCEL',
+          className: 'btn-outline-warning btn uppercase mx-2',
+        },
+        { text: 'CONTINUE', className: 'btn btn-warning uppercase mx-2' },
+      ],
+    };
+    modalRef.result.then(
+      (result) => {
+        this.isHasResult = false;
         this.resultFileData = null;
         const formData: FormData = new FormData();
         formData.append('fileCreateRequest', this.selectedFile);
@@ -314,12 +364,10 @@ eUpdateFromFile() {
             userName: this.userName,
           },
           formData: formData
-          // responseType: 'blob',
-          // observe: 'response',
         };
-        debugger
+
         this.dataSource = new MatTableDataSource([]);
-        let request = this.globalService.globalApi(requestTarget, this.isUpdateFile ? 'update-bc-opening-by-file' :'add-bc-opening-by-file').subscribe(
+        let request = this.globalService.globalApi(requestTarget, this.isUpdateFile ? 'update-bc-increase-by-file' : 'add-bc-increase-by-file').subscribe(
           (res) => {
             if (res.errorCode == '0') {
               this.toastService.success(this.translate.instant('MESSAGE.UPLOAD_FILE_SC'));
@@ -356,227 +404,226 @@ eUpdateFromFile() {
           },
         );
         this.subscriptions.push(request);
-      }
-    },
-    (reason) => { },
-  );
-}
-
-
-//confirm file 
-apiCofirmUpdateByFile() {
-  const req = {
-    userName: this.userName,
-    listConstructionDTO: this.openingBalanceService.errOpeningBalanceList.value,
-  };
-  return this.globalService.globalApi(req, this.isUpdateFile ? 'confirm-add-bc-opening-by-file' : 'confirm-update-bc-opening-by-file');
-}
-
-eDownloadFileSuccess() {
-  const sub = this.openingBalanceService.getSuccessOpeningBalanceFile.subscribe((res) => {
-    if (res.errorCode == '0' || res.errorCode == '2') {
-      this.toastService.success(this.translate.instant('TOAST.DOWNLOAD_SUCCESS'));
-      this.spinner.hide();
-      const byteCharacters = atob(res.data);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const file = new Blob([byteArray], { type: res.extension });
-      const urlDown = URL.createObjectURL(file);
-      const link = document.createElement('a');
-      link.href = urlDown;
-      link.download = `file_success_${timeToName(new Date())}.${res.extension}`; // đặt tên file tải về
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else if (res.errorCode == '2') {
-      this.toastService.success(this.translate.instant('TOAST.DOWNLOAD_SUCCESS'));
-      this.spinner.hide();
-      const byteCharacters = atob(res.data);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const file = new Blob([byteArray], { type: res.extension });
-      const urlDown = URL.createObjectURL(file);
-      const link = document.createElement('a');
-      link.href = urlDown;
-      link.download = `file_success_${timeToName(new Date())}.${res.extension}`; // đặt tên file tải về
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      this.toastService.error(res.description);
-    }
-  });
-  this.subscriptions.push(sub);
-}
-
-eCofirmUpdateByFile() {
-  const modalRef = this.modalService.open(CommonAlertDialogComponent, {
-    centered: true,
-    backdrop: 'static',
-  });
-  modalRef.componentInstance.data = {
-    type: 'WARNING',
-    title: 'MODAL_WARNING',
-    message: this.isUpdateFile ? this.translate.instant('MESSAGE.CF_UPDATE_OP_BL_BY_FILE') : this.translate.instant('MESSAGE.CF_ADD_OP_BL_BY_FILE'),
-    continue: true,
-    cancel: true,
-    btn: [
-      {
-        text: 'CANCEL',
-        className: 'btn-outline-warning btn uppercase mx-2',
       },
-      { text: 'CONTINUE', className: 'btn btn-warning uppercase mx-2' },
-    ],
-  };
-  modalRef.result.then(
-    (result) => {
-      if (this.openingBalanceService.errOpeningBalanceList.value.find((item) => item.errorMsg == '')) {
-        const sub = this.apiCofirmUpdateByFile().subscribe((res) => {
-          if (res.errorCode == '0') {
-            this.isHasSuccessFile = true;
-            this.openingBalanceService.getSuccessOpeningBalanceFile.next(res);
-            this.resultDesc = res.description;
-            this.resultCode = 'success';
-            this.toastService.success(this.isUpdateFile ? this.translate.instant('MESSAGE.UPDATE_OP_BL_FROM_FILE_SC') : this.translate.instant('ADD_OP_BL_FROM_FILE_SC'));
-          } else if (res.errorCode == '2') {
-            this.resultDesc = res.description;
-            this.resultCode = 'warning';
-            this.isHasSuccessFile = true;
-            this.openingBalanceService.getSuccessOpeningBalanceFile.next(res);
-            this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_OP_BL_FROM_FILE_SC'));
-          } else {
-            this.isHasSuccessFile = false;
-            this.openingBalanceService.getSuccessOpeningBalanceFile.next(null);
-            this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
-          }
-        });
-        this.subscriptions.push(sub);
-      }
-    },
-    (reason) => { },
-  );
-}
-
-eDownloadErrFile() {
-  const sub = this.openingBalanceService.getSuccessOpeningBalanceFile.subscribe((res) => {
-    if (res.errorCode == '0') {
-      this.toastService.success(this.translate.instant('TOAST.DOWNLOAD_SUCCESS'));
-      this.spinner.hide();
-      const byteCharacters = atob(res.dataResult);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const file = new Blob([byteArray], { type: res.extension });
-      const urlDown = URL.createObjectURL(file);
-      const link = document.createElement('a');
-      link.href = urlDown;
-      link.download = `file_error_${timeToName(new Date())}.${res.extension}`; // đặt tên file tải về
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      this.toastService.error(res.description);
-    }
-  });
-  this.subscriptions.push(sub);
-}
-
-onFileSelected(event: any): void {
-  console.log(event);
-  this.validateFile(event);
-  this.selectedFile = event.target.files[0] ?? null;
-  this.resultFileData = null;
-}
-
-validateFile(event: any) {
-  let file = event.target.files[0];
-
-  //check định dạng
-  let allowedType: string[] = ['xls', 'xlsx'];
-  let fileExtension: string = file.name.substring(file.name.lastIndexOf('.') + 1);
-  if (!allowedType.includes(fileExtension)) {
-    this.toastService.error(
-      this.translate.instant('VALIDATION.FILE_INVALID_EXTENSION', {
-        0: '.xls, .xlsx',
-      }),
+      (reason) => { },
     );
-    return;
   }
-  //check dung luong
-  if (file.size > MAX_FILE_SIZE_TEMPLATE) {
-    this.toastService.error(this.translate.instant('VALIDATION.FILE_MAX_SIZE', { 0: 10 }));
-    return;
+
+
+  //confirm file 
+  apiCofirmUpdateByFile() {
+    const req = {
+      userName: this.userName,
+      listConstructionDTO: this.openingBalanceService.errOpeningBalanceList.value,
+    };
+    return this.globalService.globalApi(req, this.isUpdateFile ? 'confirm-update-bc-increase-by-file' : 'confirm-add-bc-increase-by-file');
   }
-  // // check up trung file
-  // if(file){
-  //   file.name === null ? this.flag = true : this.flag = false;
-  // }
 
-  // this.fileNameTemplate = file.name;
-  // this.file = file;
-}
+  eDownloadFileSuccess() {
+    const sub = this.openingBalanceService.getSuccessOpeningBalanceFile.subscribe((res) => {
+      if (res.errorCode == '0' || res.errorCode == '2') {
+        this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
+        this.spinner.hide();
+        const byteCharacters = atob(res.data);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const file = new Blob([byteArray], { type: res.extension });
+        const urlDown = URL.createObjectURL(file);
+        const link = document.createElement('a');
+        link.href = urlDown;
+        link.download = `file_success_${timeToName(new Date())}.${res.extension}`; // đặt tên file tải về
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else if (res.errorCode == '2') {
+        this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
+        this.spinner.hide();
+        const byteCharacters = atob(res.data);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const file = new Blob([byteArray], { type: res.extension });
+        const urlDown = URL.createObjectURL(file);
+        const link = document.createElement('a');
+        link.href = urlDown;
+        link.download = `file_success_${timeToName(new Date())}.${res.extension}`; // đặt tên file tải về
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        this.toastService.error(res.description);
+      }
+    });
+    this.subscriptions.push(sub);
+  }
 
-isValidFileForm(): boolean {
-  let isValid = true;
-  Object.keys(this.addFileForm.controls).forEach((key) => {
-    const controlErrors: ValidationErrors = this.addFileForm.get(key).errors;
+  eCofirmUpdateByFile() {
+    const modalRef = this.modalService.open(CommonAlertDialogComponent, {
+      centered: true,
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.data = {
+      type: 'WARNING',
+      title: 'MODAL_WARNING',
+      message: this.isUpdateFile ? this.translate.instant('MESSAGE.CF_UPDATE_IM_INCREASE_BY_FILE') : this.translate.instant('MESSAGE.CF_ADD_IM_INCREASE_BY_FILE'),
+      continue: true,
+      cancel: true,
+      btn: [
+        {
+          text: 'CANCEL',
+          className: 'btn-outline-warning btn uppercase mx-2',
+        },
+        { text: 'CONTINUE', className: 'btn btn-warning uppercase mx-2' },
+      ],
+    };
+    modalRef.result.then(
+      (result) => {
+        if (this.openingBalanceService.errOpeningBalanceList.value.find((item) => item.errorMsg == '')) {
+          const sub = this.apiCofirmUpdateByFile().subscribe((res) => {
+            if (res.errorCode == '0') {
+              this.isHasSuccessFile = true;
+              this.openingBalanceService.getSuccessOpeningBalanceFile.next(res);
+              this.resultDesc = res.description;
+              this.resultCode = 'success';
+              this.toastService.success(this.isUpdateFile ? this.translate.instant('MESSAGE.UPDATE_IM_INCREASE_FROM_FILE_SC') : this.translate.instant('ADD_IM_INCREASE_FROM_FILE_SC'));
+            } else if (res.errorCode == '3') {
+              this.resultDesc = res.description;
+              this.resultCode = 'warning';
+              this.isHasSuccessFile = true;
+              this.openingBalanceService.getSuccessOpeningBalanceFile.next(res);
+              this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_IM_INCREASE_FROM_FILE_SC'));
+            } else {
+              this.isHasSuccessFile = false;
+              this.openingBalanceService.getSuccessOpeningBalanceFile.next(null);
+              this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
+            }
+          });
+          this.subscriptions.push(sub);
+        }
+      },
+      (reason) => { },
+    );
+  }
 
-    if (controlErrors) {
-      isValid = false;
+  eDownloadErrFile() {
+    const sub = this.openingBalanceService.getErrOpeningBalanceFile.subscribe((res) => {
+      if (res.errorCode == '0') {
+        this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
+        this.spinner.hide();
+        const byteCharacters = atob(res.dataExtension);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const file = new Blob([byteArray], { type: res.extension });
+        const urlDown = URL.createObjectURL(file);
+        const link = document.createElement('a');
+        link.href = urlDown;
+        link.download = `file_error_${timeToName(new Date())}.${res.extension}`; // đặt tên file tải về
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        this.toastService.error(res.description);
+      }
+    });
+    this.subscriptions.push(sub);
+  }
+
+  onFileSelected(event: any): void {
+    console.log(event);
+    this.validateFile(event);
+    this.selectedFile = event.target.files[0] ?? null;
+    this.resultFileData = null;
+  }
+
+  validateFile(event: any) {
+    let file = event.target.files[0];
+
+    //check định dạng
+    let allowedType: string[] = ['xls', 'xlsx'];
+    let fileExtension: string = file.name.substring(file.name.lastIndexOf('.') + 1);
+    if (!allowedType.includes(fileExtension)) {
+      this.toastService.error(
+        this.translate.instant('VALIDATION.FILE_INVALID_EXTENSION', {
+          0: '.xls, .xlsx',
+        }),
+      );
+      return;
     }
-  });
+    //check dung luong
+    if (file.size > MAX_FILE_SIZE_TEMPLATE) {
+      this.toastService.error(this.translate.instant('VALIDATION.FILE_MAX_SIZE', { 0: 10 }));
+      return;
+    }
+    // // check up trung file
+    // if(file){
+    //   file.name === null ? this.flag = true : this.flag = false;
+    // }
 
-  return isValid;
-}
-
-//check number
-isNumber(amountApproved: any) {
-  return Number(amountApproved);
-}
-
-announceSortChange(sortState: Sort) {
-  if (sortState.direction) {
-    this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-  } else {
-    this._liveAnnouncer.announce('Sorting cleared');
+    // this.fileNameTemplate = file.name;
+    // this.file = file;
   }
-}
 
-eCloseAndReRender() {
-  this.activeModal.close();
-}
+  isValidFileForm(): boolean {
+    let isValid = true;
+    Object.keys(this.addFileForm.controls).forEach((key) => {
+      const controlErrors: ValidationErrors = this.addFileForm.get(key).errors;
 
-onFileResset(event: any): void {
-  event.target.value = null;
-}
+      if (controlErrors) {
+        isValid = false;
+      }
+    });
 
-eCloseWithoutEdit() {
-  this.activeModal.close();
-}
+    return isValid;
+  }
 
-isControlInvalidFile(controlName: string): boolean {
-  const control = this.addFileForm.controls[controlName];
-  return control.invalid && (control.dirty || control.touched);
-}
+  //check number
+  isNumber(amountApproved: any) {
+    return Number(amountApproved);
+  }
 
-controlHasErrorFile(validation, controlName): boolean {
-  const control = this.addFileForm.controls[controlName];
-  return control.hasError(validation) && (control.dirty || control.touched);
-}
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
 
-public get toastService() {
-  return this.injector.get(ToastrService);
-}
+  eCloseAndReRender() {
+    this.activeModal.close();
+  }
 
-ngOnDestroy(): void {
-  this.subscriptions.forEach((sb) => sb.unsubscribe());
-}
+  onFileResset(event: any): void {
+    event.target.value = null;
+  }
+
+  eCloseWithoutEdit() {
+    this.activeModal.close();
+  }
+
+  isControlInvalidFile(controlName: string): boolean {
+    const control = this.addFileForm.controls[controlName];
+    return control.invalid && (control.dirty || control.touched);
+  }
+
+  controlHasErrorFile(validation, controlName): boolean {
+    const control = this.addFileForm.controls[controlName];
+    return control.hasError(validation) && (control.dirty || control.touched);
+  }
+
+  public get toastService() {
+    return this.injector.get(ToastrService);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sb) => sb.unsubscribe());
+  }
 }

@@ -270,7 +270,7 @@ save() {
     (result) => {
       let request = this.conditionAddEdit().subscribe(res => {
         if (res.errorCode === '0') {
-          this.toastrService.success(this.translate.instant('TRANS.STATUS_REFUSE'));
+          this.toastrService.success(this.isUpdate ? this.translate.instant('COMMON.MESSAGE.UPDATE_SUCCESS') : this.translate.instant('COMMON.MESSAGE.CREATE_SUCCESS'));
           this.activeModal.close();
           this.handleClose();
         } else {
