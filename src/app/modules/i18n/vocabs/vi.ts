@@ -9,6 +9,7 @@ export const locale = {
     CREATED_BY: 'Người tạo',
     LAST_UPDATED_DATETIME: 'Ngày cập nhật',
     LAST_UPDATED_BY: 'Người cập nhật',
+
     FUNCTION: {
       ADD: 'Thêm mới',
       SUCCSESS_ADD: 'Thêm mới thành công',
@@ -39,8 +40,13 @@ export const locale = {
     'OPENING-BALANCE': {
       TITLE: 'Số dư đầu kỳ',
     },
-    'import-increase':'Phát sinh tăng',
-     
+    'import-increase': 'Phát sinh tăng',
+
+    //hunglm
+    TOTAL_ERROR: 'Tổng lỗi',
+    RECORD: 'Bản ghi',
+    DATA_NUL_ERR: '-> File rỗng !',
+    DOWNLOAD_ERR_FILE: 'Tải file lỗi',
     LABEL: {
       // Quản lý phiếu công tác
       USER: 'Tên đăng nhập',
@@ -145,19 +151,19 @@ export const locale = {
       UPLOAD_FILE: 'Upload file',
 
       //Số dư đầu kỳ
-      ORGANISATION: 'Tổ chức',
+      ORGANISATION: 'Đơn vị',
       ASSETCODE: 'Mã tài sản',
       CONTRACT: 'Hợp đồng',
       LABOR: 'Nhân công',
-      MATERIAL: 'Vật liệu',
-      CONSTRUCTION_DATE: 'Ngày xây dựng',
+      MATERIAL: 'Vật tư',
+      CONSTRUCTION_DATE: 'Ngày nhập liệu',
       CREATED_DATE: 'Ngày tạo',
       ADD_OPEN_BALANCE: 'Thêm mới số dư đầu kỳ',
       LIST_OPEN_BALANCE: 'Danh sách số dư đầu kỳ',
       ERROR_MSG: 'Thông tin lỗi',
-      TOTAL_MATERIAL: 'Vật liệu hiện tại',
+      TOTAL_MATERIAL: 'Vật tư hiện tại',
       TOTAL_LABOR: 'Nhân công hiện tại',
-      TOTAL_DESIRED_MATERIAL: 'Vật liệu mong muốn',
+      TOTAL_DESIRED_MATERIAL: 'Vật tư mong muốn',
       TOTAL_DESIRED_LABOR: 'Nhân công mong muốn',
       EDIT_OPEN_BALANCE_FILE: 'Cập nhật số dư đầu kỳ theo file',
 
@@ -165,7 +171,14 @@ export const locale = {
       ADD_IMPORT_INCREASE: 'Thêm mới phát sinh tăng',
       EDIT_IMPORT_INCREASE_FILE: 'Cập nhật phát sinh tăng theo file',
       LIST_IMPORT_INCREASE: 'Danh sách phát sinh tăng',
-      PER_PAGE_LABEL: 'Số bản ghi/trang'
+      PER_PAGE_LABEL: 'Số bản ghi/trang',
+
+      //phát sinh giảm
+      DEPRECIATIONFRAME: 'Khung khấu hao',
+      TYPE_OF_ASSET_ACCOUNT: 'Tài khoản',
+      TYPE_OF_ASSET_NAME: 'Tên loại tài sản',
+      TYPE_OF_ASSET_CODE: 'Mã loại tài sản',
+      TYPE_OF_ASSET: 'Loại tài sản'
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -390,7 +403,15 @@ export const locale = {
 
       //Số dư đầu kỳ
       UPDATE_OPEN_BALANCE: 'Bạn có muốn cập nhật số dư đầu kỳ này không',
-      ADD_OPEN_BALANCE: 'Bạn có muốn thêm mới số dư đầu kỳ này không'
+      ADD_OPEN_BALANCE: 'Bạn có muốn thêm mới số dư đầu kỳ này không',
+
+      //phát sinh tăng
+      UPDATE_IMPORT_INCREASE: 'Bạn có muốn cập nhật phát sinh tăng này không',
+      ADD_IMPORT_INCREASE: 'Bạn có muốn thêm mới phát sinh tăng này không',
+
+      //phát sinh giảm
+      UPDATE_DECREASE: 'Bạn có muốn cập nhật phát sinh giảm này không',
+      ADD_DECREASE: 'Bạn có muốn thêm mới phát sinh giảm này không',
     },
     TOOLTIP: {
       REFUSE: 'Từ chối',
@@ -574,7 +595,7 @@ export const locale = {
     DEFAULT_OPTION: {
       SELECT: '--Chọn--',
       ALL: '--Tất cả--',
-    }, 
+    },
     COMMON: {
       INDEX: 'STT',
       VALID_FROM_FATE: 'Ngày hiệu lực',

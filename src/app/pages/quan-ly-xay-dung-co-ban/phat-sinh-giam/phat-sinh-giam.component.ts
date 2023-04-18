@@ -14,8 +14,10 @@ import { CONFIG } from 'src/app/utils/constants';
 import { DatePipe } from '@angular/common';
 import { RequestApiModelOld } from '../../_models/requestOld-api.model';
 import { FormAddEditPhatSinhGiamComponent } from './form-add-edit-phat-sinh-giam/form-add-edit-phat-sinh-giam.component';
+import { DetailBcDecreaseComponent } from './detail-bc-decrease/detail-bc-decrease.component';
 
 const queryInit = {
+  typeOfAssetCode: '',
   groupFilter: '',
   organisation: '',
   assetCode: '',
@@ -63,26 +65,18 @@ export class PhatSinhGiamComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('paginatorDetail') paginatorDetail: MatPaginator;
   @ViewChild('updateRefuse') updateRefuse: ElementRef;
   searchForm: FormGroup;
 
   @ViewChild('formSearch') formSearch: ElementRef;
-  isShowUpdate = new BehaviorSubject<boolean>(false);
-  isShowOffStation = new BehaviorSubject<boolean>(false);
   startDateErrorMsg = '';
   endDateErrorMsg = '';
-  startDateLoTrinhErrorMsg = '';
-  endDateLoTrinhErrorMsg = '';
   isLoading$ = false;
   userRes: any;
   userName: string;
   staffId: number;
   isAdmin: any;
-  isHandlingLoTrinhCongTac = false;
   selectedTabIndex = 0;
-  typeActionVoffice: number;
-  currentLoTrinhPage = 0;
   private modal: any;
   query = {
     ...queryInit,
@@ -90,11 +84,15 @@ export class PhatSinhGiamComponent implements OnInit {
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
     'index',
+    'organisation',
     'assetCode',
     'contract',
     'labor',
     'material',
-    'organisation',
+    'depreciationFrame',
+    'typeOfAssetAccount',
+    'typeOfAssetCode',
+    'typeOfAssetName',
     'constructionDateStr',
     'createdDatetimeStr',
     'action'
@@ -114,11 +112,21 @@ export class PhatSinhGiamComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.query.assetCode = this.translate.instant('DEFAULT_OPTION.SELECT')
     this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.isAdmin = this.userRes.isAdmin;
+    this.initCombobox();
     this.eSearch();
+    
+  }
+
+  //init cbx assetCode 
+  initCombobox() {
+    let reqGetListStatus = {userName: this.userName };
+    this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease', true);
+    this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
   }
 
   eInputDate(event: any, typeDate: string) {
@@ -140,21 +148,22 @@ export class PhatSinhGiamComponent implements OnInit {
       contract: [this.query.contract],
       start: [this.query.startDate],
       end: [this.query.endDate],
+      typeOfAssetCode: [this.query.typeOfAssetCode]
     });
   }
 
-  eViewTran(item: any) {
-    // console.log('eViewTran', item);
-    // const modalRef = this.modalService.open(ViewAppraisalComponent, {
-    //   centered: true,
-    //   backdrop: 'static',
-    //   size: 'xl',
-    //   keyboard: false,
-    // });
-    // modalRef.componentInstance.data = item;
-    // modalRef.result.then((result) => {
-    //   this.eSearch();
-    // });
+  eViewDetail(item: any) {
+    console.log('view detail', item);
+    const modalRef = this.modalService.open(DetailBcDecreaseComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl',
+      keyboard: false,
+    });
+    modalRef.componentInstance.data = item;
+    modalRef.result.then((result) => {
+      this.eSearch();
+    });
   }
   transform(value: string) {
     let datePipe = new DatePipe('en-US');
@@ -166,16 +175,17 @@ export class PhatSinhGiamComponent implements OnInit {
       this.searchForm.markAllAsTouched();
       return;
     }
+
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
-        this.openingBalanceService.listOpeningBalance.next(res.data);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listOpeningBalance.value);
+        this.openingBalanceService.listBcDecrease.next(res.data);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listBcDecrease.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.openingBalanceService.listOpeningBalance.next([]);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listOpeningBalance.value);
+        this.openingBalanceService.listBcDecrease.next([]);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listBcDecrease.value);
       }
     });
     this.subscriptions.push(rq);
@@ -184,20 +194,17 @@ export class PhatSinhGiamComponent implements OnInit {
   conditionSearch() {
     const requestTarget = {
       userName: this.userName,
-      loanTransDTO: {
+      searchDTO: {
         groupFilter: this.query.groupFilter,
-        assetCode: this.searchForm.get('assetCode').value,
+        assetCode: this.query.assetCode == this.translate.instant('DEFAULT_OPTION.SELECT') ? '' :  this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
-        contract: this.searchForm.get('contract').value,
-        fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
-        toCreatedDateStr: this.transform(this.searchForm.get('end').value),
-      },
-      dataParams: {
-        currentPage: 1,
-        pageLimit: 1000000,
+        typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+
       },
     };
-    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-bc-opening');
+    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-bc-decrease');
   }
 
   eResetForm() {
@@ -206,32 +213,6 @@ export class PhatSinhGiamComponent implements OnInit {
     };
     this.startDateErrorMsg = '';
     this.loadSearchForm();
-  }
-
-  displayPopupUpdateRefuse() {
-    // const modalRef = this.modalService.open(UpdateRefuseFileComponent, {
-    //   centered: true,
-    //   backdrop: 'static',
-    //   size: 'xl',
-    // });
-
-    // const requestTarget = {
-    //   loanTransDTO: {
-    //     groupFilter: this.query.groupFilter,
-    //     status: this.searchForm.get('status').value,
-    //     fromDate: this.transform(this.searchForm.get('start').value),
-    //     toDate: this.transform(this.searchForm.get('end').value),
-    //   },
-    //   dataParams: {
-    //     currentPage: 1,
-    //     pageLimit: 1000000,
-    //   },
-    // };
-    // modalRef.componentInstance.data = requestTarget;
-
-    // modalRef.result.then((result) => {
-    //   this.eSearch();
-    // });
   }
 
   displayFormAdd(item: any, isUpdate, isUpdateFile) {
@@ -243,6 +224,18 @@ export class PhatSinhGiamComponent implements OnInit {
     modalRef.componentInstance.item = item;
     modalRef.componentInstance.isUpdate = isUpdate;
     modalRef.componentInstance.isUpdateFile = isUpdateFile;
+    const requestTarget = {
+      userName: this.userName,
+      searchDTO: {
+        groupFilter: this.query.groupFilter,
+        assetCode: this.query.assetCode == this.translate.instant('DEFAULT_OPTION.SELECT') ? '' :  this.searchForm.get('assetCode').value,
+        organisation: this.searchForm.get('organisation').value,
+        typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+      },
+    };
+    modalRef.componentInstance.req = requestTarget;
     modalRef.result.then((result) => {
       this.eSearch();
     });
@@ -305,6 +298,4 @@ export class PhatSinhGiamComponent implements OnInit {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
-
-
 }

@@ -113,7 +113,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
 
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
-      this.columnsToDisplay = ['index', 'assetCode', 'materialTotalStr', 'materialStr', 'laborTotalStr', 'laborStr', 'errorMsg'];
+      this.columnsToDisplay = ['index', 'assetCode', 'materialTotalStr', 'materialStr', 'laborTotalStr', 'laborStr', 'constructionDateStr','errorMsg'];
       this.addType = 'file';
       this.loadAddFileForm()
     } else {
@@ -318,7 +318,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   getTemplate() {
     const sub = this.apiGetTemplate().subscribe((res) => {
       if (res.errorCode == '0') {
-        this.toastService.success(this.translate.instant('COMMON.MESSAG.DOWNLOAD_SUCCESS'));
+        this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
         this.spinner.hide();
         const byteCharacters = atob(res.dataExtension);
         const byteNumbers = new Array(byteCharacters.length);

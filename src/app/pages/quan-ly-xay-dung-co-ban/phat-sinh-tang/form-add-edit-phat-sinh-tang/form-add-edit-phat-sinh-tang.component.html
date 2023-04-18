@@ -213,7 +213,7 @@
                             <div class="col-md-3">
                                 <mat-form-field appearance="fill">
                                     <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
-                                        (input)="eInputDate($event)" [disabled]="isUpdate" placeholder="Construction date">
+                                        (input)="eInputDate($event)" placeholder="Construction date">
                                     <mat-hint>DD/MM/YYYY</mat-hint>
                                     <mat-datepicker-toggle matIconSuffix [for]="picker"
                                         class="icon-datePicker"></mat-datepicker-toggle>
@@ -298,7 +298,8 @@
                 </div>
             </form>
         </div>
-        <div></div>
+
+        <!-- add file -->
         <div *ngIf="addType == 'file' && !isUpdateFile">
             <div class="p-4 m-10 border border-success rounded-card" *ngIf="isHasSuccessFile">
                 <div class="text-center text-success font-14">
@@ -373,7 +374,7 @@
                                             style="height: 38px; padding: 7px 16px; margin: auto">
                                             <img
                                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABZ0lEQVR4nM2VP0vEMBjGg38QXRx0OThOed/eXd+I000u3qdQ8VZFcBB0OtEmucFN3Fz8DLrdLPgNXAURcREHcRCXmypprw6VtE3M4AuBkr55fsnTkocFB8EMSbwhASMuMTYOgc9ttbTMbCuMcLdQWKbizhASOCgDUNID/fHzy6pqgncAY4w5QWwAThBbgDXEBZCD/HpnDeCW8CqA1/pRfZYi3ExF4JIpNkEC7n0B4lDAYVd1p7TPK6cB8gh6Pk8Qk8S3jqrNkWqud/Y60yTg0SsghcC+7uEStn1/A+37SFvTUq3F8KRRIwlfY8Ghvr8KRatZBBdsg02SwFttERdwVmnHVQAk8SM8DhdI4lYyF0EP+jDPJbxngGydq0UPJPGKBDyZPP8rIC86zPvuGzAwrSsHyGCn/EqAc92rw+YnfPLDFEZJZAq4Lo5M+AwFrhkhrnFqKq6gkf0A1glXtdr6JBLuvO78X9Y3YXnm03g1hWUAAAAASUVORK5CYII=" />
-                                            {{ 'TRANS.DOWNLOAD' | translate }}
+                                            {{ 'DOWNLOAD_ERR_FILE' | translate }}
                                         </div>
                                     </div>
                                 </div>
@@ -475,7 +476,7 @@
             </div>
 
         </div>
-
+        <!-- edit file -->
         <div *ngIf="addType == 'file' && isUpdateFile">
             <div class="p-4 m-10 border border-success rounded-card" *ngIf="isHasSuccessFile">
                 <div class="text-center text-success font-14">
@@ -551,7 +552,7 @@
                                             style="height: 38px; padding: 7px 16px; margin: auto">
                                             <img
                                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABZ0lEQVR4nM2VP0vEMBjGg38QXRx0OThOed/eXd+I000u3qdQ8VZFcBB0OtEmucFN3Fz8DLrdLPgNXAURcREHcRCXmypprw6VtE3M4AuBkr55fsnTkocFB8EMSbwhASMuMTYOgc9ttbTMbCuMcLdQWKbizhASOCgDUNID/fHzy6pqgncAY4w5QWwAThBbgDXEBZCD/HpnDeCW8CqA1/pRfZYi3ExF4JIpNkEC7n0B4lDAYVd1p7TPK6cB8gh6Pk8Qk8S3jqrNkWqud/Y60yTg0SsghcC+7uEStn1/A+37SFvTUq3F8KRRIwlfY8Ghvr8KRatZBBdsg02SwFttERdwVmnHVQAk8SM8DhdI4lYyF0EP+jDPJbxngGydq0UPJPGKBDyZPP8rIC86zPvuGzAwrSsHyGCn/EqAc92rw+YnfPLDFEZJZAq4Lo5M+AwFrhkhrnFqKq6gkf0A1glXtdr6JBLuvO78X9Y3YXnm03g1hWUAAAAASUVORK5CYII=" />
-                                            {{ 'TRANS.DOWNLOAD' | translate }}
+                                            {{ 'DOWNLOAD_ERR_FILE' | translate }}
                                         </div>
                                     </div>
                                 </div>
@@ -582,7 +583,7 @@
                                         {{ 'LABEL.TOTAL_MATERIAL' | translate }}
                                     </th>
                                     <td mat-cell *matCellDef="let item" style="text-align: right">{{
-                                        item.materialTotal  | number : '1.0-0'}}</td>
+                                        item.materialTotal | number : '1.0-0'}}</td>
                                 </ng-container>
 
                                 <!-- material -->
@@ -609,7 +610,14 @@
                                     <td mat-cell *matCellDef="let item" style="text-align: right">{{
                                         item.labor | number : '1.0-0'}}</td>
                                 </ng-container>
-
+                                <!-- Ngày xây dựng -->
+                                <ng-container matColumnDef="constructionDateStr">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
+                                    </th>
+                                    <td mat-cell *matCellDef="let item" style="text-align: center">{{
+                                        item.constructionDateStr}}</td>
+                                </ng-container>
                                 <!-- errorMsg -->
                                 <ng-container matColumnDef="errorMsg">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>

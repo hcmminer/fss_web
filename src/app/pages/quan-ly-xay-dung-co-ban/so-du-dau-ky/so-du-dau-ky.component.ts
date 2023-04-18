@@ -19,8 +19,6 @@ import { ViewDetailOpenBalanceComponent } from './view-detail-open-balance/view-
 const queryInit = {
   groupFilter: '',
   organisation: '',
-  assetCode: '',
-  contract: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
   endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
@@ -82,11 +80,11 @@ export class SoDuDauKyComponent implements OnInit {
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
     'index',
+    'organisation',
     'assetCode',
     'contract',
     'labor',
     'material',
-    'organisation',
     'constructionDateStr',
     'createdDatetimeStr',
     'action'
@@ -128,8 +126,6 @@ export class SoDuDauKyComponent implements OnInit {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
-      assetCode: [this.query.assetCode],
-      contract: [this.query.contract],
       start: [this.query.startDate],
       end: [this.query.endDate],
     });
@@ -179,9 +175,7 @@ export class SoDuDauKyComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        assetCode: this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
-        contract: this.searchForm.get('contract').value,
         fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
         toConstructionDateStr: this.transform(this.searchForm.get('end').value),
       },
@@ -210,9 +204,7 @@ export class SoDuDauKyComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        assetCode: this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
-        contract: this.searchForm.get('contract').value,
         fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
         toConstructionDateStr: this.transform(this.searchForm.get('end').value),
       },

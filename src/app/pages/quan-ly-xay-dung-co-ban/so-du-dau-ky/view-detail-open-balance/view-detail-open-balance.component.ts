@@ -35,13 +35,13 @@ export class ViewDetailOpenBalanceComponent implements OnInit {
   // required
   columnsToDisplay = [
     'index',
-    'assetCode',
-    'constructionDateStr',
+    'organisation',
     'contract',
-    'createdDatetimeStr',
+    'assetCode',
     'labor',
     'material',
-    'organisation',
+    'constructionDateStr',
+    'createdDatetimeStr',
   ];
 
   constructor(

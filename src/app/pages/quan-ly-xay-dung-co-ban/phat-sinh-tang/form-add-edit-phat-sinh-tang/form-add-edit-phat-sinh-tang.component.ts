@@ -102,7 +102,7 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
 
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
-      this.columnsToDisplay = ['index', 'assetCode', 'materialTotalStr', 'materialStr', 'laborTotalStr', 'laborStr', 'errorMsg'];
+      this.columnsToDisplay = ['index', 'assetCode', 'materialTotalStr', 'materialStr', 'laborTotalStr', 'laborStr','constructionDateStr' ,'errorMsg'];
       this.addType = 'file';
       this.loadAddFileForm()
     } else {
@@ -264,7 +264,7 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     });
     modalRef.componentInstance.data = {
       type: 'WARNING',
-      title: 'COMMON_MODAL.WARNING',
+      title: 'COMMON_MODAL.WARNING',  
       message: this.isUpdate ? this.translate.instant('CONFIRM.UPDATE_IMPORT_INCREASE') : this.translate.instant('CONFIRM.ADD_IMPORT_INCREASE'),
       continue: true,
       cancel: true,
@@ -331,6 +331,7 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
   }
 
   eUpdateFromFile() {
+    debugger
     if (!this.isValidFileForm()) {
       this.addFileForm.markAllAsTouched();
       return;
@@ -371,8 +372,8 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
           (res) => {
             if (res.errorCode == '0') {
               this.toastService.success(this.translate.instant('MESSAGE.UPLOAD_FILE_SC'));
-              this.openingBalanceService.errOpeningBalanceList.next(res.data);
-              this.dataSource = new MatTableDataSource(this.openingBalanceService.errOpeningBalanceList.value);
+              this.openingBalanceService.errImportIncreaseList.next(res.data);
+              this.dataSource = new MatTableDataSource(this.openingBalanceService.errImportIncreaseList.value);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
               let isError = res.data.find((item) => item.errorMsg != '');
@@ -380,10 +381,10 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
               this.totalRecord = res.data.length;
               this.isHasResult = true;
               if (isError) {
-                this.openingBalanceService.getErrOpeningBalanceFile.next(res);
+                this.openingBalanceService.getErrImportIncreaseFile.next(res);
                 this.isErrorFile = true;
               } else {
-                this.openingBalanceService.getErrOpeningBalanceFile.next(null);
+                this.openingBalanceService.getErrImportIncreaseFile.next(null);
                 this.isErrorFile = false;
               }
               this.magicButtonUpdate = isError ? false : true;
@@ -414,13 +415,13 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
   apiCofirmUpdateByFile() {
     const req = {
       userName: this.userName,
-      listConstructionDTO: this.openingBalanceService.errOpeningBalanceList.value,
+      listConstructionDTO: this.openingBalanceService.errImportIncreaseList.value,
     };
     return this.globalService.globalApi(req, this.isUpdateFile ? 'confirm-update-bc-increase-by-file' : 'confirm-add-bc-increase-by-file');
   }
 
   eDownloadFileSuccess() {
-    const sub = this.openingBalanceService.getSuccessOpeningBalanceFile.subscribe((res) => {
+    const sub = this.openingBalanceService.getSuccessImportIncreaseFile.subscribe((res) => {
       if (res.errorCode == '0' || res.errorCode == '2') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
         this.spinner.hide();
@@ -483,11 +484,11 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     };
     modalRef.result.then(
       (result) => {
-        if (this.openingBalanceService.errOpeningBalanceList.value.find((item) => item.errorMsg == '')) {
+        if (this.openingBalanceService.errImportIncreaseList.value.find((item) => item.errorMsg == '')) {
           const sub = this.apiCofirmUpdateByFile().subscribe((res) => {
             if (res.errorCode == '0') {
               this.isHasSuccessFile = true;
-              this.openingBalanceService.getSuccessOpeningBalanceFile.next(res);
+              this.openingBalanceService.getSuccessImportIncreaseFile.next(res);
               this.resultDesc = res.description;
               this.resultCode = 'success';
               this.toastService.success(this.isUpdateFile ? this.translate.instant('MESSAGE.UPDATE_IM_INCREASE_FROM_FILE_SC') : this.translate.instant('ADD_IM_INCREASE_FROM_FILE_SC'));
@@ -495,11 +496,11 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
               this.resultDesc = res.description;
               this.resultCode = 'warning';
               this.isHasSuccessFile = true;
-              this.openingBalanceService.getSuccessOpeningBalanceFile.next(res);
+              this.openingBalanceService.getSuccessImportIncreaseFile.next(res);
               this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_IM_INCREASE_FROM_FILE_SC'));
             } else {
               this.isHasSuccessFile = false;
-              this.openingBalanceService.getSuccessOpeningBalanceFile.next(null);
+              this.openingBalanceService.getSuccessImportIncreaseFile.next(null);
               this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
             }
           });
@@ -511,7 +512,7 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
   }
 
   eDownloadErrFile() {
-    const sub = this.openingBalanceService.getErrOpeningBalanceFile.subscribe((res) => {
+    const sub = this.openingBalanceService.getErrImportIncreaseFile.subscribe((res) => {
       if (res.errorCode == '0') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
         this.spinner.hide();

@@ -114,14 +114,14 @@
             <div class="d-flex">
                 <div
                 (click)="displayFormAdd(null, null, false)"
-                class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center"
+                class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
                 style="height: 38px"
               >
                 {{ 'LABEL.ADD_OPEN_BALANCE' | translate }}
               </div>
               <div
                 (click)="displayFormAdd(null, null, true)"
-                class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center"
+                class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
                 style="height: 38px"
               >
                 <img
@@ -218,7 +218,7 @@
                     <div style="min-width: 100px">
                       <div>
                         <i (click)="displayFormAdd(item, true, false); $event.stopPropagation()" data-toggle="tooltip"
-                          data-placement="top" [title]="'ACTION.REFUSE' | translate"
+                          data-placement="top" [title]="'ACTION.EDIT' | translate"
                           class="fas fa-edit fa-lg p-0 text-warning text-hover-danger cursor-pointer"></i>
                       </div>
                     </div>

@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -14,11 +14,12 @@ import { GlobalService } from 'src/app/pages/_services/global.service';
 import { CONFIG } from 'src/app/utils/constants';
 
 @Component({
-  selector: 'app-view-detail-import-increase',
-  templateUrl: './view-detail-import-increase.component.html',
-  styleUrls: ['./view-detail-import-increase.component.scss']
+  selector: 'app-detail-bc-decrease',
+  templateUrl: './detail-bc-decrease.component.html',
+  styleUrls: ['./detail-bc-decrease.component.scss']
 })
-export class ViewDetailImportIncreaseComponent implements OnInit {
+export class DetailBcDecreaseComponent implements OnInit {
+
   data;
   currentPage = 1;
   pageSize;
@@ -68,7 +69,7 @@ export class ViewDetailImportIncreaseComponent implements OnInit {
     }
     };
     const subCall = this.globalService
-      .globalApi(reqTar, 'get-detail-bc-increase')
+      .globalApi(reqTar, 'get-detail-bc-decrease')
       .subscribe((res) => {
         this.isLoading$ = false;
         if (res.errorCode == '0') {

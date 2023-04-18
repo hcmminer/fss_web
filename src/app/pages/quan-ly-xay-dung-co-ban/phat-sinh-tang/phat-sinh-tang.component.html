@@ -19,14 +19,15 @@
             <div class="col-md-1"></div>
             <div class="col-md-10">
               <div class="row">
-                <label class="col-md-2 form-label col-form-label font-14" for="lastUpdateDatetime"
-                  >{{ 'LABEL.CONSTRUCTION_DATE' | translate }} <span style="color: red">*</span></label
-                >
+                <label class="col-md-2 form-label col-form-label font-14" for="lastUpdateDatetime">{{
+                  'LABEL.CONSTRUCTION_DATE' | translate }} <span style="color: red">*</span></label>
                 <div class="col-md-3">
                   <mat-form-field appearance="fill">
                     <mat-date-range-input [rangePicker]="picker">
-                      <input matStartDate formControlName="start" (input)="eInputDate($event, 'start')" placeholder="Start date" />
-                      <input matEndDate formControlName="end" (input)="eInputDate($event, 'end')" placeholder="End date" />
+                      <input matStartDate formControlName="start" (input)="eInputDate($event, 'start')"
+                        placeholder="Start date" />
+                      <input matEndDate formControlName="end" (input)="eInputDate($event, 'end')"
+                        placeholder="End date" />
                     </mat-date-range-input>
                     <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
                     <mat-date-range-picker #picker></mat-date-range-picker>
@@ -35,67 +36,38 @@
                   </mat-form-field>
                 </div>
                 <div class="col-md-2"></div>
-                <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{ 'LABEL.ORGANISATION' | translate }}</label>
+                <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{ 'LABEL.ORGANISATION' |
+                  translate }}</label>
                 <div class="col-md-3">
-                  <select class="form-control font-14" name="organisation" id="organisation" formControlName="organisation" [(ngModel)]="query.organisation">
+                  <select class="form-control font-14" name="organisation" id="organisation"
+                    formControlName="organisation" [(ngModel)]="query.organisation">
                     <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation| async">
-                      <option  [value]="item.code">
+                      <option [value]="item.code">
                         {{ item.name }}
                       </option>
                     </ng-container>
                   </select>
                 </div>
               </div>
-              <div class="row">
-                  <label class="col-md-2 form-label col-form-label font-14" for="assetCode"
-                    >{{ 'LABEL.ASSETCODE' | translate }}</label
-                  >
-                  <div class="col-md-3">
-                      <input
-                      type="text"
-                      name="assetCode"
-                      id="assetCode"
-                      class="form-control"
-                      formControlName="assetCode"
-                      maxlength="100"
-                  />
-                  </div>
-                  <div class="col-md-2"></div>
-                  <label class="col-md-2 form-label col-form-label font-14" for="contract">{{ 'LABEL.CONTRACT' | translate }}</label>
-                  <div class="col-md-3">
-                      <input
-                      type="text"
-                      name="contract"
-                      id="contract"
-                      class="form-control"
-                      formControlName="contract"
-                      maxlength="100"
-                  />
-                  </div>
-                </div>
             </div>
             <div class="col-md-1"></div>
           </div>
 
           <div class="form-group pb-0 mt-5">
             <div class="d-flex justify-content-center">
-              <div
-                (click)="eSearch()"
+              <div (click)="eSearch()"
                 class="mx-3 px-8 btn btn-primary font-weight-bolder d-flex align-items-center justify-content-around"
-                style="height: 38px"
-              >
+                style="height: 38px">
                 <i class="mr-2 fas fa-search cursor-pointer"></i>
                 {{ 'ACTION.SEARCH' | translate }}
               </div>
 
-              <div
-              (click)="eResetForm()"
-              class="mx-3 px-8 btn btn-outline-primary font-weight-bolder d-flex align-items-center justify-content-around"
-              style="height: 38px"
-            >
-              <i class="mr-2 fas fa-redo cursor-pointer"></i>
-              {{ 'COMMON_BUTTON.RESET' | translate }}
-            </div>
+              <div (click)="eResetForm()"
+                class="mx-3 px-8 btn btn-outline-primary font-weight-bolder d-flex align-items-center justify-content-around"
+                style="height: 38px">
+                <i class="mr-2 fas fa-redo cursor-pointer"></i>
+                {{ 'COMMON_BUTTON.RESET' | translate }}
+              </div>
             </div>
           </div>
         </form>
@@ -112,22 +84,16 @@
           </div>
           <!-- hành động bảng -->
           <div class="d-flex">
-              <div
-              (click)="displayFormAdd(null, null, false)"
-              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center"
-              style="height: 38px"
-            >
+            <div (click)="displayFormAdd(null, null, false)"
+              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
+              style="height: 38px">
               {{ 'LABEL.ADD_IMPORT_INCREASE' | translate }}
             </div>
-            <div
-              (click)="displayFormAdd(null, null, true)"
-              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center"
-              style="height: 38px"
-            >
-              <img
-                class="pr-2"
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABAklEQVR4nGNgoDcw77UpJxr32yuQbIFFn81/YnDK8vT/NhMdH5n02SjRxIIJhyb/335z53+7SU6kWUKKBS++viTdElIteEGqJeRY8AJhyQOqWWCBA49a8J8mQbT6wtr/998++O82zet/3trC/08+PP3fsL2JehaEL4j+//vv7/9zT8z/f+HJRbAFthMdqRvJay6s+//rz6//IFC5uZr6qahiUzXYcJBPPKb7UNcC6wn2/+++uff/9us7/7/9+v5/7YX11LWge28f2PWF60r+Lzuz4v/ff3//Ry+Ko54Fkw9O/T/j6Cww22uG3/9Fp5b8L99UNZqTbYZuYddBCSZoAbUBANu81uCxSVXLAAAAAElFTkSuQmCC"
-              />
+            <div (click)="displayFormAdd(null, null, true)"
+              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
+              style="height: 38px">
+              <img class="pr-2"
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABAklEQVR4nGNgoDcw77UpJxr32yuQbIFFn81/YnDK8vT/NhMdH5n02SjRxIIJhyb/335z53+7SU6kWUKKBS++viTdElIteEGqJeRY8AJhyQOqWWCBA49a8J8mQbT6wtr/998++O82zet/3trC/08+PP3fsL2JehaEL4j+//vv7/9zT8z/f+HJRbAFthMdqRvJay6s+//rz6//IFC5uZr6qahiUzXYcJBPPKb7UNcC6wn2/+++uff/9us7/7/9+v5/7YX11LWge28f2PWF60r+Lzuz4v/ff3//Ry+Ko54Fkw9O/T/j6Cww22uG3/9Fp5b8L99UNZqTbYZuYddBCSZoAbUBANu81uCxSVXLAAAAAElFTkSuQmCC" />
               {{ 'LABEL.EDIT_IMPORT_INCREASE_FILE' | translate }}
             </div>
           </div>
@@ -135,7 +101,8 @@
       </div>
       <div class="">
         <mat-form-field appearance="standard">
-          <mat-label class="font-14"> <i class="fas fa-search"></i> {{ 'TITLE.SEARCH_ADVANCE' | translate }} </mat-label>
+          <mat-label class="font-14"> <i class="fas fa-search"></i> {{ 'TITLE.SEARCH_ADVANCE' | translate }}
+          </mat-label>
           <!-- @ -->
           <input class="border-bottom-danger" [(ngModel)]="query.groupFilter" matInput #autoFocus />
         </mat-form-field>
@@ -199,15 +166,15 @@
                   {{ item.constructionDateStr}}
                 </td>
               </ng-container>
-            <!-- constructionDateStr  -->
-            <ng-container matColumnDef="createdDatetimeStr">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ 'LABEL.CREATED_DATE' | translate }}
-              </th>
-              <td mat-cell *matCellDef="let item" style="text-align: center">
-                {{ item.constructionDateStr}}
-              </td>
-            </ng-container>
+              <!-- createdDatetimeStr  -->
+              <ng-container matColumnDef="createdDatetimeStr">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.CREATED_DATE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: center">
+                  {{ item.createdDatetimeStr}}
+                </td>
+              </ng-container>
 
               <!-- action -->
               <ng-container matColumnDef="action">
@@ -218,19 +185,15 @@
                   <div style="min-width: 100px; display: flex;">
                     <div>
                       <i (click)="displayFormAdd(item, true, false); $event.stopPropagation()" data-toggle="tooltip"
-                        data-placement="top" [title]="'ACTION.REFUSE' | translate"
+                        data-placement="top" [title]="'ACTION.EDIT' | translate"
                         class="fas fa-edit fa-lg p-0 text-warning text-hover-danger cursor-pointer"></i>
-                    </div>
-                    <div>
-                      <i (click)="eViewDetail(item); $event.stopPropagation()" data-toggle="tooltip"
-                        data-placement="top" [title]="'ACTION.REFUSE' | translate"
-                        class="fas fa-eye fa-lg p-0 text-warning text-hover-danger cursor-pointer"></i>
                     </div>
                   </div>
                 </td>
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-              <tr mat-row *matRowDef="let element; columns: columnsToDisplay" class="example-element-row zindex-5" (click)="eViewDetail(element)"></tr>
+              <tr mat-row *matRowDef="let element; columns: columnsToDisplay" class="example-element-row zindex-5"
+                (click)="eViewDetail(element)"></tr>
               <!-- Row shown when there is no matching data. -->
               <tr class="mat-row" *matNoDataRow>
                 <td class="mat-cell" colspan="15">
@@ -238,14 +201,9 @@
                 </td>
               </tr>
             </table>
-            <mat-paginator
-              #paginator
-              (page)="onPaginateChange($event)"
-              [pageSize]="20"
-              [pageSizeOptions]="[10, 20, 25, 30, 50]"
-              showFirstLastButtons
-              aria-label="Select page of results"
-            ></mat-paginator>
+            <mat-paginator #paginator (page)="onPaginateChange($event)" [pageSize]="20"
+              [pageSizeOptions]="[10, 20, 25, 30, 50]" showFirstLastButtons
+              aria-label="Select page of results"></mat-paginator>
           </div>
         </div>
       </div>
@@ -253,5 +211,6 @@
     <!-- end: trans -->
   </div>
   <div class="pb-1"></div>
-  <ngx-spinner bdColor="rgba(0,0,0,0)" size="default" color="#1dc5be" type="ball-clip-rotate" [fullScreen]="true"></ngx-spinner>
+  <ngx-spinner bdColor="rgba(0,0,0,0)" size="default" color="#1dc5be" type="ball-clip-rotate"
+    [fullScreen]="true"></ngx-spinner>
 </div>

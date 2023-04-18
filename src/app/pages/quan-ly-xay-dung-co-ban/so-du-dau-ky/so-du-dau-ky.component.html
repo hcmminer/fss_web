@@ -46,33 +46,6 @@
                     </select>
                   </div>
                 </div>
-                <div class="row">
-                    <label class="col-md-2 form-label col-form-label font-14" for="assetCode"
-                      >{{ 'LABEL.ASSETCODE' | translate }}</label
-                    >
-                    <div class="col-md-3">
-                        <input
-                        type="text"
-                        name="assetCode"
-                        id="assetCode"
-                        class="form-control"
-                        formControlName="assetCode"
-                        maxlength="100"
-                    />
-                    </div>
-                    <div class="col-md-2"></div>
-                    <label class="col-md-2 form-label col-form-label font-14" for="contract">{{ 'LABEL.CONTRACT' | translate }}</label>
-                    <div class="col-md-3">
-                        <input
-                        type="text"
-                        name="contract"
-                        id="contract"
-                        class="form-control"
-                        formControlName="contract"
-                        maxlength="100"
-                    />
-                    </div>
-                  </div>
               </div>
               <div class="col-md-1"></div>
             </div>
@@ -114,14 +87,14 @@
             <div class="d-flex">
                 <div
                 (click)="displayFormAdd(null, null, false)"
-                class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center"
+                class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
                 style="height: 38px"
               >
                 {{ 'LABEL.ADD_OPEN_BALANCE' | translate }}
               </div>
               <div
                 (click)="displayFormAdd(null, null, true)"
-                class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center"
+                class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
                 style="height: 38px"
               >
                 <img
@@ -199,13 +172,13 @@
                     {{ item.constructionDateStr}}
                   </td>
                 </ng-container>
-              <!-- constructionDateStr  -->
+              <!-- createdDatetimeStr  -->
               <ng-container matColumnDef="createdDatetimeStr">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   {{ 'LABEL.CREATED_DATE' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: center">
-                  {{ item.constructionDateStr}}
+                  {{ item.createdDatetimeStr}}
                 </td>
               </ng-container>
 
@@ -218,13 +191,8 @@
                     <div style="min-width: 100px; display: flex;">
                       <div>
                         <i (click)="displayFormAdd(item, true, false); $event.stopPropagation()" data-toggle="tooltip"
-                          data-placement="top" [title]="'ACTION.REFUSE' | translate"
+                          data-placement="top" [title]="'ACTION.EDIT' | translate"
                           class="fas fa-edit fa-lg p-0 text-warning text-hover-danger cursor-pointer"></i>
-                      </div>
-                      <div>
-                        <i (click)="eViewDetail(item); $event.stopPropagation()" data-toggle="tooltip"
-                          data-placement="top" [title]="'ACTION.REFUSE' | translate"
-                          class="fas fa-eye fa-lg p-0 text-warning text-hover-danger cursor-pointer"></i>
                       </div>
                     </div>
                   </td>
