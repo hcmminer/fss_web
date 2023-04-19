@@ -4,7 +4,8 @@ export const locale = {
   data: {
     // bandv >>
     'asset-manage': 'Quản lý tài sản',
-    'type-of-asset': 'Loại khấu hao',
+    'type-of-asset': 'Loại khấu hao', 
+    'transfer-to-asset': 'Phát sinh giảm',
     CREATED_DATETIME: 'Ngày tạo',
     CREATED_BY: 'Người tạo',
     LAST_UPDATED_DATETIME: 'Ngày cập nhật',
@@ -178,7 +179,10 @@ export const locale = {
       TYPE_OF_ASSET_ACCOUNT: 'Tài khoản',
       TYPE_OF_ASSET_NAME: 'Tên loại tài sản',
       TYPE_OF_ASSET_CODE: 'Mã loại tài sản',
-      TYPE_OF_ASSET: 'Loại tài sản'
+      TYPE_OF_ASSET: 'Loại tài sản',
+      ADD_DECREASE: 'Thêm mới phát sinh giảm',
+      EDIT_DECREASE_FILE: 'Cập nhật phát sinh giảm theo file',
+      LIST_DECREASE: 'Danh sách phát sinh giảm',
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -242,6 +246,11 @@ export const locale = {
       IMPORT_INCREASE: 'Phát sinh tăng',
       ADD_IMPORT_INCREASE: 'Thêm mới phát sinh tăng',
       UPDATE_IMPORT_INCREASE: 'Cập nhật phát sinh tăng',
+
+      //Phát sinh giảm
+      DECREASE: 'Phát sinh giảm',
+      ADD_DECREASE: 'Thêm mới phát sinh giảm',
+      UPDATE_DECREASE: 'Cập nhật phát sinh giảm',
 
       LIST_ERR_FILE: 'Danh sách file lỗi'
     },
@@ -350,6 +359,12 @@ export const locale = {
       CF_UPDATE_IM_INCREASE_BY_FILE: "Bạn có chắc chắn muốn cập nhật phát tinh tăng theo file không",
       UPDATE_IM_INCREASE_FROM_FILE_SC: "Cập nhật phát sinh tăng theo file thành công",
       ADD_IM_INCREASE_FROM_FILE_SC: "Thêm phát sinh tăng theo file thành công",
+
+      //phát sinh tăng
+      CF_ADD_DECREASE_BY_FILE: "Bạn có chắc chắn muốn thêm phát sinh giảm theo file không",
+      CF_UPDATE_DECREASE_BY_FILE: "Bạn có chắc chắn muốn cập nhật phát tinh giảm theo file không",
+      UPDATE_DECREASE_FROM_FILE_SC: "Cập nhật phát sinh giảm theo file thành công",
+      ADD_DECREASE_FROM_FILE_SC: "Thêm phát sinh giảm theo file thành công",
 
     },
     CONFIRM: {

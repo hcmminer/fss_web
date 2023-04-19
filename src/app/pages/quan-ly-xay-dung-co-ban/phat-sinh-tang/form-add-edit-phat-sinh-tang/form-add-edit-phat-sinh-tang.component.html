@@ -421,7 +421,8 @@
                                         {{ 'LABEL.MATERIAL' | translate }}
                                     </th>
                                     <td mat-cell *matCellDef="let item" style="text-align: center">{{
-                                        item.material | number : '1.0-0'}}</td>
+                                        item.material != null ? (item.material | number : '1.0-0') : item.materialStr}}
+                                    </td>
                                 </ng-container>
                                 <!-- nhân công -->
                                 <ng-container matColumnDef="labor">
@@ -429,7 +430,7 @@
                                         {{ 'LABEL.LABOR' | translate }}
                                     </th>
                                     <td mat-cell *matCellDef="let item" style="text-align: center">{{
-                                        item.labor | number : '1.0-0'}}</td>
+                                        item.labor != null ? (item.labor | number : '1.0-0') : item.laborStr}}</td>
                                 </ng-container>constructionDateStr
                                 <!-- Ngày xây dựng -->
                                 <ng-container matColumnDef="constructionDateStr">
@@ -577,13 +578,13 @@
                                         {{item.assetCode}}
                                     </td>
                                 </ng-container>
-                                <!--total material -->
-                                <ng-container matColumnDef="materialTotalStr">
+                                 <!--total material -->
+                                 <ng-container matColumnDef="materialTotalStr">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                         {{ 'LABEL.TOTAL_MATERIAL' | translate }}
                                     </th>
                                     <td mat-cell *matCellDef="let item" style="text-align: right">{{
-                                        item.materialTotal | number : '1.0-0'}}</td>
+                                        item.materialTotal != null ? (item.materialTotal | number : '1.0-0') : item.materialTotalStr}}</td>
                                 </ng-container>
 
                                 <!-- material -->
@@ -592,7 +593,7 @@
                                         {{ 'LABEL.TOTAL_DESIRED_MATERIAL' | translate }}
                                     </th>
                                     <td mat-cell *matCellDef="let item" style="text-align: right">{{
-                                        item.material| number : '1.0-0'}}</td>
+                                        item.material != null ? (item.material | number : '1.0-0') : item.materialStr}}</td>
                                 </ng-container>
                                 <!--total labor -->
                                 <ng-container matColumnDef="laborTotalStr">
@@ -600,7 +601,7 @@
                                         {{ 'LABEL.TOTAL_LABOR' | translate }}
                                     </th>
                                     <td mat-cell *matCellDef="let item" style="text-align: right">{{
-                                        item.laborTotal | number : '1.0-0'}}</td>
+                                        item.laborTotal != null ? (item.laborTotal | number : '1.0-0') : item.laborTotalStr}}</td>
                                 </ng-container>
                                 <!-- labor -->
                                 <ng-container matColumnDef="laborStr">
@@ -608,7 +609,7 @@
                                         {{ 'LABEL.TOTAL_DESIRED_LABOR' | translate }}
                                     </th>
                                     <td mat-cell *matCellDef="let item" style="text-align: right">{{
-                                        item.labor | number : '1.0-0'}}</td>
+                                        item.labor != null ? (item.labor | number : '1.0-0') : item.laborStr}}</td>
                                 </ng-container>
                                 <!-- Ngày xây dựng -->
                                 <ng-container matColumnDef="constructionDateStr">

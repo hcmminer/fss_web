@@ -302,7 +302,7 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
         userName: this.userName
       }
     }
-    return this.globalService.globalApi(req, this.isUpdateFile ? 'down-temp-update-bc-increase' : 'down-temp-add-bc-decrease');
+    return this.globalService.globalApi(req, this.isUpdateFile ? 'down-temp-update-bc-decrease' : 'down-temp-add-bc-decrease');
   }
   getTemplate() {
     const sub = this.apiGetTemplate().subscribe((res) => {
@@ -470,7 +470,7 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
     modalRef.componentInstance.data = {
       type: 'WARNING',
       title: 'MODAL_WARNING',
-      message: this.isUpdateFile ? this.translate.instant('MESSAGE.CF_UPDATE_IM_INCREASE_BY_FILE') : this.translate.instant('MESSAGE.CF_ADD_IM_INCREASE_BY_FILE'),
+      message: this.isUpdateFile ? this.translate.instant('MESSAGE.CF_UPDATE_DECREASE_BY_FILE') : this.translate.instant('MESSAGE.CF_ADD_DECREASE_BY_FILE'),
       continue: true,
       cancel: true,
       btn: [
@@ -490,13 +490,13 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
               this.openingBalanceService.getSuccessBcDecreaseFile.next(res);
               this.resultDesc = res.description;
               this.resultCode = 'success';
-              this.toastService.success(this.isUpdateFile ? this.translate.instant('MESSAGE.UPDATE_IM_INCREASE_FROM_FILE_SC') : this.translate.instant('ADD_IM_INCREASE_FROM_FILE_SC'));
+              this.toastService.success(this.isUpdateFile ? this.translate.instant('MESSAGE.UPDATE_DECREASE_FROM_FILE_SC') : this.translate.instant('MESSAGE.ADD_DECREASE_FROM_FILE_SC'));
             } else if (res.errorCode == '3') {
               this.resultDesc = res.description;
               this.resultCode = 'warning';
               this.isHasSuccessFile = true;
               this.openingBalanceService.getSuccessBcDecreaseFile.next(res);
-              this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_IM_INCREASE_FROM_FILE_SC'));
+              this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_DECREASE_FROM_FILE_SC'));
             } else {
               this.isHasSuccessFile = false;
               this.openingBalanceService.getSuccessBcDecreaseFile.next(null);
@@ -541,6 +541,10 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
     this.validateFile(event);
     this.selectedFile = event.target.files[0] ?? null;
     this.resultFileData = null;
+    this.magicButtonUpdate = false;
+    this.totalRecord = 0;
+    this.dataSource = new MatTableDataSource([]);
+    this.isHasResult =  false;
   }
 
   validateFile(event: any) {

@@ -552,6 +552,10 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     this.validateFile(event);
     this.selectedFile = event.target.files[0] ?? null;
     this.resultFileData = null;
+    this.magicButtonUpdate = false;
+    this.totalRecord = 0;
+    this.dataSource = new MatTableDataSource([]);
+    this.isHasResult =  false;
   }
 
   validateFile(event: any) {

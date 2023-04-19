@@ -40,7 +40,7 @@
                     <select class="form-control font-14" name="organisation" id="organisation" formControlName="organisation" [(ngModel)]="query.organisation">
                       <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation| async">
                         <option  [value]="item.code">
-                          {{ item.name }}
+                          <span *ngIf="item.code != ''">{{ item.code }} -</span> {{ item.name }}
                         </option>
                       </ng-container>
                     </select>

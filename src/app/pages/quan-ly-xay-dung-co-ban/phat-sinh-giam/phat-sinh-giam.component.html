@@ -2,7 +2,7 @@
   <div class="py-5">
     <div class="col-md-2 col-sm-12 col-12 col-lg-12">
       <div class="label-card">
-        <label class="form-label title-screen text-uppercase">{{ 'TITLE.OPEN_BALANCE' | translate }}</label>
+        <label class="form-label title-screen text-uppercase">{{ 'TITLE.DECREASE' | translate }}</label>
       </div>
     </div>
   </div>
@@ -13,7 +13,7 @@
         <form action="#" class="form form-label-right" [formGroup]="searchForm">
           <div class="font-weight-bolder mb-12" style="font-size: 1.275rem">
             {{ 'BUTTON.SEARCH' | translate }}
-            {{ 'TITLE.OPEN_BALANCE' | translate | lowercase }}
+            {{ 'TITLE.DECREASE' | translate | lowercase }}
           </div>
           <div class="row form-group">
             <div class="col-md-1"></div>
@@ -43,7 +43,7 @@
                     formControlName="organisation" [(ngModel)]="query.organisation">
                     <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation| async">
                       <option [value]="item.code">
-                        {{ item.name }}
+                       <span *ngIf="item.code != ''">{{ item.code }} -</span>  {{ item.name }}
                       </option>
                     </ng-container>
                   </select>
@@ -70,7 +70,7 @@
                     formControlName="typeOfAssetCode" [(ngModel)]="query.typeOfAssetCode">
                     <ng-container *ngFor="let item of openingBalanceService.cbxTypeOfAsset| async">
                       <option [value]="item.code">
-                        {{ item.name }}
+                     {{ item.name }}
                       </option>
                     </ng-container>
                   </select>
@@ -106,7 +106,7 @@
           <!-- tiêu đề bảng -->
           <div>
             <span class="" style="font-weight: 600; font-size: 1.275rem">
-              {{ 'LABEL.LIST_IMPORT_INCREASE' | translate }}
+              {{ 'LABEL.LIST_DECREASE' | translate }}
             </span>
           </div>
           <!-- hành động bảng -->
@@ -114,14 +114,14 @@
             <div (click)="displayFormAdd(null, null, false)"
               class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
               style="height: 38px">
-              {{ 'LABEL.ADD_IMPORT_INCREASE' | translate }}
+              {{ 'LABEL.ADD_DECREASE' | translate }}
             </div>
             <div (click)="displayFormAdd(null, null, true)"
               class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
               style="height: 38px">
               <img class="pr-2"
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABAklEQVR4nGNgoDcw77UpJxr32yuQbIFFn81/YnDK8vT/NhMdH5n02SjRxIIJhyb/335z53+7SU6kWUKKBS++viTdElIteEGqJeRY8AJhyQOqWWCBA49a8J8mQbT6wtr/998++O82zet/3trC/08+PP3fsL2JehaEL4j+//vv7/9zT8z/f+HJRbAFthMdqRvJay6s+//rz6//IFC5uZr6qahiUzXYcJBPPKb7UNcC6wn2/+++uff/9us7/7/9+v5/7YX11LWge28f2PWF60r+Lzuz4v/ff3//Ry+Ko54Fkw9O/T/j6Cww22uG3/9Fp5b8L99UNZqTbYZuYddBCSZoAbUBANu81uCxSVXLAAAAAElFTkSuQmCC" />
-              {{ 'LABEL.EDIT_IMPORT_INCREASE_FILE' | translate }}
+              {{ 'LABEL.EDIT_DECREASE_FILE' | translate }}
             </div>
           </div>
         </div>
