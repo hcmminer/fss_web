@@ -32,10 +32,10 @@ import { PhatSinhTangComponent } from './phat-sinh-tang/phat-sinh-tang.component
 import { PhatSinhGiamComponent } from './phat-sinh-giam/phat-sinh-giam.component';
 import { FormAddEditPhatSinhTangComponent } from './phat-sinh-tang/form-add-edit-phat-sinh-tang/form-add-edit-phat-sinh-tang.component';
 import { FormAddEditPhatSinhGiamComponent } from './phat-sinh-giam/form-add-edit-phat-sinh-giam/form-add-edit-phat-sinh-giam.component';
-import { ReportComponent } from './report/report.component';
 import { ViewDetailOpenBalanceComponent } from './so-du-dau-ky/view-detail-open-balance/view-detail-open-balance.component';
 import { ViewDetailImportIncreaseComponent } from './phat-sinh-tang/view-detail-import-increase/view-detail-import-increase.component';
 import { DetailBcDecreaseComponent } from './phat-sinh-giam/detail-bc-decrease/detail-bc-decrease.component';
+import { ReportComponent } from './report/report.component';
 
 @NgModule({
   imports: [
@@ -76,10 +76,10 @@ import { DetailBcDecreaseComponent } from './phat-sinh-giam/detail-bc-decrease/d
     PhatSinhGiamComponent,
     FormAddEditPhatSinhTangComponent,
     FormAddEditPhatSinhGiamComponent,
-    ReportComponent,
     ViewDetailOpenBalanceComponent,
     ViewDetailImportIncreaseComponent,
     DetailBcDecreaseComponent,
+    ReportComponent
   ],
   exports: [
     PopupMessageComponent,

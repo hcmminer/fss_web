@@ -50,3 +50,31 @@ th.mat-header-cell:first-of-type {
 th.mat-header-cell:last-of-type {
   padding-right: 0px;
 }
+
+.mat-column-organisation {
+  text-align: left !important;
+}
+
+.mat-column-contract {
+  text-align: left !important;
+}
+
+.mat-column-assetCode {
+  text-align: left !important;
+}
+
+.mat-column-labor {
+  text-align: right !important;
+}
+
+.mat-column-material {
+  text-align: right !important;
+}
+
+.mat-column-createdDatetimeStr {
+  text-align: center !important;
+}
+
+.mat-column-constructionDateStr {
+  text-align: center !important;
+}

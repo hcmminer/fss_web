@@ -38,6 +38,8 @@ export class openingBalanceService {
   errBcDecreaseList = new BehaviorSubject<any[]>([]);
   cbxListAssetCodeDecrease = new BehaviorSubject<any[]>([]);
 
+  //report
+  listDataReport = new BehaviorSubject<any[]>([]);
   initHeader: {};
   header = {
     'Content-Type': 'application/json',

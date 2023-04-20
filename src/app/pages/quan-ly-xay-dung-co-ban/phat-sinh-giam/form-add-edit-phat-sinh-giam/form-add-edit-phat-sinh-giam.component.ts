@@ -34,7 +34,7 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-form-add-edit-phat-sinh-giam',
   templateUrl: './form-add-edit-phat-sinh-giam.component.html',
-  styleUrls: ['./form-add-edit-phat-sinh-giam.component.scss']
+  styleUrls: ['./form-add-edit-phat-sinh-giam.component.scss'],
 })
 export class FormAddEditPhatSinhGiamComponent implements OnInit {
   //biến

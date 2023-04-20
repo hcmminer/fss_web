@@ -8,8 +8,6 @@ import { GlobalService } from 'src/app/pages/_services/global.service';
 import { CONFIG } from 'src/app/utils/constants';
 import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
 import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DatePipe, formatNumber } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -37,15 +35,6 @@ export const MY_FORMATS = {
   selector: 'app-form-add-so-du-dau-ky',
   templateUrl: './form-add-so-du-dau-ky.component.html',
   styleUrls: ['./form-add-so-du-dau-ky.component.scss'],
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-    },
-
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-  ],
 })
 export class FormAddEditSoDuDauKyComponent implements OnInit {
   //biến
@@ -126,7 +115,6 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       let request = this.apiGetSum().subscribe(
         (res) => {
           if (res.errorCode == '0') {
-
             this.addEditForm.get('totalMaterial').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'))
             this.addEditForm.get('totalLabor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'))
             this.addEditForm.get('material').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'))

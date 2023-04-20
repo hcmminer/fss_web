@@ -3,14 +3,27 @@ export const locale = {
   lang: 'vi',
   data: {
     // bandv >>
-    'asset-manage': 'Quản lý tài sản',
-    'type-of-asset': 'Loại khấu hao', 
-    'transfer-to-asset': 'Phát sinh giảm',
+    // begin menu
+    'BASIC-CONSTRUCTION':'Quản lý xây dựng cơ bản',
+    'TRANSFER-TO-ASSET': 'Nhập phát sinh giảm',
+    'OPENING-BALANCE-BC': 'Nhập số dư đầu kỳ',
+    'IMPORT-INCREASE': 'Nhập phát sinh tăng',
+    REPORT: 'Báo cáo tổng hợp',
+
+    'ASSET-MANAGE': 'Quản lý tài sản',
+    'TYPE-OF-ASSET': 'Danh mục loại tài sản',
+    'OPENING-BALANCE':'Nhập dữ liệu đầu kỳ',
+    'IMPORT-INCREASE-ASSET': 'Nhập dữ liệu phát sinh tăng',
+    'TRANSFER-ASSET': 'Điều chuyển tài sản	',
+    'LIQUIDATE-ASSET':'Thanh lý tài sản ',
+    'REPORT-ASSET': 'Báo cáo tài sản',
+    // end menu
     CREATED_DATETIME: 'Ngày tạo',
     CREATED_BY: 'Người tạo',
     LAST_UPDATED_DATETIME: 'Ngày cập nhật',
     LAST_UPDATED_BY: 'Người cập nhật',
 
+   
     FUNCTION: {
       ADD: 'Thêm mới',
       SUCCSESS_ADD: 'Thêm mới thành công',
@@ -38,10 +51,6 @@ export const locale = {
     FSS_MANAGEMENT_JOB_REQUEST: 'Quản lý phiếu công tác',
     FSS_CATEGORY: 'Quản lý danh mục',
     SYSTEM_ERROR: 'Lỗi hệ thống, vui lòng thử lại sau!',
-    'OPENING-BALANCE': {
-      TITLE: 'Số dư đầu kỳ',
-    },
-    'import-increase': 'Phát sinh tăng',
 
     //hunglm
     TOTAL_ERROR: 'Tổng lỗi',
@@ -158,7 +167,7 @@ export const locale = {
       LABOR: 'Nhân công',
       MATERIAL: 'Vật tư',
       CONSTRUCTION_DATE: 'Ngày nhập liệu',
-      CREATED_DATE: 'Ngày tạo',
+      CREATED_DATE: 'Ngày tác động',
       ADD_OPEN_BALANCE: 'Thêm mới số dư đầu kỳ',
       LIST_OPEN_BALANCE: 'Danh sách số dư đầu kỳ',
       ERROR_MSG: 'Thông tin lỗi',
@@ -183,6 +192,9 @@ export const locale = {
       ADD_DECREASE: 'Thêm mới phát sinh giảm',
       EDIT_DECREASE_FILE: 'Cập nhật phát sinh giảm theo file',
       LIST_DECREASE: 'Danh sách phát sinh giảm',
+      LIST_REPORT: 'Danh sách báo cáo tổng hợp',
+
+      TOTAL: 'Tổng cộng',
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -249,10 +261,14 @@ export const locale = {
 
       //Phát sinh giảm
       DECREASE: 'Phát sinh giảm',
+      REPORT: 'Báo cáo tổng hợp',
       ADD_DECREASE: 'Thêm mới phát sinh giảm',
       UPDATE_DECREASE: 'Cập nhật phát sinh giảm',
 
-      LIST_ERR_FILE: 'Danh sách file lỗi'
+      //số dư cuối kỳ
+      CLOSING_BALANCEL: 'Số dư cuối kỳ',
+
+      LIST_ERR_FILE: 'Danh sách file lỗi',
     },
     REQUIRED: {
       REASON_REFUSE: 'Bắt buộc nhập lý do từ chối',

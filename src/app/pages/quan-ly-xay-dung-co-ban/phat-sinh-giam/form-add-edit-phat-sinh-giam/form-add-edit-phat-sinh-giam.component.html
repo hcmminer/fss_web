@@ -46,7 +46,7 @@
                                     id="organisation" formControlName="organisation">
                                     <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation| async">
                                         <option [value]="item.code">
-                                            {{ item.name }}
+                                            <span *ngIf="item.code != ''">{{ item.code }} -</span>  {{ item.name }}
                                         </option>
                                     </ng-container>
                                 </select>
@@ -186,14 +186,8 @@
                             <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
                                 'LABEL.ORGANISATION' | translate }}<span style="color: red">*</span></label>
                             <div class="col-md-3">
-                                <select class="form-control font-14" [attr.disabled]="isUpdate" name="organisation"
-                                    id="organisation" formControlName="organisation">
-                                    <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation| async">
-                                        <option [value]="item.code">
-                                            {{ item.name }}
-                                        </option>
-                                    </ng-container>
-                                </select>
+                                <input type="text" maxlength="50" class="form-control" id="organisation" autocomplete="off"
+                                formControlName="organisation" [attr.disabled]="isUpdate" />
                             </div>
                         </div>
 
@@ -557,7 +551,7 @@
                             </div>
                         </div>
                         <!-- >> so ban ghi loi -->
-                        <div style="  overflow-x: scroll;">
+                        <div style="overflow-x: scroll;">
                             <div class="container-fluid mt-4 mb-4" *ngIf="isErrorFile">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <h6 class="form-label">

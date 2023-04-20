@@ -65,7 +65,6 @@ export class PhatSinhGiamComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('updateRefuse') updateRefuse: ElementRef;
   searchForm: FormGroup;
 
   @ViewChild('formSearch') formSearch: ElementRef;
@@ -117,16 +116,8 @@ export class PhatSinhGiamComponent implements OnInit {
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.isAdmin = this.userRes.isAdmin;
-    this.initCombobox();
     this.eSearch();
     
-  }
-
-  //init cbx assetCode 
-  initCombobox() {
-    let reqGetListStatus = {userName: this.userName };
-    this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease', true);
-    this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
   }
 
   eInputDate(event: any, typeDate: string) {

@@ -14,7 +14,7 @@ const routes: Routes = [
       { path: 'opening-balance', component: SoDuDauKyComponent},
       { path: 'import-increase', component: PhatSinhTangComponent},
       { path: 'transfer-to-asset', component: PhatSinhGiamComponent},
-      { path: 'report', component: ReportComponent},
+      { path: 'report', component: ReportComponent },
       { path: '', component: SoDuDauKyComponent },
       { path: '**', redirectTo: 'error/404', pathMatch: 'full' },
     ],

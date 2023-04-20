@@ -3,16 +3,28 @@ import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Subscription, fromEvent } from 'rxjs';
+import { Subscription, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { openingBalanceService } from '../../_services/opening-balance.service';
 import { ToastrService } from 'ngx-toastr';
 import { GlobalService } from '../../_services/global.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CONFIG } from 'src/app/utils/constants';
 import { DatePipe } from '@angular/common';
 import { RequestApiModelOld } from '../../_models/requestOld-api.model';
+
+
+const queryInit = {
+  groupFilter: '',
+  organisation: '',
+  assetCode: '',
+  contract: '',
+  startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+  // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
+  endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
+  // iValidEndDate: new NgbDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
+};
 
 export const MY_FORMATS = {
   parse: {
@@ -26,24 +38,12 @@ export const MY_FORMATS = {
   },
 };
 
-const queryInit = {
-  groupFilter: '',
-  organisation: '',
-  assetCode: '',
-  contract: '',
-  startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-  // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
-  endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
-  // iValidEndDate: new NgbDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
-};
-
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-
   currentPage = 1;
   @ViewChild('autoFocus') private _inputElement: ElementRef; // autofocus
   pageSize: number = 10;
@@ -62,41 +62,26 @@ export class ReportComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('paginatorDetail') paginatorDetail: MatPaginator;
-  @ViewChild('updateRefuse') updateRefuse: ElementRef;
   searchForm: FormGroup;
 
   @ViewChild('formSearch') formSearch: ElementRef;
-  isShowUpdate = new BehaviorSubject<boolean>(false);
-  isShowOffStation = new BehaviorSubject<boolean>(false);
   startDateErrorMsg = '';
   endDateErrorMsg = '';
-  startDateLoTrinhErrorMsg = '';
-  endDateLoTrinhErrorMsg = '';
   isLoading$ = false;
   userRes: any;
   userName: string;
   staffId: number;
   isAdmin: any;
-  isHandlingLoTrinhCongTac = false;
   selectedTabIndex = 0;
-  typeActionVoffice: number;
-  currentLoTrinhPage = 0;
   private modal: any;
   query = {
     ...queryInit,
   };
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
-    'index',
-    'assetCode',
-    'contract',
-    'labor',
-    'material',
-    'organisation',
-    'constructionDateStr',
-    'createdDatetimeStr',
-    'action'
+    'index', 'organisation', 'assetCode', 'contract', 'sodauky', 'phatsinhtang', 'phatsinhgiam',
+    'soducuoiky', 'openLabor', 'openMaterial', 'openTotal', 'increaseLabor', 'increaseMaterial',
+    'increaseTotal', 'decreaseLabor', 'decreaseMaterial', 'decreaseTotal', 'laborTotal', 'materialTotal', 'total'
   ];
 
   constructor(
@@ -118,6 +103,7 @@ export class ReportComponent implements OnInit {
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.isAdmin = this.userRes.isAdmin;
     this.eSearch();
+
   }
 
   eInputDate(event: any, typeDate: string) {
@@ -135,16 +121,15 @@ export class ReportComponent implements OnInit {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
-      assetCode: [this.query.assetCode],
-      contract: [this.query.contract],
+      assetCode: [ this.query.assetCode = this.translate.instant('DEFAULT_OPTION.SELECT')],
       start: [this.query.startDate],
       end: [this.query.endDate],
     });
   }
 
-  eViewTran(item: any) {
-    // console.log('eViewTran', item);
-    // const modalRef = this.modalService.open(ViewAppraisalComponent, {
+  eViewDetail(item: any) {
+    console.log('view detail', item);
+    // const modalRef = this.modalService.open(DetailBcDecreaseComponent, {
     //   centered: true,
     //   backdrop: 'static',
     //   size: 'xl',
@@ -165,16 +150,17 @@ export class ReportComponent implements OnInit {
       this.searchForm.markAllAsTouched();
       return;
     }
+
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
-        this.openingBalanceService.listOpeningBalance.next(res.data);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listOpeningBalance.value);
+        this.openingBalanceService.listDataReport.next(res.data);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listDataReport.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.openingBalanceService.listOpeningBalance.next([]);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listOpeningBalance.value);
+        this.openingBalanceService.listDataReport.next([]);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listDataReport.value);
       }
     });
     this.subscriptions.push(rq);
@@ -183,20 +169,15 @@ export class ReportComponent implements OnInit {
   conditionSearch() {
     const requestTarget = {
       userName: this.userName,
-      loanTransDTO: {
+      searchDTO: {
         groupFilter: this.query.groupFilter,
-        assetCode: this.searchForm.get('assetCode').value,
+        assetCode: this.query.assetCode == this.translate.instant('DEFAULT_OPTION.SELECT') ? '' : this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
-        contract: this.searchForm.get('contract').value,
-        fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
-        toCreatedDateStr: this.transform(this.searchForm.get('end').value),
-      },
-      dataParams: {
-        currentPage: 1,
-        pageLimit: 1000000,
+        fromDateStr: this.transform(this.searchForm.get('start').value),
+        toDateStr: this.transform(this.searchForm.get('end').value),
       },
     };
-    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-bc-opening');
+    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-report-bc');
   }
 
   eResetForm() {
@@ -205,32 +186,6 @@ export class ReportComponent implements OnInit {
     };
     this.startDateErrorMsg = '';
     this.loadSearchForm();
-  }
-
-  displayPopupUpdateRefuse() {
-    // const modalRef = this.modalService.open(UpdateRefuseFileComponent, {
-    //   centered: true,
-    //   backdrop: 'static',
-    //   size: 'xl',
-    // });
-
-    // const requestTarget = {
-    //   loanTransDTO: {
-    //     groupFilter: this.query.groupFilter,
-    //     status: this.searchForm.get('status').value,
-    //     fromDate: this.transform(this.searchForm.get('start').value),
-    //     toDate: this.transform(this.searchForm.get('end').value),
-    //   },
-    //   dataParams: {
-    //     currentPage: 1,
-    //     pageLimit: 1000000,
-    //   },
-    // };
-    // modalRef.componentInstance.data = requestTarget;
-
-    // modalRef.result.then((result) => {
-    //   this.eSearch();
-    // });
   }
 
   displayFormAdd(item: any, isUpdate, isUpdateFile) {
@@ -242,6 +197,18 @@ export class ReportComponent implements OnInit {
     // modalRef.componentInstance.item = item;
     // modalRef.componentInstance.isUpdate = isUpdate;
     // modalRef.componentInstance.isUpdateFile = isUpdateFile;
+    // const requestTarget = {
+    //   userName: this.userName,
+    //   searchDTO: {
+    //     groupFilter: this.query.groupFilter,
+    //     assetCode: this.query.assetCode == this.translate.instant('DEFAULT_OPTION.SELECT') ? '' :  this.searchForm.get('assetCode').value,
+    //     organisation: this.searchForm.get('organisation').value,
+    //     typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
+    //     fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+    //     toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+    //   },
+    // };
+    // modalRef.componentInstance.req = requestTarget;
     // modalRef.result.then((result) => {
     //   this.eSearch();
     // });
@@ -304,6 +271,5 @@ export class ReportComponent implements OnInit {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
-
 
 }

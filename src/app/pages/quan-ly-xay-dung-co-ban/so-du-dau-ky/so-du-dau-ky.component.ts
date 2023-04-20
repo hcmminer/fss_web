@@ -15,6 +15,8 @@ import { GlobalService } from '../../_services/global.service';
 import { RequestApiModelOld } from '../../_models/requestOld-api.model';
 import { FormAddEditSoDuDauKyComponent } from './form-add-so-du-dau-ky/form-add-edit-so-du-dau-ky.component';
 import { ViewDetailOpenBalanceComponent } from './view-detail-open-balance/view-detail-open-balance.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 const queryInit = {
   groupFilter: '',
@@ -40,7 +42,16 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-so-du-dau-ky',
   templateUrl: './so-du-dau-ky.component.html',
-  styleUrls: ['./so-du-dau-ky.component.scss']
+  styleUrls: ['./so-du-dau-ky.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class SoDuDauKyComponent implements OnInit {
   currentPage = 1;
