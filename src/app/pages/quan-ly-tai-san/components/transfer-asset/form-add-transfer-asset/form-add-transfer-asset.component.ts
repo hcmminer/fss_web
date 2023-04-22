@@ -69,7 +69,7 @@ export class FormAddTransferAssetComponent implements OnInit {
   totalSuccess: number = null;
   totalRecord: number = null;
   isHasResult: boolean = false;
-  columnsToDisplay = ['index', 'organisation', 'assetCode', 'constructionDateStr', 'errorMsg'];
+  columnsToDisplay = ['index', 'constructionDateStr', 'assetCode', 'departmentCode', 'errorMsg'];
   addType: string = 'single';
   addTypeList = [
     {
@@ -101,7 +101,7 @@ export class FormAddTransferAssetComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.isTransferByFile);
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
-    if(this.addType == 'single'){
+    if (this.addType == 'single') {
       this.loadAddForm();
     }
   }
@@ -111,7 +111,7 @@ export class FormAddTransferAssetComponent implements OnInit {
     this.addEditForm = this.fb.group({
       assetCode: ['', [Validators.required]],
       constructionDateStr: [new Date(), [Validators.required]],
-      organisation: [ '' , [Validators.required]],
+      organisation: ['', [Validators.required]],
     });
   }
 
@@ -313,8 +313,8 @@ export class FormAddTransferAssetComponent implements OnInit {
           (res) => {
             if (res.errorCode == '0') {
               this.toastService.success(this.translate.instant('MESSAGE.UPLOAD_FILE_SC'));
-              this.openingBalanceService.errOpeningBalanceList.next(res.data);
-              this.dataSource = new MatTableDataSource(this.openingBalanceService.errOpeningBalanceList.value);
+              this.openingBalanceService.errTransferassetList.next(res.data);
+              this.dataSource = new MatTableDataSource(this.openingBalanceService.errTransferassetList.value);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
               let isError = res.data.find((item) => item.errorMsg != '');
@@ -322,10 +322,10 @@ export class FormAddTransferAssetComponent implements OnInit {
               this.totalRecord = res.data.length;
               this.isHasResult = true;
               if (isError) {
-                this.openingBalanceService.getErrOpeningBalanceFile.next(res);
+                this.openingBalanceService.getErrTransferassetFile.next(res);
                 this.isErrorFile = true;
               } else {
-                this.openingBalanceService.getErrOpeningBalanceFile.next(null);
+                this.openingBalanceService.getErrTransferassetFile.next(null);
                 this.isErrorFile = false;
               }
               this.magicButtonUpdate = isError ? false : true;
@@ -356,31 +356,15 @@ export class FormAddTransferAssetComponent implements OnInit {
   apiCofirmUpdateByFile() {
     const req = {
       userName: this.userName,
-      listConstructionDTO: this.openingBalanceService.errOpeningBalanceList.value,
+      listDepreciationDetailDTO: this.openingBalanceService.errTransferassetList.value,
     };
     return this.globalService.globalApi(req, 'confirm-transfer-asset-by-file');
   }
 
   eDownloadFileSuccess() {
-    const sub = this.openingBalanceService.getSuccessOpeningBalanceFile.subscribe((res) => {
-      if (res.errorCode == '0' || res.errorCode == '2') {
-        this.toastService.success(this.translate.instant('COMMON.MESSAG.DOWNLOAD_SUCCESS'));
-        this.spinner.hide();
-        const byteCharacters = atob(res.data);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const file = new Blob([byteArray], { type: res.extension });
-        const urlDown = URL.createObjectURL(file);
-        const link = document.createElement('a');
-        link.href = urlDown;
-        link.download = `file_success_${timeToName(new Date())}.${res.extension}`; // đặt tên file tải về
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } else if (res.errorCode == '2') {
+    debugger
+    const sub = this.openingBalanceService.getSuccessTransferassetFile.subscribe((res) => {
+      if (res.errorCode == '0' || res.errorCode == '3') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
         this.spinner.hide();
         const byteCharacters = atob(res.data);
@@ -412,7 +396,7 @@ export class FormAddTransferAssetComponent implements OnInit {
     modalRef.componentInstance.data = {
       type: 'WARNING',
       title: 'MODAL_WARNING',
-      message: this.translate.instant('MESSAGE.CF_ADD_OP_BL_BY_FILE'),
+      message: this.translate.instant('MESSAGE.CF_ADD_TRANSFER_ASSET_BY_FILE'),
       continue: true,
       cancel: true,
       btn: [
@@ -425,23 +409,23 @@ export class FormAddTransferAssetComponent implements OnInit {
     };
     modalRef.result.then(
       (result) => {
-        if (this.openingBalanceService.errOpeningBalanceList.value.find((item) => item.errorMsg == '')) {
+        if (this.openingBalanceService.errTransferassetList.value.find((item) => item.errorMsg == '')) {
           const sub = this.apiCofirmUpdateByFile().subscribe((res) => {
             if (res.errorCode == '0') {
               this.isHasSuccessFile = true;
-              this.openingBalanceService.getSuccessOpeningBalanceFile.next(res);
+              this.openingBalanceService.getSuccessTransferassetFile.next(res);
               this.resultDesc = res.description;
               this.resultCode = 'success';
-              this.toastService.success(this.translate.instant('ADD_OP_BL_FROM_FILE_SC'));
+              this.toastService.success(this.translate.instant('MESSAGE.ADD_TRANSFER_ASSET_FROM_FILE_SC'));
             } else if (res.errorCode == '3') {
               this.resultDesc = res.description;
               this.resultCode = 'warning';
               this.isHasSuccessFile = true;
-              this.openingBalanceService.getSuccessOpeningBalanceFile.next(res);
-              this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_OP_BL_FROM_FILE_SC'));
+              this.openingBalanceService.getSuccessTransferassetFile.next(res);
+              this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_TRANSFER_ASSET_FROM_FILE_SC'));
             } else {
               this.isHasSuccessFile = false;
-              this.openingBalanceService.getSuccessOpeningBalanceFile.next(null);
+              this.openingBalanceService.getSuccessTransferassetFile.next(null);
               this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
             }
           });
@@ -453,7 +437,7 @@ export class FormAddTransferAssetComponent implements OnInit {
   }
 
   eDownloadErrFile() {
-    const sub = this.openingBalanceService.getErrOpeningBalanceFile.subscribe((res) => {
+    const sub = this.openingBalanceService.getErrTransferassetFile.subscribe((res) => {
       if (res.errorCode == '0') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
         this.spinner.hide();

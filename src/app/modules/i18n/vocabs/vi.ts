@@ -198,7 +198,7 @@ export const locale = {
       LIST_TRANSFER_ASSET: 'Danh sách điều chuyển tài sản',
       ADD_TRANSFER_ASSET: 'Thêm mới điều chuyển tài sản',
       DEPARTMENT_CODE: 'Mã đơn vị chuyển',
-      DEPARTMENT_CODE_RECEIVE: 'Mã đơn vị chuyển',
+      DEPARTMENT_CODE_RECEIVE: 'Mã đơn vị nhận',
       TOTAL: 'Tổng cộng',
     },
     TITLE: {
@@ -275,7 +275,7 @@ export const locale = {
 
       //điều truyển tài sản
       TRANSFER_ASSET: 'Điều chuyển tài sản',
-
+      ADD_TRANSFER_ASSET: 'Thêm mới điều chuyển tài sản',
       LIST_ERR_FILE: 'Danh sách file lỗi',
     },
     REQUIRED: {
@@ -380,16 +380,21 @@ export const locale = {
       ADD_OP_BL_FROM_FILE_SC: 'Thêm số dư đầu kỳ theo file thành công',
       //phát sinh tăng
       CF_ADD_IM_INCREASE_BY_FILE: "Bạn có chắc chắn muốn thêm phát sinh tăng theo file không",
-      CF_UPDATE_IM_INCREASE_BY_FILE: "Bạn có chắc chắn muốn cập nhật phát tinh tăng theo file không",
+      CF_UPDATE_IM_INCREASE_BY_FILE: "Bạn có chắc chắn muốn cập nhật phát sinh tăng theo file không",
       UPDATE_IM_INCREASE_FROM_FILE_SC: "Cập nhật phát sinh tăng theo file thành công",
       ADD_IM_INCREASE_FROM_FILE_SC: "Thêm phát sinh tăng theo file thành công",
 
       //phát sinh tăng
       CF_ADD_DECREASE_BY_FILE: "Bạn có chắc chắn muốn thêm phát sinh giảm theo file không",
-      CF_UPDATE_DECREASE_BY_FILE: "Bạn có chắc chắn muốn cập nhật phát tinh giảm theo file không",
+      CF_UPDATE_DECREASE_BY_FILE: "Bạn có chắc chắn muốn cập nhật phát sinh giảm theo file không",
       UPDATE_DECREASE_FROM_FILE_SC: "Cập nhật phát sinh giảm theo file thành công",
       ADD_DECREASE_FROM_FILE_SC: "Thêm phát sinh giảm theo file thành công",
 
+      //điều chuyển tài sản
+      CF_ADD_TRANSFER_ASSET_BY_FILE: "Bạn có chắc chắn muốn thêm điều chuyển tải sản theo file không",
+      CF_UPDATE_TRANSFER_ASSET_FILE: "Bạn có chắc chắn muốn cập nhật điều chuyển tải sản theo file không",
+      UPDATE_TRANSFER_ASSET_FROM_FILE_SC: "Cập nhật điều chuyển tải sản theo file thành công",
+      ADD_TRANSFER_ASSET_FROM_FILE_SC: "Thêm điều chuyển tải sản theo file thành công",
     },
     CONFIRM: {
       //I.Lập phiếu công tác

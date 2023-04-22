@@ -2,7 +2,7 @@
     <div class="">
         <!-- begin: Filtration form -->
         <h5 style="font-weight: 700">
-            {{ 'TITLE.ADD_OPEN_BALANCE' | translate }}
+            {{ 'TITLE.ADD_TRANSFER_ASSET' | translate }}
         </h5>
         <hr />
         <br />
@@ -57,7 +57,7 @@
                         </div>
 
                         <div class="row">
-                            <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{ 'LABEL.ORGANISATION' |
+                            <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{ 'LABEL.DEPARTMENT_CODE_RECEIVE' |
                               translate }}</label>
                             <div class="col-md-3">
                               <select class="form-control font-14" name="organisation" id="organisation"
@@ -177,11 +177,11 @@
                                     </td>
                                 </ng-container>
                                 <!-- Tổ chức -->
-                                <ng-container matColumnDef="organisation">
+                                <ng-container matColumnDef="departmentCode">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.ORGANISATION' | translate }}
+                                        {{ 'LABEL.DEPARTMENT_CODE_RECEIVE' | translate }}
                                     </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.organisation }}
+                                    <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.departmentCode }}
                                     </td>
                                 </ng-container>
                                 <!-- Mã tài sản -->

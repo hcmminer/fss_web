@@ -85,7 +85,7 @@ export class TransferAssetComponent implements OnInit {
     'departmentCode',
     'departmentCodeReceive',
     'createdDatetimeStr',
-    'action'
+    'constructionDateStr',
   ];
 
   constructor(
@@ -157,13 +157,13 @@ export class TransferAssetComponent implements OnInit {
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
-        this.openingBalanceService.listOpeningBalance.next(res.data);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listOpeningBalance.value);
+        this.openingBalanceService.listTransferasset.next(res.data);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listTransferasset.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.openingBalanceService.listOpeningBalance.next([]);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listOpeningBalance.value);
+        this.openingBalanceService.listTransferasset.next([]);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listTransferasset.value);
       }
     });
     this.subscriptions.push(rq);

@@ -420,24 +420,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
 
   eDownloadFileSuccess() {
     const sub = this.openingBalanceService.getSuccessOpeningBalanceFile.subscribe((res) => {
-      if (res.errorCode == '0' || res.errorCode == '2') {
-        this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
-        this.spinner.hide();
-        const byteCharacters = atob(res.data);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const file = new Blob([byteArray], { type: res.extension });
-        const urlDown = URL.createObjectURL(file);
-        const link = document.createElement('a');
-        link.href = urlDown;
-        link.download = `file_success_${timeToName(new Date())}.${res.extension}`; // đặt tên file tải về
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } else if (res.errorCode == '2') {
+      if (res.errorCode == '0' || res.errorCode == '3') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
         this.spinner.hide();
         const byteCharacters = atob(res.data);

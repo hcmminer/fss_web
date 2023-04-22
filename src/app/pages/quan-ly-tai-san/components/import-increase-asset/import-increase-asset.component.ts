@@ -18,6 +18,7 @@ import { FormAddImportIncreaseAssetComponent } from './form-add-import-increase-
 
 const queryInit = {
   groupFilter: '',
+  assetCode: '',
   organisation: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
@@ -79,14 +80,11 @@ export class ImportIncreaseAssetComponent implements OnInit {
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
     'index',
-    'organisation',
     'assetCode',
-    'contract',
-    'labor',
-    'material',
-    'constructionDateStr',
+    'departmentCode',
+    'departmentCodeReceive',
     'createdDatetimeStr',
-    'action'
+    'constructionDateStr',
   ];
 
   constructor(
@@ -125,6 +123,7 @@ export class ImportIncreaseAssetComponent implements OnInit {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
+      assetCode: [this.query.assetCode],
       start: [this.query.startDate],
       end: [this.query.endDate],
     });
@@ -132,7 +131,7 @@ export class ImportIncreaseAssetComponent implements OnInit {
 
   eViewDetail(item: any) {
     // console.log('view detail', item);
-    // const modalRef = this.modalService.open(ViewDetailImportIncreaseComponent, {
+    // const modalRef = this.modalService.open(ViewDetailOpenBalanceComponent, {
     //   centered: true,
     //   backdrop: 'static',
     //   size: 'xl',
@@ -157,13 +156,13 @@ export class ImportIncreaseAssetComponent implements OnInit {
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
-        this.openingBalanceService.listImportIncrease.next(res.data);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listImportIncrease.value);
+        this.openingBalanceService.listTransferasset.next(res.data);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listTransferasset.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.openingBalanceService.listImportIncrease.next([]);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listImportIncrease.value);
+        this.openingBalanceService.listTransferasset.next([]);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listTransferasset.value);
       }
     });
     this.subscriptions.push(rq);
@@ -174,12 +173,13 @@ export class ImportIncreaseAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        organisation: this.searchForm.get('organisation').value,
-        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
-        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+        departmentReceiveCode: this.searchForm.get('organisation').value,
+        fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
+        toCreatedDateStr: this.transform(this.searchForm.get('end').value),
+        assetCode: this.searchForm.get('assetCode').value,
       },
     };
-    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-bc-increase');
+    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-dep-transfer');
   }
 
   eResetForm() {
@@ -190,22 +190,22 @@ export class ImportIncreaseAssetComponent implements OnInit {
     this.loadSearchForm();
   }
 
-  displayFormAdd(item: any, isUpdate, isUpdateFile) {
+  displayFormAdd(item: any, isTransferByFile) {
     const modalRef = this.modalService.open(FormAddImportIncreaseAssetComponent, {
       centered: true,
       backdrop: 'static',
       size: 'xl',
     });
     modalRef.componentInstance.item = item;
-    modalRef.componentInstance.isUpdate = isUpdate;
-    modalRef.componentInstance.isUpdateFile = isUpdateFile;
+    modalRef.componentInstance.isTransferByFile = isTransferByFile;
     const requestTarget = {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        organisation: this.searchForm.get('organisation').value,
-        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
-        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+        departmentReceiveCode: this.searchForm.get('organisation').value,
+        fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
+        toCreatedDateStr: this.transform(this.searchForm.get('end').value),
+        assetCode:  this.searchForm.get('assetCode').value,
       },
     };
     modalRef.componentInstance.req = requestTarget;
