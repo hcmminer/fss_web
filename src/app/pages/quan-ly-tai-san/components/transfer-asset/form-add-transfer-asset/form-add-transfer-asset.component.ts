@@ -1,22 +1,23 @@
-import { Component, ElementRef, EventEmitter, Inject, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { DatePipe, formatNumber } from '@angular/common';
+import { Component, ElementRef, EventEmitter, Inject, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { GlobalService } from 'src/app/pages/_services/global.service';
-import { CONFIG } from 'src/app/utils/constants';
 import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
-import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
-import { DatePipe, formatNumber } from '@angular/common';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { GlobalService } from 'src/app/pages/_services/global.service';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
+import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
+import { CONFIG } from 'src/app/utils/constants';
 import { timeToName } from 'src/app/utils/functions';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import * as moment from 'moment';
+
 
 const MAX_FILE_SIZE_TEMPLATE = 1024 * 1024 * 10;
 export const MY_FORMATS = {
@@ -31,16 +32,16 @@ export const MY_FORMATS = {
   },
 };
 
+
 @Component({
-  selector: 'app-form-add-so-du-dau-ky',
-  templateUrl: './form-add-so-du-dau-ky.component.html',
-  styleUrls: ['./form-add-so-du-dau-ky.component.scss'],
+  selector: 'app-form-add-transfer-asset',
+  templateUrl: './form-add-transfer-asset.component.html',
+  styleUrls: ['./form-add-transfer-asset.component.scss']
 })
-export class FormAddEditSoDuDauKyComponent implements OnInit {
+export class FormAddTransferAssetComponent implements OnInit {
   //biến
   req;
-  isUpdate;
-  isUpdateFile;
+  isTransferByFile;
   item;
   @Output() closeContent = new EventEmitter<any>();
   @ViewChild('popupMessage') popupMessage: ElementRef;
@@ -58,8 +59,17 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   resultDesc;
   resultCode: string;
   userName: any;
+  startDateErrorMsg: string = '';
   addEditForm: FormGroup;
   addFileForm: FormGroup;
+
+  private subscriptions: Subscription[] = [];
+  selectedFile: any = null;
+  resultFileData: any = null;
+  totalSuccess: number = null;
+  totalRecord: number = null;
+  isHasResult: boolean = false;
+  columnsToDisplay = ['index', 'organisation', 'assetCode', 'constructionDateStr', 'errorMsg'];
   addType: string = 'single';
   addTypeList = [
     {
@@ -73,15 +83,6 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       checked: false,
     },
   ];
-  private subscriptions: Subscription[] = [];
-  selectedFile: any = null;
-  resultFileData: any = null;
-  totalSuccess: number = null;
-  totalRecord: number = null;
-  isHasResult: boolean = false;
-  columnsToDisplay: any;
-
-  //
 
   constructor(
     public fb: FormBuilder,
@@ -98,41 +99,9 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(!this.isUpdate);
-
+    console.log(this.isTransferByFile);
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
-    if (this.isUpdateFile) {
-      this.columnsToDisplay = ['index', 'assetCode', 'materialTotalStr', 'materialStr', 'laborTotalStr', 'laborStr', 'constructionDateStr','errorMsg'];
-      this.addType = 'file';
-      this.loadAddFileForm()
-    } else {
-      this.columnsToDisplay = ['index', 'organisation', 'assetCode', 'contract', 'material', 'labor', 'constructionDateStr', 'errorMsg'];
-    }
-
-    if (this.isUpdate) {
-
-      this.loadAddForm();
-      let request = this.apiGetSum().subscribe(
-        (res) => {
-          if (res.errorCode == '0') {
-            this.addEditForm.get('totalMaterial').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'))
-            this.addEditForm.get('totalLabor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'))
-            this.addEditForm.get('material').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'))
-            this.addEditForm.get('labor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'))
-            console.log(this.addEditForm);
-          } else if (res.errorCode == '1') {
-            this.toastService.error(res.description);
-          } else {
-            this.toastService.error(res.description);
-          }
-        },
-        (error) => {
-          this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
-        },
-      );
-      this.subscriptions.push(request);
-
-    } else {
+    if(this.addType == 'single'){
       this.loadAddForm();
     }
   }
@@ -140,15 +109,18 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
 
   loadAddForm() {
     this.addEditForm = this.fb.group({
-      organisation: [this.isUpdate ? this.item.organisation : '', [Validators.required]],
-      assetCode: [this.isUpdate ? this.item.assetCode : '', [Validators.required]],
-      contract: [this.isUpdate ? this.item.contract : '', [Validators.required]],
-      constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
-      material: ['', [Validators.required]],
-      labor: ['', [Validators.required]],
-      totalMaterial: [''],
-      totalLabor: [''],
+      assetCode: ['', [Validators.required]],
+      constructionDateStr: [new Date(), [Validators.required]],
+      organisation: [ '' , [Validators.required]],
     });
+  }
+
+  changeState() {
+    if (this.addType == 'single') {
+      this.loadAddForm();
+    } else {
+      this.loadAddFileForm();
+    }
   }
 
   loadAddFileForm() {
@@ -157,16 +129,6 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     });
   }
 
-  // lấy tổng material và labor
-  apiGetSum() {
-    const req = {
-      userName: this.userName,
-      constructionDTO: {
-        assetCode: this.item.assetCode
-      }
-    }
-    return this.globalService.globalApi(req, 'get-bc-open-sum-current');
-  }
 
   //change page
   onPaginateChange(event) {
@@ -175,6 +137,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       this.pageSize = event.pageSize;
     }
   }
+
 
   //check input date
   eInputDate(event: any) {
@@ -186,6 +149,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       this.constructionDateErrorMsg = '';
     }
   }
+
 
   handleClose() {
     this.closeContent.emit(true);
@@ -220,32 +184,16 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     return isValid;
   }
 
-  changeState() {
-    if (this.addType == 'single') {
-      this.loadAddForm();
-    } else {
-      this.loadAddFileForm();
-    }
-  }
-
   conditionAddEdit() {
     const requestTarget = {
       userName: this.userName,
-      constructionDTO: {
+      depreciationDetailDTO: {
         assetCode: this.addEditForm.get('assetCode').value,
-        organisation: this.addEditForm.get('organisation').value,
-        contract: this.addEditForm.get('contract').value,
         constructionDateStr: this.transform(this.addEditForm.get('constructionDateStr').value),
-        material: Number(this.addEditForm.get('material').value.replaceAll(',', '')),
-        labor: Number(this.addEditForm.get('labor').value.replaceAll(',', '')),
-        materialTotal: Number(this.addEditForm.get('totalMaterial').value.replaceAll(',', '')),
-        laborTotal: Number(this.addEditForm.get('totalLabor').value.replaceAll(',', '')),
+        departmentCode: this.addEditForm.get('organisation').value,
       }
     };
-    if (this.isUpdate) {
-      return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'update-bc-opening-single');
-    }
-    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'add-bc-opening-single');
+    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'transfer-asset-single');
   }
 
   //thay đổi format date
@@ -264,7 +212,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     modalRef.componentInstance.data = {
       type: 'WARNING',
       title: 'COMMON_MODAL.WARNING',
-      message: this.isUpdate ? this.translate.instant('CONFIRM.UPDATE_OPEN_BALANCE') : this.translate.instant('CONFIRM.ADD_OPEN_BALANCE'),
+      message: this.translate.instant('CONFIRM.ADD_OPEN_BALANCE'),
       continue: true,
       cancel: true,
       btn: [
@@ -276,7 +224,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       (result) => {
         let request = this.conditionAddEdit().subscribe(res => {
           if (res.errorCode === '0') {
-            this.toastrService.success(this.isUpdate ? this.translate.instant('COMMON.MESSAGE.UPDATE_SUCCESS') : this.translate.instant('COMMON.MESSAGE.CREATE_SUCCESS'));
+            this.toastrService.success(this.translate.instant('COMMON.MESSAGE.CREATE_SUCCESS'));
             this.activeModal.close();
             this.handleClose();
           } else {
@@ -294,14 +242,9 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   //theo file
   apiGetTemplate() {
     let req;
-    if (this.isUpdateFile) {
-      req = this.req;
-    } else {
-      req = {
-        userName: this.userName
-      }
-    }
-    return this.globalService.globalApi(req, this.isUpdateFile ? 'down-temp-update-bc-opening' : 'down-temp-add-bc-opening');
+    req = this.req;
+
+    return this.globalService.globalApi(req, 'down-temp-transfer-asset');
   }
   getTemplate() {
     const sub = this.apiGetTemplate().subscribe((res) => {
@@ -366,7 +309,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
         };
 
         this.dataSource = new MatTableDataSource([]);
-        let request = this.globalService.globalApi(requestTarget, this.isUpdateFile ? 'update-bc-opening-by-file' : 'add-bc-opening-by-file').subscribe(
+        let request = this.globalService.globalApi(requestTarget, 'transfer-asset-by-file').subscribe(
           (res) => {
             if (res.errorCode == '0') {
               this.toastService.success(this.translate.instant('MESSAGE.UPLOAD_FILE_SC'));
@@ -415,13 +358,13 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       userName: this.userName,
       listConstructionDTO: this.openingBalanceService.errOpeningBalanceList.value,
     };
-    return this.globalService.globalApi(req, this.isUpdateFile ? 'confirm-update-bc-opening-by-file' : 'confirm-add-bc-opening-by-file');
+    return this.globalService.globalApi(req, 'confirm-transfer-asset-by-file');
   }
 
   eDownloadFileSuccess() {
     const sub = this.openingBalanceService.getSuccessOpeningBalanceFile.subscribe((res) => {
       if (res.errorCode == '0' || res.errorCode == '2') {
-        this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
+        this.toastService.success(this.translate.instant('COMMON.MESSAG.DOWNLOAD_SUCCESS'));
         this.spinner.hide();
         const byteCharacters = atob(res.data);
         const byteNumbers = new Array(byteCharacters.length);
@@ -469,7 +412,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     modalRef.componentInstance.data = {
       type: 'WARNING',
       title: 'MODAL_WARNING',
-      message: this.isUpdateFile ? this.translate.instant('MESSAGE.CF_UPDATE_OP_BL_BY_FILE') : this.translate.instant('MESSAGE.CF_ADD_OP_BL_BY_FILE'),
+      message: this.translate.instant('MESSAGE.CF_ADD_OP_BL_BY_FILE'),
       continue: true,
       cancel: true,
       btn: [
@@ -489,7 +432,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
               this.openingBalanceService.getSuccessOpeningBalanceFile.next(res);
               this.resultDesc = res.description;
               this.resultCode = 'success';
-              this.toastService.success(this.isUpdateFile ? this.translate.instant('MESSAGE.UPDATE_OP_BL_FROM_FILE_SC') : this.translate.instant('ADD_OP_BL_FROM_FILE_SC'));
+              this.toastService.success(this.translate.instant('ADD_OP_BL_FROM_FILE_SC'));
             } else if (res.errorCode == '3') {
               this.resultDesc = res.description;
               this.resultCode = 'warning';
@@ -543,7 +486,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     this.magicButtonUpdate = false;
     this.totalRecord = 0;
     this.dataSource = new MatTableDataSource([]);
-    this.isHasResult =  false;
+    this.isHasResult = false;
   }
 
   validateFile(event: any) {

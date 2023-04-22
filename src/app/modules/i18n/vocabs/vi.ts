@@ -22,7 +22,7 @@ export const locale = {
     CREATED_BY: 'Người tạo',
     LAST_UPDATED_DATETIME: 'Ngày cập nhật',
     LAST_UPDATED_BY: 'Người cập nhật',
-
+    MODAL_WARNING: 'Cảnh báo!',
    
     FUNCTION: {
       ADD: 'Thêm mới',
@@ -194,6 +194,11 @@ export const locale = {
       LIST_DECREASE: 'Danh sách phát sinh giảm',
       LIST_REPORT: 'Danh sách báo cáo tổng hợp',
 
+      //điều chuyển tài sản
+      LIST_TRANSFER_ASSET: 'Danh sách điều chuyển tài sản',
+      ADD_TRANSFER_ASSET: 'Thêm mới điều chuyển tài sản',
+      DEPARTMENT_CODE: 'Mã đơn vị chuyển',
+      DEPARTMENT_CODE_RECEIVE: 'Mã đơn vị chuyển',
       TOTAL: 'Tổng cộng',
     },
     TITLE: {
@@ -267,6 +272,9 @@ export const locale = {
 
       //số dư cuối kỳ
       CLOSING_BALANCEL: 'Số dư cuối kỳ',
+
+      //điều truyển tài sản
+      TRANSFER_ASSET: 'Điều chuyển tài sản',
 
       LIST_ERR_FILE: 'Danh sách file lỗi',
     },

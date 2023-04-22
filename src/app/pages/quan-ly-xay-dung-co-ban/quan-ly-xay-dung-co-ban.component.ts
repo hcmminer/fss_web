@@ -12,6 +12,7 @@ export class QuanLyXayDungCoBanComponent implements OnInit {
   constructor(private openingBalanceService: openingBalanceService) { }
 
   ngOnInit(): void {
+    debugger
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.initCombobox();
   }

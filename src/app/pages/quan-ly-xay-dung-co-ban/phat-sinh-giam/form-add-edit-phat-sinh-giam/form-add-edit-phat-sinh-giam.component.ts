@@ -140,11 +140,11 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
   loadAddForm() {
     this.addEditForm = this.fb.group({
       organisation: [this.isUpdate ? this.item.organisation : '', [Validators.required]],
-      assetCode: [this.isUpdate ? this.item.assetCode : this.translate.instant('DEFAULT_OPTION.SELECT'), [Validators.required]],
+      assetCode: [this.isUpdate ? this.item.assetCode :  '', [Validators.required]],
       contract: [this.isUpdate ? this.item.contract : '', [Validators.required]],
       constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
-      material: ['', [Validators.required]],
-      labor: ['', [Validators.required]],
+      material: ['', [Validators.required,Validators.maxLength(18)]],
+      labor: ['', [Validators.required,Validators.maxLength(18)]],
       totalMaterial: [''],
       totalLabor: [''],
       typeOfAssetCode: [this.isUpdate ? this.item.typeOfAssetCode : '', [Validators.required]],

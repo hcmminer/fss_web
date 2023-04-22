@@ -40,6 +40,9 @@ export class openingBalanceService {
 
   //report
   listDataReport = new BehaviorSubject<any[]>([]);
+
+  //transfer-asset
+  cbxAssetCodeTransfer = new BehaviorSubject<any[]>([]);
   initHeader: {};
   header = {
     'Content-Type': 'application/json',
@@ -123,6 +126,35 @@ export class openingBalanceService {
   }
 
 
+  getCbxAssetCodeTransfer(query: RequestApiModelOld, redirectFunction, allowDefault: boolean) {
+    const request = this.globalService
+      .globalApi(query, redirectFunction)
+      .pipe(
+        map((response) => {
+          if (response.errorCode != '0') {
+            this.cbxAssetCodeTransfer.next([]);
+            throw new Error(response.description);
+          }
+          if (typeof response.data !== 'undefined' && response.data !== null) {
+            this.cbxAssetCodeTransfer.next(response.data);
+          } else {
+            this.cbxAssetCodeTransfer.next([]);
+          }
+          if (allowDefault)
+            this.cbxAssetCodeTransfer.value.unshift({
+              assetCode: '',
+            });
+        }),
+        catchError((err) => {
+          // this.toastrService.error(err.error?.message || err.message, 'Error');
+          return of(undefined);
+        }),
+        finalize(() => { }),
+      )
+      .subscribe();
+    this.subscriptions.push(request);
+  }
+
   getListAssetCodeDecrease(query: RequestApiModelOld, redirectFunction, allowDefault: boolean) {
     const request = this.globalService
       .globalApi(query, redirectFunction)
@@ -139,7 +171,7 @@ export class openingBalanceService {
           }
           if (allowDefault)
             this.cbxListAssetCodeDecrease.value.unshift({
-              assetCode: this.translateService.instant('DEFAULT_OPTION.SELECT'),
+              assetCode: '',
             });
         }),
         catchError((err) => {
@@ -151,4 +183,5 @@ export class openingBalanceService {
       .subscribe();
     this.subscriptions.push(request);
   }
+
 }

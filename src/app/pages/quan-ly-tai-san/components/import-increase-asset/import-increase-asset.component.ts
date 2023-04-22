@@ -7,21 +7,18 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { openingBalanceService } from '../../_services/opening-balance.service';
+import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
 import { ToastrService } from 'ngx-toastr';
-import { GlobalService } from '../../_services/global.service';
+import { GlobalService } from 'src/app/pages/_services/global.service'; 
 import { CONFIG } from 'src/app/utils/constants';
 import { DatePipe } from '@angular/common';
-import { RequestApiModelOld } from '../../_models/requestOld-api.model';
-import { FormAddEditPhatSinhGiamComponent } from './form-add-edit-phat-sinh-giam/form-add-edit-phat-sinh-giam.component';
-import { DetailBcDecreaseComponent } from './detail-bc-decrease/detail-bc-decrease.component';
+import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
+import { FormAddImportIncreaseAssetComponent } from './form-add-import-increase-asset/form-add-import-increase-asset.component';
+
 
 const queryInit = {
-  typeOfAssetCode: '',
   groupFilter: '',
   organisation: '',
-  assetCode: '',
-  contract: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
   endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
@@ -39,14 +36,12 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-
-
 @Component({
-  selector: 'app-phat-sinh-giam',
-  templateUrl: './phat-sinh-giam.component.html',
-  styleUrls: ['./phat-sinh-giam.component.scss']
+  selector: 'app-import-increase-asset',
+  templateUrl: './import-increase-asset.component.html',
+  styleUrls: ['./import-increase-asset.component.scss']
 })
-export class PhatSinhGiamComponent implements OnInit {
+export class ImportIncreaseAssetComponent implements OnInit {
   currentPage = 1;
   @ViewChild('autoFocus') private _inputElement: ElementRef; // autofocus
   pageSize: number = 10;
@@ -65,6 +60,7 @@ export class PhatSinhGiamComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('updateRefuse') updateRefuse: ElementRef;
   searchForm: FormGroup;
 
   @ViewChild('formSearch') formSearch: ElementRef;
@@ -88,10 +84,6 @@ export class PhatSinhGiamComponent implements OnInit {
     'contract',
     'labor',
     'material',
-    'depreciationFrame',
-    'typeOfAssetAccount',
-    'typeOfAssetCode',
-    'typeOfAssetName',
     'constructionDateStr',
     'createdDatetimeStr',
     'action'
@@ -116,7 +108,6 @@ export class PhatSinhGiamComponent implements OnInit {
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.isAdmin = this.userRes.isAdmin;
     this.eSearch();
-    
   }
 
   eInputDate(event: any, typeDate: string) {
@@ -134,26 +125,23 @@ export class PhatSinhGiamComponent implements OnInit {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
-      assetCode: [this.query.assetCode],
-      contract: [this.query.contract],
       start: [this.query.startDate],
       end: [this.query.endDate],
-      typeOfAssetCode: [this.query.typeOfAssetCode]
     });
   }
 
   eViewDetail(item: any) {
-    console.log('view detail', item);
-    const modalRef = this.modalService.open(DetailBcDecreaseComponent, {
-      centered: true,
-      backdrop: 'static',
-      size: 'xl',
-      keyboard: false,
-    });
-    modalRef.componentInstance.data = item;
-    modalRef.result.then((result) => {
-      this.eSearch();
-    });
+    // console.log('view detail', item);
+    // const modalRef = this.modalService.open(ViewDetailImportIncreaseComponent, {
+    //   centered: true,
+    //   backdrop: 'static',
+    //   size: 'xl',
+    //   keyboard: false,
+    // });
+    // modalRef.componentInstance.data = item;
+    // modalRef.result.then((result) => {
+    //   this.eSearch();
+    // });
   }
   transform(value: string) {
     let datePipe = new DatePipe('en-US');
@@ -169,13 +157,13 @@ export class PhatSinhGiamComponent implements OnInit {
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
-        this.openingBalanceService.listBcDecrease.next(res.data);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listBcDecrease.value);
+        this.openingBalanceService.listImportIncrease.next(res.data);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listImportIncrease.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.openingBalanceService.listBcDecrease.next([]);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listBcDecrease.value);
+        this.openingBalanceService.listImportIncrease.next([]);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listImportIncrease.value);
       }
     });
     this.subscriptions.push(rq);
@@ -186,15 +174,12 @@ export class PhatSinhGiamComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        assetCode: this.query.assetCode,
         organisation: this.searchForm.get('organisation').value,
-        typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
         fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
         toConstructionDateStr: this.transform(this.searchForm.get('end').value),
-
       },
     };
-    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-bc-decrease');
+    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-bc-increase');
   }
 
   eResetForm() {
@@ -206,7 +191,7 @@ export class PhatSinhGiamComponent implements OnInit {
   }
 
   displayFormAdd(item: any, isUpdate, isUpdateFile) {
-    const modalRef = this.modalService.open(FormAddEditPhatSinhGiamComponent, {
+    const modalRef = this.modalService.open(FormAddImportIncreaseAssetComponent, {
       centered: true,
       backdrop: 'static',
       size: 'xl',
@@ -218,9 +203,7 @@ export class PhatSinhGiamComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        assetCode: this.query.assetCode,
         organisation: this.searchForm.get('organisation').value,
-        typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
         fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
         toConstructionDateStr: this.transform(this.searchForm.get('end').value),
       },

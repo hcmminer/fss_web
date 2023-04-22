@@ -56,8 +56,8 @@
                   <select class="form-control font-14" name="assetCode" id="assetCode" [(ngModel)]="query.assetCode"
                     formControlName="assetCode">
                     <ng-container *ngFor="let item of openingBalanceService.cbxListAssetCodeDecrease| async">
-                      <option [value]="item.assetCode">
-                        {{ item.assetCode }}
+                      <option [value]=" item.assetCode">
+                        {{ item.assetCode == '' ? ('DEFAULT_OPTION.SELECT' | translate ):  item.assetCode }}
                       </option>
                     </ng-container>
                   </select>

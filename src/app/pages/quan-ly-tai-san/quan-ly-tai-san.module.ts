@@ -13,16 +13,31 @@ import { CommonModule } from '@angular/common';
 import { QuanLyTaiSanRoutingModule } from './quan-ly-tai-san-routing.module';
 import { LoaiTaiSanComponent } from './components/loai-tai-san/loai-tai-san.component';
 import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSortModule } from '@angular/material/sort';
 import { AddEditLoaiTaiSanComponent } from './components/loai-tai-san/add-edit-loai-tai-san/add-edit-loai-tai-san.component';
 import { SharedDisplayHtmlModule } from 'src/app/_metronic/shared/shared-display-html/shared-display-html.module';
+import { TransferAssetComponent } from './components/transfer-asset/transfer-asset.component';
+import { FormAddTransferAssetComponent } from './components/transfer-asset/form-add-transfer-asset/form-add-transfer-asset.component';
+import { ImportIncreaseAssetComponent } from './components/import-increase-asset/import-increase-asset.component';
+import { FormAddImportIncreaseAssetComponent } from './components/import-increase-asset/form-add-import-increase-asset/form-add-import-increase-asset.component';
+import { IquidateAssetComponent } from './components/iquidate-asset/iquidate-asset.component';
+import { QuanLyTaiSanComponent } from './quan-ly-tai-san.component';
+
 
 @NgModule({
-  declarations: [LoaiTaiSanComponent, AddEditLoaiTaiSanComponent],
+  declarations: [
+    QuanLyTaiSanComponent,
+    LoaiTaiSanComponent,
+    AddEditLoaiTaiSanComponent,
+    TransferAssetComponent,
+    FormAddTransferAssetComponent,
+    ImportIncreaseAssetComponent,
+    FormAddImportIncreaseAssetComponent,
+    IquidateAssetComponent],
   imports: [
     CommonModule,
     QuanLyTaiSanRoutingModule,
@@ -41,8 +56,9 @@ import { SharedDisplayHtmlModule } from 'src/app/_metronic/shared/shared-display
     MatAutocompleteModule,
     MatSelectModule,
     MatRadioModule,
-    SharedDisplayHtmlModule
+    SharedDisplayHtmlModule,
+    MatNativeDateModule,
   ],
   providers: [NgbActiveModal, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
 })
-export class QuanLyTaiSanModule {}
+export class QuanLyTaiSanModule { }
