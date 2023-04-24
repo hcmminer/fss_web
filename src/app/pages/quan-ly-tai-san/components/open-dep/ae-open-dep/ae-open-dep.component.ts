@@ -16,6 +16,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { RequestApiModel } from 'src/app/pages/_models/api.request.model';
+import { removeNumberComma } from 'src/app/_validators/validateForm';
 
 export const MY_FORMATS = {
   parse: {
@@ -48,9 +49,9 @@ export class AeOpenDepComponent implements OnInit {
   propAction;
 
   assetCode;
-  typeOfAssetCode;
+  typeOfAssetCode = '';
 
-  departmentCode;
+  departmentCode = '';
   sourceOfAsset;
 
   beginOriginalAmountTotal; // hien tai
@@ -83,22 +84,23 @@ export class AeOpenDepComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.propAction == 'update') {
-      this.constructionDateStr = this.propData.constructionDateStr;
+      // this.constructionDateStr = this.propData.constructionDateStr;
       this.assetCode = this.propData.assetCode;
       this.typeOfAssetCode = this.propData.typeOfAssetCode;
       this.departmentCode = this.propData.departmentCode;
       this.sourceOfAsset = this.propData.sourceOfAsset;
-      this.beginOriginalAmountTotal = this.propData.beginOriginalAmountTotal;
+      this.beginOriginalAmountTotal = this.propData.beginOriginalAmount;
       // this.beginOriginalAmount = this.propData.beginOriginalAmount;
-      this.beginAmountTotal = this.propData.beginAmountTotal;
+      this.beginAmountTotal = this.propData.beginAmount;
       // this.beginAmount = this.propData.beginAmount;
-
-      this.loadEditForm();
-    } else if (this.propAction == 'add') {
-      this.loadAddForm();
     }
-    this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
+    if (this.propAction == 'add') {
+      this.loadAddForm();
+    } else if (this.propAction == 'update') {
+      this.loadEditForm();
+    }
   }
 
   loadAddForm() {
@@ -115,42 +117,14 @@ export class AeOpenDepComponent implements OnInit {
   }
 
   loadEditForm() {
-    this.addForm = this.fb.group({
-      assetCode: [this.assetCode, [Validators.required]],
+    this.editForm = this.fb.group({
       constructionDateStr: [this.constructionDateStr, [Validators.required]],
-      beginOriginalAmountTotal: [this.beginOriginalAmountTotal, [Validators.required]],
+      assetCode: [this.assetCode],
+      beginOriginalAmountTotal: [this.beginOriginalAmountTotal],
       beginOriginalAmount: [this.beginOriginalAmount, [Validators.required]],
-      beginAmountTotal: [this.beginAmountTotal, [Validators.required]],
+      beginAmountTotal: [this.beginAmountTotal],
       beginAmount: [this.beginAmount, [Validators.required]],
     });
-  }
-
-  //check CONSTRUCTION_DATE
-  constructionDateErrorMsg = '';
-  eInputDate1(event: any) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '') {
-      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
-        name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
-      });
-    }
-    if (value != '') {
-      this.constructionDateErrorMsg = '';
-    }
-  }
-
-  // depreciationStartDate
-  depreciationStartDateErrorMsg = '';
-  eInputDate2(event: any) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '') {
-      this.depreciationStartDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
-        name: this.translate.instant('LABEL.DEPRECIATION_START_DATE'),
-      });
-    }
-    if (value != '') {
-      this.depreciationStartDateErrorMsg = '';
-    }
   }
 
   httpAdd() {
@@ -159,12 +133,12 @@ export class AeOpenDepComponent implements OnInit {
       depreciationDetailDTO: {
         assetCode: this.addForm.get('assetCode').value,
         typeOfAssetCode: this.addForm.get('typeOfAssetCode').value,
-        departmentCode: this.addForm.get('departmentCode').value,
+        organisation: this.addForm.get('departmentCode').value,
         sourceOfAsset: this.addForm.get('sourceOfAsset').value,
         beginOriginalAmount: Number(this.addForm.get('beginOriginalAmount').value.replaceAll(',', '')),
         beginAmount: Number(this.addForm.get('beginAmount').value.replaceAll(',', '')),
-        constructionDateStr: this.addForm.get('constructionDateStr').value,
-        depreciationStartDateStr: this.addForm.get('depreciationStartDateStr').value,
+        constructionDateStr: this.transform(this.addForm.get('constructionDateStr').value),
+        depreciationStartDateStr: this.transform(this.addForm.get('depreciationStartDateStr').value),
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModel, 'add-open-dep-single');
@@ -174,12 +148,12 @@ export class AeOpenDepComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       depreciationDetailDTO: {
-        assetCode: this.addForm.get('assetCode').value,
-        constructionDateStr: this.addForm.get('constructionDateStr').value,
-        beginOriginalAmountTotal: Number(this.addForm.get('beginOriginalAmountTotal').value.replaceAll(',', '')),
-        beginOriginalAmount: Number(this.addForm.get('beginOriginalAmount').value.value.replaceAll(',', '')),
-        beginAmountTotal: Number(this.addForm.get('beginAmountTotal').value.replaceAll(',', '')),
-        beginAmount: Number(this.addForm.get('beginAmount').value.replaceAll(',', '')),
+        assetCode: this.editForm.get('assetCode').value,
+        constructionDateStr: this.transform(this.editForm.get('constructionDateStr').value),
+        beginOriginalAmountTotal: removeNumberComma(this.editForm.value.beginOriginalAmountTotal),
+        beginOriginalAmount: removeNumberComma(this.editForm.value.beginOriginalAmount),
+        beginAmountTotal: removeNumberComma(this.editForm.value.beginAmountTotal),
+        beginAmount: removeNumberComma(this.editForm.value.beginAmount),
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModel, 'update-open-dep-single');
@@ -232,6 +206,34 @@ export class AeOpenDepComponent implements OnInit {
       },
       () => {},
     );
+  }
+
+  //check CONSTRUCTION_DATE
+  constructionDateErrorMsg = '';
+  eInputDate1(event: any) {
+    let value = event.target.value;
+    if (typeof value == 'string' && value == '') {
+      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+      });
+    }
+    if (value != '') {
+      this.constructionDateErrorMsg = '';
+    }
+  }
+
+  // depreciationStartDate
+  depreciationStartDateErrorMsg = '';
+  eInputDate2(event: any) {
+    let value = event.target.value;
+    if (typeof value == 'string' && value == '') {
+      this.depreciationStartDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('LABEL.DEPRECIATION_START_DATE'),
+      });
+    }
+    if (value != '') {
+      this.depreciationStartDateErrorMsg = '';
+    }
   }
 
   //check number

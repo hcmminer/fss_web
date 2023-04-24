@@ -1,7 +1,6 @@
 <div class="pt-5 pl-5 pr-5">
   <div class="">
     <h5 style="font-weight: 700" *ngIf="propAction == 'add'">
-      
       {{ 'FUNCTION.ADD' | translate }}
     </h5>
     <h5 style="font-weight: 700" *ngIf="propAction == 'update'">
@@ -23,6 +22,7 @@
               formControlName="code"
               [class.is-invalid]="isControlInvalid('code')"
               maxlength="200"
+              disabled="propAction == 'update'"
             />
             <div class="invalid-feedback" *ngIf="controlHasError('required', 'code')">
               {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.CODE' | translate } }}

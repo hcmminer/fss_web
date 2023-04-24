@@ -63,6 +63,8 @@ export const locale = {
     DOWNLOAD_ERR_FILE: 'Tải file lỗi',
     LABEL: {
       // ban >>
+      BEGIN_ORIGINAL_AMOUNT: 'Nguyên giá',
+      BEGIN_AMOUNT: 'Khấu hao đầu kỳ',
       BEGIN_ORIGINAL_AMOUNT_CURRENT: 'Nguyên giá hiện tại',
       BEGIN_ORIGINAL_AMOUNT_TARGET: 'Nguyên giá mong muốn',
       BEGIN_AMOUNT_CURRENT: 'Khấu hao hiện tại',
@@ -217,7 +219,6 @@ export const locale = {
       //thanh lí tài sản
       LIST_LIQUIDATE_ASSET: 'Danh sách thanh lý tài sản',
       ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
-
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -296,9 +297,9 @@ export const locale = {
       ADD_TRANSFER_ASSET: 'Thêm mới điều chuyển tài sản',
       LIST_ERR_FILE: 'Danh sách file lỗi',
 
-       //thanh lý tài sản
-       LIQUIDATE_ASSET: 'Thanh lý tài sản',
-       ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
+      //thanh lý tài sản
+      LIQUIDATE_ASSET: 'Thanh lý tài sản',
+      ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
     },
     REQUIRED: {
       REASON_REFUSE: 'Bắt buộc nhập lý do từ chối',

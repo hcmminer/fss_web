@@ -1,0 +1,15 @@
+.icon-datePicker {
+  position: absolute;
+  top: -13px;
+  right: -5px;
+}
+
+.input-field {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:host::ng-deep.mat-form-field {
+  width : 100%; //enter whatever width you want
+}

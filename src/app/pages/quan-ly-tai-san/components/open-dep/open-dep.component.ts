@@ -16,10 +16,12 @@ import { RequestApiModel } from 'src/app/pages/_models/api.request.model';
 import { AddEditLoaiTaiSanComponent } from '../loai-tai-san/add-edit-loai-tai-san/add-edit-loai-tai-san.component';
 import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
+import { AeOpenDepComponent } from './ae-open-dep/ae-open-dep.component';
 
 const queryInit = {
   groupFilter: '',
   organisation: '',
+  typeOfAsset: '',
 };
 
 @Component({
@@ -64,7 +66,6 @@ export class OpenDepComponent implements OnInit {
     'sourceOfAsset',
     'beginOriginalAmount',
     'beginAmount',
-    'constructionDateStr',
     'depreciationStartDateStr',
     'depreciationEndDateStr',
     'action',
@@ -80,36 +81,47 @@ export class OpenDepComponent implements OnInit {
     private activeModal: NgbActiveModal,
     public openingBalanceService: openingBalanceService,
     @Inject(Injector) private readonly injector: Injector,
-  ) {}
+  ) {
+    
+  }
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = this.translate.instant('TRANS.PER_PAGE_LABEL');
+    this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
+    this.eSearch();
+  }
+
+  onOrganisationChange() {
+    this.eSearch();
+  }
+
+  ontypeOfAssetChange() {
     this.eSearch();
   }
 
   httpSearch() {
     const requestTarget = {
       userName: this.userName,
-      filterDTO: {
+      searchDTO: {
         organisation: this.query.organisation,
+        typeOfAssetCode: this.query.typeOfAsset,
         groupFilter: this.query.groupFilter,
       },
     };
-    return this.globalService.globalApi(requestTarget as RequestApiModel, 'searchTypeOfAsset');
+    return this.globalService.globalApi(requestTarget as RequestApiModel, 'search-open-dep');
   }
 
   eSearch() {
     const rq = this.httpSearch().subscribe((res) => {
       if (res.errorCode == '0') {
-        this.assetManageService.listTypeOfAsset.next(res.data);
-        this.dataSource = new MatTableDataSource(this.assetManageService.listTypeOfAsset.value);
+        this.assetManageService.listOpenDep.next(res.data);
+        this.dataSource = new MatTableDataSource(this.assetManageService.listOpenDep.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.assetManageService.listTypeOfAsset.next([]);
-        this.dataSource = new MatTableDataSource(this.assetManageService.listTypeOfAsset.value);
+        this.assetManageService.listOpenDep.next([]);
+        this.dataSource = new MatTableDataSource(this.assetManageService.listOpenDep.value);
       }
     });
     this.subscriptions.push(rq);
@@ -124,7 +136,7 @@ export class OpenDepComponent implements OnInit {
   }
 
   eRenderComponent(action, record) {
-    const modalRef = this.modalService.open(AddEditLoaiTaiSanComponent, {
+    const modalRef = this.modalService.open(AeOpenDepComponent, {
       centered: true,
       backdrop: 'static',
       size: 'xl',

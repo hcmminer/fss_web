@@ -6,23 +6,74 @@
       </div>
     </div>
   </div>
-  <!-- tim kiem -->
-  <div>
-    <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{ 'LIST' | translate }}</label>
-    <div class="col-md-3">
-      <select class="form-control font-14" name="organisation" id="organisation" [(ngModel)]="query.organisation">
-        <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation | async">
-          <option [value]="item.code">
-            <span *ngIf="item.code != ''">{{ item.code }} -</span> {{ item.name }}
-          </option>
-        </ng-container>
-      </select>
-    </div>
-    <div class="col-md-2"></div>
-    <div class="col-md-3"></div>
-  </div>
-  <!--  -->
+
   <div class="p-4" style="background-color: white">
+    <!-- tim kiem -->
+    <div class="mb-8">
+      <span class="" style="font-weight: 600; font-size: 1.275rem">
+        {{ 'TYPE_OF_ASSET.LIST' | translate }}
+      </span>
+    </div>
+    <div class="d-flex justify-content-around mb-8">
+      <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
+        'LABEL.SHOP' | translate
+      }}</label>
+      <div class="col-md-3">
+        <select
+          class="form-control font-14"
+          name="organisation"
+          id="organisation"
+          [(ngModel)]="query.organisation"
+          (ngModelChange)="onOrganisationChange()"
+        >
+          <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation | async">
+            <option [value]="item.code">
+              <span *ngIf="item.code != ''">{{ item.code }} -</span> {{ item.name }}
+            </option>
+          </ng-container>
+        </select>
+      </div>
+      <label class="col-md-2 form-label col-form-label font-14" for="typeOfAsset">{{
+        'LABEL.TYPE_OF_ASSET' | translate
+      }}</label>
+      <div class="col-md-3">
+        <select
+          class="form-control font-14"
+          name="typeOfAsset"
+          id="typeOfAsset"
+          [(ngModel)]="query.typeOfAsset"
+          (ngModelChange)="ontypeOfAssetChange()"
+        >
+          <ng-container *ngFor="let item of openingBalanceService.cbxTypeOfAsset | async">
+            <option [value]="item.code">
+              <span>{{ item.name }}</span>
+            </option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+    <div class="form-group pb-0 mt-5">
+      <div class="d-flex justify-content-center">
+        <div
+          (click)="eSearch()"
+          class="mx-3 px-8 btn btn-primary font-weight-bolder d-flex align-items-center justify-content-around"
+          style="height: 38px"
+        >
+          <i class="mr-2 fas fa-search cursor-pointer"></i>
+          {{ 'ACTION.SEARCH' | translate }}
+        </div>
+
+        <div
+          (click)="eResetForm()"
+          class="mx-3 px-8 btn btn-outline-primary font-weight-bolder d-flex align-items-center justify-content-around"
+          style="height: 38px"
+        >
+          <i class="mr-2 fas fa-redo cursor-pointer"></i>
+          {{ 'COMMON_BUTTON.RESET' | translate }}
+        </div>
+      </div>
+    </div>
+    <!--  -->
     <div class="text-break">
       <div class="mb-4"></div>
       <div class="">
