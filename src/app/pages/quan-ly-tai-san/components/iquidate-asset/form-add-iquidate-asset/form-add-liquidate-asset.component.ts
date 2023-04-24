@@ -393,7 +393,7 @@ export class FormAddLiquidateAssetComponent implements OnInit {
    modalRef.componentInstance.data = {
      type: 'WARNING',
      title: 'MODAL_WARNING',
-     message: this.translate.instant('MESSAGE.CF_ADD_TRANSFER_ASSET_BY_FILE'),
+     message: this.translate.instant('MESSAGE.CF_ADD_LIQUIDATE_ASSET_BY_FILE'),
      continue: true,
      cancel: true,
      btn: [
@@ -413,13 +413,13 @@ export class FormAddLiquidateAssetComponent implements OnInit {
              this.openingBalanceService.getSuccessLiquidateAssetFile.next(res);
              this.resultDesc = res.description;
              this.resultCode = 'success';
-             this.toastService.success(this.translate.instant('MESSAGE.ADD_TRANSFER_ASSET_FROM_FILE_SC'));
+             this.toastService.success(this.translate.instant('MESSAGE.ADD_LIQUIDATE_ASSET_FROM_FILE_SC'));
            } else if (res.errorCode == '3') {
              this.resultDesc = res.description;
              this.resultCode = 'warning';
              this.isHasSuccessFile = true;
              this.openingBalanceService.getSuccessLiquidateAssetFile.next(res);
-             this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_TRANSFER_ASSET_FROM_FILE_SC'));
+             this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_LIQUIDATE_ASSET_FROM_FILE_SC'));
            } else {
              this.isHasSuccessFile = false;
              this.openingBalanceService.getSuccessLiquidateAssetFile.next(null);

@@ -54,6 +54,12 @@ export class openingBalanceService {
   getSuccessLiquidateAssetFile = new BehaviorSubject<any>({});
   listLiquidateAsset = new BehaviorSubject<any[]>([]);
   errLiquidateAssetList = new BehaviorSubject<any[]>([]);
+
+   //liquidate-asset
+   getErrImportIncreaseAssetFile = new BehaviorSubject<any>({});//v
+   getSuccessImportIncreaseAssetFile = new BehaviorSubject<any>({});
+   listImportIncreaseAsset = new BehaviorSubject<any[]>([]);
+   errImportIncreaseAssetList = new BehaviorSubject<any[]>([]);
   initHeader: {};
   header = {
     'Content-Type': 'application/json',

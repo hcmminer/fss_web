@@ -28,6 +28,7 @@ import { QuanLyTaiSanComponent } from './quan-ly-tai-san.component';
 import { LiquidateAssetComponent } from './components/iquidate-asset/liquidate-asset.component';
 import { FormAddLiquidateAssetComponent } from './components/iquidate-asset/form-add-iquidate-asset/form-add-liquidate-asset.component';
 import { ReportAssetComponent } from './components/report-asset/report-asset.component';
+import { DetailImportIncreaseAssetComponent } from './components/import-increase-asset/detail-import-increase-asset/detail-import-increase-asset.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ReportAssetComponent } from './components/report-asset/report-asset.com
     FormAddImportIncreaseAssetComponent,
     LiquidateAssetComponent,
     FormAddLiquidateAssetComponent,
-    ReportAssetComponent],
+    ReportAssetComponent,
+    DetailImportIncreaseAssetComponent],
   imports: [
     CommonModule,
     QuanLyTaiSanRoutingModule,

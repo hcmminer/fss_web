@@ -39,39 +39,6 @@
                                 </select>
                             </div>
                             <div class="col-md-2"></div>
-                            <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
-                                'LABEL.ORGANISATION' | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <select class="form-control font-14" [attr.disabled]="isUpdate" name="organisation"
-                                    id="organisation" formControlName="organisation">
-                                    <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation| async">
-                                        <option [value]="item.code">
-                                            <span *ngIf="item.code != ''">{{ item.code }} -</span>  {{ item.name }}
-                                        </option>
-                                    </ng-container>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <label class="col-md-2 form-label col-form-label font-14" for="contract">{{
-                                'LABEL.CONTRACT' | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <input type="text" name="contract" id="contract" class="form-control"
-                                    formControlName="contract" maxlength="100" />
-                                <div
-                                    *ngIf="addEditForm.get('contract').invalid && (addEditForm.get('contract').dirty || addEditForm.get('contract').touched)">
-                                    <small class="form-text text-danger"
-                                        *ngIf="addEditForm.get('contract').errors.required">
-                                        {{'VALIDATION.REQUIRED' | translate
-                                        : {
-                                        name: 'LABEL.CONTRACT' | translate
-                                        }
-                                        }}
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-2"></div>
                             <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr">{{
                                 'LABEL.CONSTRUCTION_DATE'
                                 | translate }}<span style="color: red">*</span></label>
@@ -195,33 +162,6 @@
                                         {{'VALIDATION.REQUIRED' | translate
                                         : {
                                         name: 'LABEL.ASSETCODE' | translate
-                                        }
-                                        }}
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-2"></div>
-                            <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
-                                'LABEL.ORGANISATION' | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <input type="text" maxlength="50" class="form-control" id="organisation" autocomplete="off"
-                                formControlName="organisation" [attr.disabled]="isUpdate" />
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <label class="col-md-2 form-label col-form-label font-14" for="contract">{{
-                                'LABEL.CONTRACT' | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <input type="text" [attr.disabled]="isUpdate" name="contract" id="contract"
-                                    class="form-control" formControlName="contract" maxlength="100" />
-                                <div
-                                    *ngIf="addEditForm.get('contract').invalid && (addEditForm.get('contract').dirty || addEditForm.get('contract').touched)">
-                                    <small class="form-text text-danger"
-                                        *ngIf="addEditForm.get('contract').errors.required">
-                                        {{'VALIDATION.REQUIRED' | translate
-                                        : {
-                                        name: 'LABEL.CONTRACT' | translate
                                         }
                                         }}
                                     </small>

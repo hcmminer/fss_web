@@ -9,19 +9,11 @@ import { CONFIG } from 'src/app/utils/constants';
 })
 export class QuanLyTaiSanComponent implements OnInit {
   userName: string;
-  constructor(private openingBalanceService: openingBalanceService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
-    this.initCombobox();
-  }
-
-  initCombobox() {
-    let reqGetListStatus = {userName: this.userName };
-    this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
-    this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
-    this.openingBalanceService.getCbxAssetCodeTransfer(reqGetListStatus, 'get-list-transfer-asset', true);
 
   }
+
 }
 

@@ -205,6 +205,12 @@ export const locale = {
       LIST_LIQUIDATE_ASSET: 'Danh sách thanh lý tài sản',
       ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
 
+      //phát sinh tăng khấu hao
+      INCREASE_ORIGINAL_AMOUNT: 'Nguyên giá',
+      INCREASE_AMOUNT: 'Khấu hao',
+      SOURCE_OF_ASSET: 'Nguồn gốc tài sản',
+      DEPRECIATION_STARTDATE: 'Ngày bắt đầu khấu hao',
+      LAST_UPDATEDATE_TIME: 'Ngày tác động'
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -404,6 +410,12 @@ export const locale = {
       CF_UPDATE_TRANSFER_ASSET_FILE: "Bạn có chắc chắn muốn cập nhật điều chuyển tải sản theo file không",
       UPDATE_TRANSFER_ASSET_FROM_FILE_SC: "Cập nhật điều chuyển tải sản theo file thành công",
       ADD_TRANSFER_ASSET_FROM_FILE_SC: "Thêm điều chuyển tải sản theo file thành công",
+
+      //thanh lí tài sản
+      CF_ADD_LIQUIDATE_ASSET_BY_FILE: "Bạn có chắc chắn muốn thêm thanh lý tải sản theo file không",
+      CF_UPDATE_LIQUIDATE_ASSET_FILE: "Bạn có chắc chắn muốn cập nhật thanh lý tải sản theo file không",
+      UPDATE_LIQUIDATE_ASSET_FROM_FILE_SC: "Cập nhật thanh lý tải sản theo file thành công",
+      ADD_LIQUIDATE_ASSET_FROM_FILE_SC: "Thêm thanh lý tải sản theo file thành công",
     },
     CONFIRM: {
       //I.Lập phiếu công tác

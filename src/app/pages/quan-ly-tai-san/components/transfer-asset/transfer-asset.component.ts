@@ -101,7 +101,14 @@ export class TransferAssetComponent implements OnInit {
     this.loadSearchForm();
   }
 
+  initCombobox() {
+    let reqGetListStatus = {userName: this.userName };
+    this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
+    this.openingBalanceService.getCbxAssetCodeTransfer(reqGetListStatus, 'get-list-transfer-asset', true);
+  }
+
   ngOnInit(): void {
+    this.initCombobox();
     this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);

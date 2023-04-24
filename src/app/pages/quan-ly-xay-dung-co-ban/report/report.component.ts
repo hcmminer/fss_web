@@ -97,7 +97,14 @@ export class ReportComponent implements OnInit {
     this.loadSearchForm();
   }
 
+  initCombobox() {
+    let reqGetListStatus = { userName: this.userName };
+    this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
+    this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease', true);
+  }
+
   ngOnInit(): void {
+    this.initCombobox()
     this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);

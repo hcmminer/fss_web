@@ -106,7 +106,7 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
       this.addType = 'file';
       this.loadAddFileForm()
     } else {
-      this.columnsToDisplay = ['index', 'organisation', 'assetCode', 'typeOfAssetCode', 'contract', 'material', 'labor', 'constructionDateStr', 'errorMsg'];
+      this.columnsToDisplay = ['index', 'assetCode', 'typeOfAssetCode', 'material', 'labor', 'constructionDateStr', 'errorMsg'];
     }
 
     if (this.isUpdate) {
@@ -139,9 +139,7 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
 
   loadAddForm() {
     this.addEditForm = this.fb.group({
-      organisation: [this.isUpdate ? this.item.organisation : '', [Validators.required]],
       assetCode: [this.isUpdate ? this.item.assetCode :  '', [Validators.required]],
-      contract: [this.isUpdate ? this.item.contract : '', [Validators.required]],
       constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
       material: ['', [Validators.required,Validators.maxLength(18)]],
       labor: ['', [Validators.required,Validators.maxLength(18)]],
@@ -233,8 +231,6 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
       userName: this.userName,
       constructionDTO: {
         assetCode: this.addEditForm.get('assetCode').value,
-        organisation: this.addEditForm.get('organisation').value,
-        contract: this.addEditForm.get('contract').value,
         constructionDateStr: this.transform(this.addEditForm.get('constructionDateStr').value),
         material: Number(this.addEditForm.get('material').value.replaceAll(',', '')),
         labor: Number(this.addEditForm.get('labor').value.replaceAll(',', '')),
