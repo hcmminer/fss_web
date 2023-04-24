@@ -24,11 +24,13 @@ import { TransferAssetComponent } from './components/transfer-asset/transfer-ass
 import { FormAddTransferAssetComponent } from './components/transfer-asset/form-add-transfer-asset/form-add-transfer-asset.component';
 import { ImportIncreaseAssetComponent } from './components/import-increase-asset/import-increase-asset.component';
 import { FormAddImportIncreaseAssetComponent } from './components/import-increase-asset/form-add-import-increase-asset/form-add-import-increase-asset.component';
-import { IquidateAssetComponent } from './components/iquidate-asset/iquidate-asset.component';
 import { QuanLyTaiSanComponent } from './quan-ly-tai-san.component';
 import { OpenDepComponent } from './components/open-dep/open-dep.component';
 import { AeOpenDepComponent } from './components/open-dep/ae-open-dep/ae-open-dep.component';
 
+import { LiquidateAssetComponent } from './components/iquidate-asset/liquidate-asset.component';
+import { FormAddLiquidateAssetComponent } from './components/iquidate-asset/form-add-iquidate-asset/form-add-liquidate-asset.component';
+import { ReportAssetComponent } from './components/report-asset/report-asset.component';
 
 @NgModule({
   declarations: [
@@ -39,9 +41,11 @@ import { AeOpenDepComponent } from './components/open-dep/ae-open-dep/ae-open-de
     FormAddTransferAssetComponent,
     ImportIncreaseAssetComponent,
     FormAddImportIncreaseAssetComponent,
-    IquidateAssetComponent,
     OpenDepComponent,
-    AeOpenDepComponent],
+    AeOpenDepComponent,
+    LiquidateAssetComponent,
+    FormAddLiquidateAssetComponent,
+    ReportAssetComponent],
   imports: [
     CommonModule,
     QuanLyTaiSanRoutingModule,

@@ -13,12 +13,12 @@ import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
 import { CONFIG } from 'src/app/utils/constants';
-import { FormAddTransferAssetComponent } from './form-add-transfer-asset/form-add-transfer-asset.component';
+
 
 const queryInit = {
   groupFilter: '',
-  assetCode: '',
   organisation: '',
+  assetCode: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
   endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
@@ -38,13 +38,12 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-transfer-asset',
-  templateUrl: './transfer-asset.component.html',
-  styleUrls: ['./transfer-asset.component.scss']
+  selector: 'app-report-asset',
+  templateUrl: './report-asset.component.html',
+  styleUrls: ['./report-asset.component.scss']
 })
-export class TransferAssetComponent implements OnInit {
-
-  currentPage = 1;
+export class ReportAssetComponent implements OnInit {
+ currentPage = 1;
   @ViewChild('autoFocus') private _inputElement: ElementRef; // autofocus
   pageSize: number = 10;
   source: any;
@@ -62,7 +61,6 @@ export class TransferAssetComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('updateRefuse') updateRefuse: ElementRef;
   searchForm: FormGroup;
 
   @ViewChild('formSearch') formSearch: ElementRef;
@@ -80,12 +78,9 @@ export class TransferAssetComponent implements OnInit {
   };
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
-    'index',
-    'assetCode',
-    'departmentCode',
-    'departmentCodeReceive',
-    'createdDatetimeStr',
-    'constructionDateStr',
+    'index', 'organisation', 'assetCode', 'typeOfAsset', 'sodauky', 'phatsinhtang', 'phatsinhgiam',
+    'soducuoiky', 'openLabor', 'openMaterial', 'openTotal', 'increaseLabor', 'increaseMaterial',
+    'increaseTotal', 'decreaseLabor', 'decreaseMaterial', 'decreaseTotal', 'laborTotal', 'materialTotal', 'total'
   ];
 
   constructor(
@@ -107,6 +102,7 @@ export class TransferAssetComponent implements OnInit {
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.isAdmin = this.userRes.isAdmin;
     this.eSearch();
+
   }
 
   eInputDate(event: any, typeDate: string) {
@@ -124,15 +120,15 @@ export class TransferAssetComponent implements OnInit {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
-      assetCode: [this.query.assetCode],
+      assetCode: [ this.query.assetCode = this.translate.instant('DEFAULT_OPTION.SELECT')],
       start: [this.query.startDate],
       end: [this.query.endDate],
     });
   }
 
   eViewDetail(item: any) {
-    // console.log('view detail', item);
-    // const modalRef = this.modalService.open(ViewDetailOpenBalanceComponent, {
+    console.log('view detail', item);
+    // const modalRef = this.modalService.open(DetailBcDecreaseComponent, {
     //   centered: true,
     //   backdrop: 'static',
     //   size: 'xl',
@@ -157,13 +153,13 @@ export class TransferAssetComponent implements OnInit {
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
-        this.openingBalanceService.listTransferAsset.next(res.data);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listTransferAsset.value);
+        this.openingBalanceService.listDataReport.next(res.data);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listDataReport.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.openingBalanceService.listTransferAsset.next([]);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listTransferAsset.value);
+        this.openingBalanceService.listDataReport.next([]);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listDataReport.value);
       }
     });
     this.subscriptions.push(rq);
@@ -174,13 +170,12 @@ export class TransferAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        departmentReceiveCode: this.searchForm.get('organisation').value,
-        fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
-        toCreatedDateStr: this.transform(this.searchForm.get('end').value),
-        assetCode: this.searchForm.get('assetCode').value,
+        assetCode: this.query.assetCode == this.translate.instant('DEFAULT_OPTION.SELECT') ? '' : this.searchForm.get('assetCode').value,
+        fromDateStr: this.transform(this.searchForm.get('start').value),
+        toDateStr: this.transform(this.searchForm.get('end').value),
       },
     };
-    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-dep-transfer');
+    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'export-depreciation-synthesis');
   }
 
   eResetForm() {
@@ -191,28 +186,30 @@ export class TransferAssetComponent implements OnInit {
     this.loadSearchForm();
   }
 
-  displayFormAdd(item: any, isTransferByFile) {
-    const modalRef = this.modalService.open(FormAddTransferAssetComponent, {
-      centered: true,
-      backdrop: 'static',
-      size: 'xl',
-    });
-    modalRef.componentInstance.item = item;
-    modalRef.componentInstance.isTransferByFile = isTransferByFile;
-    const requestTarget = {
-      userName: this.userName,
-      searchDTO: {
-        groupFilter: this.query.groupFilter,
-        departmentReceiveCode: this.searchForm.get('organisation').value,
-        fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
-        toCreatedDateStr: this.transform(this.searchForm.get('end').value),
-        assetCode:  this.searchForm.get('assetCode').value,
-      },
-    };
-    modalRef.componentInstance.req = requestTarget;
-    modalRef.result.then((result) => {
-      this.eSearch();
-    });
+  displayFormAdd(item: any, isUpdate, isUpdateFile) {
+    // const modalRef = this.modalService.open(FormAddEditPhatSinhGiamComponent, {
+    //   centered: true,
+    //   backdrop: 'static',
+    //   size: 'xl',
+    // });
+    // modalRef.componentInstance.item = item;
+    // modalRef.componentInstance.isUpdate = isUpdate;
+    // modalRef.componentInstance.isUpdateFile = isUpdateFile;
+    // const requestTarget = {
+    //   userName: this.userName,
+    //   searchDTO: {
+    //     groupFilter: this.query.groupFilter,
+    //     assetCode: this.query.assetCode == this.translate.instant('DEFAULT_OPTION.SELECT') ? '' :  this.searchForm.get('assetCode').value,
+    //     organisation: this.searchForm.get('organisation').value,
+    //     typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
+    //     fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+    //     toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+    //   },
+    // };
+    // modalRef.componentInstance.req = requestTarget;
+    // modalRef.result.then((result) => {
+    //   this.eSearch();
+    // });
   }
 
   // helpers for View

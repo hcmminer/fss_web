@@ -311,8 +311,8 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
           (res) => {
             if (res.errorCode == '0') {
               this.toastService.success(this.translate.instant('MESSAGE.UPLOAD_FILE_SC'));
-              this.openingBalanceService.errTransferassetList.next(res.data);
-              this.dataSource = new MatTableDataSource(this.openingBalanceService.errTransferassetList.value);
+              this.openingBalanceService.errTransferAssetList.next(res.data);
+              this.dataSource = new MatTableDataSource(this.openingBalanceService.errTransferAssetList.value);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
               let isError = res.data.find((item) => item.errorMsg != '');
@@ -320,10 +320,10 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
               this.totalRecord = res.data.length;
               this.isHasResult = true;
               if (isError) {
-                this.openingBalanceService.getErrTransferassetFile.next(res);
+                this.openingBalanceService.getErrTransferAssetFile.next(res);
                 this.isErrorFile = true;
               } else {
-                this.openingBalanceService.getErrTransferassetFile.next(null);
+                this.openingBalanceService.getErrTransferAssetFile.next(null);
                 this.isErrorFile = false;
               }
               this.magicButtonUpdate = isError ? false : true;
@@ -354,14 +354,14 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
   apiCofirmUpdateByFile() {
     const req = {
       userName: this.userName,
-      listDepreciationDetailDTO: this.openingBalanceService.errTransferassetList.value,
+      listDepreciationDetailDTO: this.openingBalanceService.errTransferAssetList.value,
     };
     return this.globalService.globalApi(req, 'confirm-transfer-asset-by-file');
   }
 
   eDownloadFileSuccess() {
     debugger
-    const sub = this.openingBalanceService.getSuccessTransferassetFile.subscribe((res) => {
+    const sub = this.openingBalanceService.getSuccessTransferAssetFile.subscribe((res) => {
       if (res.errorCode == '0' || res.errorCode == '3') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
         this.spinner.hide();
@@ -407,11 +407,11 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
     };
     modalRef.result.then(
       (result) => {
-        if (this.openingBalanceService.errTransferassetList.value.find((item) => item.errorMsg == '')) {
+        if (this.openingBalanceService.errTransferAssetList.value.find((item) => item.errorMsg == '')) {
           const sub = this.apiCofirmUpdateByFile().subscribe((res) => {
             if (res.errorCode == '0') {
               this.isHasSuccessFile = true;
-              this.openingBalanceService.getSuccessTransferassetFile.next(res);
+              this.openingBalanceService.getSuccessTransferAssetFile.next(res);
               this.resultDesc = res.description;
               this.resultCode = 'success';
               this.toastService.success(this.translate.instant('ADD_OP_BL_FROM_FILE_SC'));
@@ -419,11 +419,11 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
               this.resultDesc = res.description;
               this.resultCode = 'warning';
               this.isHasSuccessFile = true;
-              this.openingBalanceService.getSuccessTransferassetFile.next(res);
+              this.openingBalanceService.getSuccessTransferAssetFile.next(res);
               this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_OP_BL_FROM_FILE_SC'));
             } else {
               this.isHasSuccessFile = false;
-              this.openingBalanceService.getSuccessTransferassetFile.next(null);
+              this.openingBalanceService.getSuccessTransferAssetFile.next(null);
               this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
             }
           });
@@ -435,7 +435,7 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
   }
 
   eDownloadErrFile() {
-    const sub = this.openingBalanceService.getErrTransferassetFile.subscribe((res) => {
+    const sub = this.openingBalanceService.getErrTransferAssetFile.subscribe((res) => {
       if (res.errorCode == '0') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
         this.spinner.hide();
