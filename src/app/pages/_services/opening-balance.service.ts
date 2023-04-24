@@ -43,10 +43,17 @@ export class openingBalanceService {
 
   //transfer-asset
   cbxAssetCodeTransfer = new BehaviorSubject<any[]>([]);
-  getErrTransferassetFile = new BehaviorSubject<any>({});//v
-  getSuccessTransferassetFile = new BehaviorSubject<any>({});
-  listTransferasset = new BehaviorSubject<any[]>([]);
-  errTransferassetList = new BehaviorSubject<any[]>([]);
+  getErrTransferAssetFile = new BehaviorSubject<any>({});//v
+  getSuccessTransferAssetFile = new BehaviorSubject<any>({});
+  listTransferAsset = new BehaviorSubject<any[]>([]);
+  errTransferAssetList = new BehaviorSubject<any[]>([]);
+
+  
+  //liquidate-asset
+  getErrLiquidateAssetFile = new BehaviorSubject<any>({});//v
+  getSuccessLiquidateAssetFile = new BehaviorSubject<any>({});
+  listLiquidateAsset = new BehaviorSubject<any[]>([]);
+  errLiquidateAssetList = new BehaviorSubject<any[]>([]);
   initHeader: {};
   header = {
     'Content-Type': 'application/json',

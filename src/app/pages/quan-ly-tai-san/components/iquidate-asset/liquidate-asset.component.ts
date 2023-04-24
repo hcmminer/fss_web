@@ -13,12 +13,11 @@ import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
 import { CONFIG } from 'src/app/utils/constants';
-import { FormAddTransferAssetComponent } from './form-add-transfer-asset/form-add-transfer-asset.component';
+import { FormAddLiquidateAssetComponent } from './form-add-iquidate-asset/form-add-liquidate-asset.component';
 
 const queryInit = {
   groupFilter: '',
   assetCode: '',
-  organisation: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
   endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
@@ -36,14 +35,12 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-
 @Component({
-  selector: 'app-transfer-asset',
-  templateUrl: './transfer-asset.component.html',
-  styleUrls: ['./transfer-asset.component.scss']
+  selector: 'app-liquidate-asset',
+  templateUrl: './liquidate-asset.component.html',
+  styleUrls: ['./liquidate-asset.component.scss']
 })
-export class TransferAssetComponent implements OnInit {
-
+export class LiquidateAssetComponent implements OnInit {
   currentPage = 1;
   @ViewChild('autoFocus') private _inputElement: ElementRef; // autofocus
   pageSize: number = 10;
@@ -82,8 +79,6 @@ export class TransferAssetComponent implements OnInit {
   columnsToDisplay = [
     'index',
     'assetCode',
-    'departmentCode',
-    'departmentCodeReceive',
     'createdDatetimeStr',
     'constructionDateStr',
   ];
@@ -123,7 +118,6 @@ export class TransferAssetComponent implements OnInit {
   loadSearchForm() {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
-      organisation: [this.query.organisation],
       assetCode: [this.query.assetCode],
       start: [this.query.startDate],
       end: [this.query.endDate],
@@ -157,13 +151,13 @@ export class TransferAssetComponent implements OnInit {
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
-        this.openingBalanceService.listTransferAsset.next(res.data);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listTransferAsset.value);
+        this.openingBalanceService.listLiquidateAsset.next(res.data);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listLiquidateAsset.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.openingBalanceService.listTransferAsset.next([]);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listTransferAsset.value);
+        this.openingBalanceService.listLiquidateAsset.next([]);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listLiquidateAsset.value);
       }
     });
     this.subscriptions.push(rq);
@@ -174,13 +168,12 @@ export class TransferAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        departmentReceiveCode: this.searchForm.get('organisation').value,
         fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
         toCreatedDateStr: this.transform(this.searchForm.get('end').value),
         assetCode: this.searchForm.get('assetCode').value,
       },
     };
-    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-dep-transfer');
+    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-dep-liquidate');
   }
 
   eResetForm() {
@@ -192,7 +185,7 @@ export class TransferAssetComponent implements OnInit {
   }
 
   displayFormAdd(item: any, isTransferByFile) {
-    const modalRef = this.modalService.open(FormAddTransferAssetComponent, {
+    const modalRef = this.modalService.open(FormAddLiquidateAssetComponent, {
       centered: true,
       backdrop: 'static',
       size: 'xl',
@@ -203,7 +196,6 @@ export class TransferAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        departmentReceiveCode: this.searchForm.get('organisation').value,
         fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
         toCreatedDateStr: this.transform(this.searchForm.get('end').value),
         assetCode:  this.searchForm.get('assetCode').value,
@@ -272,4 +264,5 @@ export class TransferAssetComponent implements OnInit {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
+
 }

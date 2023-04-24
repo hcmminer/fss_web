@@ -121,7 +121,7 @@ export class ReportComponent implements OnInit {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
-      assetCode: [ this.query.assetCode = this.translate.instant('DEFAULT_OPTION.SELECT')],
+      assetCode: [ this.query.assetCode],
       start: [this.query.startDate],
       end: [this.query.endDate],
     });
@@ -171,7 +171,7 @@ export class ReportComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        assetCode: this.query.assetCode == this.translate.instant('DEFAULT_OPTION.SELECT') ? '' : this.searchForm.get('assetCode').value,
+        assetCode: this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
         toDateStr: this.transform(this.searchForm.get('end').value),

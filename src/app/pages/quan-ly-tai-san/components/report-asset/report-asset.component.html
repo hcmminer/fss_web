@@ -62,7 +62,7 @@
                                         <ng-container
                                             *ngFor="let item of openingBalanceService.cbxListAssetCodeDecrease| async">
                                             <option [value]="item.assetCode">
-                                                {{ item.assetCode == '' ? ('DEFAULT_OPTION.SELECT' | translate ):  item.assetCode }}
+                                                {{ item.assetCode }}
                                             </option>
                                         </ng-container>
                                     </select>
@@ -160,12 +160,12 @@
                                 <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.assetCode }}</td>
                             </ng-container>
 
-                            <!-- contract -->
-                            <ng-container matColumnDef="contract">
+                            <!-- typeOfAsset -->
+                            <ng-container matColumnDef="typeOfAsset">
                                 <th mat-header-cell *matHeaderCellDef rowspan="2">
-                                    {{ 'LABEL.CONTRACT' | translate }}
+                                    {{ 'LABEL.TYPE_OF_ASSET_CODE' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.contract }}</td>
+                                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.typeOfAsset }}</td>
                             </ng-container>
 
                             <!-- cot to thu 1 -->
@@ -316,7 +316,7 @@
                                 </td>
                             </ng-container>
                             <!-- kết thúc số dư cuối kỳ -->
-                            <tr mat-row *matHeaderRowDef="['index','organisation','assetCode','contract','sodauky','phatsinhtang',
+                            <tr mat-row *matHeaderRowDef="['index','organisation','assetCode','typeOfAsset','sodauky','phatsinhtang',
                                  'phatsinhgiam', 'soducuoiky' ]">
                             </tr>
                             <tr mat-row
@@ -324,7 +324,7 @@
                                 'increaseTotal','decreaseLabor','decreaseMaterial','decreaseTotal', 'laborTotal', 'materialTotal', 'total']">
                             </tr>
                             <tr mat-row
-                                *matRowDef="let element; columns:['index','organisation','assetCode','contract','openLabor',
+                                *matRowDef="let element; columns:['index','organisation','assetCode','typeOfAsset','openLabor',
                                 'openMaterial','openTotal','increaseLabor','increaseMaterial','increaseTotal','decreaseLabor','decreaseMaterial','decreaseTotal', 'laborTotal', 'materialTotal', 'total']">
 
                         </table>

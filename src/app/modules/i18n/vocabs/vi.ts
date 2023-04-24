@@ -200,6 +200,11 @@ export const locale = {
       DEPARTMENT_CODE: 'Mã đơn vị chuyển',
       DEPARTMENT_CODE_RECEIVE: 'Mã đơn vị nhận',
       TOTAL: 'Tổng cộng',
+
+      //thanh lí tài sản
+      LIST_LIQUIDATE_ASSET: 'Danh sách thanh lý tài sản',
+      ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
+
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -277,6 +282,10 @@ export const locale = {
       TRANSFER_ASSET: 'Điều chuyển tài sản',
       ADD_TRANSFER_ASSET: 'Thêm mới điều chuyển tài sản',
       LIST_ERR_FILE: 'Danh sách file lỗi',
+
+       //thanh lý tài sản
+       LIQUIDATE_ASSET: 'Thanh lý tài sản',
+       ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
     },
     REQUIRED: {
       REASON_REFUSE: 'Bắt buộc nhập lý do từ chối',
