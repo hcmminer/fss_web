@@ -98,7 +98,7 @@ export class LiquidateAssetComponent implements OnInit {
 
   initCombobox() {
     let reqGetListStatus = {userName: this.userName };
-    this.openingBalanceService.getCbxAssetCodeTransfer(reqGetListStatus, 'get-list-transfer-asset', true);
+    this.openingBalanceService.getCbxAssetCodeTransfer(reqGetListStatus, 'get-list-asset-code-liquidate', true);
   }
 
   ngOnInit(): void {

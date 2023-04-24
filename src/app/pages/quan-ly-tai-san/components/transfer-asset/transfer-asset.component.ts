@@ -104,7 +104,7 @@ export class TransferAssetComponent implements OnInit {
   initCombobox() {
     let reqGetListStatus = {userName: this.userName };
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
-    this.openingBalanceService.getCbxAssetCodeTransfer(reqGetListStatus, 'get-list-transfer-asset', true);
+    this.openingBalanceService.getCbxAssetCodeTransfer(reqGetListStatus, 'get-list-asset-code-transfer', true);
   }
 
   ngOnInit(): void {
