@@ -1,0 +1,333 @@
+<div class="pt-5 pl-5 pr-5">
+  <div class="">
+    <h5 style="font-weight: 700" *ngIf="propAction == 'add'">
+      {{ 'FUNCTION.ADD' | translate }}
+    </h5>
+    <h5 style="font-weight: 700" *ngIf="propAction == 'update'">
+      {{ 'FUNCTION.UPDATE' | translate }}
+    </h5>
+    <hr />
+    <br />
+    <div>
+      <ng-container *ngIf="propAction == 'add'">
+        <form class="form" [formGroup]="addForm">
+          <div class="row form-group justify-content-around">
+            <!-- assetCode -->
+            <label class="col-md-2 form-label col-form-label">
+              {{ 'LABEL.ASSET_CODE' | translate }}
+              <span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <input
+                class="form-control"
+                formControlName="assetCode"
+                [class.is-invalid]="isControlInvalid('assetCode')"
+                maxlength="200"
+              />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'assetCode')">
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.ASSET_CODE' | translate } }}
+              </div>
+            </div>
+            <!-- TYPE_OF_ASSET_CODE -->
+            <label class="col-md-2 form-label col-form-label">
+              {{ 'LABEL.TYPE_OF_ASSET_CODE' | translate }}
+              <span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <input
+                class="form-control"
+                formControlName="typeOfAssetCode"
+                [class.is-invalid]="isControlInvalid('typeOfAssetCode')"
+                maxlength="200"
+              />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'typeOfAssetCode')">
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.TYPE_OF_ASSET_CODE' | translate } }}
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group justify-content-around">
+            <!-- departmentCode -->
+            <label class="col-md-2 form-label col-form-label">
+              {{ 'LABEL.ORGANISATION' | translate }}
+              <span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <input
+                class="form-control"
+                formControlName="departmentCode"
+                [class.is-invalid]="isControlInvalid('departmentCode')"
+                maxlength="200"
+              />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'departmentCode')">
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.ORGANISATION' | translate } }}
+              </div>
+            </div>
+
+            <!-- sourceOfAsset -->
+            <label class="col-md-2 form-label col-form-label">
+              {{ 'LABEL.SOURCE_OF_ASSET' | translate }}
+              <span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <input
+                class="form-control"
+                formControlName="sourceOfAsset"
+                [class.is-invalid]="isControlInvalid('sourceOfAsset')"
+                maxlength="200"
+              />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'sourceOfAsset')">
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.SOURCE_OF_ASSET' | translate } }}
+              </div>
+            </div>
+          </div>
+          <div class="row form-group justify-content-around">
+            <!-- beginOriginalAmount -->
+            <label class="col-md-2 form-label col-form-label">
+              {{ 'LABEL.BEGIN_ORIGINAL_AMOUNT' | translate }}
+              <span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <input
+                class="form-control"
+                formControlName="beginOriginalAmount"
+                [class.is-invalid]="isControlInvalid('beginOriginalAmount')"
+                NumbersOnly
+                [allowThousandSeparator]="true"
+              />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'beginOriginalAmount')">
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.BEGIN_ORIGINAL_AMOUNT' | translate } }}
+              </div>
+            </div>
+
+            <!-- beginAmount -->
+            <label class="col-md-2 form-label col-form-label">
+              {{ 'LABEL.BEGIN_AMOUNT' | translate }}
+              <span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <input
+                class="form-control"
+                formControlName="beginAmount"
+                [class.is-invalid]="isControlInvalid('beginAmount')"
+                NumbersOnly
+                [allowThousandSeparator]="true"
+              />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'beginAmount')">
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.BEGIN_AMOUNT' | translate } }}
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group justify-content-around">
+            <!-- constructionDateStr -->
+            <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr"
+              >{{ 'LABEL.CONSTRUCTION_DATE' | translate }}<span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <mat-form-field appearance="fill">
+                <input
+                  matInput
+                  formControlName="constructionDateStr"
+                  [matDatepicker]="picker"
+                  (input)="eInputDate1($event)"
+                />
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <div style="color: red" *ngIf="constructionDateErrorMsg != ''">
+                  {{ constructionDateErrorMsg | translate }}
+                </div>
+              </mat-form-field>
+            </div>
+            <!-- depreciationStartDateStr -->
+            <label class="col-md-2 form-label col-form-label font-14" for="depreciationStartDateStr"
+              >{{ 'LABEL.DEPRECIATION_START_DATE' | translate }}<span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <mat-form-field appearance="fill">
+                <input
+                  matInput
+                  formControlName="depreciationStartDateStr"
+                  [matDatepicker]="picker"
+                  (input)="eInputDate2($event)"
+                />
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <div style="color: red" *ngIf="depreciationStartDateErrorMsg != ''">
+                  {{ depreciationStartDateErrorMsg | translate }}
+                </div>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end my-5">
+            <button
+              *ngIf="this.propAction == 'add'"
+              class="btn btn-primary mx-3"
+              style="width: 150px"
+              (click)="eSave('add')"
+            >
+              {{ 'ACTION.SAVE' | translate }}
+            </button>
+            <button
+              *ngIf="this.propAction == 'update'"
+              class="btn btn-primary mx-3"
+              style="width: 150px"
+              (click)="eSave('update')"
+            >
+              {{ 'ACTION.SAVE' | translate }}
+            </button>
+            <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eClose()">
+              {{ 'ACTION.CLOSE' | translate }}
+            </button>
+          </div>
+        </form></ng-container
+      >
+      <ng-container *ngIf="propAction == 'update'">
+        <form class="form" [formGroup]="editForm">
+          <div class="row form-group justify-content-around">
+            <!-- assetCode -->
+            <label class="col-md-2 form-label col-form-label">
+              {{ 'LABEL.ASSET_CODE' | translate }}
+              <span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <input
+                class="form-control"
+                formControlName="assetCode"
+                [class.is-invalid]="isControlInvalid('assetCode')"
+                maxlength="200"
+                disabled
+              />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'assetCode')">
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.ASSET_CODE' | translate } }}
+              </div>
+            </div>
+
+            <!-- constructionDateStr -->
+            <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr"
+              >{{ 'LABEL.CONSTRUCTION_DATE' | translate }}<span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <mat-form-field appearance="fill">
+                <input
+                  matInput
+                  formControlName="constructionDateStr"
+                  [matDatepicker]="picker"
+                  (input)="eInputDate1($event)"
+                />
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <div style="color: red" *ngIf="constructionDateErrorMsg != ''">
+                  {{ constructionDateErrorMsg | translate }}
+                </div>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row form-group justify-content-around">
+            <!-- beginOriginalAmountTotal current-->
+            <label class="col-md-2 form-label col-form-label">
+              {{ 'LABEL.BEGIN_ORIGINAL_AMOUNT_CURRENT' | translate }}
+              <span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <input
+                class="form-control"
+                formControlName="beginOriginalAmountTotal"
+                [class.is-invalid]="isControlInvalid('beginOriginalAmountTotal')"
+                NumbersOnly
+                [allowThousandSeparator]="true"
+                disabled
+              />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'beginOriginalAmountTotal')">
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.BEGIN_ORIGINAL_AMOUNT_CURRENT' | translate } }}
+              </div>
+            </div>
+            <!-- beginOriginalAmount target-->
+            <label class="col-md-2 form-label col-form-label">
+              {{ 'LABEL.BEGIN_ORIGINAL_AMOUNT_TARGET' | translate }}
+              <span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <input
+                class="form-control"
+                formControlName="beginOriginalAmount"
+                [class.is-invalid]="isControlInvalid('beginOriginalAmount')"
+                NumbersOnly
+                [allowThousandSeparator]="true"
+              />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'beginOriginalAmount')">
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.BEGIN_ORIGINAL_AMOUNT_TARGET' | translate } }}
+              </div>
+            </div>
+
+            
+          </div>
+          <div class="row form-group justify-content-around">
+            <!-- beginAmountTotal current -->
+            <label class="col-md-2 form-label col-form-label">
+              {{ 'LABEL.BEGIN_AMOUNT_CURRENT' | translate }}
+              <span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <input
+                class="form-control"
+                formControlName="beginAmount"
+                [class.is-invalid]="isControlInvalid('beginAmount')"
+                NumbersOnly
+                [allowThousandSeparator]="true"
+                disabled
+              />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'beginAmount')">
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.BEGIN_AMOUNT_CURRENT' | translate } }}
+              </div>
+            </div>
+            <!-- beginAmount target -->
+            <label class="col-md-2 form-label col-form-label">
+              {{ 'LABEL.BEGIN_AMOUNT_TARGET' | translate }}
+              <span style="color: red">*</span></label
+            >
+            <div class="col-md-3">
+              <input
+                class="form-control"
+                formControlName="beginAmount"
+                [class.is-invalid]="isControlInvalid('beginAmount')"
+                NumbersOnly
+                [allowThousandSeparator]="true"
+              />
+              <div class="invalid-feedback" *ngIf="controlHasError('required', 'beginAmount')">
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.BEGIN_AMOUNT_TARGET' | translate } }}
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end my-5">
+            <button
+              *ngIf="this.propAction == 'add'"
+              class="btn btn-primary mx-3"
+              style="width: 150px"
+              (click)="eSave('add')"
+            >
+              {{ 'ACTION.SAVE' | translate }}
+            </button>
+            <button
+              *ngIf="this.propAction == 'update'"
+              class="btn btn-primary mx-3"
+              style="width: 150px"
+              (click)="eSave('update')"
+            >
+              {{ 'ACTION.SAVE' | translate }}
+            </button>
+            <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eClose()">
+              {{ 'ACTION.CLOSE' | translate }}
+            </button>
+          </div>
+        </form></ng-container
+      >
+    </div>
+  </div>
+</div>

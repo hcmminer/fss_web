@@ -26,6 +26,8 @@ import { ImportIncreaseAssetComponent } from './components/import-increase-asset
 import { FormAddImportIncreaseAssetComponent } from './components/import-increase-asset/form-add-import-increase-asset/form-add-import-increase-asset.component';
 import { IquidateAssetComponent } from './components/iquidate-asset/iquidate-asset.component';
 import { QuanLyTaiSanComponent } from './quan-ly-tai-san.component';
+import { OpenDepComponent } from './components/open-dep/open-dep.component';
+import { AeOpenDepComponent } from './components/open-dep/ae-open-dep/ae-open-dep.component';
 
 
 @NgModule({
@@ -37,7 +39,9 @@ import { QuanLyTaiSanComponent } from './quan-ly-tai-san.component';
     FormAddTransferAssetComponent,
     ImportIncreaseAssetComponent,
     FormAddImportIncreaseAssetComponent,
-    IquidateAssetComponent],
+    IquidateAssetComponent,
+    OpenDepComponent,
+    AeOpenDepComponent],
   imports: [
     CommonModule,
     QuanLyTaiSanRoutingModule,

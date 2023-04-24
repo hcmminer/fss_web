@@ -1,7 +1,7 @@
 import { AssetManageService } from './../../../_services/asset-manage.service';
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,19 +13,21 @@ import { debounceTime } from 'rxjs/operators';
 import { CONFIG } from 'src/app/utils/constants';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { RequestApiModel } from 'src/app/pages/_models/api.request.model';
-import { AddEditLoaiTaiSanComponent } from './add-edit-loai-tai-san/add-edit-loai-tai-san.component';
+import { AddEditLoaiTaiSanComponent } from '../loai-tai-san/add-edit-loai-tai-san/add-edit-loai-tai-san.component';
 import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
+import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
 
 const queryInit = {
   groupFilter: '',
+  organisation: '',
 };
 
 @Component({
-  selector: 'app-loai-tai-san',
-  templateUrl: './loai-tai-san.component.html',
-  styleUrls: ['./loai-tai-san.component.scss'],
+  selector: 'app-open-dep',
+  templateUrl: './open-dep.component.html',
+  styleUrls: ['./open-dep.component.scss'],
 })
-export class LoaiTaiSanComponent implements OnInit {
+export class OpenDepComponent implements OnInit {
   // >> search advance
   @ViewChild('searchInput') private _inputElement: ElementRef;
   source: any;
@@ -55,15 +57,16 @@ export class LoaiTaiSanComponent implements OnInit {
   };
   columnsToDisplay = [
     'index',
-    'code',
-    'name',
-    'account',
+    'assetCode',
+    'typeOfAssetCode',
+    'typeOfAssetName',
     'depreciationFrame',
-    'description',
-    'createdDatetime',
-    'createdBy',
-    'lastUpdatedDatetime',
-    'lastUpdatedBy',
+    'sourceOfAsset',
+    'beginOriginalAmount',
+    'beginAmount',
+    'constructionDateStr',
+    'depreciationStartDateStr',
+    'depreciationEndDateStr',
     'action',
   ];
 
@@ -75,6 +78,7 @@ export class LoaiTaiSanComponent implements OnInit {
     private modalService: NgbModal,
     public toastrService: ToastrService,
     private activeModal: NgbActiveModal,
+    public openingBalanceService: openingBalanceService,
     @Inject(Injector) private readonly injector: Injector,
   ) {}
 
@@ -89,6 +93,7 @@ export class LoaiTaiSanComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       filterDTO: {
+        organisation: this.query.organisation,
         groupFilter: this.query.groupFilter,
       },
     };

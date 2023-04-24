@@ -4,11 +4,13 @@ import { LoaiTaiSanComponent } from './components/loai-tai-san/loai-tai-san.comp
 import { TransferAssetComponent } from './components/transfer-asset/transfer-asset.component'; 
 import { ImportIncreaseAssetComponent } from './components/import-increase-asset/import-increase-asset.component'; 
 import { QuanLyTaiSanComponent } from './quan-ly-tai-san.component';
+import { OpenDepComponent } from './components/open-dep/open-dep.component';
 const routes: Routes = [
   {
     path: '', component: QuanLyTaiSanComponent,
     children: [
       { path: 'type-of-asset', component: LoaiTaiSanComponent },
+      { path: 'opening-balance', component: OpenDepComponent },
       { path: 'transfer-asset', component: TransferAssetComponent },
       { path: 'import-increase', component: ImportIncreaseAssetComponent }, 
       { path: '', component: LoaiTaiSanComponent },

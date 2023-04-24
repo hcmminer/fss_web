@@ -3,8 +3,12 @@ export const locale = {
   lang: 'vi',
   data: {
     // bandv >>
+    // open dep >>
+
+    // << open dep
     // begin menu
-    'BASIC-CONSTRUCTION':'Quản lý xây dựng cơ bản',
+    LIST: 'Danh sách',
+    'BASIC-CONSTRUCTION': 'Quản lý xây dựng cơ bản',
     'TRANSFER-TO-ASSET': 'Nhập phát sinh giảm',
     'OPENING-BALANCE-BC': 'Nhập số dư đầu kỳ',
     'IMPORT-INCREASE': 'Nhập phát sinh tăng',
@@ -12,10 +16,10 @@ export const locale = {
 
     'ASSET-MANAGE': 'Quản lý tài sản',
     'TYPE-OF-ASSET': 'Danh mục loại tài sản',
-    'OPENING-BALANCE':'Nhập dữ liệu đầu kỳ',
+    'OPENING-BALANCE': 'Nhập dữ liệu đầu kỳ',
     'IMPORT-INCREASE-ASSET': 'Nhập dữ liệu phát sinh tăng',
     'TRANSFER-ASSET': 'Điều chuyển tài sản	',
-    'LIQUIDATE-ASSET':'Thanh lý tài sản ',
+    'LIQUIDATE-ASSET': 'Thanh lý tài sản ',
     'REPORT-ASSET': 'Báo cáo tài sản',
     // end menu
     CREATED_DATETIME: 'Ngày tạo',
@@ -23,7 +27,7 @@ export const locale = {
     LAST_UPDATED_DATETIME: 'Ngày cập nhật',
     LAST_UPDATED_BY: 'Người cập nhật',
     MODAL_WARNING: 'Cảnh báo!',
-   
+
     FUNCTION: {
       ADD: 'Thêm mới',
       SUCCSESS_ADD: 'Thêm mới thành công',
@@ -58,6 +62,15 @@ export const locale = {
     DATA_NUL_ERR: '-> File rỗng !',
     DOWNLOAD_ERR_FILE: 'Tải file lỗi',
     LABEL: {
+      // ban >>
+      BEGIN_ORIGINAL_AMOUNT_CURRENT: 'Nguyên giá hiện tại',
+      BEGIN_ORIGINAL_AMOUNT_TARGET: 'Nguyên giá mong muốn',
+      BEGIN_AMOUNT_CURRENT: 'Khấu hao hiện tại',
+      BEGIN_AMOUNT_TARGET: 'Khấu hao mong muốn',
+      DEPRECIATION_START_DATE: 'Ngày bắt đầu khấu hao',
+      DEPRECIATION_END_DATE: 'Ngày kết thúc khấu hao',
+      SOURCE_OF_ASSET: 'Nguồn hình thành tài sản',
+      // ban <<
       // Quản lý phiếu công tác
       USER: 'Tên đăng nhập',
       PASSWORD: 'Mật khẩu',
@@ -379,22 +392,22 @@ export const locale = {
       UPDATE_OP_BL_FROM_FILE_SC: 'Cập nhật số dư đầu kỳ theo file thành công',
       ADD_OP_BL_FROM_FILE_SC: 'Thêm số dư đầu kỳ theo file thành công',
       //phát sinh tăng
-      CF_ADD_IM_INCREASE_BY_FILE: "Bạn có chắc chắn muốn thêm phát sinh tăng theo file không",
-      CF_UPDATE_IM_INCREASE_BY_FILE: "Bạn có chắc chắn muốn cập nhật phát sinh tăng theo file không",
-      UPDATE_IM_INCREASE_FROM_FILE_SC: "Cập nhật phát sinh tăng theo file thành công",
-      ADD_IM_INCREASE_FROM_FILE_SC: "Thêm phát sinh tăng theo file thành công",
+      CF_ADD_IM_INCREASE_BY_FILE: 'Bạn có chắc chắn muốn thêm phát sinh tăng theo file không',
+      CF_UPDATE_IM_INCREASE_BY_FILE: 'Bạn có chắc chắn muốn cập nhật phát sinh tăng theo file không',
+      UPDATE_IM_INCREASE_FROM_FILE_SC: 'Cập nhật phát sinh tăng theo file thành công',
+      ADD_IM_INCREASE_FROM_FILE_SC: 'Thêm phát sinh tăng theo file thành công',
 
       //phát sinh tăng
-      CF_ADD_DECREASE_BY_FILE: "Bạn có chắc chắn muốn thêm phát sinh giảm theo file không",
-      CF_UPDATE_DECREASE_BY_FILE: "Bạn có chắc chắn muốn cập nhật phát sinh giảm theo file không",
-      UPDATE_DECREASE_FROM_FILE_SC: "Cập nhật phát sinh giảm theo file thành công",
-      ADD_DECREASE_FROM_FILE_SC: "Thêm phát sinh giảm theo file thành công",
+      CF_ADD_DECREASE_BY_FILE: 'Bạn có chắc chắn muốn thêm phát sinh giảm theo file không',
+      CF_UPDATE_DECREASE_BY_FILE: 'Bạn có chắc chắn muốn cập nhật phát sinh giảm theo file không',
+      UPDATE_DECREASE_FROM_FILE_SC: 'Cập nhật phát sinh giảm theo file thành công',
+      ADD_DECREASE_FROM_FILE_SC: 'Thêm phát sinh giảm theo file thành công',
 
       //điều chuyển tài sản
-      CF_ADD_TRANSFER_ASSET_BY_FILE: "Bạn có chắc chắn muốn thêm điều chuyển tải sản theo file không",
-      CF_UPDATE_TRANSFER_ASSET_FILE: "Bạn có chắc chắn muốn cập nhật điều chuyển tải sản theo file không",
-      UPDATE_TRANSFER_ASSET_FROM_FILE_SC: "Cập nhật điều chuyển tải sản theo file thành công",
-      ADD_TRANSFER_ASSET_FROM_FILE_SC: "Thêm điều chuyển tải sản theo file thành công",
+      CF_ADD_TRANSFER_ASSET_BY_FILE: 'Bạn có chắc chắn muốn thêm điều chuyển tải sản theo file không',
+      CF_UPDATE_TRANSFER_ASSET_FILE: 'Bạn có chắc chắn muốn cập nhật điều chuyển tải sản theo file không',
+      UPDATE_TRANSFER_ASSET_FROM_FILE_SC: 'Cập nhật điều chuyển tải sản theo file thành công',
+      ADD_TRANSFER_ASSET_FROM_FILE_SC: 'Thêm điều chuyển tải sản theo file thành công',
     },
     CONFIRM: {
       //I.Lập phiếu công tác
@@ -656,7 +669,7 @@ export const locale = {
         CREATE_SUCCESS: 'Thêm mới thành công',
         UPDATE_SUCCESS: 'Sửa thành công',
         DELETE_SUCCESS: 'Xóa thành công',
-        DOWNLOAD_SUCCESS: 'Tải xuống thành công'
+        DOWNLOAD_SUCCESS: 'Tải xuống thành công',
       },
     },
     LIST_STATUS: {
