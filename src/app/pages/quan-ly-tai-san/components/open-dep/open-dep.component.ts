@@ -18,6 +18,7 @@ import { AddEditLoaiTaiSanComponent } from '../loai-tai-san/add-edit-loai-tai-sa
 import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
 import { AeOpenDepComponent } from './ae-open-dep/ae-open-dep.component';
+import { AeByFileOpenDepComponent } from './ae-by-file-open-dep/ae-by-file-open-dep.component';
 
 const queryInit = {
   groupFilter: '',
@@ -154,8 +155,26 @@ export class OpenDepComponent implements OnInit {
     // this.loadSearchForm();
   }
 
-  eRenderComponent(action, record) {
+  eRenderAeOpenDepComponent(action, record) {
     const modalRef = this.modalService.open(AeOpenDepComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl',
+    });
+    if (action == 'add') {
+      modalRef.componentInstance.propAction = 'add';
+    } else if (action == 'update') {
+      modalRef.componentInstance.propData = record;
+      modalRef.componentInstance.propAction = 'update';
+    }
+    modalRef.result.then(() => {
+      this.eSearch();
+    });
+  }
+
+  
+  eRenderAeByFileOpenDepComponent(action, record) {
+    const modalRef = this.modalService.open(AeByFileOpenDepComponent, {
       centered: true,
       backdrop: 'static',
       size: 'xl',

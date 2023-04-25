@@ -87,12 +87,26 @@
           <!-- hành động đầu bảng -->
           <div class="d-flex">
             <div
-              (click)="eRenderComponent('add', {})"
+              (click)="eRenderAeOpenDepComponent('add', {})"
               class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
             >
               <!-- <i class="fas fa-file-excel fa-xs" style="color: green"></i> -->
-              <i class="fas fa-plus mr-2" style="color: green"></i>
+              <i class="fas fa-plus fa-xs" style="color: green"></i>
               {{ 'FUNCTION.ADD' | translate }}
+            </div>
+            <div
+              (click)="eRenderAeByFileOpenDepComponent('add', {})"
+              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
+            >
+              <i class="fas fa-file-excel fa-xs" style="color: green"></i>
+              {{ 'FUNCTION.ADD_BY_FILE' | translate }}
+            </div>
+            <div
+              (click)="eRenderAeByFileOpenDepComponent('add', {})"
+              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
+            >
+              <i class="fas fa-file-excel fa-xs" style="color: green"></i>
+              {{ 'FUNCTION.UPDATE_BY_FILE' | translate }}
             </div>
           </div>
         </div>
@@ -215,7 +229,7 @@
                   <div style="min-width: 100px" class="d-flex justify-content-around">
                     <div>
                       <i
-                        (click)="eRenderComponent('update', item); $event.stopPropagation()"
+                        (click)="eRenderAeOpenDepComponent('update', item); $event.stopPropagation()"
                         data-toggle="tooltip"
                         data-placement="top"
                         [title]="'FUNCTION.UPDATE' | translate"
