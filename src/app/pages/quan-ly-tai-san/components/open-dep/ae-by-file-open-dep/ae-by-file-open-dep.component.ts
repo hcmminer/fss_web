@@ -42,7 +42,6 @@ export class AeByFileOpenDepComponent implements OnInit {
   propData;
   // <<ban
   //biến
-  req;
   isUpdate;
   isUpdateFile;
   item;
@@ -113,6 +112,7 @@ export class AeByFileOpenDepComponent implements OnInit {
         'beginAmountStr',
         'errorMsg',
       ];
+      this.loadAddFileForm();
     }
   }
 
@@ -165,19 +165,24 @@ export class AeByFileOpenDepComponent implements OnInit {
     return value;
   }
 
+  searchDTO;
+
   //theo file
   apiGetTemplate() {
-    let req;
-    if (this.isUpdateFile) {
-      req = this.req;
-    } else {
+    let req = {};
+    if (this.propAction == 'updates') {
+      req = {
+        userName: this.userName,
+        searchDTO: this.searchDTO,
+      };
+    } else if (this.propAction == 'adds') {
       req = {
         userName: this.userName,
       };
     }
     return this.globalService.globalApi(
       req,
-      this.isUpdateFile ? 'down-temp-update-bc-opening' : 'down-temp-add-bc-opening',
+      this.propAction == 'adds' ? 'down-temp-add-open' : 'download-temp-update-open-dep',
     );
   }
   getTemplate() {
@@ -244,7 +249,7 @@ export class AeByFileOpenDepComponent implements OnInit {
 
         this.dataSource = new MatTableDataSource([]);
         let request = this.globalService
-          .globalApi(requestTarget, this.isUpdateFile ? 'update-bc-opening-by-file' : 'add-bc-opening-by-file')
+          .globalApi(requestTarget, this.propAction == 'updates' ? 'update-open-dep-by-file' : 'add-open-dep-by-file')
           .subscribe(
             (res) => {
               if (res.errorCode == '0') {
@@ -291,11 +296,11 @@ export class AeByFileOpenDepComponent implements OnInit {
   apiCofirmUpdateByFile() {
     const req = {
       userName: this.userName,
-      listConstructionDTO: this.openingBalanceService.errOpeningBalanceList.value,
+      listDepreciationDetailDTO: this.openingBalanceService.errOpeningBalanceList.value,
     };
     return this.globalService.globalApi(
       req,
-      this.isUpdateFile ? 'confirm-update-bc-opening-by-file' : 'confirm-add-bc-opening-by-file',
+      this.propAction == 'adds' ? 'confirm-add-open-dep-by-file' : 'confirm-update-open-dep-by-file',
     );
   }
 

@@ -183,6 +183,14 @@ export class OpenDepComponent implements OnInit {
     } else if (action == 'updates') {
       modalRef.componentInstance.propData = record;
       modalRef.componentInstance.propAction = 'updates';
+      // organisation: this.query.organisation,
+      // typeOfAssetCode: this.query.typeOfAsset,
+      // groupFilter: this.query.groupFilter,
+      modalRef.componentInstance.searchDTO = {
+        organisation: this.query.organisation,
+        typeOfAssetCode: this.query.typeOfAsset,
+        groupFilter: this.query.groupFilter,
+      };
     }
     modalRef.result.then(() => {
       this.eSearch();
