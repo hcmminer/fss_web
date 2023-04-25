@@ -187,6 +187,16 @@
                   </td>
                 </ng-container>
 
+                <!-- depreciationStartDateStr -->
+                <ng-container matColumnDef="depreciationStartDateStr">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.DEPRECIATION_START_DATE' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: center">
+                    {{ item.depreciationStartDateStr }}
+                  </td>
+                </ng-container>
+
                 <!-- errorMsg -->
                 <ng-container matColumnDef="errorMsg">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
