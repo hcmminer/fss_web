@@ -89,6 +89,13 @@ export class OpenDepComponent implements OnInit {
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.eSearch();
+    this.initCombobox();
+  }
+
+  initCombobox() {
+    let reqTar = { userName: this.userName };
+    this.openingBalanceService.getListOrganisation(reqTar, 'get-list-organisation', true);
+    this.openingBalanceService.getCbxTypeOfAsset(reqTar, 'getCbxTypeOfAsset', true);
   }
 
   onOrganisationChange() {
