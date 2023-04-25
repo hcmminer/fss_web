@@ -19,14 +19,15 @@
             <div class="col-md-1"></div>
             <div class="col-md-10">
               <div class="row">
-                <label class="col-md-2 form-label col-form-label font-14" for="lastUpdateDatetime"
-                  >{{ 'LABEL.CONSTRUCTION_DATE' | translate }} <span style="color: red">*</span></label
-                >
+                <label class="col-md-2 form-label col-form-label font-14" for="lastUpdateDatetime">{{
+                  'LABEL.CONSTRUCTION_DATE' | translate }} <span style="color: red">*</span></label>
                 <div class="col-md-3">
                   <mat-form-field appearance="fill">
                     <mat-date-range-input [rangePicker]="picker">
-                      <input matStartDate formControlName="start" (input)="eInputDate($event, 'start')" placeholder="Start date" />
-                      <input matEndDate formControlName="end" (input)="eInputDate($event, 'end')" placeholder="End date" />
+                      <input matStartDate formControlName="start" (input)="eInputDate($event, 'start')"
+                        placeholder="Start date" />
+                      <input matEndDate formControlName="end" (input)="eInputDate($event, 'end')"
+                        placeholder="End date" />
                     </mat-date-range-input>
                     <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
                     <mat-date-range-picker #picker></mat-date-range-picker>
@@ -35,11 +36,13 @@
                   </mat-form-field>
                 </div>
                 <div class="col-md-2"></div>
-                <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{ 'LABEL.ORGANISATION' | translate }}</label>
+                <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{ 'LABEL.ORGANISATION' |
+                  translate }}</label>
                 <div class="col-md-3">
-                  <select class="form-control font-14" name="organisation" id="organisation" formControlName="organisation" [(ngModel)]="query.organisation">
+                  <select class="form-control font-14" name="organisation" id="organisation"
+                    formControlName="organisation" [(ngModel)]="query.organisation">
                     <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation| async">
-                      <option  [value]="item.code">
+                      <option [value]="item.code">
                         <span *ngIf="item.code != ''">{{ item.code }} -</span> {{ item.name }}
                       </option>
                     </ng-container>
@@ -47,17 +50,18 @@
                 </div>
               </div>
               <div class="row">
-              
-                <label class="col-md-2 form-label col-form-label font-14" for="assetCode">{{ 'LABEL.ASSETCODE' | translate }}</label>
+
+                <label class="col-md-2 form-label col-form-label font-14" for="assetCode">{{ 'LABEL.ASSETCODE' |
+                  translate }}</label>
                 <div class="col-md-3">
                   <select class="form-control font-14" name="assetCode" id="assetCode" [(ngModel)]="query.assetCode"
-                  formControlName="assetCode">
-                  <ng-container *ngFor="let item of openingBalanceService.cbxAssetCodeTransfer| async">
-                    <option [value]="item.assetCode">
-                      {{ item.assetCode == '' ? ('DEFAULT_OPTION.SELECT' | translate ):  item.assetCode }}
-                    </option>
-                  </ng-container>
-                </select>
+                    formControlName="assetCode">
+                    <ng-container *ngFor="let item of openingBalanceService.cbxAssetCodeTransfer| async">
+                      <option [value]="item.assetCode">
+                        {{ item.assetCode == '' ? ('DEFAULT_OPTION.SELECT' | translate ): item.assetCode }}
+                      </option>
+                    </ng-container>
+                  </select>
                 </div>
               </div>
             </div>
@@ -66,23 +70,19 @@
 
           <div class="form-group pb-0 mt-5">
             <div class="d-flex justify-content-center">
-              <div
-                (click)="eSearch()"
+              <div (click)="eSearch()"
                 class="mx-3 px-8 btn btn-primary font-weight-bolder d-flex align-items-center justify-content-around"
-                style="height: 38px"
-              >
+                style="height: 38px">
                 <i class="mr-2 fas fa-search cursor-pointer"></i>
                 {{ 'ACTION.SEARCH' | translate }}
               </div>
 
-              <div
-              (click)="eResetForm()"
-              class="mx-3 px-8 btn btn-outline-primary font-weight-bolder d-flex align-items-center justify-content-around"
-              style="height: 38px"
-            >
-              <i class="mr-2 fas fa-redo cursor-pointer"></i>
-              {{ 'COMMON_BUTTON.RESET' | translate }}
-            </div>
+              <div (click)="eResetForm()"
+                class="mx-3 px-8 btn btn-outline-primary font-weight-bolder d-flex align-items-center justify-content-around"
+                style="height: 38px">
+                <i class="mr-2 fas fa-redo cursor-pointer"></i>
+                {{ 'COMMON_BUTTON.RESET' | translate }}
+              </div>
             </div>
           </div>
         </form>
@@ -99,11 +99,9 @@
           </div>
           <!-- hành động bảng -->
           <div class="d-flex">
-              <div
-              (click)="displayFormAdd(null, true)"
+            <div (click)="displayFormAdd(null, true)"
               class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
-              style="height: 38px"
-            >
+              style="height: 38px">
               {{ 'LABEL.ADD_TRANSFER_ASSET' | translate }}
             </div>
           </div>
@@ -111,7 +109,8 @@
       </div>
       <div class="">
         <mat-form-field appearance="standard">
-          <mat-label class="font-14"> <i class="fas fa-search"></i> {{ 'TITLE.SEARCH_ADVANCE' | translate }} </mat-label>
+          <mat-label class="font-14"> <i class="fas fa-search"></i> {{ 'TITLE.SEARCH_ADVANCE' | translate }}
+          </mat-label>
           <!-- @ -->
           <input class="border-bottom-danger" [(ngModel)]="query.groupFilter" matInput #autoFocus />
         </mat-form-field>
@@ -129,13 +128,6 @@
                   {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
                 </td>
               </ng-container>
-              <!-- assetCode  -->
-              <ng-container matColumnDef="assetCode">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                  {{ 'LABEL.ASSETCODE' | translate }}
-                </th>
-                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.assetCode }}</td>
-              </ng-container>
               <!-- departmentCode -->
               <ng-container matColumnDef="departmentCode">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -143,33 +135,73 @@
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.departmentCode }}</td>
               </ng-container>
-              <!-- departmentCodeReceive -->
-              <ng-container matColumnDef="departmentCodeReceive">
+              <!-- assetCode  -->
+              <ng-container matColumnDef="assetCode">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                  {{ 'LABEL.DEPARTMENT_CODE_RECEIVE' | translate }}
+                  {{ 'LABEL.ASSETCODE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.assetCode }}</td>
+              </ng-container>
+              <!-- typeOfAssetCode  -->
+              <ng-container matColumnDef="typeOfAssetCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.TYPE_OF_ASSET_CODE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.typeOfAssetCode }}</td>
+              </ng-container>
+              <!-- increaseOriginalAmount  -->
+              <ng-container matColumnDef="increaseOriginalAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.INCREASE_ORIGINAL_AMOUNT' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.increaseOriginalAmount | number : '1.0-0'}}</td>
+              </ng-container>
+  
+              <!-- increaseAmount  -->
+              <ng-container matColumnDef="increaseAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.INCREASE_AMOUNT' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.increaseAmount | number : '1.0-0'}}
+                </td>
+              </ng-container>
+              <!-- sourceOfAsset  -->
+              <ng-container matColumnDef="sourceOfAsset">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.SOURCE_OF_ASSET' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: left">
-                  {{ item.departmentCodeReceive}}
+                  {{ item.sourceOfAsset}}
                 </td>
               </ng-container>
-              <!-- createdDatetimeStr  -->
-              <ng-container matColumnDef="createdDatetimeStr">
+              <!-- constructionDateStr  -->
+              <ng-container matColumnDef="constructionDateStr">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                  {{ 'LABEL.CREATED_DATE' | translate }}
+                  {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: center">
-                  {{ item.createdDatetimeStr}}
+                  {{ item.constructionDateStr}}
                 </td>
               </ng-container>
-                  <!-- createdDatetimeStr  -->
-                  <ng-container matColumnDef="constructionDateStr">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                      {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
-                    </th>
-                    <td mat-cell *matCellDef="let item" style="text-align: center">
-                      {{ item.constructionDateStr}}
-                    </td>
-                  </ng-container>
+              <!-- depreciationStartDateStr  -->
+              <ng-container matColumnDef="depreciationStartDateStr">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.DEPRECIATION_STARTDATE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: center">
+                  {{ item.depreciationStartDateStr}}
+                </td>
+              </ng-container>
+              <!-- lastUpdatedDatetimeStr  -->
+              <ng-container matColumnDef="lastUpdatedDatetimeStr">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.LAST_UPDATEDATE_TIME' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: center">
+                  {{ item.lastUpdatedDatetimeStr}}
+                </td>
+              </ng-container>
               <!-- action -->
               <!-- <ng-container matColumnDef="action">
                 <th mat-header-cell *matHeaderCellDef>
@@ -186,7 +218,8 @@
                 </td>
               </ng-container> -->
               <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-              <tr mat-row *matRowDef="let element; columns: columnsToDisplay" class="example-element-row zindex-5" (click)="eViewDetail(element)"></tr>
+              <tr mat-row *matRowDef="let element; columns: columnsToDisplay" class="example-element-row zindex-5"
+                (click)="eViewDetail(element)"></tr>
               <!-- Row shown when there is no matching data. -->
               <tr class="mat-row" *matNoDataRow>
                 <td class="mat-cell" colspan="15">
@@ -194,14 +227,9 @@
                 </td>
               </tr>
             </table>
-            <mat-paginator
-              #paginator
-              (page)="onPaginateChange($event)"
-              [pageSize]="20"
-              [pageSizeOptions]="[10, 20, 25, 30, 50]"
-              showFirstLastButtons
-              aria-label="Select page of results"
-            ></mat-paginator>
+            <mat-paginator #paginator (page)="onPaginateChange($event)" [pageSize]="20"
+              [pageSizeOptions]="[10, 20, 25, 30, 50]" showFirstLastButtons
+              aria-label="Select page of results"></mat-paginator>
           </div>
         </div>
       </div>
@@ -209,5 +237,6 @@
     <!-- end: trans -->
   </div>
   <div class="pb-1"></div>
-  <ngx-spinner bdColor="rgba(0,0,0,0)" size="default" color="#1dc5be" type="ball-clip-rotate" [fullScreen]="true"></ngx-spinner>
+  <ngx-spinner bdColor="rgba(0,0,0,0)" size="default" color="#1dc5be" type="ball-clip-rotate"
+    [fullScreen]="true"></ngx-spinner>
 </div>

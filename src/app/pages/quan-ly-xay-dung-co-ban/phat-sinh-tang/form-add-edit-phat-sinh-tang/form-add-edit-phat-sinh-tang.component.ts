@@ -474,7 +474,7 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
               this.openingBalanceService.getSuccessImportIncreaseFile.next(res);
               this.resultDesc = res.description;
               this.resultCode = 'success';
-              this.toastService.success(this.isUpdateFile ? this.translate.instant('MESSAGE.UPDATE_IM_INCREASE_FROM_FILE_SC') : this.translate.instant('ADD_IM_INCREASE_FROM_FILE_SC'));
+              this.toastService.success(this.isUpdateFile ? this.translate.instant('MESSAGE.UPDATE_IM_INCREASE_FROM_FILE_SC') : this.translate.instant('MESSAGE.ADD_IM_INCREASE_FROM_FILE_SC'));
             } else if (res.errorCode == '3') {
               this.resultDesc = res.description;
               this.resultCode = 'warning';

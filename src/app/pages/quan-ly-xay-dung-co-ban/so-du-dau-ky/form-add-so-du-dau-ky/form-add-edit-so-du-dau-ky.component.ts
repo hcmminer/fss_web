@@ -472,7 +472,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
               this.openingBalanceService.getSuccessOpeningBalanceFile.next(res);
               this.resultDesc = res.description;
               this.resultCode = 'success';
-              this.toastService.success(this.isUpdateFile ? this.translate.instant('MESSAGE.UPDATE_OP_BL_FROM_FILE_SC') : this.translate.instant('ADD_OP_BL_FROM_FILE_SC'));
+              this.toastService.success(this.isUpdateFile ? this.translate.instant('MESSAGE.UPDATE_OP_BL_FROM_FILE_SC') : this.translate.instant('MESSAGE.ADD_OP_BL_FROM_FILE_SC'));
             } else if (res.errorCode == '3') {
               this.resultDesc = res.description;
               this.resultCode = 'warning';
