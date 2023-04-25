@@ -9,7 +9,7 @@ import { CONFIG } from 'src/app/utils/constants';
 import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatNumber } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -120,9 +120,9 @@ export class AeOpenDepComponent implements OnInit {
     this.editForm = this.fb.group({
       constructionDateStr: [this.constructionDateStr, [Validators.required]],
       assetCode: [this.assetCode],
-      beginOriginalAmountTotal: [this.beginOriginalAmountTotal],
+      beginOriginalAmountTotal: [formatNumber(+this.beginOriginalAmountTotal, 'en-US', '1.0')],
       beginOriginalAmount: [this.beginOriginalAmount, [Validators.required]],
-      beginAmountTotal: [this.beginAmountTotal],
+      beginAmountTotal: [formatNumber(this.beginAmountTotal, 'en-US', '1.0')],
       beginAmount: [this.beginAmount, [Validators.required]],
     });
   }

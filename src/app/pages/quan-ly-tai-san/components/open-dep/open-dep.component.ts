@@ -1,3 +1,4 @@
+import { ViewHisOpenDepComponent } from './view-his-open-dep/view-his-open-dep.component';
 import { AssetManageService } from './../../../_services/asset-manage.service';
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Inject, Injector, OnInit, ViewChild } from '@angular/core';
@@ -81,9 +82,7 @@ export class OpenDepComponent implements OnInit {
     private activeModal: NgbActiveModal,
     public openingBalanceService: openingBalanceService,
     @Inject(Injector) private readonly injector: Injector,
-  ) {
-    
-  }
+  ) {}
 
   ngOnInit(): void {
     this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
@@ -98,6 +97,19 @@ export class OpenDepComponent implements OnInit {
 
   ontypeOfAssetChange() {
     this.eSearch();
+  }
+
+  eViewDetail(item: any) {
+    const modalRef = this.modalService.open(ViewHisOpenDepComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl',
+      keyboard: false,
+    });
+    modalRef.componentInstance.data = item;
+    modalRef.result.then((result) => {
+      this.eSearch();
+    });
   }
 
   httpSearch() {
