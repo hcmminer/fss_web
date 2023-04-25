@@ -1,5 +1,5 @@
 import { Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -159,8 +159,35 @@ export class AeOpenDepComponent implements OnInit {
     return this.globalService.globalApi(requestTarget as RequestApiModel, 'update-open-dep-single');
   }
 
+  isValidForm(): boolean {
+    let isValid = true;
+    if (this.propAction == 'add') {
+      Object.keys(this.addForm.controls).forEach((key) => {
+        const controlErrors: ValidationErrors = this.addForm.get(key).errors;
+        if (controlErrors) {
+          isValid = false;
+        }
+      });
+
+      return isValid;
+    } else if (this.propAction == 'update') {
+      Object.keys(this.editForm.controls).forEach((key) => {
+        const controlErrors: ValidationErrors = this.editForm.get(key).errors;
+        if (controlErrors) {
+          isValid = false;
+        }
+      });
+
+      return isValid;
+    }
+  }
+
   // common modal confirm alert
   eSave(action) {
+    if (!this.isValidForm()) {
+      this.propAction == 'add' ? this.addForm.markAllAsTouched() : this.editForm.markAllAsTouched();
+      return;
+    }
     const modalRef = this.modalService.open(CommonAlertDialogComponent, {
       centered: true,
       backdrop: 'static',

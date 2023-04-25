@@ -701,6 +701,7 @@ export const locale = {
       INACTIVE: 'Ngừng hoạt động',
     },
     VALIDATION: {
+      MIN_VALUE: '{{name}} phải lớn hơn {{min}}',
       INVALID: '{{name}} không hợp lệ',
       REQUIRED: '{{name}} không được trống',
       MIN_LENGTH: '{{name}} phải có ít nhất {{min}} ký tự',

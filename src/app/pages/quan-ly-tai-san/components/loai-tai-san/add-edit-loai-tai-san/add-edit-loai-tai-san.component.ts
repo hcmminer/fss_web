@@ -1,5 +1,5 @@
 import { Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -16,6 +16,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { RequestApiModel } from 'src/app/pages/_models/api.request.model';
+import { minValue } from 'src/app/_validators/validateForm';
 
 export const MY_FORMATS = {
   parse: {
@@ -79,9 +80,11 @@ export class AddEditLoaiTaiSanComponent implements OnInit {
       this.account = this.propData.account;
       this.depreciationFrame = this.propData.depreciationFrame;
       this.description = this.propData.description;
+      this.loadAddEditForm();
+    } else if (this.propAction == 'add') {
+      this.loadAddEditForm();
     }
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
-    this.loadAddEditForm();
   }
 
   loadAddEditForm() {
@@ -89,7 +92,7 @@ export class AddEditLoaiTaiSanComponent implements OnInit {
       code: [this.code, [Validators.required]],
       name: [this.name, [Validators.required]],
       account: [this.account, [Validators.required]],
-      depreciationFrame: [this.depreciationFrame, [Validators.required]],
+      depreciationFrame: [this.depreciationFrame, [Validators.required, minValue(1)]],
       description: [this.description, [Validators.required]],
     });
   }
@@ -120,6 +123,10 @@ export class AddEditLoaiTaiSanComponent implements OnInit {
 
   // common modal confirm alert
   eSave(action) {
+    if (!this.isValidForm()) {
+      this.addEditForm.markAllAsTouched();
+      return;
+    }
     const modalRef = this.modalService.open(CommonAlertDialogComponent, {
       centered: true,
       backdrop: 'static',
@@ -156,6 +163,18 @@ export class AddEditLoaiTaiSanComponent implements OnInit {
       },
       () => {},
     );
+  }
+
+  isValidForm(): boolean {
+    let isValid = true;
+    Object.keys(this.addEditForm.controls).forEach((key) => {
+      const controlErrors: ValidationErrors = this.addEditForm.get(key).errors;
+      if (controlErrors) {
+        isValid = false;
+      }
+    });
+
+    return isValid;
   }
 
   //check number

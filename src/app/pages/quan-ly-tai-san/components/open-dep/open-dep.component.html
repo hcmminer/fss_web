@@ -95,14 +95,14 @@
               {{ 'FUNCTION.ADD' | translate }}
             </div>
             <div
-              (click)="eRenderAeByFileOpenDepComponent('add', {})"
+              (click)="eRenderAeByFileOpenDepComponent('adds', {})"
               class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
             >
               <i class="fas fa-file-excel fa-xs" style="color: green"></i>
               {{ 'FUNCTION.ADD_BY_FILE' | translate }}
             </div>
             <div
-              (click)="eRenderAeByFileOpenDepComponent('add', {})"
+              (click)="eRenderAeByFileOpenDepComponent('updates', {})"
               class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
             >
               <i class="fas fa-file-excel fa-xs" style="color: green"></i>
@@ -188,7 +188,7 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   {{ 'LABEL.BEGIN_ORIGINAL_AMOUNT' | translate }}
                 </th>
-                <td mat-cell *matCellDef="let item" style="text-align: left">
+                <td mat-cell *matCellDef="let item" style="text-align: right">
                   {{ item.beginOriginalAmount }}
                 </td>
               </ng-container>
@@ -197,7 +197,7 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   {{ 'LABEL.BEGIN_AMOUNT' | translate }}
                 </th>
-                <td mat-cell *matCellDef="let item" style="text-align: left">
+                <td mat-cell *matCellDef="let item" style="text-align: right">
                   {{ item.beginAmount }}
                 </td>
               </ng-container>

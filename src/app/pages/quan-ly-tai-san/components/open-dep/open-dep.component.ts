@@ -172,18 +172,17 @@ export class OpenDepComponent implements OnInit {
     });
   }
 
-  
   eRenderAeByFileOpenDepComponent(action, record) {
     const modalRef = this.modalService.open(AeByFileOpenDepComponent, {
       centered: true,
       backdrop: 'static',
       size: 'xl',
     });
-    if (action == 'add') {
-      modalRef.componentInstance.propAction = 'add';
-    } else if (action == 'update') {
+    if (action == 'adds') {
+      modalRef.componentInstance.propAction = 'adds';
+    } else if (action == 'updates') {
       modalRef.componentInstance.propData = record;
-      modalRef.componentInstance.propAction = 'update';
+      modalRef.componentInstance.propAction = 'updates';
     }
     modalRef.result.then(() => {
       this.eSearch();
