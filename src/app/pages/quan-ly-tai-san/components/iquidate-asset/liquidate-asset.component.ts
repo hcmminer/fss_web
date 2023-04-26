@@ -210,12 +210,12 @@ export class LiquidateAssetComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       searchDTO: {
-        groupFilter: [this.query.groupFilter],
-      organisation: [this.query.organisation],
-      typeOfAssetCode: [this.query.typeOfAssetCode],
-      sourceOfAsset: [this.query.sourceOfAsset],
-      start: [this.query.startDate],
-      end: [this.query.endDate],
+        groupFilter: this.query.groupFilter,
+        organisation: this.query.organisation,
+        typeOfAssetCode: this.query.typeOfAssetCode,
+        sourceOfAsset: this.query.sourceOfAsset,
+        start: this.query.startDate,
+        end: this.query.endDate,
       },
     };
     modalRef.componentInstance.req = requestTarget;
