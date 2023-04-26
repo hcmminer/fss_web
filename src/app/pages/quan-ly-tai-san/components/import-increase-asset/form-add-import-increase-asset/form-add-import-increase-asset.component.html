@@ -262,34 +262,24 @@
               </div>
             </div>
 
-            <!-- hiện tại -->
+          <!-- nguyên giá  -->
             <div class="row">
               <label class="col-md-2 form-label col-form-label font-14" for="increaseOriginalAmountCur">{{
                 'LABEL.INCREASE_ORIGINAL_AMOUNT_CUR' | translate }} <span style="color: red">*</span></label>
               <div class="col-md-3">
                 <input type="text" class="form-control" id="increaseOriginalAmountCur" autocomplete="off"
-                [attr.disabled]="isUpdate" formControlName="increaseOriginalAmountCur" maxlength="18" NumbersOnly [allowThousandSeparator]="true" />
+                [attr.disabled]="isUpdate" formControlName="increaseOriginalAmountCur"  NumbersOnly [allowThousandSeparator]="true" />
               </div>
               <div class="col-md-2"></div>
-              <label class="col-md-2 form-label col-form-label font-14" for="increaseAmountCur">{{
-                'LABEL.INCREASE_AMOUNT_CUR' | translate }} <span style="color: red">*</span></label>
-              <div class="col-md-3">
-                <input type="text" maxlength="18" class="form-control" id="increaseAmountCur" autocomplete="off"
-                [attr.disabled]="isUpdate" formControlName="increaseAmountCur" maxlength="18" NumbersOnly [allowThousandSeparator]="true" />
-              </div>
-            </div>
-
-            <!-- mong muốn -->
-            <div class="row">
               <label class="col-md-2 form-label col-form-label font-14" for="increaseOriginalAmount">{{
                 'LABEL.INCREASE_ORIGINAL_AMOUNT_DESIRE' | translate }} <span style="color: red">*</span></label>
               <div class="col-md-3">
                 <input type="text" class="form-control" id="increaseOriginalAmount" autocomplete="off"
                   formControlName="increaseOriginalAmount" maxlength="18" NumbersOnly [allowThousandSeparator]="true" />
                   <div
-                  *ngIf="addEditForm.get('increaseOriginalAmountCur').invalid && (addEditForm.get('increaseOriginalAmountCur').dirty || addEditForm.get('increaseOriginalAmountCur').touched)">
+                  *ngIf="addEditForm.get('increaseOriginalAmount').invalid && (addEditForm.get('increaseOriginalAmount').dirty || addEditForm.get('increaseOriginalAmountCur').touched)">
                   <small class="form-text text-danger"
-                    *ngIf="addEditForm.get('increaseOriginalAmountCur').errors.required">
+                    *ngIf="addEditForm.get('increaseOriginalAmount').errors.required">
                     {{'VALIDATION.REQUIRED' | translate
                     : {
                     name: 'LABEL.INCREASE_ORIGINAL_AMOUNT_DESIRE' | translate
@@ -297,7 +287,7 @@
                     }}
                   </small>
                   <small class="form-text text-danger"
-                    *ngIf="addEditForm.get('increaseOriginalAmountCur').errors.maxlength ">
+                    *ngIf="addEditForm.get('increaseOriginalAmount').errors.maxlength ">
                     {{'VALIDATION.MAX_LENGTH' | translate
                     : {
                     name: 'LABEL.INCREASE_ORIGINAL_AMOUNT_DESIRE' | translate,
@@ -306,6 +296,17 @@
                     }}
                   </small>
                 </div>
+              </div>
+          
+            </div>
+
+            <!-- khấu hao -->
+            <div class="row">
+              <label class="col-md-2 form-label col-form-label font-14" for="increaseAmountCur">{{
+                'LABEL.INCREASE_AMOUNT_CUR' | translate }} <span style="color: red">*</span></label>
+              <div class="col-md-3">
+                <input type="text" maxlength="18" class="form-control" id="increaseAmountCur" autocomplete="off"
+                [attr.disabled]="isUpdate" formControlName="increaseAmountCur" maxlength="18" NumbersOnly [allowThousandSeparator]="true" />
               </div>
 
               <div class="col-md-2"></div>
@@ -316,9 +317,9 @@
                   formControlName="increaseAmount" maxlength="18" NumbersOnly [allowThousandSeparator]="true" />
               </div>
               <div
-                  *ngIf="addEditForm.get('increaseOriginalAmountCur').invalid && (addEditForm.get('increaseOriginalAmountCur').dirty || addEditForm.get('increaseOriginalAmountCur').touched)">
+                  *ngIf="addEditForm.get('increaseAmount').invalid && (addEditForm.get('increaseAmount').dirty || addEditForm.get('increaseAmount').touched)">
                   <small class="form-text text-danger"
-                    *ngIf="addEditForm.get('increaseOriginalAmountCur').errors.required">
+                    *ngIf="addEditForm.get('increaseAmount').errors.required">
                     {{'VALIDATION.REQUIRED' | translate
                     : {
                     name: 'LABEL.INCREASE_AMOUNT_DESIRE' | translate
@@ -326,7 +327,7 @@
                     }}
                   </small>
                   <small class="form-text text-danger"
-                    *ngIf="addEditForm.get('increaseOriginalAmountCur').errors.maxlength ">
+                    *ngIf="addEditForm.get('increaseAmount').errors.maxlength ">
                     {{'VALIDATION.MAX_LENGTH' | translate
                     : {
                     name: 'LABEL.INCREASE_AMOUNT_DESIRE' | translate,

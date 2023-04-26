@@ -20,6 +20,7 @@ export class openingBalanceService {
   cbxOrganisation = new BehaviorSubject<any[]>([]);
   cbxTypeOfAsset =  new BehaviorSubject<any[]>([]);
   cbxSourceOfAsset= new BehaviorSubject<any[]>([]);
+  cbxAssetCodeIncrease = new BehaviorSubject<any[]>([]);
   //só dư đầu kỳ
   getErrOpeningBalanceFile = new BehaviorSubject<any>({});//v
   getSuccessOpeningBalanceFile = new BehaviorSubject<any>({});
@@ -43,7 +44,7 @@ export class openingBalanceService {
   listDataReport = new BehaviorSubject<any[]>([]);
 
   //transfer-asset
-  cbxAssetCodeTransfer = new BehaviorSubject<any[]>([]);
+
   getErrTransferAssetFile = new BehaviorSubject<any>({});//v
   getSuccessTransferAssetFile = new BehaviorSubject<any>({});
   listTransferAsset = new BehaviorSubject<any[]>([]);
@@ -147,22 +148,24 @@ export class openingBalanceService {
   }
 
 
-  getCbxAssetCodeTransfer(query: RequestApiModelOld, redirectFunction, allowDefault: boolean) {
+  getCbxAssetCodeIncrease(query: RequestApiModelOld, redirectFunction, allowDefault: boolean) {
     const request = this.globalService
       .globalApi(query, redirectFunction)
       .pipe(
         map((response) => {
           if (response.errorCode != '0') {
-            this.cbxAssetCodeTransfer.next([]);
+            this.cbxAssetCodeIncrease.next([]);
             throw new Error(response.description);
           }
           if (typeof response.data !== 'undefined' && response.data !== null) {
-            this.cbxAssetCodeTransfer.next(response.data);
+            this.cbxAssetCodeIncrease.next(response.data.filter(item => {
+              return item.isUpdate == 1
+            }));
           } else {
-            this.cbxAssetCodeTransfer.next([]);
+            this.cbxAssetCodeIncrease.next([]);
           }
           if (allowDefault)
-            this.cbxAssetCodeTransfer.value.unshift({
+            this.cbxAssetCodeIncrease.value.unshift({
               assetCode: '',
             });
         }),

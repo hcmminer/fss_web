@@ -137,6 +137,22 @@
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.assetCode }}</td>
               </ng-container>
+              <!-- transfer Original Amount  -->
+              <ng-container matColumnDef="increaseOriginalAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.TRANSFER_ORIGINAL_AMOUNT' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.increaseOriginalAmount | number :
+                  '1.0-0'}}</td>
+              </ng-container>
+              <!-- transfer Amount  -->
+              <ng-container matColumnDef="increaseAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.TRANSFER_INCREASE_AMOUNT' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.increaseAmount | number : '1.0-0'}}
+                </td>
+              </ng-container>
               <!-- departmentCode -->
               <ng-container matColumnDef="departmentCode">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -152,6 +168,20 @@
                 <td mat-cell *matCellDef="let item" style="text-align: left">
                   {{ item.departmentCodeReceive}}
                 </td>
+              </ng-container>
+              <!-- typeOfAssetName -->
+              <ng-container matColumnDef="typeOfAssetName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.TYPE_OF_ASSET_NAME' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.typeOfAssetName }}</td>
+              </ng-container>
+              <!-- sourceOfAssetName -->
+              <ng-container matColumnDef="sourceOfAssetName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.SOURCE_OF_ASSET' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.sourceOfAssetName }}</td>
               </ng-container>
               <!-- createdDatetimeStr  -->
               <ng-container matColumnDef="createdDatetimeStr">

@@ -216,6 +216,11 @@ export const locale = {
       DEPARTMENT_CODE: 'Mã đơn vị chuyển',
       DEPARTMENT_CODE_RECEIVE: 'Mã đơn vị nhận',
       TOTAL: 'Tổng cộng',
+      TRANSFER_ORIGINAL_AMOUNT: 'Nguyên giá điều chuyển',
+      TRANSFER_INCREASE_AMOUNT : 'Khấu hao điều chuyển',
+
+      NOT_LIQUIDATED: 'Chưa thanh lý',
+      LIQUIDATED: 'Đã thanh lý',
 
       //thanh lí tài sản
       LIST_LIQUIDATE_ASSET: 'Danh sách thanh lý tài sản',

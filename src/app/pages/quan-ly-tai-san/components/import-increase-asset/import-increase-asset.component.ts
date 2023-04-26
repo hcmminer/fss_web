@@ -94,6 +94,7 @@ export class ImportIncreaseAssetComponent implements OnInit {
     'constructionDateStr',
     'depreciationStartDateStr',
     'lastUpdatedDatetimeStr',
+    'status',
     'action'
   ];
 
