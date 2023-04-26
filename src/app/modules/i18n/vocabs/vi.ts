@@ -72,8 +72,6 @@ export const locale = {
       BEGIN_AMOUNT_TARGET: 'Khấu hao mong muốn',
       DEPRECIATION_START_DATE: 'Ngày bắt đầu khấu hao',
       DEPRECIATION_END_DATE: 'Ngày kết thúc khấu hao',
-      LIQUIDATED: 'Đã thanh lý',
-      NOT_LIQUIDATED: 'Chưa thanh lý',
       // ban <<
       // Quản lý phiếu công tác
       USER: 'Tên đăng nhập',
@@ -219,7 +217,7 @@ export const locale = {
       DEPARTMENT_CODE_RECEIVE: 'Mã đơn vị nhận',
       TOTAL: 'Tổng cộng',
       TRANSFER_ORIGINAL_AMOUNT: 'Nguyên giá điều chuyển',
-      TRANSFER_INCREASE_AMOUNT : 'Khấu hao điều chuyển',
+      TRANSFER_INCREASE_AMOUNT: 'Khấu hao điều chuyển',
 
       NOT_LIQUIDATED: 'Chưa thanh lý',
       LIQUIDATED: 'Đã thanh lý',
@@ -238,7 +236,7 @@ export const locale = {
       INCREASE_AMOUNT_DESIRE: 'Khấu hao phát sinh tăng mong muốn',
       SOURCE_OF_ASSET: 'Nguồn gốc tài sản',
       SOURCE_OF_ASSET_FILE: `Nguồn hình thành tài sản (1 - Xây dựng cơ bản
-        2 - Mua sắm)` ,
+        2 - Mua sắm)`,
       DEPRECIATION_STARTDATE: 'Ngày bắt đầu khấu hao',
       LAST_UPDATEDATE_TIME: 'Ngày tác động',
       ADD_IMPORT_INCREASE_ASSET: 'Thêm mới phát sinh tăng tài sản',
@@ -329,7 +327,7 @@ export const locale = {
       //phát sing tăng tài sản
       IMPORT_INCREASE_ASSET: 'Phát sinh tăng tài sản',
       ADD_IMPORT_INCREASE_ASSET: 'Thêm mới phát sinh tăng tài sản',
-      UPDATE_IMPORT_INCREASE_ASSET:'Cập nhật phát sinh tăng tài sản'
+      UPDATE_IMPORT_INCREASE_ASSET: 'Cập nhật phát sinh tăng tài sản',
     },
     REQUIRED: {
       REASON_REFUSE: 'Bắt buộc nhập lý do từ chối',
@@ -450,16 +448,16 @@ export const locale = {
       ADD_TRANSFER_ASSET_FROM_FILE_SC: 'Thêm điều chuyển tải sản theo file thành công',
 
       //thanh lí tài sản
-      CF_ADD_LIQUIDATE_ASSET_BY_FILE: "Bạn có chắc chắn muốn thêm thanh lý tải sản theo file không",
-      CF_UPDATE_LIQUIDATE_ASSET_FILE: "Bạn có chắc chắn muốn cập nhật thanh lý tải sản theo file không",
-      UPDATE_LIQUIDATE_ASSET_FROM_FILE_SC: "Cập nhật thanh lý tải sản theo file thành công",
-      ADD_LIQUIDATE_ASSET_FROM_FILE_SC: "Thêm thanh lý tải sản theo file thành công",
+      CF_ADD_LIQUIDATE_ASSET_BY_FILE: 'Bạn có chắc chắn muốn thêm thanh lý tải sản theo file không',
+      CF_UPDATE_LIQUIDATE_ASSET_FILE: 'Bạn có chắc chắn muốn cập nhật thanh lý tải sản theo file không',
+      UPDATE_LIQUIDATE_ASSET_FROM_FILE_SC: 'Cập nhật thanh lý tải sản theo file thành công',
+      ADD_LIQUIDATE_ASSET_FROM_FILE_SC: 'Thêm thanh lý tải sản theo file thành công',
 
       //phát sing tăng tài sản
-      CF_ADD_IP_INCREASE_ASSET_BY_FILE: "Bạn có chắc chắn muốn thêm phát sinh tăng tải sản theo file không",
-      CF_UPDATE_IP_INCREASE_ASSET_FILE: "Bạn có chắc chắn muốn cập nhật phát sinh tăng tải sản theo file không",
-      UPDATE_IP_INCREASE_ASSET_FROM_FILE_SC: "Cập nhật phát sinh tăng tải sản theo file thành công",
-      ADD_IP_INCREASE_ASSET_FROM_FILE_SC: "Thêm phát sinh tăng tải sản theo file thành công",
+      CF_ADD_IP_INCREASE_ASSET_BY_FILE: 'Bạn có chắc chắn muốn thêm phát sinh tăng tải sản theo file không',
+      CF_UPDATE_IP_INCREASE_ASSET_FILE: 'Bạn có chắc chắn muốn cập nhật phát sinh tăng tải sản theo file không',
+      UPDATE_IP_INCREASE_ASSET_FROM_FILE_SC: 'Cập nhật phát sinh tăng tải sản theo file thành công',
+      ADD_IP_INCREASE_ASSET_FROM_FILE_SC: 'Thêm phát sinh tăng tải sản theo file thành công',
     },
     CONFIRM: {
       //I.Lập phiếu công tác
