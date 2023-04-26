@@ -69,7 +69,7 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
   totalSuccess: number = null;
   totalRecord: number = null;
   isHasResult: boolean = false;
-  columnsToDisplay = ['index','constructionDateStr','departmentCode','typeOfAssetCode','sourceOfAsset', 'assetCode',  'increaseOriginalAmountStr','increaseAmountStr','depreciationStartDateStr','errorMsg'];
+  columnsToDisplay: any;
   addType: string = 'single';
   addTypeList = [
     {
@@ -100,13 +100,15 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.isUpdate);
-    
+
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
       this.addType = 'file';
       this.loadAddFileForm()
+      this.columnsToDisplay = ['constructionDateStr', 'assetCode','increaseOriginalAmountCurStr','increaseOriginalAmountStr' ,'increaseAmountCurStr', 'increaseAmountStr', 'errorMsg'];
     } else {
       this.loadAddForm();
+      this.columnsToDisplay = ['index','constructionDateStr','departmentCode','typeOfAssetCode','sourceOfAsset', 'assetCode',  'increaseOriginalAmountStr','increaseAmountStr','depreciationStartDateStr','errorMsg'];
     }
   }
 
@@ -117,12 +119,12 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
       assetCode: [this.isUpdate ? this.item.assetCode : '', [Validators.required]],
       constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
       depreciationStartDateStr: [this.isUpdate ? moment(this.item.depreciationStartDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
-      departmentCode: [this.isUpdate ? this.item.departmentCode :'', [Validators.required]],
+      departmentCode: [this.isUpdate ? this.item.departmentCode : '', [Validators.required]],
       sourceOfAsset: [this.isUpdate ? this.item.sourceOfAssetName : '', [Validators.required]],
       increaseOriginalAmount: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0') : '', [Validators.required]],
-      increaseAmount: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0'): '', [Validators.required]],
+      increaseAmount: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : '', [Validators.required]],
       increaseOriginalAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0') : '', [Validators.required]],
-      increaseAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0'): '', [Validators.required]],
+      increaseAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : '', [Validators.required]],
     });
   }
 
@@ -191,7 +193,7 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
       }
     });
 
-    if (this.constructionDateErrorMsg !== '' && this.depreciationStartDateErrorMsg !== '' ) {
+    if (this.constructionDateErrorMsg !== '' && this.depreciationStartDateErrorMsg !== '') {
       isValid = false;
     }
     return isValid;
@@ -213,7 +215,7 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
         increaseAmountCur: Number(this.addEditForm.get('increaseAmountCur').value.replaceAll(',', '')),
       }
     };
-    return this.globalService.globalApi(requestTarget as RequestApiModelOld, this.isUpdate? 'update-dep-increase-single': 'add-dep-increase-single');
+    return this.globalService.globalApi(requestTarget as RequestApiModelOld, this.isUpdate ? 'update-dep-increase-single' : 'add-dep-increase-single');
   }
 
   //thay đổi format date
@@ -269,7 +271,7 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
         userName: this.userName
       }
     }
-    return this.globalService.globalApi(req,this.isUpdateFile ? 'down-temp-update-dep-increase' : 'down-temp-add-dep-increase');
+    return this.globalService.globalApi(req, this.isUpdateFile ? 'down-temp-update-dep-increase' : 'down-temp-add-dep-increase');
   }
   getTemplate() {
     const sub = this.apiGetTemplate().subscribe((res) => {
@@ -383,8 +385,8 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
       userName: this.userName,
       listDepreciationDetailDTO: this.openingBalanceService.errImportIncreaseAssetList.value,
     };
-    return this.globalService.globalApi(req, this.isUpdateFile ? 'confirm-update-dep-increase-by-file' :'confirm-add-dep-increase-by-file');
-  } 
+    return this.globalService.globalApi(req, this.isUpdateFile ? 'confirm-update-dep-increase-by-file' : 'confirm-add-dep-increase-by-file');
+  }
 
   eDownloadFileSuccess() {
     const sub = this.openingBalanceService.getSuccessImportIncreaseAssetFile.subscribe((res) => {

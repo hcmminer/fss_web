@@ -637,6 +637,14 @@
                     {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
                   </td>
                 </ng-container>
+                <!-- Ngày xây dựng -->
+                <ng-container matColumnDef="constructionDateStr">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: center">{{
+                    item.constructionDateStr}}</td>
+                </ng-container>
                 <!-- Mã tài sản -->
                 <ng-container matColumnDef="assetCode">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -646,20 +654,40 @@
                     {{item.assetCode}}
                   </td>
                 </ng-container>
-                <!-- Nguyên giá -->
+                <!-- Nguyên giá hiện tại -->
+                <ng-container matColumnDef="increaseOriginalAmountCurStr">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.INCREASE_ORIGINAL_AMOUNT_CUR' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: right">
+                    {{item.increaseOriginalAmountCurStr != null ? item.increaseOriginalAmountCurStr :
+                    (item.increaseOriginalAmountCur | number : '1.0-0')}}
+                  </td>
+                </ng-container>
+                <!-- Nguyên giá mong muốn -->
                 <ng-container matColumnDef="increaseOriginalAmountStr">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    {{ 'LABEL.INCREASE_ORIGINAL_AMOUNT' | translate }}
+                    {{ 'LABEL.INCREASE_ORIGINAL_AMOUNT_DESIRE' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let item" style="text-align: right">
                     {{item.increaseOriginalAmountStr != null ? item.increaseOriginalAmountStr :
                     (item.increaseOriginalAmount | number : '1.0-0')}}
                   </td>
                 </ng-container>
-                <!-- khấu hao -->
-                <ng-container matColumnDef="increaseAmountStr">
+                <!-- khấu hao hiện tại-->
+                <ng-container matColumnDef="increaseAmountCurStr">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    {{ 'LABEL.INCREASE_AMOUNT' | translate }}
+                    {{ 'LABEL.INCREASE_AMOUNT_CUR' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: right">
+                    {{item.increaseAmountCurStr != null ? item.increaseAmountCurStr : (item.increaseAmountCur | number :
+                    '1.0-0')}}
+                  </td>
+                </ng-container>
+                 <!-- khấu hao mong muốn-->
+                 <ng-container matColumnDef="increaseAmountStr">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.INCREASE_AMOUNT_DESIRE' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let item" style="text-align: right">
                     {{item.increaseAmountStr != null ? item.increaseAmountStr : (item.increaseAmount | number :

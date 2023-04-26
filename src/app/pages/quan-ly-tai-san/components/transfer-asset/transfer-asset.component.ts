@@ -18,7 +18,6 @@ import { FormAddTransferAssetComponent } from './form-add-transfer-asset/form-ad
 const queryInit = {
   groupFilter: '',
   typeOfAssetCode: '',
-  organisation: '',
   sourceOfAsset: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
@@ -104,7 +103,6 @@ export class TransferAssetComponent implements OnInit {
 
   initCombobox() {
     let reqGetListStatus = { userName: this.userName };
-    this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
     this.openingBalanceService.getSourceOfAsset(reqGetListStatus, 'get-source-of-asset', true);
     this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
   }
@@ -132,7 +130,6 @@ export class TransferAssetComponent implements OnInit {
   loadSearchForm() {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
-      organisation: [this.query.organisation],
       typeOfAssetCode: [this.query.typeOfAssetCode],
       sourceOfAsset: [this.query.sourceOfAsset],
       start: [this.query.startDate],
@@ -184,7 +181,6 @@ export class TransferAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        departmentCode: this.searchForm.get('organisation').value,
         fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
         toConstructionDateStr: this.transform(this.searchForm.get('end').value),
         typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
@@ -214,7 +210,6 @@ export class TransferAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        departmentCode: this.searchForm.get('organisation').value,
         fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
         toConstructionDateStr: this.transform(this.searchForm.get('end').value),
         typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
