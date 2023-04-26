@@ -62,6 +62,7 @@ export class OpenDepComponent implements OnInit {
   columnsToDisplay = [
     'index',
     'assetCode',
+    'departmentCode',
     'typeOfAssetCode',
     'typeOfAssetName',
     'depreciationFrame',
