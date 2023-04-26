@@ -154,18 +154,6 @@
                             <div class="col-md-3">
                                 <input [attr.disabled]="isUpdate" type="text" maxlength="50" class="form-control"
                                     id="assetCode" autocomplete="off" formControlName="assetCode" />
-
-                                <div
-                                    *ngIf="addEditForm.get('assetCode').invalid && (addEditForm.get('assetCode').dirty || addEditForm.get('assetCode').touched)">
-                                    <small class="form-text text-danger"
-                                        *ngIf="addEditForm.get('assetCode').errors.required">
-                                        {{'VALIDATION.REQUIRED' | translate
-                                        : {
-                                        name: 'LABEL.ASSETCODE' | translate
-                                        }
-                                        }}
-                                    </small>
-                                </div>
                             </div>
                             <div class="col-md-2"></div>
                             <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr">{{

@@ -102,6 +102,7 @@ export class LiquidateAssetComponent implements OnInit {
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
     this.openingBalanceService.getSourceOfAsset(reqGetListStatus, 'get-source-of-asset', true);
     this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
+    this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase', true);
   }
 
 
@@ -209,12 +210,12 @@ export class LiquidateAssetComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       searchDTO: {
-        groupFilter: [this.query.groupFilter],
-      organisation: [this.query.organisation],
-      typeOfAssetCode: [this.query.typeOfAssetCode],
-      sourceOfAsset: [this.query.sourceOfAsset],
-      start: [this.query.startDate],
-      end: [this.query.endDate],
+        groupFilter: this.query.groupFilter,
+        organisation: this.query.organisation,
+        typeOfAssetCode: this.query.typeOfAssetCode,
+        sourceOfAsset: this.query.sourceOfAsset,
+        start: this.query.startDate,
+        end: this.query.endDate,
       },
     };
     modalRef.componentInstance.req = requestTarget;

@@ -218,10 +218,16 @@ export const locale = {
       DEPARTMENT_CODE: 'Mã đơn vị chuyển',
       DEPARTMENT_CODE_RECEIVE: 'Mã đơn vị nhận',
       TOTAL: 'Tổng cộng',
+      TRANSFER_ORIGINAL_AMOUNT: 'Nguyên giá điều chuyển',
+      TRANSFER_INCREASE_AMOUNT : 'Khấu hao điều chuyển',
+
+      NOT_LIQUIDATED: 'Chưa thanh lý',
+      LIQUIDATED: 'Đã thanh lý',
 
       //thanh lí tài sản
       LIST_LIQUIDATE_ASSET: 'Danh sách thanh lý tài sản',
       ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
+      LIQUIDATE_ASSET: 'Thanh lý tài sản',
 
       //phát sinh tăng khấu hao
       INCREASE_ORIGINAL_AMOUNT: 'Nguyên giá phát sinh tăng',
@@ -318,7 +324,7 @@ export const locale = {
 
       //thanh lý tài sản
       LIQUIDATE_ASSET: 'Thanh lý tài sản',
-      ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
+      ADD_LIQUIDATE_ASSET: 'Thanh lý tài sản',
 
       //phát sing tăng tài sản
       IMPORT_INCREASE_ASSET: 'Phát sinh tăng tài sản',

@@ -31,7 +31,7 @@
                                     <select class="form-control font-14" name="assetCode" 
                                         id="assetCode" formControlName="assetCode">
                                         <ng-container
-                                            *ngFor="let item of openingBalanceService.cbxAssetCodeTransfer| async">
+                                            *ngFor="let item of openingBalanceService.cbxAssetCodeIncrease| async">
                                             <option [value]="item.assetCode">
                                                 {{ item.assetCode == '' ? ('DEFAULT_OPTION.SELECT' | translate ):  item.assetCode }}
                                             </option>
