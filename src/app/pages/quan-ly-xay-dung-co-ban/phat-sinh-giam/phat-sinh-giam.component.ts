@@ -20,7 +20,6 @@ const queryInit = {
   typeOfAssetCode: '',
   groupFilter: '',
   organisation: '',
-  assetCode: '',
   contract: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
@@ -142,7 +141,6 @@ export class PhatSinhGiamComponent implements OnInit {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
-      assetCode: [this.query.assetCode],
       contract: [this.query.contract],
       start: [this.query.startDate],
       end: [this.query.endDate],
@@ -150,6 +148,7 @@ export class PhatSinhGiamComponent implements OnInit {
     });
   }
 
+  //xem chi tiết
   eViewDetail(item: any) {
     console.log('view detail', item);
     const modalRef = this.modalService.open(DetailBcDecreaseComponent, {
@@ -168,12 +167,12 @@ export class PhatSinhGiamComponent implements OnInit {
     value = datePipe.transform(value, 'dd/MM/yyyy');
     return value;
   }
+  
   eSearch() {
     if (!this.isValidForm()) {
       this.searchForm.markAllAsTouched();
       return;
     }
-
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
@@ -194,7 +193,6 @@ export class PhatSinhGiamComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        assetCode: this.query.assetCode,
         organisation: this.searchForm.get('organisation').value,
         typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
         fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
@@ -204,7 +202,6 @@ export class PhatSinhGiamComponent implements OnInit {
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-bc-decrease');
   }
-
   eResetForm() {
     this.query = {
       ...queryInit,
@@ -226,7 +223,6 @@ export class PhatSinhGiamComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        assetCode: this.query.assetCode,
         organisation: this.searchForm.get('organisation').value,
         typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
         fromConstructionDateStr: this.transform(this.searchForm.get('start').value),

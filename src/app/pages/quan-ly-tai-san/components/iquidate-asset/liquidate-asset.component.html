@@ -19,14 +19,15 @@
               <div class="col-md-1"></div>
               <div class="col-md-10">
                 <div class="row">
-                  <label class="col-md-2 form-label col-form-label font-14" for="lastUpdateDatetime"
-                    >{{ 'LABEL.CONSTRUCTION_DATE' | translate }} <span style="color: red">*</span></label
-                  >
+                  <label class="col-md-2 form-label col-form-label font-14" for="lastUpdateDatetime">{{
+                    'LABEL.CONSTRUCTION_DATE' | translate }} <span style="color: red">*</span></label>
                   <div class="col-md-3">
                     <mat-form-field appearance="fill">
                       <mat-date-range-input [rangePicker]="picker">
-                        <input matStartDate formControlName="start" (input)="eInputDate($event, 'start')" placeholder="Start date" />
-                        <input matEndDate formControlName="end" (input)="eInputDate($event, 'end')" placeholder="End date" />
+                        <input matStartDate formControlName="start" (input)="eInputDate($event, 'start')"
+                          placeholder="Start date" />
+                        <input matEndDate formControlName="end" (input)="eInputDate($event, 'end')"
+                          placeholder="End date" />
                       </mat-date-range-input>
                       <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
                       <mat-date-range-picker #picker></mat-date-range-picker>
@@ -35,19 +36,47 @@
                     </mat-form-field>
                   </div>
                   <div class="col-md-2"></div>
-                  <label class="col-md-2 form-label col-form-label font-14" for="assetCode">{{ 'LABEL.ASSETCODE' | translate }}</label>
+                  <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{ 'LABEL.ORGANISATION' |
+                    translate }}</label>
                   <div class="col-md-3">
-                    <select class="form-control font-14" name="assetCode" id="assetCode" [(ngModel)]="query.assetCode"
-                    formControlName="assetCode">
-                    <ng-container *ngFor="let item of openingBalanceService.cbxAssetCodeTransfer| async">
-                      <option [value]="item.assetCode">
-                        {{ item.assetCode == '' ? ('DEFAULT_OPTION.SELECT' | translate ):  item.assetCode }}
-                      </option>
-                    </ng-container>
-                  </select>
+                    <select class="form-control font-14" name="organisation" id="organisation"
+                      formControlName="organisation" [(ngModel)]="query.organisation">
+                      <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation| async">
+                        <option [value]="item.code">
+                          <span *ngIf="item.code != ''">{{ item.code }} -</span> {{ item.name }}
+                        </option>
+                      </ng-container>
+                    </select>
                   </div>
                 </div>
-
+                <div class="row">
+  
+                  <label class="col-md-2 form-label col-form-label font-14" for="assetCode">{{ 'LABEL.TYPE_OF_ASSET_CODE' |
+                    translate }}</label>
+                  <div class="col-md-3">
+                    <select class="form-control font-14" name="typeOfAssetCode" id="typeOfAssetCode" [(ngModel)]="query.typeOfAssetCode"
+                      formControlName="typeOfAssetCode">
+                      <ng-container *ngFor="let item of openingBalanceService.cbxTypeOfAsset | async">
+                        <option [value]="item.code">
+                          {{item.name}}
+                        </option>
+                      </ng-container>
+                    </select>
+                  </div>
+                  <div class="col-md-2"></div>
+                  <label class="col-md-2 form-label col-form-label font-14" for="sourceOfAsset">{{ 'LABEL.SOURCE_OF_ASSET' |
+                    translate }}</label>
+                  <div class="col-md-3">
+                    <select class="form-control font-14" name="sourceOfAsset" id="sourceOfAsset"
+                      formControlName="sourceOfAsset" [(ngModel)]="query.sourceOfAsset">
+                      <ng-container *ngFor="let item of openingBalanceService.cbxSourceOfAsset | async">
+                        <option [value]="item.value">
+                          <span>{{ item.name }}</span>
+                        </option>
+                      </ng-container>
+                    </select>
+                  </div>
+                </div>
               </div>
               <div class="col-md-1"></div>
             </div>

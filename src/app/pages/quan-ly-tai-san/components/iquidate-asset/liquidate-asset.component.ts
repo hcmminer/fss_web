@@ -17,13 +17,14 @@ import { FormAddLiquidateAssetComponent } from './form-add-iquidate-asset/form-a
 
 const queryInit = {
   groupFilter: '',
-  assetCode: '',
+  typeOfAssetCode: '',
+  organisation: '',
+  sourceOfAsset: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
   endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
   // iValidEndDate: new NgbDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
 };
-
 export const MY_FORMATS = {
   parse: {
     dateInput: 'DD/MM/YYYY',
@@ -97,9 +98,12 @@ export class LiquidateAssetComponent implements OnInit {
   }
 
   initCombobox() {
-    let reqGetListStatus = {userName: this.userName };
-    this.openingBalanceService.getCbxAssetCodeTransfer(reqGetListStatus, 'get-list-asset-code-liquidate', true);
+    let reqGetListStatus = { userName: this.userName };
+    this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
+    this.openingBalanceService.getSourceOfAsset(reqGetListStatus, 'get-source-of-asset', true);
+    this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
   }
+
 
   ngOnInit(): void {
     this.initCombobox();
@@ -124,7 +128,9 @@ export class LiquidateAssetComponent implements OnInit {
   loadSearchForm() {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
-      assetCode: [this.query.assetCode],
+      organisation: [this.query.organisation],
+      typeOfAssetCode: [this.query.typeOfAssetCode],
+      sourceOfAsset: [this.query.sourceOfAsset],
       start: [this.query.startDate],
       end: [this.query.endDate],
     });
@@ -174,9 +180,11 @@ export class LiquidateAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
-        toCreatedDateStr: this.transform(this.searchForm.get('end').value),
-        assetCode: this.searchForm.get('assetCode').value,
+        departmentCode: this.searchForm.get('organisation').value,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+        typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
+        sourceOfAsset: this.searchForm.get('sourceOfAsset').value,
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-dep-liquidate');
@@ -201,10 +209,12 @@ export class LiquidateAssetComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       searchDTO: {
-        groupFilter: this.query.groupFilter,
-        fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
-        toCreatedDateStr: this.transform(this.searchForm.get('end').value),
-        assetCode:  this.searchForm.get('assetCode').value,
+        groupFilter: [this.query.groupFilter],
+      organisation: [this.query.organisation],
+      typeOfAssetCode: [this.query.typeOfAssetCode],
+      sourceOfAsset: [this.query.sourceOfAsset],
+      start: [this.query.startDate],
+      end: [this.query.endDate],
       },
     };
     modalRef.componentInstance.req = requestTarget;

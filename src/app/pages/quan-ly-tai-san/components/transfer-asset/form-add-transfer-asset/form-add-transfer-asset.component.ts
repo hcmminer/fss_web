@@ -362,7 +362,6 @@ export class FormAddTransferAssetComponent implements OnInit {
   }
 
   eDownloadFileSuccess() {
-    debugger
     const sub = this.openingBalanceService.getSuccessTransferAssetFile.subscribe((res) => {
       if (res.errorCode == '0' || res.errorCode == '3') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
@@ -416,13 +415,13 @@ export class FormAddTransferAssetComponent implements OnInit {
               this.openingBalanceService.getSuccessTransferAssetFile.next(res);
               this.resultDesc = res.description;
               this.resultCode = 'success';
-              this.toastService.success(this.translate.instant('MESSAGE.ADD_TRANSFER_ASSET_FROM_FILE_SC'));
+              this.toastService.success(this.translate.instant(this.resultDesc));
             } else if (res.errorCode == '3') {
               this.resultDesc = res.description;
               this.resultCode = 'warning';
               this.isHasSuccessFile = true;
               this.openingBalanceService.getSuccessTransferAssetFile.next(res);
-              this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_TRANSFER_ASSET_FROM_FILE_SC'));
+              this.toastService.warning(this.resultDesc);
             } else {
               this.isHasSuccessFile = false;
               this.openingBalanceService.getSuccessTransferAssetFile.next(null);

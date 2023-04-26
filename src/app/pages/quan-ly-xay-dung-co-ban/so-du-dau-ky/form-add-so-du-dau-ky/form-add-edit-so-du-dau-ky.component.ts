@@ -478,7 +478,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
               this.resultCode = 'warning';
               this.isHasSuccessFile = true;
               this.openingBalanceService.getSuccessOpeningBalanceFile.next(res);
-              this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_OP_BL_FROM_FILE_SC'));
+              this.toastService.warning(this.resultDesc);
             } else {
               this.isHasSuccessFile = false;
               this.openingBalanceService.getSuccessOpeningBalanceFile.next(null);

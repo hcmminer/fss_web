@@ -36,10 +36,14 @@ export class DetailBcDecreaseComponent implements OnInit {
   columnsToDisplay = [
     'index',
     'organisation',
-    'contract',
     'assetCode',
+    'contract',
     'labor',
     'material',
+    'depreciationFrame',
+    'typeOfAssetAccount',
+    'typeOfAssetCode',
+    'typeOfAssetName',
     'constructionDateStr',
     'createdDatetimeStr',
   ];

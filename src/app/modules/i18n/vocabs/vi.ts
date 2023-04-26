@@ -4,7 +4,7 @@ export const locale = {
   data: {
     // bandv >>
     // begin menu
-    'BASIC-CONSTRUCTION':'Quản lý xây dựng cơ bản',
+    'BASIC-CONSTRUCTION': 'Quản lý xây dựng cơ bản',
     'TRANSFER-TO-ASSET': 'Nhập phát sinh giảm',
     'OPENING-BALANCE-BC': 'Nhập số dư đầu kỳ',
     'IMPORT-INCREASE': 'Nhập phát sinh tăng',
@@ -12,10 +12,10 @@ export const locale = {
 
     'ASSET-MANAGE': 'Quản lý tài sản',
     'TYPE-OF-ASSET': 'Danh mục loại tài sản',
-    'OPENING-BALANCE':'Nhập dữ liệu đầu kỳ',
+    'OPENING-BALANCE': 'Nhập dữ liệu đầu kỳ',
     'IMPORT-INCREASE-ASSET': 'Nhập dữ liệu phát sinh tăng',
     'TRANSFER-ASSET': 'Điều chuyển tài sản	',
-    'LIQUIDATE-ASSET':'Thanh lý tài sản ',
+    'LIQUIDATE-ASSET': 'Thanh lý tài sản ',
     'REPORT-ASSET': 'Báo cáo tài sản',
     // end menu
     CREATED_DATETIME: 'Ngày tạo',
@@ -23,7 +23,7 @@ export const locale = {
     LAST_UPDATED_DATETIME: 'Ngày cập nhật',
     LAST_UPDATED_BY: 'Người cập nhật',
     MODAL_WARNING: 'Cảnh báo!',
-   
+
     FUNCTION: {
       ADD: 'Thêm mới',
       SUCCSESS_ADD: 'Thêm mới thành công',
@@ -162,6 +162,7 @@ export const locale = {
 
       //Số dư đầu kỳ
       ORGANISATION: 'Đơn vị',
+      ORGANISATION_CODE: 'Mã đơn vị',
       ASSETCODE: 'Mã tài sản',
       CONTRACT: 'Hợp đồng',
       LABOR: 'Nhân công',
@@ -206,11 +207,20 @@ export const locale = {
       ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
 
       //phát sinh tăng khấu hao
-      INCREASE_ORIGINAL_AMOUNT: 'Nguyên giá',
-      INCREASE_AMOUNT: 'Khấu hao',
+      INCREASE_ORIGINAL_AMOUNT: 'Nguyên giá phát sinh tăng',
+      INCREASE_ORIGINAL_AMOUNT_CUR: 'Nguyên giá phát sinh tăng hiện tại',
+      INCREASE_ORIGINAL_AMOUNT_DESIRE: 'Nguyên giá phát sinh tăng mong muốn',
+      INCREASE_AMOUNT: 'Khấu hao phát sinh tăng',
+      INCREASE_AMOUNT_CUR: 'Khấu hao phát sinh tăng hiện tại',
+      INCREASE_AMOUNT_DESIRE: 'Khấu hao phát sinh tăng mong muốn',
       SOURCE_OF_ASSET: 'Nguồn gốc tài sản',
+      SOURCE_OF_ASSET_FILE: `Nguồn hình thành tài sản (1 - Xây dựng cơ bản
+        2 - Mua sắm)` ,
       DEPRECIATION_STARTDATE: 'Ngày bắt đầu khấu hao',
-      LAST_UPDATEDATE_TIME: 'Ngày tác động'
+      LAST_UPDATEDATE_TIME: 'Ngày tác động',
+      ADD_IMPORT_INCREASE_ASSET: 'Thêm mới phát sinh tăng tài sản',
+      LIST_IMPORT_INCREASE_ASSET: 'Danh sách phát sinh tăng tài sản',
+      EDIT_IMPORT_INCREASE_ASSET_FILE: 'Cập nhật phát sinh tăng tài sản theo file',
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -289,9 +299,14 @@ export const locale = {
       ADD_TRANSFER_ASSET: 'Thêm mới điều chuyển tài sản',
       LIST_ERR_FILE: 'Danh sách file lỗi',
 
-       //thanh lý tài sản
-       LIQUIDATE_ASSET: 'Thanh lý tài sản',
-       ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
+      //thanh lý tài sản
+      LIQUIDATE_ASSET: 'Thanh lý tài sản',
+      ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
+
+      //phát sing tăng tài sản
+      IMPORT_INCREASE_ASSET: 'Phát sinh tăng tài sản',
+      ADD_IMPORT_INCREASE_ASSET: 'Thêm mới phát sinh tăng tài sản',
+      UPDATE_IMPORT_INCREASE_ASSET:'Cập nhật phát sinh tăng tài sản'
     },
     REQUIRED: {
       REASON_REFUSE: 'Bắt buộc nhập lý do từ chối',
@@ -416,6 +431,12 @@ export const locale = {
       CF_UPDATE_LIQUIDATE_ASSET_FILE: "Bạn có chắc chắn muốn cập nhật thanh lý tải sản theo file không",
       UPDATE_LIQUIDATE_ASSET_FROM_FILE_SC: "Cập nhật thanh lý tải sản theo file thành công",
       ADD_LIQUIDATE_ASSET_FROM_FILE_SC: "Thêm thanh lý tải sản theo file thành công",
+
+      //phát sing tăng tài sản
+      CF_ADD_IP_INCREASE_ASSET_BY_FILE: "Bạn có chắc chắn muốn thêm phát sinh tăng tải sản theo file không",
+      CF_UPDATE_IP_INCREASE_ASSET_FILE: "Bạn có chắc chắn muốn cập nhật phát sinh tăng tải sản theo file không",
+      UPDATE_IP_INCREASE_ASSET_FROM_FILE_SC: "Cập nhật phát sinh tăng tải sản theo file thành công",
+      ADD_IP_INCREASE_ASSET_FROM_FILE_SC: "Thêm phát sinh tăng tải sản theo file thành công",
     },
     CONFIRM: {
       //I.Lập phiếu công tác
@@ -477,6 +498,10 @@ export const locale = {
       //phát sinh giảm
       UPDATE_DECREASE: 'Bạn có muốn cập nhật phát sinh giảm này không',
       ADD_DECREASE: 'Bạn có muốn thêm mới phát sinh giảm này không',
+
+      //phát sinh tăng tài sản
+      UPDATE_IMPORT_INCREASE_ASSET: 'Bạn có muốn cập nhật phát sinh tăng này không',
+      ADD_IMPORT_INCREASE_ASSET: 'Bạn có muốn thêm mới phát sinh tăng này không',
     },
     TOOLTIP: {
       REFUSE: 'Từ chối',

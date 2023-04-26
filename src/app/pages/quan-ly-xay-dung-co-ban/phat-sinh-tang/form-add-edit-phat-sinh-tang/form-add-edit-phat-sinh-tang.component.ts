@@ -98,8 +98,6 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(!this.isUpdate);
-
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
       this.columnsToDisplay = ['index', 'assetCode', 'materialTotalStr', 'materialStr', 'laborTotalStr', 'laborStr','constructionDateStr' ,'errorMsg'];
@@ -110,7 +108,6 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     }
 
     if (this.isUpdate) {
-
       this.loadAddForm();
       let request = this.apiGetSum().subscribe(
         (res) => {
@@ -302,7 +299,7 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
         userName: this.userName
       }
     }
-    return this.globalService.globalApi(req, this.isUpdateFile ? 'down-temp-update-bc-increase' : 'down-template-add-bc-increase');
+    return this.globalService.globalApi(req, this.isUpdateFile ? 'down-temp-update-dep-increase' : 'down-template-add-bc-increase');
   }
   getTemplate() {
     const sub = this.apiGetTemplate().subscribe((res) => {
@@ -331,7 +328,6 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
   }
 
   eUpdateFromFile() {
-    debugger
     if (!this.isValidFileForm()) {
       this.addFileForm.markAllAsTouched();
       return;

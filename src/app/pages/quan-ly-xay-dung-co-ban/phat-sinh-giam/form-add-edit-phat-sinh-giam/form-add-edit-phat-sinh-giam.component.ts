@@ -475,7 +475,7 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
               this.resultCode = 'warning';
               this.isHasSuccessFile = true;
               this.openingBalanceService.getSuccessBcDecreaseFile.next(res);
-              this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_DECREASE_FROM_FILE_SC'));
+              this.toastService.warning(this.resultDesc);
             } else {
               this.isHasSuccessFile = false;
               this.openingBalanceService.getSuccessBcDecreaseFile.next(null);

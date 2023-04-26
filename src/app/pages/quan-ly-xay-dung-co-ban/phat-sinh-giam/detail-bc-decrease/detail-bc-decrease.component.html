@@ -1,103 +1,122 @@
 <div>
-    <div class="padding-popup">
-      <div class="d-flex justify-content-between">
-        <h4 style="font-weight: 700; margin: auto 0">
-          {{ 'ACTION.VIEW_DETAIL' | translate }}
-        </h4>
-      </div>
-      <hr />
-        <div class=""  style="overflow-x: scroll;">
-          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="w-100">
-            <!-- STT -->
-            <ng-container matColumnDef="index">
-              <th mat-header-cell *matHeaderCellDef>
-                {{ 'COMMON.INDEX' | translate }}
-              </th>
-              <td mat-cell *matCellDef="let index = index">
-                {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
-              </td>
-            </ng-container>
-             <!-- assetCode -->
-            <ng-container matColumnDef="assetCode">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ 'LABEL.ASSETCODE' | translate }}
-              </th>
-              <td mat-cell *matCellDef="let item" class="text-left">{{ item.assetCode }}</td>
-            </ng-container>
-            <!-- assetCode -->
-            <ng-container matColumnDef="contract">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ 'LABEL.CONTRACT' | translate }}
-              </th>
-              <td mat-cell *matCellDef="let item" class="text-left">{{ item.contract }}</td>
-            </ng-container>
-            <!--constructionDateStr -->
-            <ng-container matColumnDef="constructionDateStr">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
-              </th>
-              <td mat-cell *matCellDef="let item" class="text-left">{{ item.constructionDateStr }}</td>
-            </ng-container>
-            <!-- createdDatetimeStr -->
-            <ng-container matColumnDef="createdDatetimeStr">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ 'LABEL.CREATED_DATE' | translate }}
-              </th>
-              <td mat-cell *matCellDef="let item" class="text-left">{{ item.createdDatetimeStr }}</td>
-            </ng-container>
-            <!-- labor -->
-            <ng-container matColumnDef="labor">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ 'LABEL.LABOR' | translate }}
-              </th>
-              <td mat-cell *matCellDef="let item">{{ item.labor | number : '1.0-0'}}</td>
-            </ng-container>
-            <!-- material -->
-            <ng-container matColumnDef="material">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ 'LABEL.MATERIAL' | translate }}
-              </th>
-              <td mat-cell *matCellDef="let item" class="text-left">{{ item.material | number : '1.0-0'}}</td>
-            </ng-container>
-            <!-- organisation -->
-            <ng-container matColumnDef="organisation">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ 'LABEL.ORGANISATION' | translate }}
-              </th>
-              <td mat-cell *matCellDef="let item" class="text-left">{{ item.organisation }}</td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-            <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
-            <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" colspan="10">
-                {{ 'NO_MATCH_DATA' | translate }}
-              </td>
-            </tr>
-          </table>
-          <mat-paginator
-            #paginator
-            (page)="onPaginateChange($event)"
-            [pageSize]="10"
-            [pageSizeOptions]="[10, 20, 25, 30, 50]"
-            showFirstLastButtons
-            aria-label="Select page of results"
-          ></mat-paginator>
-        </div>
-      <div class="container-fluid">
-        <div class="d-flex justify-content-end my-4">
-          <div
-            (click)="eClose()"
-            class="mx-3 px-6 btn btn-outline-dark font-weight-bolder d-flex align-items-center justify-content-between"
-            style="height: 38px"
-          >
-            <i class="mr-2 fa fa-window-close"></i>
-            {{ 'ACTION.CLOSE' | translate }}
-          </div>
-        </div>
-      </div>
-      <div class="pb-1"></div>
+  <div class="padding-popup">
+    <div class="d-flex justify-content-between">
+      <h4 style="font-weight: 700; margin: auto 0">
+        {{ 'ACTION.VIEW_DETAIL' | translate }}
+      </h4>
     </div>
-  </div>
+    <hr />
+    <div class="" style="overflow-x: scroll;">
+      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="w-100">
+        <!-- STT -->
+        <ng-container matColumnDef="index">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ 'COMMON.INDEX' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let index = index">
+            {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
+          </td>
+        </ng-container>
+        <!-- assetCode -->
+        <ng-container matColumnDef="assetCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'LABEL.ASSETCODE' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let item" class="text-left">{{ item.assetCode }}</td>
+        </ng-container>
+        <!-- assetCode -->
+        <ng-container matColumnDef="contract">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'LABEL.CONTRACT' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let item" class="text-left">{{ item.contract }}</td>
+        </ng-container>
+        <!-- depreciationFrame -->
+        <ng-container matColumnDef="depreciationFrame">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'LABEL.DEPRECIATIONFRAME' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let item" style="text-align: center">{{ item.depreciationFrame }}</td>
+        </ng-container>
+        <!-- typeOfAssetAccount -->
+        <ng-container matColumnDef="typeOfAssetAccount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'LABEL.TYPE_OF_ASSET_ACCOUNT' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.typeOfAssetAccount }}</td>
+        </ng-container>
+        <!-- typeOfAssetCode -->
+        <ng-container matColumnDef="typeOfAssetCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'LABEL.TYPE_OF_ASSET_CODE' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.typeOfAssetCode }}</td>
+        </ng-container>
+        <!-- typeOfAssetName -->
+        <ng-container matColumnDef="typeOfAssetName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'LABEL.TYPE_OF_ASSET_NAME' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.typeOfAssetName }}</td>
+        </ng-container>
+        <!--constructionDateStr -->
+        <ng-container matColumnDef="constructionDateStr">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let item" class="text-left">{{ item.constructionDateStr }}</td>
+        </ng-container>
+        <!-- createdDatetimeStr -->
+        <ng-container matColumnDef="createdDatetimeStr">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'LABEL.CREATED_DATE' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let item" class="text-left">{{ item.createdDatetimeStr }}</td>
+        </ng-container>
+        <!-- labor -->
+        <ng-container matColumnDef="labor">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'LABEL.LABOR' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let item">{{ item.labor | number : '1.0-0'}}</td>
+        </ng-container>
+        <!-- material -->
+        <ng-container matColumnDef="material">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'LABEL.MATERIAL' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let item" class="text-left">{{ item.material | number : '1.0-0'}}</td>
+        </ng-container>
+        <!-- organisation -->
+        <ng-container matColumnDef="organisation">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'LABEL.ORGANISATION' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let item" class="text-left">{{ item.organisation }}</td>
+        </ng-container>
 
-  
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="10">
+            {{ 'NO_MATCH_DATA' | translate }}
+          </td>
+        </tr>
+      </table>
+      <mat-paginator #paginator (page)="onPaginateChange($event)" [pageSize]="10"
+        [pageSizeOptions]="[10, 20, 25, 30, 50]" showFirstLastButtons
+        aria-label="Select page of results"></mat-paginator>
+    </div>
+    <div class="container-fluid">
+      <div class="d-flex justify-content-end my-4">
+        <div (click)="eClose()"
+          class="mx-3 px-6 btn btn-outline-dark font-weight-bolder d-flex align-items-center justify-content-between"
+          style="height: 38px">
+          <i class="mr-2 fa fa-window-close"></i>
+          {{ 'ACTION.CLOSE' | translate }}
+        </div>
+      </div>
+    </div>
+    <div class="pb-1"></div>
+  </div>
+</div>

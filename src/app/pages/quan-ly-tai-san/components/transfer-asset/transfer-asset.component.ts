@@ -17,14 +17,14 @@ import { FormAddTransferAssetComponent } from './form-add-transfer-asset/form-ad
 
 const queryInit = {
   groupFilter: '',
-  assetCode: '',
+  typeOfAssetCode: '',
   organisation: '',
+  sourceOfAsset: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
   endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
   // iValidEndDate: new NgbDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
 };
-
 export const MY_FORMATS = {
   parse: {
     dateInput: 'DD/MM/YYYY',
@@ -101,10 +101,12 @@ export class TransferAssetComponent implements OnInit {
     this.loadSearchForm();
   }
 
+
   initCombobox() {
-    let reqGetListStatus = {userName: this.userName };
+    let reqGetListStatus = { userName: this.userName };
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
-    this.openingBalanceService.getCbxAssetCodeTransfer(reqGetListStatus, 'get-list-asset-code-transfer', true);
+    this.openingBalanceService.getSourceOfAsset(reqGetListStatus, 'get-source-of-asset', true);
+    this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
   }
 
   ngOnInit(): void {
@@ -125,13 +127,14 @@ export class TransferAssetComponent implements OnInit {
       this.startDateErrorMsg = '';
     }
   }
-
+  
   // init data for view form search
   loadSearchForm() {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
-      assetCode: [this.query.assetCode],
+      typeOfAssetCode: [this.query.typeOfAssetCode],
+      sourceOfAsset: [this.query.sourceOfAsset],
       start: [this.query.startDate],
       end: [this.query.endDate],
     });
@@ -181,10 +184,11 @@ export class TransferAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        departmentReceiveCode: this.searchForm.get('organisation').value,
-        fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
-        toCreatedDateStr: this.transform(this.searchForm.get('end').value),
-        assetCode: this.searchForm.get('assetCode').value,
+        departmentCode: this.searchForm.get('organisation').value,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+        typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
+        sourceOfAsset: this.searchForm.get('sourceOfAsset').value,
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-dep-transfer');
@@ -210,10 +214,11 @@ export class TransferAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        departmentReceiveCode: this.searchForm.get('organisation').value,
-        fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
-        toCreatedDateStr: this.transform(this.searchForm.get('end').value),
-        assetCode:  this.searchForm.get('assetCode').value,
+        departmentCode: this.searchForm.get('organisation').value,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+        typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
+        sourceOfAsset: this.searchForm.get('sourceOfAsset').value,
       },
     };
     modalRef.componentInstance.req = requestTarget;

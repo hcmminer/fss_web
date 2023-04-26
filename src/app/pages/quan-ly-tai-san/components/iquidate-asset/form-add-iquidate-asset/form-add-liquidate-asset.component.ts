@@ -359,7 +359,6 @@ export class FormAddLiquidateAssetComponent implements OnInit {
  }
 
  eDownloadFileSuccess() {
-   debugger
    const sub = this.openingBalanceService.getSuccessLiquidateAssetFile.subscribe((res) => {
      if (res.errorCode == '0' || res.errorCode == '3') {
        this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
@@ -419,7 +418,7 @@ export class FormAddLiquidateAssetComponent implements OnInit {
              this.resultCode = 'warning';
              this.isHasSuccessFile = true;
              this.openingBalanceService.getSuccessLiquidateAssetFile.next(res);
-             this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_LIQUIDATE_ASSET_FROM_FILE_SC'));
+             this.toastService.warning(this.resultDesc);
            } else {
              this.isHasSuccessFile = false;
              this.openingBalanceService.getSuccessLiquidateAssetFile.next(null);

@@ -14,16 +14,14 @@ import { CONFIG } from 'src/app/utils/constants';
 import { DatePipe } from '@angular/common';
 import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
 import { FormAddImportIncreaseAssetComponent } from './form-add-import-increase-asset/form-add-import-increase-asset.component';
-import { timeToName } from 'src/app/utils/functions';
-import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
+
 import { DetailImportIncreaseAssetComponent } from './detail-import-increase-asset/detail-import-increase-asset.component';
 
 const queryInit = {
   groupFilter: '',
-  assetCode: '',
+  typeOfAssetCode: '',
   organisation: '',
+  sourceOfAsset: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
   endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
@@ -92,10 +90,11 @@ export class ImportIncreaseAssetComponent implements OnInit {
     'typeOfAssetCode',
     'increaseOriginalAmount',
     'increaseAmount',
-    'sourceOfAsset',
+    'sourceOfAssetName',
     'constructionDateStr',
     'depreciationStartDateStr',
     'lastUpdatedDatetimeStr',
+    'action'
   ];
 
   constructor(
@@ -114,7 +113,8 @@ export class ImportIncreaseAssetComponent implements OnInit {
   initCombobox() {
     let reqGetListStatus = { userName: this.userName };
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
-    this.openingBalanceService.getCbxAssetCodeTransfer(reqGetListStatus, 'get-list-transfer-asset', true);
+    this.openingBalanceService.getSourceOfAsset(reqGetListStatus, 'get-source-of-asset', true);
+    this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
   }
 
   ngOnInit(): void {
@@ -141,7 +141,8 @@ export class ImportIncreaseAssetComponent implements OnInit {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
-      assetCode: [this.query.assetCode],
+      typeOfAssetCode: [this.query.typeOfAssetCode],
+      sourceOfAsset: [this.query.sourceOfAsset],
       start: [this.query.startDate],
       end: [this.query.endDate],
     });
@@ -174,13 +175,13 @@ export class ImportIncreaseAssetComponent implements OnInit {
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
-        this.openingBalanceService.listTransferAsset.next(res.data);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listTransferAsset.value);
+        this.openingBalanceService.listImportIncreaseAsset.next(res.data);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listImportIncreaseAsset.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.openingBalanceService.listTransferAsset.next([]);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listTransferAsset.value);
+        this.openingBalanceService.listImportIncreaseAsset.next([]);
+        this.dataSource = new MatTableDataSource(this.openingBalanceService.listImportIncreaseAsset.value);
       }
     });
     this.subscriptions.push(rq);
@@ -194,7 +195,8 @@ export class ImportIncreaseAssetComponent implements OnInit {
         departmentCode: this.searchForm.get('organisation').value,
         fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
         toConstructionDateStr: this.transform(this.searchForm.get('end').value),
-        assetCode: this.searchForm.get('assetCode').value,
+        typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
+        sourceOfAsset: this.searchForm.get('sourceOfAsset').value,
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-dep-increase');
@@ -208,22 +210,24 @@ export class ImportIncreaseAssetComponent implements OnInit {
     this.loadSearchForm();
   }
 
-  displayFormAdd(item: any, isTransferByFile) {
+  displayFormAdd(item: any, isUpdate, isUpdateFile) {
     const modalRef = this.modalService.open(FormAddImportIncreaseAssetComponent, {
       centered: true,
       backdrop: 'static',
       size: 'xl',
     });
     modalRef.componentInstance.item = item;
-    modalRef.componentInstance.isTransferByFile = isTransferByFile;
+    modalRef.componentInstance.isUpdate = isUpdate;
+    modalRef.componentInstance.isUpdateFile = isUpdateFile;
     const requestTarget = {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        departmentReceiveCode: this.searchForm.get('organisation').value,
-        fromCreatedDateStr: this.transform(this.searchForm.get('start').value),
-        toCreatedDateStr: this.transform(this.searchForm.get('end').value),
-        assetCode: this.searchForm.get('assetCode').value,
+        departmentCode: this.searchForm.get('organisation').value,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+        typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
+        sourceOfAsset: this.searchForm.get('sourceOfAsset').value,
       },
     };
     modalRef.componentInstance.req = requestTarget;

@@ -19,6 +19,7 @@ export class openingBalanceService {
   subscriptions: Subscription[] = [];
   cbxOrganisation = new BehaviorSubject<any[]>([]);
   cbxTypeOfAsset =  new BehaviorSubject<any[]>([]);
+  cbxSourceOfAsset= new BehaviorSubject<any[]>([]);
   //só dư đầu kỳ
   getErrOpeningBalanceFile = new BehaviorSubject<any>({});//v
   getSuccessOpeningBalanceFile = new BehaviorSubject<any>({});
@@ -55,11 +56,14 @@ export class openingBalanceService {
   listLiquidateAsset = new BehaviorSubject<any[]>([]);
   errLiquidateAssetList = new BehaviorSubject<any[]>([]);
 
-   //liquidate-asset
+   //ImportIncrease-asset
    getErrImportIncreaseAssetFile = new BehaviorSubject<any>({});//v
    getSuccessImportIncreaseAssetFile = new BehaviorSubject<any>({});
    listImportIncreaseAsset = new BehaviorSubject<any[]>([]);
    errImportIncreaseAssetList = new BehaviorSubject<any[]>([]);
+
+
+
   initHeader: {};
   header = {
     'Content-Type': 'application/json',
@@ -201,4 +205,35 @@ export class openingBalanceService {
     this.subscriptions.push(request);
   }
 
+
+  //cbx nguồn tài sản
+  getSourceOfAsset(query: RequestApiModelOld, redirectFunction, allowDefault: boolean) {
+    const request = this.globalService
+      .globalApi(query, redirectFunction)
+      .pipe(
+        map((response) => {
+          if (response.errorCode != '0') {
+            this.cbxSourceOfAsset.next([]);
+            throw new Error(response.description);
+          }
+          if (typeof response.data !== 'undefined' && response.data !== null) {
+            this.cbxSourceOfAsset.next(response.data);
+          } else {
+            this.cbxSourceOfAsset.next([]);
+          }
+          if (allowDefault)
+            this.cbxSourceOfAsset.value.unshift({
+              value: '',
+              name: this.translateService.instant('DEFAULT_OPTION.SELECT'),
+            });
+        }),
+        catchError((err) => {
+          // this.toastrService.error(err.error?.message || err.message, 'Error');
+          return of(undefined);
+        }),
+        finalize(() => { }),
+      )
+      .subscribe();
+    this.subscriptions.push(request);
+  }
 }

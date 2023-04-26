@@ -184,7 +184,7 @@
                                     {{ 'LABEL.LABOR' | translate }}
                                 </th>
                                 <td mat-cell *matCellDef="let item" style="text-align: right">
-                                    {{ item.openLabor }}
+                                    {{ item.openLabor | number : '1.0-0'}}
                                 </td>
                             </ng-container>
                             <!-- material -->
@@ -193,7 +193,7 @@
                                     style="background-color: rgba(255, 255, 0, 0.552);">
                                     {{ 'LABEL.MATERIAL' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.openMaterial }}
+                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.openMaterial | number : '1.0-0'}}
                                 </td>
                             </ng-container>
                             <!-- Tong vat tu nhan cong -->
@@ -202,7 +202,7 @@
                                     style="background-color: rgba(255, 255, 0, 0.552);">
                                     {{ 'LABEL.TOTAL' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.openTotal }}</td>
+                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.openTotal | number : '1.0-0'}}</td>
                             </ng-container>
                             <!-- ket thuc cot to thu 1 -->
 
@@ -221,7 +221,7 @@
                                     {{ 'LABEL.LABOR' | translate }}
                                 </th>
                                 <td mat-cell *matCellDef="let item" style="text-align: right">
-                                    {{ item.increaseLabor }}
+                                    {{ item.increaseLabor | number : '1.0-0'}}
                                 </td>
                             </ng-container>
                             <!-- material -->
@@ -229,7 +229,7 @@
                                 <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0, 128, 0, 0.412)">
                                     {{ 'LABEL.MATERIAL' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.increaseMaterial
+                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.increaseMaterial | number : '1.0-0'
                                     }}
                                 </td>
                             </ng-container>
@@ -238,7 +238,7 @@
                                 <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0, 128, 0, 0.412)">
                                     {{ 'LABEL.TOTAL' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.increaseTotal }}
+                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.increaseTotal | number : '1.0-0'}}
                                 </td>
                             </ng-container>
                             <!-- ket thuc cot to thu 2 -->
@@ -258,7 +258,7 @@
                                     {{ 'LABEL.LABOR' | translate }}
                                 </th>
                                 <td mat-cell *matCellDef="let item" style="text-align: right">
-                                    {{ item.decreaseLabor }}
+                                    {{ item.decreaseLabor | number : '1.0-0'}}
                                 </td>
                             </ng-container>
                             <!-- material -->
@@ -266,7 +266,7 @@
                                 <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 0, 0, 0.471)">
                                     {{ 'LABEL.MATERIAL' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.decreaseMaterial
+                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.decreaseMaterial | number : '1.0-0'
                                     }}
                                 </td>
                             </ng-container>
@@ -275,7 +275,7 @@
                                 <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 0, 0, 0.471)">
                                     {{ 'LABEL.TOTAL' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.decreaseTotal }}
+                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.decreaseTotal | number : '1.0-0'}}
                                 </td>
                             </ng-container>
                             <!-- ket thuc cot to thu 3 -->
@@ -295,7 +295,7 @@
                                     {{ 'LABEL.LABOR' | translate }}
                                 </th>
                                 <td mat-cell *matCellDef="let item" style="text-align: right">
-                                    {{ item.laborTotal }}
+                                    {{ item.laborTotal | number : '1.0-0'}}
                                 </td>
                             </ng-container>
                             <!-- material -->
@@ -303,7 +303,7 @@
                                 <th mat-header-cell *matHeaderCellDef style="background-color:rgb(3 113 185);">
                                     {{ 'LABEL.MATERIAL' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.materialTotal
+                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.materialTotal | number : '1.0-0'
                                     }}
                                 </td>
                             </ng-container>
@@ -312,7 +312,7 @@
                                 <th mat-header-cell *matHeaderCellDef style="background-color:rgb(3 113 185);">
                                     {{ 'LABEL.TOTAL' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.total }}
+                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.total | number : '1.0-0'}}
                                 </td>
                             </ng-container>
                             <!-- kết thúc số dư cuối kỳ -->
@@ -328,12 +328,13 @@
                                 'openMaterial','openTotal','increaseLabor','increaseMaterial','increaseTotal','decreaseLabor','decreaseMaterial','decreaseTotal', 'laborTotal', 'materialTotal', 'total']">
 
                         </table>
-                        <mat-paginator #paginator (page)="onPaginateChange($event)" [pageSize]="20"
-                            [pageSizeOptions]="[10, 20, 25, 30, 50]" showFirstLastButtons
-                            aria-label="Select page of results"></mat-paginator>
+                       
                     </div>
                 </div>
             </div>
+            <mat-paginator #paginator (page)="onPaginateChange($event)" [pageSize]="20"
+            [pageSizeOptions]="[10, 20, 25, 30, 50]" showFirstLastButtons
+            aria-label="Select page of results"></mat-paginator>
         </div>
         <!-- end: trans -->
     </div>
