@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -13,6 +14,7 @@ import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
 import { CONFIG } from 'src/app/utils/constants';
+import { timeToName } from 'src/app/utils/functions';
 
 
 const queryInit = {
@@ -43,7 +45,7 @@ export const MY_FORMATS = {
   styleUrls: ['./report-asset.component.scss']
 })
 export class ReportAssetComponent implements OnInit {
- currentPage = 1;
+  currentPage = 1;
   @ViewChild('autoFocus') private _inputElement: ElementRef; // autofocus
   pageSize: number = 10;
   source: any;
@@ -78,25 +80,32 @@ export class ReportAssetComponent implements OnInit {
   };
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
-    'index', 'organisation', 'assetCode', 'typeOfAsset', 'sodauky', 'phatsinhtang', 'phatsinhgiam',
-    'soducuoiky', 'openLabor', 'openMaterial', 'openTotal', 'increaseLabor', 'increaseMaterial',
-    'increaseTotal', 'decreaseLabor', 'decreaseMaterial', 'decreaseTotal', 'laborTotal', 'materialTotal', 'total'
+    'index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame','depreciationStartDateStr', 'sodauky', 'phatsinhtang', 'phatsinhgiam',
+    'soducuoiky', 'beginOriginalAmount', 'beginAmount', 'beginAvailable', 'increaseOriginalAmount', 'increaseAmount',
+    'increaseAvailable', 'decreaseOriginalAmount', 'decreaseAmount', 'decreaseAvailable', 'endOriginalAmount', 'endAmount', 'endAvailable'
   ];
 
   constructor(
     public translate: TranslateService,
     private fb: FormBuilder,
-    private modalService: NgbModal,
     public openingBalanceService: openingBalanceService,
     // public commonServiceOld: CommonServiceOld,
     public toastrService: ToastrService,
     private globalService: GlobalService,
+    public spinner: NgxSpinnerService,
     @Inject(Injector) private readonly injector: Injector,
   ) {
     this.loadSearchForm();
   }
 
+  initCombobox() {
+    let reqGetListStatus = { userName: this.userName };
+    this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
+    this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease', true);
+  }
+
   ngOnInit(): void {
+    this.initCombobox()
     this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
@@ -120,7 +129,7 @@ export class ReportAssetComponent implements OnInit {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
-      assetCode: [ this.query.assetCode = this.translate.instant('DEFAULT_OPTION.SELECT')],
+      assetCode: [ this.query.assetCode],
       start: [this.query.startDate],
       end: [this.query.endDate],
     });
@@ -170,12 +179,13 @@ export class ReportAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        assetCode: this.query.assetCode == this.translate.instant('DEFAULT_OPTION.SELECT') ? '' : this.searchForm.get('assetCode').value,
+        assetCode: this.searchForm.get('assetCode').value,
+        organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
         toDateStr: this.transform(this.searchForm.get('end').value),
       },
     };
-    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'export-depreciation-synthesis');
+    return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-report-dep');
   }
 
   eResetForm() {
@@ -186,30 +196,46 @@ export class ReportAssetComponent implements OnInit {
     this.loadSearchForm();
   }
 
-  displayFormAdd(item: any, isUpdate, isUpdateFile) {
-    // const modalRef = this.modalService.open(FormAddEditPhatSinhGiamComponent, {
-    //   centered: true,
-    //   backdrop: 'static',
-    //   size: 'xl',
-    // });
-    // modalRef.componentInstance.item = item;
-    // modalRef.componentInstance.isUpdate = isUpdate;
-    // modalRef.componentInstance.isUpdateFile = isUpdateFile;
-    // const requestTarget = {
-    //   userName: this.userName,
-    //   searchDTO: {
-    //     groupFilter: this.query.groupFilter,
-    //     assetCode: this.query.assetCode == this.translate.instant('DEFAULT_OPTION.SELECT') ? '' :  this.searchForm.get('assetCode').value,
-    //     organisation: this.searchForm.get('organisation').value,
-    //     typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
-    //     fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
-    //     toConstructionDateStr: this.transform(this.searchForm.get('end').value),
-    //   },
-    // };
-    // modalRef.componentInstance.req = requestTarget;
-    // modalRef.result.then((result) => {
-    //   this.eSearch();
-    // });
+  apiGetReport() {
+    let req;
+   
+      req = {
+        userName: this.userName,
+        searchDTO: {
+          groupFilter: this.query.groupFilter,
+          assetCode: this.searchForm.get('assetCode').value,
+          organisation: this.searchForm.get('organisation').value,
+          fromDateStr: this.transform(this.searchForm.get('start').value),
+          toDateStr: this.transform(this.searchForm.get('end').value),
+        },
+      }
+    return this.globalService.globalApi(req, 'export-dep-synthesis-report');
+  }
+
+  report(){
+    const sub = this.apiGetReport().subscribe((res) => {
+      if (res.errorCode == '0') {
+        this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
+        this.spinner.hide();
+        const byteCharacters = atob(res.dataExtension);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const file = new Blob([byteArray], { type: res.extension });
+        const urlDown = URL.createObjectURL(file);
+        const link = document.createElement('a');
+        link.href = urlDown;
+        link.download = `Template_${timeToName(new Date())}.${res.extension}`; // đặt tên file tải về
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        this.toastService.error(res.description);
+      }
+    });
+    this.subscriptions.push(sub);
   }
 
   // helpers for View

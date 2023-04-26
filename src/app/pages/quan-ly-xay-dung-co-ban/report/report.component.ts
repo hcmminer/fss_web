@@ -13,6 +13,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CONFIG } from 'src/app/utils/constants';
 import { DatePipe } from '@angular/common';
 import { RequestApiModelOld } from '../../_models/requestOld-api.model';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { timeToName } from 'src/app/utils/functions';
 
 
 const queryInit = {
@@ -87,11 +89,11 @@ export class ReportComponent implements OnInit {
   constructor(
     public translate: TranslateService,
     private fb: FormBuilder,
-    private modalService: NgbModal,
     public openingBalanceService: openingBalanceService,
     // public commonServiceOld: CommonServiceOld,
     public toastrService: ToastrService,
     private globalService: GlobalService,
+    public spinner: NgxSpinnerService,
     @Inject(Injector) private readonly injector: Injector,
   ) {
     this.loadSearchForm();
@@ -195,30 +197,46 @@ export class ReportComponent implements OnInit {
     this.loadSearchForm();
   }
 
-  displayFormAdd(item: any, isUpdate, isUpdateFile) {
-    // const modalRef = this.modalService.open(FormAddEditPhatSinhGiamComponent, {
-    //   centered: true,
-    //   backdrop: 'static',
-    //   size: 'xl',
-    // });
-    // modalRef.componentInstance.item = item;
-    // modalRef.componentInstance.isUpdate = isUpdate;
-    // modalRef.componentInstance.isUpdateFile = isUpdateFile;
-    // const requestTarget = {
-    //   userName: this.userName,
-    //   searchDTO: {
-    //     groupFilter: this.query.groupFilter,
-    //     assetCode: this.query.assetCode == this.translate.instant('DEFAULT_OPTION.SELECT') ? '' :  this.searchForm.get('assetCode').value,
-    //     organisation: this.searchForm.get('organisation').value,
-    //     typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
-    //     fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
-    //     toConstructionDateStr: this.transform(this.searchForm.get('end').value),
-    //   },
-    // };
-    // modalRef.componentInstance.req = requestTarget;
-    // modalRef.result.then((result) => {
-    //   this.eSearch();
-    // });
+  apiGetReport() {
+    let req;
+   
+      req = {
+        userName: this.userName,
+        searchDTO: {
+          groupFilter: this.query.groupFilter,
+          assetCode: this.searchForm.get('assetCode').value,
+          organisation: this.searchForm.get('organisation').value,
+          fromDateStr: this.transform(this.searchForm.get('start').value),
+          toDateStr: this.transform(this.searchForm.get('end').value),
+        },
+      }
+    return this.globalService.globalApi(req, 'export-bc-synthesis-report');
+  }
+
+  report(){
+    const sub = this.apiGetReport().subscribe((res) => {
+      if (res.errorCode == '0') {
+        this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
+        this.spinner.hide();
+        const byteCharacters = atob(res.dataExtension);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const file = new Blob([byteArray], { type: res.extension });
+        const urlDown = URL.createObjectURL(file);
+        const link = document.createElement('a');
+        link.href = urlDown;
+        link.download = `Template_${timeToName(new Date())}.${res.extension}`; // đặt tên file tải về
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        this.toastService.error(res.description);
+      }
+    });
+    this.subscriptions.push(sub);
   }
 
   // helpers for View

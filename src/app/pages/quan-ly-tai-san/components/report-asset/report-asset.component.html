@@ -62,7 +62,8 @@
                                         <ng-container
                                             *ngFor="let item of openingBalanceService.cbxListAssetCodeDecrease| async">
                                             <option [value]="item.assetCode">
-                                                {{ item.assetCode }}
+                                                {{ item.assetCode == '' ? ('DEFAULT_OPTION.SELECT' | translate ):
+                                                item.assetCode }}
                                             </option>
                                         </ng-container>
                                     </select>
@@ -104,20 +105,15 @@
                         </span>
                     </div>
                     <!-- hành động bảng -->
-                    <!-- <div class="d-flex">
-                        <div (click)="displayFormAdd(null, null, false)"
-                            class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
-                            style="height: 38px">
-                            {{ 'LABEL.ADD_DECREASE' | translate }}
-                        </div>
-                        <div (click)="displayFormAdd(null, null, true)"
+                    <div class="d-flex">
+                        <div (click)="report()"
                             class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
                             style="height: 38px">
                             <img class="pr-2"
                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABAklEQVR4nGNgoDcw77UpJxr32yuQbIFFn81/YnDK8vT/NhMdH5n02SjRxIIJhyb/335z53+7SU6kWUKKBS++viTdElIteEGqJeRY8AJhyQOqWWCBA49a8J8mQbT6wtr/998++O82zet/3trC/08+PP3fsL2JehaEL4j+//vv7/9zT8z/f+HJRbAFthMdqRvJay6s+//rz6//IFC5uZr6qahiUzXYcJBPPKb7UNcC6wn2/+++uff/9us7/7/9+v5/7YX11LWge28f2PWF60r+Lzuz4v/ff3//Ry+Ko54Fkw9O/T/j6Cww22uG3/9Fp5b8L99UNZqTbYZuYddBCSZoAbUBANu81uCxSVXLAAAAAElFTkSuQmCC" />
-                            {{ 'LABEL.EDIT_DECREASE_FILE' | translate }}
+                            {{ 'TITLE.GET_REPORT' | translate }}
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <div class="">
@@ -143,12 +139,12 @@
                                 </td>
                             </ng-container>
 
-                            <!-- organisation -->
-                            <ng-container matColumnDef="organisation">
+                            <!-- departmentCode -->
+                            <ng-container matColumnDef="departmentCode">
                                 <th mat-header-cell *matHeaderCellDef rowspan="2">
                                     {{ 'LABEL.ORGANISATION' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.organisation }}
+                                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.departmentCode }}
                                 </td>
                             </ng-container>
 
@@ -160,12 +156,29 @@
                                 <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.assetCode }}</td>
                             </ng-container>
 
-                            <!-- typeOfAsset -->
-                            <ng-container matColumnDef="typeOfAsset">
+                            <!-- sourceOfAsset -->
+                            <ng-container matColumnDef="sourceOfAsset">
                                 <th mat-header-cell *matHeaderCellDef rowspan="2">
-                                    {{ 'LABEL.TYPE_OF_ASSET_CODE' | translate }}
+                                    {{ 'LABEL.SOURCE_OF_ASSET' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.typeOfAsset }}</td>
+                                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.sourceOfAsset }}
+                                </td>
+                            </ng-container>
+                            <!-- depreciationFrame -->
+                            <ng-container matColumnDef="depreciationFrame">
+                                <th mat-header-cell *matHeaderCellDef rowspan="2">
+                                    {{ 'LABEL.DEPRECIATION_FRAME' | translate }}
+                                </th>
+                                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.depreciationFrame |
+                                    number : '1.0-0' }}</td>
+                            </ng-container>
+                            <!-- depreciationStartDateStr -->
+                            <ng-container matColumnDef="depreciationStartDateStr">
+                                <th mat-header-cell *matHeaderCellDef rowspan="2">
+                                    {{ 'LABEL.DEPRECIATION_STARTDATE' | translate }}
+                                </th>
+                                <td mat-cell *matCellDef="let item" style="text-align: center">{{
+                                    item.depreciationStartDateStr}}</td>
                             </ng-container>
 
                             <!-- cot to thu 1 -->
@@ -177,32 +190,36 @@
                                 </th>
                                 <td mat-cell *matCellDef="let item" style="text-align: left"></td>
                             </ng-container>
-                            <!-- labor -->
-                            <ng-container matColumnDef="openLabor">
+                            <!-- beginOriginalAmount -->
+                            <ng-container matColumnDef="beginOriginalAmount">
                                 <th mat-header-cell *matHeaderCellDef
                                     style="background-color: rgba(255, 255, 0, 0.552);">
-                                    {{ 'LABEL.LABOR' | translate }}
+                                    {{ 'LABEL.ORIGINAL_AMOUNT_REPORT' | translate }}
+                                </th>
+                                <td mat-cell *matCellDef="let item" style="text-align: right">{{
+                                    item.beginOriginalAmount |
+                                    number : '1.0-0'}}
+                                </td>
+                            </ng-container>
+                            <!-- beginAmount -->
+                            <ng-container matColumnDef="beginAmount">
+                                <th mat-header-cell *matHeaderCellDef
+                                    style="background-color: rgba(255, 255, 0, 0.552);">
+                                    {{ 'LABEL.AMOUNT_REPORT' | translate }}
                                 </th>
                                 <td mat-cell *matCellDef="let item" style="text-align: right">
-                                    {{ item.openLabor }}
+                                    {{ item.beginAmount | number : '1.0-0'}}
                                 </td>
                             </ng-container>
-                            <!-- material -->
-                            <ng-container matColumnDef="openMaterial">
+
+                            <!-- beginAvailable -->
+                            <ng-container matColumnDef="beginAvailable">
                                 <th mat-header-cell *matHeaderCellDef
                                     style="background-color: rgba(255, 255, 0, 0.552);">
-                                    {{ 'LABEL.MATERIAL' | translate }}
+                                    {{ 'LABEL.TOTAL_AMOUNT_REPORT' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.openMaterial }}
-                                </td>
-                            </ng-container>
-                            <!-- Tong vat tu nhan cong -->
-                            <ng-container matColumnDef="openTotal">
-                                <th mat-header-cell *matHeaderCellDef
-                                    style="background-color: rgba(255, 255, 0, 0.552);">
-                                    {{ 'LABEL.TOTAL' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.openTotal }}</td>
+                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.beginAvailable |
+                                    number : '1.0-0'}}</td>
                             </ng-container>
                             <!-- ket thuc cot to thu 1 -->
 
@@ -215,30 +232,34 @@
                                 </th>
                                 <td mat-cell *matCellDef="let item" style="text-align: left"></td>
                             </ng-container>
-                            <!-- labor -->
-                            <ng-container matColumnDef="increaseLabor">
+                            <!-- increaseOriginalAmount -->
+                            <ng-container matColumnDef="increaseOriginalAmount">
                                 <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0, 128, 0, 0.412)">
-                                    {{ 'LABEL.LABOR' | translate }}
+                                    {{ 'LABEL.ORIGINAL_AMOUNT_REPORT' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">
-                                    {{ item.increaseLabor }}
-                                </td>
-                            </ng-container>
-                            <!-- material -->
-                            <ng-container matColumnDef="increaseMaterial">
-                                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0, 128, 0, 0.412)">
-                                    {{ 'LABEL.MATERIAL' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.increaseMaterial
+                                <td mat-cell *matCellDef="let item" style="text-align: right">{{
+                                    item.increaseOriginalAmount |
+                                    number : '1.0-0'
                                     }}
                                 </td>
                             </ng-container>
-                            <!-- Tong vat tu nhan cong -->
-                            <ng-container matColumnDef="increaseTotal">
+                            <!-- increaseAmount -->
+                            <ng-container matColumnDef="increaseAmount">
                                 <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0, 128, 0, 0.412)">
-                                    {{ 'LABEL.TOTAL' | translate }}
+                                    {{ 'LABEL.AMOUNT_REPORT' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.increaseTotal }}
+                                <td mat-cell *matCellDef="let item" style="text-align: right">
+                                    {{ item.increaseAmount | number : '1.0-0'}}
+                                </td>
+                            </ng-container>
+                            <!-- increaseAvailable -->
+                            <ng-container matColumnDef="increaseAvailable">
+                                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0, 128, 0, 0.412)">
+                                    {{ 'LABEL.TOTAL_AMOUNT_REPORT' | translate }}
+                                </th>
+                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.increaseAvailable
+                                    |
+                                    number : '1.0-0'}}
                                 </td>
                             </ng-container>
                             <!-- ket thuc cot to thu 2 -->
@@ -252,30 +273,34 @@
                                 </th>
                                 <td mat-cell *matCellDef="let item" style="text-align: left"></td>
                             </ng-container>
-                            <!-- labor -->
-                            <ng-container matColumnDef="decreaseLabor">
+                            <!-- decreaseOriginalAmount -->
+                            <ng-container matColumnDef="decreaseOriginalAmount">
                                 <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 0, 0, 0.471)">
-                                    {{ 'LABEL.LABOR' | translate }}
+                                    {{ 'LABEL.ORIGINAL_AMOUNT_REPORT' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">
-                                    {{ item.decreaseLabor }}
-                                </td>
-                            </ng-container>
-                            <!-- material -->
-                            <ng-container matColumnDef="decreaseMaterial">
-                                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 0, 0, 0.471)">
-                                    {{ 'LABEL.MATERIAL' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.decreaseMaterial
+                                <td mat-cell *matCellDef="let item" style="text-align: right">{{
+                                    item.decreaseOriginalAmount |
+                                    number : '1.0-0'
                                     }}
                                 </td>
                             </ng-container>
-                            <!-- Tong vat tu nhan cong -->
-                            <ng-container matColumnDef="decreaseTotal">
+                            <!-- decreaseAmount -->
+                            <ng-container matColumnDef="decreaseAmount">
                                 <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 0, 0, 0.471)">
-                                    {{ 'LABEL.TOTAL' | translate }}
+                                    {{ 'LABEL.AMOUNT_REPORT' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.decreaseTotal }}
+                                <td mat-cell *matCellDef="let item" style="text-align: right">
+                                    {{ item.decreaseAmount | number : '1.0-0'}}
+                                </td>
+                            </ng-container>
+                            <!-- decreaseAvailable -->
+                            <ng-container matColumnDef="decreaseAvailable">
+                                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 0, 0, 0.471)">
+                                    {{ 'LABEL.TOTAL_AMOUNT_REPORT' | translate }}
+                                </th>
+                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.decreaseAvailable
+                                    |
+                                    number : '1.0-0'}}
                                 </td>
                             </ng-container>
                             <!-- ket thuc cot to thu 3 -->
@@ -289,51 +314,55 @@
                                 </th>
                                 <td mat-cell *matCellDef="let item" style="text-align: left"></td>
                             </ng-container>
-                            <!-- labor -->
-                            <ng-container matColumnDef="laborTotal">
-                                <th mat-header-cell *matHeaderCellDef style="background-color:rgb(3 113 185);">
-                                    {{ 'LABEL.LABOR' | translate }}
+                            <!-- endOriginalAmount -->
+                            <ng-container matColumnDef="endOriginalAmount">
+                                <th mat-header-cell *matHeaderCellDef style="background-color: rgb(3 113 185);">
+                                    {{ 'LABEL.ORIGINAL_AMOUNT_REPORT' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">
-                                    {{ item.laborTotal }}
-                                </td>
-                            </ng-container>
-                            <!-- material -->
-                            <ng-container matColumnDef="materialTotal">
-                                <th mat-header-cell *matHeaderCellDef style="background-color:rgb(3 113 185);">
-                                    {{ 'LABEL.MATERIAL' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.materialTotal
+                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.endOriginalAmount
+                                    |
+                                    number : '1.0-0'
                                     }}
                                 </td>
                             </ng-container>
-                            <!-- Tong vat tu nhan cong -->
-                            <ng-container matColumnDef="total">
-                                <th mat-header-cell *matHeaderCellDef style="background-color:rgb(3 113 185);">
-                                    {{ 'LABEL.TOTAL' | translate }}
+                            <!-- endAmount -->
+                            <ng-container matColumnDef="endAmount">
+                                <th mat-header-cell *matHeaderCellDef style="background-color: rgb(3 113 185);">
+                                    {{ 'LABEL.AMOUNT_REPORT' | translate }}
                                 </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.total }}
+                                <td mat-cell *matCellDef="let item" style="text-align: right">
+                                    {{ item.endAmount | number : '1.0-0'}}
+                                </td>
+                            </ng-container>
+                            <!-- endAvailable -->
+                            <ng-container matColumnDef="endAvailable">
+                                <th mat-header-cell *matHeaderCellDef style="background-color: rgb(3 113 185);">
+                                    {{ 'LABEL.TOTAL_AMOUNT_REPORT' | translate }}
+                                </th>
+                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.endAvailable |
+                                    number : '1.0-0'}}
                                 </td>
                             </ng-container>
                             <!-- kết thúc số dư cuối kỳ -->
-                            <tr mat-row *matHeaderRowDef="['index','organisation','assetCode','typeOfAsset','sodauky','phatsinhtang',
+                            <tr mat-row *matHeaderRowDef="['index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame','depreciationStartDateStr','sodauky','phatsinhtang',
                                  'phatsinhgiam', 'soducuoiky' ]">
                             </tr>
                             <tr mat-row
-                                *matHeaderRowDef="['openLabor','openMaterial','openTotal','increaseLabor','increaseMaterial',
-                                'increaseTotal','decreaseLabor','decreaseMaterial','decreaseTotal', 'laborTotal', 'materialTotal', 'total']">
+                                *matHeaderRowDef="['beginOriginalAmount', 'beginAmount', 'beginAvailable', 'increaseOriginalAmount', 'increaseAmount',
+                                'increaseAvailable', 'decreaseOriginalAmount', 'decreaseAmount', 'decreaseAvailable', 'endOriginalAmount', 'endAmount', 'endAvailable']">
                             </tr>
                             <tr mat-row
-                                *matRowDef="let element; columns:['index','organisation','assetCode','typeOfAsset','openLabor',
-                                'openMaterial','openTotal','increaseLabor','increaseMaterial','increaseTotal','decreaseLabor','decreaseMaterial','decreaseTotal', 'laborTotal', 'materialTotal', 'total']">
+                                *matRowDef="let element; columns:['index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame','depreciationStartDateStr', 'beginOriginalAmount', 'beginAmount', 'beginAvailable', 'increaseOriginalAmount', 'increaseAmount',
+    'increaseAvailable', 'decreaseOriginalAmount', 'decreaseAmount', 'decreaseAvailable', 'endOriginalAmount', 'endAmount', 'endAvailable']">
 
                         </table>
-                        <mat-paginator #paginator (page)="onPaginateChange($event)" [pageSize]="20"
-                            [pageSizeOptions]="[10, 20, 25, 30, 50]" showFirstLastButtons
-                            aria-label="Select page of results"></mat-paginator>
+
                     </div>
                 </div>
             </div>
+            <mat-paginator #paginator (page)="onPaginateChange($event)" [pageSize]="20"
+                [pageSizeOptions]="[10, 20, 25, 30, 50]" showFirstLastButtons
+                aria-label="Select page of results"></mat-paginator>
         </div>
         <!-- end: trans -->
     </div>

@@ -242,6 +242,11 @@ export const locale = {
       ADD_IMPORT_INCREASE_ASSET: 'Thêm mới phát sinh tăng tài sản',
       LIST_IMPORT_INCREASE_ASSET: 'Danh sách phát sinh tăng tài sản',
       EDIT_IMPORT_INCREASE_ASSET_FILE: 'Cập nhật phát sinh tăng tài sản theo file',
+
+      DEPRECIATION_FRAME : 'Khung khấu hao (năm)',
+      AMOUNT_REPORT: 'Khấu hao lũy kế',
+      ORIGINAL_AMOUNT_REPORT:'Nguyên giá',
+      TOTAL_AMOUNT_REPORT: 'Giá trị còn lại',
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -328,6 +333,7 @@ export const locale = {
       IMPORT_INCREASE_ASSET: 'Phát sinh tăng tài sản',
       ADD_IMPORT_INCREASE_ASSET: 'Thêm mới phát sinh tăng tài sản',
       UPDATE_IMPORT_INCREASE_ASSET: 'Cập nhật phát sinh tăng tài sản',
+      GET_REPORT: 'Xuất file báo cáo',
     },
     REQUIRED: {
       REASON_REFUSE: 'Bắt buộc nhập lý do từ chối',
