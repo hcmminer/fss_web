@@ -102,6 +102,8 @@ export class LiquidateAssetComponent implements OnInit {
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
     this.openingBalanceService.getSourceOfAsset(reqGetListStatus, 'get-source-of-asset', true);
     this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
+    
+    this.openingBalanceService.getCbxAssetCodeTransfer(reqGetListStatus, 'get-list-transfer-asset', true);
   }
 
 

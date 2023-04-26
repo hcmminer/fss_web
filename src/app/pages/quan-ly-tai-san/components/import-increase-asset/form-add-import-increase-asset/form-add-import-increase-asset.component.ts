@@ -105,10 +105,10 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
     if (this.isUpdateFile) {
       this.addType = 'file';
       this.loadAddFileForm()
-      this.columnsToDisplay = ['constructionDateStr', 'assetCode','increaseOriginalAmountCurStr','increaseOriginalAmountStr' ,'increaseAmountCurStr', 'increaseAmountStr', 'errorMsg'];
+      this.columnsToDisplay = ['constructionDateStr', 'assetCode', 'increaseOriginalAmountCurStr', 'increaseOriginalAmountStr', 'increaseAmountCurStr', 'increaseAmountStr', 'errorMsg'];
     } else {
       this.loadAddForm();
-      this.columnsToDisplay = ['index','constructionDateStr','departmentCode','typeOfAssetCode','sourceOfAsset', 'assetCode',  'increaseOriginalAmountStr','increaseAmountStr','depreciationStartDateStr','errorMsg'];
+      this.columnsToDisplay = ['index', 'constructionDateStr', 'departmentCode', 'typeOfAssetCode', 'sourceOfAsset', 'assetCode', 'increaseOriginalAmountStr', 'increaseAmountStr', 'depreciationStartDateStr', 'errorMsg'];
     }
   }
 
@@ -120,11 +120,11 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
       constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
       depreciationStartDateStr: [this.isUpdate ? moment(this.item.depreciationStartDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
       departmentCode: [this.isUpdate ? this.item.departmentCode : '', [Validators.required]],
-      sourceOfAsset: [this.isUpdate ? this.item.sourceOfAssetName : '', [Validators.required]],
-      increaseOriginalAmount: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0') : '', [Validators.required]],
-      increaseAmount: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : '', [Validators.required]],
-      increaseOriginalAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0') : '', [Validators.required]],
-      increaseAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : '', [Validators.required]],
+      sourceOfAsset: [this.isUpdate ? this.item.sourceOfAssetName : '',this.isUpdate ? [] : [Validators.required]],
+      increaseOriginalAmount: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0') : '', [Validators.required, Validators.maxLength(18)]],
+      increaseAmount: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : '', [Validators.required, Validators.maxLength(18)]],
+      increaseOriginalAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0') : '', this.isUpdate ? [] : [Validators.required]],
+      increaseAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : '', this.isUpdate ? [] : [Validators.required]],
     });
   }
 

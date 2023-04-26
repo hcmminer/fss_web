@@ -220,6 +220,7 @@ export const locale = {
       //thanh lí tài sản
       LIST_LIQUIDATE_ASSET: 'Danh sách thanh lý tài sản',
       ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
+      LIQUIDATE_ASSET: 'Thanh lý tài sản',
 
       //phát sinh tăng khấu hao
       INCREASE_ORIGINAL_AMOUNT: 'Nguyên giá phát sinh tăng',
@@ -316,7 +317,7 @@ export const locale = {
 
       //thanh lý tài sản
       LIQUIDATE_ASSET: 'Thanh lý tài sản',
-      ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
+      ADD_LIQUIDATE_ASSET: 'Thanh lý tài sản',
 
       //phát sing tăng tài sản
       IMPORT_INCREASE_ASSET: 'Phát sinh tăng tài sản',
