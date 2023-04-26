@@ -77,23 +77,29 @@
                 {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.ORGANISATION' | translate } }}
               </div>
             </div>
-
-            <!-- sourceOfAsset -->
-            <label class="col-md-2 form-label col-form-label">
-              {{ 'LABEL.SOURCE_OF_ASSET' | translate }}
-              <span style="color: red">*</span></label
-            >
+            <!--  -->
+            <label class="col-md-2 form-label col-form-label font-14" for="sourceOfAsset">{{
+              'LABEL.SOURCE_OF_ASSET' | translate
+            }}</label>
             <div class="col-md-3">
-              <input
-                class="form-control"
+              <select
+                class="form-control font-14"
+                name="sourceOfAsset"
+                id="sourceOfAsset"
                 formControlName="sourceOfAsset"
                 [class.is-invalid]="isControlInvalid('sourceOfAsset')"
-                maxlength="200"
-              />
+              >
+                <ng-container *ngFor="let item of openingBalanceService.cbxSourceOfAsset | async">
+                  <option [value]="item.value">
+                    <span>{{ item.name }}</span>
+                  </option>
+                </ng-container>
+              </select>
               <div class="invalid-feedback" *ngIf="controlHasError('required', 'sourceOfAsset')">
                 {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.SOURCE_OF_ASSET' | translate } }}
               </div>
             </div>
+            <!--  -->
           </div>
           <div class="row form-group justify-content-around">
             <!-- beginOriginalAmount -->

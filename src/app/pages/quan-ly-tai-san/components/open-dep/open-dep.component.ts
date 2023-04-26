@@ -24,6 +24,7 @@ const queryInit = {
   groupFilter: '',
   organisation: '',
   typeOfAsset: '',
+  sourceOfAsset: '',
 };
 
 @Component({
@@ -99,6 +100,7 @@ export class OpenDepComponent implements OnInit {
     let reqTar = { userName: this.userName };
     this.openingBalanceService.getListOrganisation(reqTar, 'get-list-organisation', true);
     this.openingBalanceService.getCbxTypeOfAsset(reqTar, 'getCbxTypeOfAsset', true);
+    this.openingBalanceService.getSourceOfAsset(reqTar, 'get-source-of-asset', true);
   }
 
   onOrganisationChange() {
@@ -106,6 +108,9 @@ export class OpenDepComponent implements OnInit {
   }
 
   ontypeOfAssetChange() {
+    this.eSearch();
+  }
+  onSourceOfAssetChange() {
     this.eSearch();
   }
 
@@ -128,6 +133,7 @@ export class OpenDepComponent implements OnInit {
       searchDTO: {
         organisation: this.query.organisation,
         typeOfAssetCode: this.query.typeOfAsset,
+        sourceOfAsset: this.query.sourceOfAsset,
         groupFilter: this.query.groupFilter,
       },
     };
@@ -191,6 +197,7 @@ export class OpenDepComponent implements OnInit {
       modalRef.componentInstance.searchDTO = {
         organisation: this.query.organisation,
         typeOfAssetCode: this.query.typeOfAsset,
+        sourceOfAsset: this.query.sourceOfAsset,
         groupFilter: this.query.groupFilter,
       };
     }

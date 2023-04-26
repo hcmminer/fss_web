@@ -17,15 +17,10 @@
     <div class="d-flex justify-content-around mb-8">
       <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
         'LABEL.SHOP' | translate
-      }}</label>
+        }}</label>
       <div class="col-md-3">
-        <select
-          class="form-control font-14"
-          name="organisation"
-          id="organisation"
-          [(ngModel)]="query.organisation"
-          (ngModelChange)="onOrganisationChange()"
-        >
+        <select class="form-control font-14" name="organisation" id="organisation" [(ngModel)]="query.organisation"
+          (ngModelChange)="onOrganisationChange()">
           <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation | async">
             <option [value]="item.code">
               <span *ngIf="item.code != ''">{{ item.code }} -</span> {{ item.name }}
@@ -35,15 +30,10 @@
       </div>
       <label class="col-md-2 form-label col-form-label font-14" for="typeOfAsset">{{
         'LABEL.TYPE_OF_ASSET' | translate
-      }}</label>
+        }}</label>
       <div class="col-md-3">
-        <select
-          class="form-control font-14"
-          name="typeOfAsset"
-          id="typeOfAsset"
-          [(ngModel)]="query.typeOfAsset"
-          (ngModelChange)="ontypeOfAssetChange()"
-        >
+        <select class="form-control font-14" name="typeOfAsset" id="typeOfAsset" [(ngModel)]="query.typeOfAsset"
+          (ngModelChange)="ontypeOfAssetChange()">
           <ng-container *ngFor="let item of openingBalanceService.cbxTypeOfAsset | async">
             <option [value]="item.code">
               <span>{{ item.name }}</span>
@@ -52,22 +42,35 @@
         </select>
       </div>
     </div>
+    <div class="d-flex justify-content-around mb-8">
+      <label class="col-md-2 form-label col-form-label font-14" for="sourceOfAsset">{{
+        'LABEL.SOURCE_OF_ASSET' | translate
+        }}</label>
+      <div class="col-md-3">
+        <select class="form-control font-14" name="sourceOfAsset" id="sourceOfAsset" [(ngModel)]="query.sourceOfAsset"
+          (ngModelChange)="onSourceOfAssetChange()">
+          <ng-container *ngFor="let item of openingBalanceService.cbxSourceOfAsset | async">
+            <option [value]="item.value">
+              <span>{{ item.name }}</span>
+            </option>
+          </ng-container>
+        </select>
+      </div>
+      <div class="col-md-2"></div>
+      <div class="col-md-3"></div>
+    </div>
     <div class="form-group pb-0 mt-5">
       <div class="d-flex justify-content-center">
-        <div
-          (click)="eSearch()"
+        <div (click)="eSearch()"
           class="mx-3 px-8 btn btn-primary font-weight-bolder d-flex align-items-center justify-content-around"
-          style="height: 38px"
-        >
+          style="height: 38px">
           <i class="mr-2 fas fa-search cursor-pointer"></i>
           {{ 'ACTION.SEARCH' | translate }}
         </div>
 
-        <div
-          (click)="eResetForm()"
+        <div (click)="eResetForm()"
           class="mx-3 px-8 btn btn-outline-primary font-weight-bolder d-flex align-items-center justify-content-around"
-          style="height: 38px"
-        >
+          style="height: 38px">
           <i class="mr-2 fas fa-redo cursor-pointer"></i>
           {{ 'COMMON_BUTTON.RESET' | translate }}
         </div>
@@ -86,25 +89,19 @@
           </div>
           <!-- hành động đầu bảng -->
           <div class="d-flex">
-            <div
-              (click)="eRenderAeOpenDepComponent('add', {})"
-              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
-            >
+            <div (click)="eRenderAeOpenDepComponent('add', {})"
+              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center">
               <!-- <i class="fas fa-file-excel fa-xs" style="color: green"></i> -->
               <i class="fas fa-plus fa-xs" style="color: green"></i>
               {{ 'FUNCTION.ADD' | translate }}
             </div>
-            <div
-              (click)="eRenderAeByFileOpenDepComponent('adds', {})"
-              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
-            >
+            <div (click)="eRenderAeByFileOpenDepComponent('adds', {})"
+              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center">
               <i class="fas fa-file-excel fa-xs" style="color: green"></i>
               {{ 'FUNCTION.ADD_BY_FILE' | translate }}
             </div>
-            <div
-              (click)="eRenderAeByFileOpenDepComponent('updates', {})"
-              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
-            >
+            <div (click)="eRenderAeByFileOpenDepComponent('updates', {})"
+              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center">
               <i class="fas fa-file-excel fa-xs" style="color: green"></i>
               {{ 'FUNCTION.UPDATE_BY_FILE' | translate }}
             </div>
@@ -244,13 +241,9 @@
                 <td mat-cell *matCellDef="let item">
                   <div style="min-width: 100px" class="d-flex justify-content-around">
                     <div *ngIf="item.isUpdate == '1'">
-                      <i
-                        (click)="eRenderAeOpenDepComponent('update', item); $event.stopPropagation()"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        [title]="'FUNCTION.UPDATE' | translate"
-                        class="fas fa-edit fa-lg p-0 text-warning text-hover-danger cursor-pointer"
-                      ></i>
+                      <i (click)="eRenderAeOpenDepComponent('update', item); $event.stopPropagation()"
+                        data-toggle="tooltip" data-placement="top" [title]="'FUNCTION.UPDATE' | translate"
+                        class="fas fa-edit fa-lg p-0 text-warning text-hover-danger cursor-pointer"></i>
                     </div>
                     <!-- <div (click)="eDelete(item); $event.stopPropagation()">
                       <i
@@ -264,12 +257,8 @@
                 </td>
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-              <tr
-                mat-row
-                *matRowDef="let element; columns: columnsToDisplay"
-                (click)="eViewDetail(element)"
-                class="example-element-row zindex-5"
-              ></tr>
+              <tr mat-row *matRowDef="let element; columns: columnsToDisplay" (click)="eViewDetail(element)"
+                class="example-element-row zindex-5"></tr>
               <!-- Row shown when there is no matching data. -->
               <tr class="mat-row" *matNoDataRow>
                 <td class="mat-cell" colspan="15">
@@ -277,13 +266,8 @@
                 </td>
               </tr>
             </table>
-            <mat-paginator
-              #paginator
-              [pageSize]="20"
-              [pageSizeOptions]="[10, 20, 25, 30, 50]"
-              showFirstLastButtons
-              aria-label="Select page of results"
-            ></mat-paginator>
+            <mat-paginator #paginator [pageSize]="20" [pageSizeOptions]="[10, 20, 25, 30, 50]" showFirstLastButtons
+              aria-label="Select page of results"></mat-paginator>
           </div>
         </div>
       </div>
@@ -291,11 +275,6 @@
     <!-- end: trans -->
   </div>
   <div class="pb-1"></div>
-  <ngx-spinner
-    bdColor="rgba(0,0,0,0)"
-    size="default"
-    color="#1dc5be"
-    type="ball-clip-rotate"
-    [fullScreen]="true"
-  ></ngx-spinner>
+  <ngx-spinner bdColor="rgba(0,0,0,0)" size="default" color="#1dc5be" type="ball-clip-rotate"
+    [fullScreen]="true"></ngx-spinner>
 </div>

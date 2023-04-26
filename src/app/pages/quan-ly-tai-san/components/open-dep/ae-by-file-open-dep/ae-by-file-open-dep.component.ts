@@ -339,8 +339,8 @@ export class AeByFileOpenDepComponent implements OnInit {
       type: 'WARNING',
       title: 'MODAL_WARNING',
       message: this.isUpdateFile
-        ? this.translate.instant('MESSAGE.CF_UPDATE_OP_BL_BY_FILE')
-        : this.translate.instant('MESSAGE.CF_ADD_OP_BL_BY_FILE'),
+        ? this.translate.instant('FUNCTION.CONFIRM_UPDATE')
+        : this.translate.instant('FUNCTION.CONFIRM_ADD'),
       continue: true,
       cancel: true,
       btn: [
@@ -362,15 +362,15 @@ export class AeByFileOpenDepComponent implements OnInit {
               this.resultCode = 'success';
               this.toastService.success(
                 this.isUpdateFile
-                  ? this.translate.instant('MESSAGE.UPDATE_OP_BL_FROM_FILE_SC')
-                  : this.translate.instant('MESSAGE.ADD_OP_BL_FROM_FILE_SC'),
+                  ? this.translate.instant('FUNCTION.SUCCSESS_UPDATE')
+                  : this.translate.instant('FUNCTION.SUCCSESS_ADD'),
               );
             } else if (res.errorCode == '3') {
               this.resultDesc = res.description;
               this.resultCode = 'warning';
               this.isHasSuccessFile = true;
               this.openingBalanceService.getSuccessOpeningBalanceFile.next(res);
-              this.toastService.warning(this.translate.instant('MESSAGE.UPDATE_OP_BL_FROM_FILE_SC'));
+              this.toastService.warning(this.translate.instant('FUNCTION.SUCCSESS_UPDATE'));
             } else {
               this.isHasSuccessFile = false;
               this.openingBalanceService.getSuccessOpeningBalanceFile.next(null);
