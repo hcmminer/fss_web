@@ -1,0 +1,285 @@
+<div class="position-relative" style="height: 100%">
+  <div class="py-5">
+    <div class="col-md-2 col-sm-12 col-12 col-lg-12">
+      <div class="label-card">
+        <label class="form-label title-screen text-uppercase">{{ 'OPENING-BALANCE-BC' | translate }}</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-4" style="background-color: white">
+    <!-- tim kiem -->
+    <div class="mb-8">
+      <span class="" style="font-weight: 600; font-size: 1.275rem">
+        {{ 'TYPE_OF_ASSET.LIST' | translate }}
+      </span>
+    </div>
+    <div class="d-flex justify-content-around mb-8">
+      <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
+        'LABEL.SHOP' | translate
+      }}</label>
+      <div class="col-md-3">
+        <select
+          class="form-control font-14"
+          name="organisation"
+          id="organisation"
+          [(ngModel)]="query.organisation"
+          (ngModelChange)="onOrganisationChange()"
+        >
+          <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation | async">
+            <option [value]="item.code">
+              <span *ngIf="item.code != ''">{{ item.code }} -</span> {{ item.name }}
+            </option>
+          </ng-container>
+        </select>
+      </div>
+      <label class="col-md-2 form-label col-form-label font-14" for="typeOfAsset">{{
+        'LABEL.TYPE_OF_ASSET' | translate
+      }}</label>
+      <div class="col-md-3">
+        <select
+          class="form-control font-14"
+          name="typeOfAsset"
+          id="typeOfAsset"
+          [(ngModel)]="query.typeOfAsset"
+          (ngModelChange)="ontypeOfAssetChange()"
+        >
+          <ng-container *ngFor="let item of openingBalanceService.cbxTypeOfAsset | async">
+            <option [value]="item.code">
+              <span>{{ item.name }}</span>
+            </option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+    <div class="form-group pb-0 mt-5">
+      <div class="d-flex justify-content-center">
+        <div
+          (click)="eSearch()"
+          class="mx-3 px-8 btn btn-primary font-weight-bolder d-flex align-items-center justify-content-around"
+          style="height: 38px"
+        >
+          <i class="mr-2 fas fa-search cursor-pointer"></i>
+          {{ 'ACTION.SEARCH' | translate }}
+        </div>
+
+        <div
+          (click)="eResetForm()"
+          class="mx-3 px-8 btn btn-outline-primary font-weight-bolder d-flex align-items-center justify-content-around"
+          style="height: 38px"
+        >
+          <i class="mr-2 fas fa-redo cursor-pointer"></i>
+          {{ 'COMMON_BUTTON.RESET' | translate }}
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <div class="text-break">
+      <div class="mb-4"></div>
+      <div class="">
+        <div class="d-flex align-items-center justify-content-between">
+          <!-- tiêu đề bảng -->
+          <div>
+            <span class="" style="font-weight: 600; font-size: 1.275rem">
+              {{ 'TYPE_OF_ASSET.LIST' | translate }}
+            </span>
+          </div>
+          <!-- hành động đầu bảng -->
+          <div class="d-flex">
+            <div
+              (click)="eRenderAeOpenDepComponent('add', {})"
+              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
+            >
+              <!-- <i class="fas fa-file-excel fa-xs" style="color: green"></i> -->
+              <i class="fas fa-plus fa-xs" style="color: green"></i>
+              {{ 'FUNCTION.ADD' | translate }}
+            </div>
+            <div
+              (click)="eRenderAeByFileOpenDepComponent('adds', {})"
+              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
+            >
+              <i class="fas fa-file-excel fa-xs" style="color: green"></i>
+              {{ 'FUNCTION.ADD_BY_FILE' | translate }}
+            </div>
+            <div
+              (click)="eRenderAeByFileOpenDepComponent('updates', {})"
+              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
+            >
+              <i class="fas fa-file-excel fa-xs" style="color: green"></i>
+              {{ 'FUNCTION.UPDATE_BY_FILE' | translate }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Search Advance -->
+      <div class="">
+        <mat-form-field appearance="standard">
+          <mat-label class="font-14">
+            <i class="fas fa-search"></i> {{ 'TITLE.SEARCH_ADVANCE' | translate }}
+          </mat-label>
+          <input class="border-bottom-danger" [(ngModel)]="query.groupFilter" matInput #searchInput />
+        </mat-form-field>
+      </div>
+      <div class="pt-0">
+        <div class="table-responsive angular-bootstrap-table">
+          <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort>
+              <!-- Index Column -->
+              <ng-container matColumnDef="index">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ 'COMMON.INDEX' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let index = index">
+                  {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
+                </td>
+              </ng-container>
+              <!-- ASSETCODE  -->
+              <ng-container matColumnDef="assetCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.ASSETCODE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.assetCode }}</td>
+              </ng-container>
+              <!-- TYPE_OF_ASSET_CODE -->
+              <ng-container matColumnDef="typeOfAssetCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.TYPE_OF_ASSET_CODE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.typeOfAssetCode }}</td>
+              </ng-container>
+              <!-- TYPE_OF_ASSET_NAME -->
+              <ng-container matColumnDef="typeOfAssetName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.TYPE_OF_ASSET_NAME' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">
+                  {{ item.typeOfAssetName }}
+                </td>
+              </ng-container>
+              <!-- sourceOfAsset -->
+              <ng-container matColumnDef="sourceOfAsset">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.SOURCE_OF_ASSET' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">
+                  {{ item.sourceOfAsset }}
+                </td>
+              </ng-container>
+              <!-- depreciationFrame -->
+              <ng-container matColumnDef="depreciationFrame">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.DEPRECIATIONFRAME' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.depreciationFrame }}
+                </td>
+              </ng-container>
+              <!-- constructionDateStr -->
+              <ng-container matColumnDef="constructionDateStr">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">
+                  {{ item.constructionDateStr }}
+                </td>
+              </ng-container>
+              <!-- beginOriginalAmount -->
+              <ng-container matColumnDef="beginOriginalAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.BEGIN_ORIGINAL_AMOUNT' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.beginOriginalAmount }}
+                </td>
+              </ng-container>
+              <!-- beginAmount -->
+              <ng-container matColumnDef="beginAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.BEGIN_AMOUNT' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.beginAmount }}
+                </td>
+              </ng-container>
+              <!-- depreciationStartDateStr -->
+              <ng-container matColumnDef="depreciationStartDateStr">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.DEPRECIATION_START_DATE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">
+                  {{ item.depreciationStartDateStr }}
+                </td>
+              </ng-container>
+              <!-- depreciationEndDateStr -->
+              <ng-container matColumnDef="depreciationEndDateStr">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.DEPRECIATION_END_DATE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">
+                  {{ item.depreciationEndDateStr }}
+                </td>
+              </ng-container>
+
+              <!-- action -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ 'LABEL.ACTION' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item">
+                  <div style="min-width: 100px" class="d-flex justify-content-around">
+                    <div>
+                      <i
+                        (click)="eRenderAeOpenDepComponent('update', item); $event.stopPropagation()"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        [title]="'FUNCTION.UPDATE' | translate"
+                        class="fas fa-edit fa-lg p-0 text-warning text-hover-danger cursor-pointer"
+                      ></i>
+                    </div>
+                    <!-- <div (click)="eDelete(item); $event.stopPropagation()">
+                      <i
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        [title]="'TOOLTIP.DELETE' | translate"
+                        class="fas fa-trash p-0 icon-view-detail text-warning text-hover-danger"
+                      ></i>
+                    </div> -->
+                  </div>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+              <tr
+                mat-row
+                *matRowDef="let element; columns: columnsToDisplay"
+                (click)="eViewDetail(element)"
+                class="example-element-row zindex-5"
+              ></tr>
+              <!-- Row shown when there is no matching data. -->
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="15">
+                  {{ 'MESSAGE.NO_MATCH_DATA' | translate }}
+                </td>
+              </tr>
+            </table>
+            <mat-paginator
+              #paginator
+              [pageSize]="20"
+              [pageSizeOptions]="[10, 20, 25, 30, 50]"
+              showFirstLastButtons
+              aria-label="Select page of results"
+            ></mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end: trans -->
+  </div>
+  <div class="pb-1"></div>
+  <ngx-spinner
+    bdColor="rgba(0,0,0,0)"
+    size="default"
+    color="#1dc5be"
+    type="ball-clip-rotate"
+    [fullScreen]="true"
+  ></ngx-spinner>
+</div>

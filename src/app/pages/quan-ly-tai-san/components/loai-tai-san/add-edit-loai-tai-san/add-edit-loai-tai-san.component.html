@@ -22,6 +22,7 @@
               formControlName="code"
               [class.is-invalid]="isControlInvalid('code')"
               maxlength="200"
+              [readOnly]="propAction == 'add' ? false : true"
             />
             <div class="invalid-feedback" *ngIf="controlHasError('required', 'code')">
               {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.CODE' | translate } }}
@@ -37,7 +38,7 @@
               class="form-control"
               formControlName="name"
               [class.is-invalid]="isControlInvalid('name')"
-              maxlength="500"
+              maxlength="50"
             />
             <div class="invalid-feedback" *ngIf="controlHasError('required', 'name')">
               {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.NAME' | translate } }}
@@ -55,7 +56,7 @@
               class="form-control"
               formControlName="account"
               [class.is-invalid]="isControlInvalid('account')"
-              maxlength="200"
+              maxlength="50"
             />
             <div class="invalid-feedback" *ngIf="controlHasError('required', 'account')">
               {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.ACCOUNT' | translate } }}
@@ -76,6 +77,9 @@
             />
             <div class="invalid-feedback" *ngIf="controlHasError('required', 'depreciationFrame')">
               {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.DEPRECIATION_FRAME' | translate } }}
+            </div>
+            <div class="invalid-feedback" *ngIf="controlHasError('minValue', 'depreciationFrame')">
+              {{ 'VALIDATION.MIN_VALUE' | translate : { name: 'TYPE_OF_ASSET.DEPRECIATION_FRAME' | translate, min: 0 } }}
             </div>
           </div>
         </div>

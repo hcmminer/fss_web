@@ -15,4 +15,5 @@ export class RequestApiModel {
   responseType?: any;
   observe?: any;
   typeOfAssetDTO?: any;
+  depreciationDetailDTO? : any;
 }

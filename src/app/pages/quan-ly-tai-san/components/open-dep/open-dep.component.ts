@@ -1,7 +1,8 @@
+import { ViewHisOpenDepComponent } from './view-his-open-dep/view-his-open-dep.component';
 import { AssetManageService } from './../../../_services/asset-manage.service';
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,19 +14,24 @@ import { debounceTime } from 'rxjs/operators';
 import { CONFIG } from 'src/app/utils/constants';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { RequestApiModel } from 'src/app/pages/_models/api.request.model';
-import { AddEditLoaiTaiSanComponent } from './add-edit-loai-tai-san/add-edit-loai-tai-san.component';
+import { AddEditLoaiTaiSanComponent } from '../loai-tai-san/add-edit-loai-tai-san/add-edit-loai-tai-san.component';
 import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
+import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
+import { AeOpenDepComponent } from './ae-open-dep/ae-open-dep.component';
+import { AeByFileOpenDepComponent } from './ae-by-file-open-dep/ae-by-file-open-dep.component';
 
 const queryInit = {
   groupFilter: '',
+  organisation: '',
+  typeOfAsset: '',
 };
 
 @Component({
-  selector: 'app-loai-tai-san',
-  templateUrl: './loai-tai-san.component.html',
-  styleUrls: ['./loai-tai-san.component.scss'],
+  selector: 'app-open-dep',
+  templateUrl: './open-dep.component.html',
+  styleUrls: ['./open-dep.component.scss'],
 })
-export class LoaiTaiSanComponent implements OnInit {
+export class OpenDepComponent implements OnInit {
   // >> search advance
   @ViewChild('searchInput') private _inputElement: ElementRef;
   source: any;
@@ -55,15 +61,15 @@ export class LoaiTaiSanComponent implements OnInit {
   };
   columnsToDisplay = [
     'index',
-    'code',
-    'name',
-    'account',
+    'assetCode',
+    'typeOfAssetCode',
+    'typeOfAssetName',
     'depreciationFrame',
-    'description',
-    'createdDatetime',
-    'createdBy',
-    'lastUpdatedDatetime',
-    'lastUpdatedBy',
+    'sourceOfAsset',
+    'beginOriginalAmount',
+    'beginAmount',
+    'depreciationStartDateStr',
+    'depreciationEndDateStr',
     'action',
   ];
 
@@ -75,6 +81,7 @@ export class LoaiTaiSanComponent implements OnInit {
     private modalService: NgbModal,
     public toastrService: ToastrService,
     private activeModal: NgbActiveModal,
+    public openingBalanceService: openingBalanceService,
     @Inject(Injector) private readonly injector: Injector,
   ) {}
 
@@ -83,28 +90,58 @@ export class LoaiTaiSanComponent implements OnInit {
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.eSearch();
+    this.initCombobox();
+  }
+
+  initCombobox() {
+    let reqTar = { userName: this.userName };
+    this.openingBalanceService.getListOrganisation(reqTar, 'get-list-organisation', true);
+    this.openingBalanceService.getCbxTypeOfAsset(reqTar, 'getCbxTypeOfAsset', true);
+  }
+
+  onOrganisationChange() {
+    this.eSearch();
+  }
+
+  ontypeOfAssetChange() {
+    this.eSearch();
+  }
+
+  eViewDetail(item: any) {
+    const modalRef = this.modalService.open(ViewHisOpenDepComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl',
+      keyboard: false,
+    });
+    modalRef.componentInstance.data = item;
+    modalRef.result.then((result) => {
+      this.eSearch();
+    });
   }
 
   httpSearch() {
     const requestTarget = {
       userName: this.userName,
-      filterDTO: {
+      searchDTO: {
+        organisation: this.query.organisation,
+        typeOfAssetCode: this.query.typeOfAsset,
         groupFilter: this.query.groupFilter,
       },
     };
-    return this.globalService.globalApi(requestTarget as RequestApiModel, 'searchTypeOfAsset');
+    return this.globalService.globalApi(requestTarget as RequestApiModel, 'search-open-dep');
   }
 
   eSearch() {
     const rq = this.httpSearch().subscribe((res) => {
       if (res.errorCode == '0') {
-        this.assetManageService.listTypeOfAsset.next(res.data);
-        this.dataSource = new MatTableDataSource(this.assetManageService.listTypeOfAsset.value);
+        this.assetManageService.listOpenDep.next(res.data);
+        this.dataSource = new MatTableDataSource(this.assetManageService.listOpenDep.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.assetManageService.listTypeOfAsset.next([]);
-        this.dataSource = new MatTableDataSource(this.assetManageService.listTypeOfAsset.value);
+        this.assetManageService.listOpenDep.next([]);
+        this.dataSource = new MatTableDataSource(this.assetManageService.listOpenDep.value);
       }
     });
     this.subscriptions.push(rq);
@@ -118,8 +155,8 @@ export class LoaiTaiSanComponent implements OnInit {
     // this.loadSearchForm();
   }
 
-  eRenderComponent(action, record) {
-    const modalRef = this.modalService.open(AddEditLoaiTaiSanComponent, {
+  eRenderAeOpenDepComponent(action, record) {
+    const modalRef = this.modalService.open(AeOpenDepComponent, {
       centered: true,
       backdrop: 'static',
       size: 'xl',
@@ -129,6 +166,31 @@ export class LoaiTaiSanComponent implements OnInit {
     } else if (action == 'update') {
       modalRef.componentInstance.propData = record;
       modalRef.componentInstance.propAction = 'update';
+    }
+    modalRef.result.then(() => {
+      this.eSearch();
+    });
+  }
+
+  eRenderAeByFileOpenDepComponent(action, record) {
+    const modalRef = this.modalService.open(AeByFileOpenDepComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl',
+    });
+    if (action == 'adds') {
+      modalRef.componentInstance.propAction = 'adds';
+    } else if (action == 'updates') {
+      modalRef.componentInstance.propData = record;
+      modalRef.componentInstance.propAction = 'updates';
+      // organisation: this.query.organisation,
+      // typeOfAssetCode: this.query.typeOfAsset,
+      // groupFilter: this.query.groupFilter,
+      modalRef.componentInstance.searchDTO = {
+        organisation: this.query.organisation,
+        typeOfAssetCode: this.query.typeOfAsset,
+        groupFilter: this.query.groupFilter,
+      };
     }
     modalRef.result.then(() => {
       this.eSearch();
