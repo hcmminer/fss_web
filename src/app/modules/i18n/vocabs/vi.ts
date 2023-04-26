@@ -72,6 +72,8 @@ export const locale = {
       BEGIN_AMOUNT_TARGET: 'Khấu hao mong muốn',
       DEPRECIATION_START_DATE: 'Ngày bắt đầu khấu hao',
       DEPRECIATION_END_DATE: 'Ngày kết thúc khấu hao',
+      LIQUIDATED: 'Đã thanh lý',
+      NOT_LIQUIDATED: 'Chưa thanh lý',
       // ban <<
       // Quản lý phiếu công tác
       USER: 'Tên đăng nhập',

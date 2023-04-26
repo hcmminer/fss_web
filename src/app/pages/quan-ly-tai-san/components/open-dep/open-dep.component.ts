@@ -70,6 +70,7 @@ export class OpenDepComponent implements OnInit {
     'beginAmount',
     'depreciationStartDateStr',
     'depreciationEndDateStr',
+    'isUpdate',
     'action',
   ];
 

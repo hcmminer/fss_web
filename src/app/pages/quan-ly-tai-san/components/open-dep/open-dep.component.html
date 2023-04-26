@@ -179,7 +179,7 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
                 </th>
-                <td mat-cell *matCellDef="let item" style="text-align: left">
+                <td mat-cell *matCellDef="let item" style="text-align: center">
                   {{ item.constructionDateStr }}
                 </td>
               </ng-container>
@@ -201,12 +201,21 @@
                   {{ item.beginAmount }}
                 </td>
               </ng-container>
+              <!-- LIQUIDATED -->
+              <ng-container matColumnDef="isUpdate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.STATUS' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">
+                  {{ item.isUpdate != '1' ? ('LABEL.LIQUIDATED' | translate) : ('LABEL.NOT_LIQUIDATED' | translate) }}
+                </td>
+              </ng-container>
               <!-- depreciationStartDateStr -->
               <ng-container matColumnDef="depreciationStartDateStr">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   {{ 'LABEL.DEPRECIATION_START_DATE' | translate }}
                 </th>
-                <td mat-cell *matCellDef="let item" style="text-align: left">
+                <td mat-cell *matCellDef="let item" style="text-align: center">
                   {{ item.depreciationStartDateStr }}
                 </td>
               </ng-container>
@@ -215,7 +224,7 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   {{ 'LABEL.DEPRECIATION_END_DATE' | translate }}
                 </th>
-                <td mat-cell *matCellDef="let item" style="text-align: left">
+                <td mat-cell *matCellDef="let item" style="text-align: center">
                   {{ item.depreciationEndDateStr }}
                 </td>
               </ng-container>
@@ -227,7 +236,7 @@
                 </th>
                 <td mat-cell *matCellDef="let item">
                   <div style="min-width: 100px" class="d-flex justify-content-around">
-                    <div>
+                    <div *ngIf="item.isUpdate == '1'">
                       <i
                         (click)="eRenderAeOpenDepComponent('update', item); $event.stopPropagation()"
                         data-toggle="tooltip"

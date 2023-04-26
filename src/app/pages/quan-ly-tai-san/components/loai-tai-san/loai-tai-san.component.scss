@@ -16,11 +16,13 @@ tr.example-element-row:active {
   cursor: pointer;
   color: blue;
 }
+
 .form-select {
   border-radius: 5px;
   border-width: 2px;
   border-color: #0171bb;
 }
+
 .form-input {
   border: none !important;
 }
@@ -31,6 +33,7 @@ tr.example-element-row:active {
 }
 
 .mat-form-field {
+  font-size: 14px;
   width: 100%;
 }
 
@@ -43,6 +46,8 @@ table {
   justify-content: center;
   padding-left: 5px !important;
   padding-right: 5px !important;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 td {
@@ -52,14 +57,20 @@ td {
 
 th.mat-header-cell:first-of-type {
   padding-left: 0px;
+  font-weight: 600;
 }
-
 th.mat-header-cell:last-of-type {
   padding-right: 0px;
+  font-weight: 600;
 }
 
 .mat-table {
   width: 100%;
+}
+
+th,
+td {
+  font-size: 15px !important;
 }
 
 .mat-cell {
@@ -70,6 +81,14 @@ th.mat-header-cell:last-of-type {
 .blue {
   background-color: #acd2eb;
   font-weight: bold;
+}
+
+.ma-phieu-view {
+  background: #dbe2f3;
+  color: #4674eb;
+  padding: 4px 10px;
+  font-weight: bold;
+  border-radius: 3px;
 }
 
 ::ng-deep .big-size-model-class .modal-dialog {
@@ -119,4 +138,32 @@ th.mat-header-cell:last-of-type {
   position: absolute;
   top: -13px;
   right: -5px;
+}
+
+.mat-column-organisation {
+  text-align: left !important;
+}
+
+.mat-column-contract {
+  text-align: left !important;
+}
+
+.mat-column-assetCode {
+  text-align: left !important;
+}
+
+.mat-column-labor {
+  text-align: right !important;
+}
+
+.mat-column-material {
+  text-align: right !important;
+}
+
+.mat-column-createdDatetimeStr {
+  text-align: center !important;
+}
+
+.mat-column-constructionDateStr {
+  text-align: center !important;
 }
