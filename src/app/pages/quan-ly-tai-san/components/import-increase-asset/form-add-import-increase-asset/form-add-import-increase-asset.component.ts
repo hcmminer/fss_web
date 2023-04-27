@@ -112,19 +112,22 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
     }
   }
 
+  logForm(){
+    console.log(this.addEditForm);
+  }
 
   loadAddForm() {
     this.addEditForm = this.fb.group({
-      typeOfAssetCode: [this.isUpdate ? this.item.typeOfAssetCode : '', [Validators.required]],
-      assetCode: [this.isUpdate ? this.item.assetCode : '', [Validators.required]],
+      typeOfAssetCode: [this.isUpdate ? this.item.typeOfAssetCode : '',this.isUpdate ? [] : [Validators.required]],
+      assetCode: [this.isUpdate ? this.item.assetCode : '', this.isUpdate ? [] : [Validators.required]],
       constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
       depreciationStartDateStr: [this.isUpdate ? moment(this.item.depreciationStartDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
-      departmentCode: [this.isUpdate ? this.item.departmentCode : '', [Validators.required]],
+      departmentCode: [this.isUpdate ? this.item.departmentCode : '', this.isUpdate ? [] : [Validators.required]],
       sourceOfAsset: [this.isUpdate ? this.item.sourceOfAssetName : '',this.isUpdate ? [] : [Validators.required]],
       increaseOriginalAmount: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0') : '', [Validators.required, Validators.maxLength(18)]],
       increaseAmount: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : '', [Validators.required, Validators.maxLength(18)]],
-      increaseOriginalAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0') : '', this.isUpdate ? [] : [Validators.required]],
-      increaseAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : '', this.isUpdate ? [] : [Validators.required]],
+      increaseOriginalAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0'): ''],
+      increaseAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : ''],
     });
   }
 
