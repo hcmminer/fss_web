@@ -72,7 +72,7 @@ export const locale = {
       BEGIN_AMOUNT_TARGET: 'Khấu hao mong muốn',
       DEPRECIATION_START_DATE: 'Ngày bắt đầu khấu hao',
       DEPRECIATION_END_DATE: 'Ngày kết thúc khấu hao',
-      LIST_ASSET: 'Danh sách tài sản', 
+      LIST_ASSET: 'Danh sách tài sản',
       // ban <<
       // Quản lý phiếu công tác
       USER: 'Tên đăng nhập',
@@ -244,9 +244,9 @@ export const locale = {
       LIST_IMPORT_INCREASE_ASSET: 'Danh sách phát sinh tăng tài sản',
       EDIT_IMPORT_INCREASE_ASSET_FILE: 'Cập nhật phát sinh tăng tài sản theo file',
 
-      DEPRECIATION_FRAME : 'Khung khấu hao (năm)',
+      DEPRECIATION_FRAME: 'Khung khấu hao (năm)',
       AMOUNT_REPORT: 'Khấu hao lũy kế',
-      ORIGINAL_AMOUNT_REPORT:'Nguyên giá',
+      ORIGINAL_AMOUNT_REPORT: 'Nguyên giá',
       TOTAL_AMOUNT_REPORT: 'Giá trị còn lại',
     },
     TITLE: {
@@ -740,6 +740,7 @@ export const locale = {
     },
     VALIDATION: {
       MIN_VALUE: '{{name}} phải lớn hơn {{min}}',
+      MAX_VALUE: '{{name}} phải nhỏ hơn {{max}}',
       INVALID: '{{name}} không hợp lệ',
       REQUIRED: '{{name}} không được trống',
       MIN_LENGTH: '{{name}} phải có ít nhất {{min}} ký tự',

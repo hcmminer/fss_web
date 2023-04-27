@@ -10,7 +10,7 @@ export function minValue(x): ValidatorFn {
 }
 export function maxValue(x): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    if (+control.value > x) {
+    if (+control.value?.toString().replaceAll(',', '') > x) {
       return { maxValue: true };
     }
     return null;
