@@ -52,7 +52,7 @@ export class AeOpenDepComponent implements OnInit {
   typeOfAssetCode = '';
 
   departmentCode = '';
-  sourceOfAsset;
+  sourceOfAsset = '';
 
   beginOriginalAmountTotal; // hien tai
   beginOriginalAmount; // mong muon

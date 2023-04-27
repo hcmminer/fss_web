@@ -744,6 +744,7 @@ export const locale = {
     },
     VALIDATION: {
       MIN_VALUE: '{{name}} phải lớn hơn {{min}}',
+      MAX_VALUE: '{{name}} phải nhỏ hơn {{max}}',
       INVALID: '{{name}} không hợp lệ',
       REQUIRED: '{{name}} không được trống',
       MIN_LENGTH: '{{name}} phải có ít nhất {{min}} ký tự',
