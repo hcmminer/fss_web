@@ -14,6 +14,8 @@ import { GlobalService } from 'src/app/pages/_services/global.service';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
 import { CONFIG } from 'src/app/utils/constants';
 import { FormAddTransferAssetComponent } from './form-add-transfer-asset/form-add-transfer-asset.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 const queryInit = {
   groupFilter: '',
@@ -39,7 +41,16 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-transfer-asset',
   templateUrl: './transfer-asset.component.html',
-  styleUrls: ['./transfer-asset.component.scss']
+  styleUrls: ['./transfer-asset.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter, 
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class TransferAssetComponent implements OnInit {
 
@@ -87,8 +98,8 @@ export class TransferAssetComponent implements OnInit {
     'departmentCodeReceive',
     'typeOfAssetName',
     'sourceOfAssetName',
-    'createdDatetimeStr',
     'constructionDateStr',
+    'createdDatetimeStr',
   ];
 
   constructor(

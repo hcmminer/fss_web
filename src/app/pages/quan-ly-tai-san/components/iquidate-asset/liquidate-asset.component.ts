@@ -14,6 +14,8 @@ import { GlobalService } from 'src/app/pages/_services/global.service';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
 import { CONFIG } from 'src/app/utils/constants';
 import { FormAddLiquidateAssetComponent } from './form-add-iquidate-asset/form-add-liquidate-asset.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 const queryInit = {
   groupFilter: '',
@@ -39,7 +41,16 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-liquidate-asset',
   templateUrl: './liquidate-asset.component.html',
-  styleUrls: ['./liquidate-asset.component.scss']
+  styleUrls: ['./liquidate-asset.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter, 
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class LiquidateAssetComponent implements OnInit {
   currentPage = 1;
@@ -80,8 +91,8 @@ export class LiquidateAssetComponent implements OnInit {
   columnsToDisplay = [
     'index',
     'assetCode',
-    'createdDatetimeStr',
     'constructionDateStr',
+    'createdDatetimeStr',
   ];
 
   constructor(

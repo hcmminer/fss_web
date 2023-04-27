@@ -16,6 +16,8 @@ import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
 import { FormAddImportIncreaseAssetComponent } from './form-add-import-increase-asset/form-add-import-increase-asset.component';
 
 import { DetailImportIncreaseAssetComponent } from './detail-import-increase-asset/detail-import-increase-asset.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 const queryInit = {
   groupFilter: '',
@@ -43,7 +45,16 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-import-increase-asset',
   templateUrl: './import-increase-asset.component.html',
-  styleUrls: ['./import-increase-asset.component.scss']
+  styleUrls: ['./import-increase-asset.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter, 
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class ImportIncreaseAssetComponent implements OnInit {
   //biến

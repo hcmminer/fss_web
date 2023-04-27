@@ -15,6 +15,8 @@ import { DatePipe } from '@angular/common';
 import { RequestApiModelOld } from '../../_models/requestOld-api.model';
 import { FormAddEditPhatSinhGiamComponent } from './form-add-edit-phat-sinh-giam/form-add-edit-phat-sinh-giam.component';
 import { DetailBcDecreaseComponent } from './detail-bc-decrease/detail-bc-decrease.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 const queryInit = {
   typeOfAssetCode: '',
@@ -43,7 +45,16 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-phat-sinh-giam',
   templateUrl: './phat-sinh-giam.component.html',
-  styleUrls: ['./phat-sinh-giam.component.scss']
+  styleUrls: ['./phat-sinh-giam.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter, 
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class PhatSinhGiamComponent implements OnInit {
   currentPage = 1;
