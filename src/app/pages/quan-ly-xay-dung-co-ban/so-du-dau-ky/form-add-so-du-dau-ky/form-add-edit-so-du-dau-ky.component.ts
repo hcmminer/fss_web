@@ -17,6 +17,8 @@ import { openingBalanceService } from 'src/app/pages/_services/opening-balance.s
 import { timeToName } from 'src/app/utils/functions';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import * as moment from 'moment';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 const MAX_FILE_SIZE_TEMPLATE = 1024 * 1024 * 10;
 export const MY_FORMATS = {
@@ -35,6 +37,15 @@ export const MY_FORMATS = {
   selector: 'app-form-add-so-du-dau-ky',
   templateUrl: './form-add-so-du-dau-ky.component.html',
   styleUrls: ['./form-add-so-du-dau-ky.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter, 
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class FormAddEditSoDuDauKyComponent implements OnInit {
   //biến

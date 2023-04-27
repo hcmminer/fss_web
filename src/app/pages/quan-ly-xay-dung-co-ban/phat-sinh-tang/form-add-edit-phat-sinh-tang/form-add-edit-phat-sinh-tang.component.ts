@@ -2,6 +2,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { DatePipe, formatNumber } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Inject, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -34,7 +36,16 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-form-add-edit-phat-sinh-tang',
   templateUrl: './form-add-edit-phat-sinh-tang.component.html',
-  styleUrls: ['./form-add-edit-phat-sinh-tang.component.scss']
+  styleUrls: ['./form-add-edit-phat-sinh-tang.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter, 
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class FormAddEditPhatSinhTangComponent implements OnInit {
   //biến

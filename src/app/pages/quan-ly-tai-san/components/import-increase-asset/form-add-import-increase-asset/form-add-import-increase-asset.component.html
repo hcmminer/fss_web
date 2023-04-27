@@ -20,7 +20,6 @@
     <div *ngIf="addType == 'single' && !isUpdateFile">
       <!-- add form -->
       <form action="#" class="form form-label-right" [formGroup]="addEditForm"  *ngIf="!isUpdate">
-
         <div class="row form-group">
           <div class="col-md-1"></div>
           <div class="col-md-10">
@@ -61,8 +60,8 @@
 
             <div class="row mt-3">
               <label class="col-md-2 form-label col-form-label font-14" for="departmentCode">{{
-                'LABEL.DEPARTMENT_CODE_RECEIVE' |
-                translate }}</label>
+                'LABEL.ORGANISATION_CODE' |
+                translate }}<span style="color: red">*</span></label>
               <div class="col-md-3">
                 <select class="form-control font-14" name="departmentCode" id="departmentCode"
                   formControlName="departmentCode">
@@ -75,7 +74,7 @@
               </div>
               <div class="col-md-2"></div>
               <label class="col-md-2 form-label col-form-label font-14" for="sourceOfAsset">{{ 'LABEL.SOURCE_OF_ASSET' |
-                translate }}</label>
+                translate }}<span style="color: red">*</span></label>
               <div class="col-md-3">
                 <select class="form-control font-14" name="sourceOfAsset" id="sourceOfAsset"
                   formControlName="sourceOfAsset">
@@ -88,7 +87,7 @@
               </div>
             </div>
 
-            <div class="row">
+            <div class="row mt-3">
               <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr">{{
                 'LABEL.CONSTRUCTION_DATE'
                 | translate }}<span style="color: red">*</span></label>
@@ -120,7 +119,7 @@
               </div>
             </div>
 
-            <div class="row">
+            <div class="row mt-3">
               <label class="col-md-2 form-label col-form-label font-14" for="increaseOriginalAmount">{{
                 'LABEL.INCREASE_ORIGINAL_AMOUNT' | translate }} <span style="color: red">*</span></label>
               <div class="col-md-3">
@@ -205,7 +204,7 @@
 
               <div class="col-md-2"></div>
               <label class="col-md-2 form-label col-form-label font-14" for="assetCode">{{
-                'LABEL.ASSETCODE' | translate }} <span style="color: red">*</span></label>
+                'LABEL.ASSETCODE' | translate }}</label>
               <div class="col-md-3">
                 <input type="text" maxlength="50" class="form-control" id="assetCode" autocomplete="off"
                   formControlName="assetCode" [attr.disabled]="isUpdate" />
@@ -230,7 +229,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row mt-3">
               <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr">{{
                 'LABEL.CONSTRUCTION_DATE'
                 | translate }}<span style="color: red">*</span></label>
@@ -263,9 +262,9 @@
             </div>
 
           <!-- nguyên giá  -->
-            <div class="row">
+            <div class="row mt-3">
               <label class="col-md-2 form-label col-form-label font-14" for="increaseOriginalAmountCur">{{
-                'LABEL.INCREASE_ORIGINAL_AMOUNT_CUR' | translate }} <span style="color: red">*</span></label>
+                'LABEL.INCREASE_ORIGINAL_AMOUNT_CUR' | translate }}</label>
               <div class="col-md-3">
                 <input type="text" class="form-control" id="increaseOriginalAmountCur" autocomplete="off"
                 [attr.disabled]="isUpdate" formControlName="increaseOriginalAmountCur"  NumbersOnly [allowThousandSeparator]="true" />
@@ -301,9 +300,9 @@
             </div>
 
             <!-- khấu hao -->
-            <div class="row">
+            <div class="row mt-3">
               <label class="col-md-2 form-label col-form-label font-14" for="increaseAmountCur">{{
-                'LABEL.INCREASE_AMOUNT_CUR' | translate }} <span style="color: red">*</span></label>
+                'LABEL.INCREASE_AMOUNT_CUR' | translate }}</label>
               <div class="col-md-3">
                 <input type="text" maxlength="18" class="form-control" id="increaseAmountCur" autocomplete="off"
                 [attr.disabled]="isUpdate" formControlName="increaseAmountCur" maxlength="18" NumbersOnly [allowThousandSeparator]="true" />

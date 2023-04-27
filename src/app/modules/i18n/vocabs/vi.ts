@@ -248,6 +248,10 @@ export const locale = {
       AMOUNT_REPORT: 'Khấu hao lũy kế',
       ORIGINAL_AMOUNT_REPORT: 'Nguyên giá',
       TOTAL_AMOUNT_REPORT: 'Giá trị còn lại',
+      REPORT_DATE: 'Ngày chốt dữ liệu',
+      TYPE_REPORT: 'Loại báo cáo',
+      DETAILED_REPORT: 'Báo cáo chi tiết',
+      SYNTHESIS_REPORT: 'Báo cáo tổng hợp'
     },
     TITLE: {
       // Quản lý phiếu công tác

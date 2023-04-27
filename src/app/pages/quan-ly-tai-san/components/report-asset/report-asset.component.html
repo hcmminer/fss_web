@@ -19,24 +19,27 @@
                         <div class="col-md-1"></div>
                         <div class="col-md-10">
                             <div class="row">
-                                <label class="col-md-2 form-label col-form-label font-14" for="lastUpdateDatetime">{{
-                                    'LABEL.CONSTRUCTION_DATE' | translate }} <span style="color: red">*</span></label>
+                                <label class="col-md-2 form-label col-form-label font-14" for="end">{{
+                                    'LABEL.REPORT_DATE'
+                                    | translate }}<span style="color: red">*</span></label>                      
                                 <div class="col-md-3">
                                     <mat-form-field appearance="fill">
-                                        <mat-date-range-input [rangePicker]="picker">
+                                        <mat-date-range-input [rangePicker]="picker"  [max]="maxDate">
                                             <input matStartDate formControlName="start"
                                                 (input)="eInputDate($event, 'start')" placeholder="Start date" />
                                             <input matEndDate formControlName="end" (input)="eInputDate($event, 'end')"
                                                 placeholder="End date" />
                                         </mat-date-range-input>
                                         <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
-                                        <mat-date-range-picker #picker></mat-date-range-picker>
+                                        <mat-date-range-picker #picker ></mat-date-range-picker>
                                         <mat-datepicker-toggle matIconSuffix [for]="picker"
                                             class="icon-datePicker"></mat-datepicker-toggle>
                                         <div style="color: red" *ngIf="startDateErrorMsg != ''">{{ startDateErrorMsg |
                                             translate }}</div>
                                     </mat-form-field>
+
                                 </div>
+
                                 <div class="col-md-2"></div>
                                 <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
                                     'LABEL.ORGANISATION' |
@@ -69,7 +72,6 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2"></div>
-
                             </div>
                         </div>
                         <div class="col-md-1"></div>
@@ -116,15 +118,15 @@
                     </div>
                 </div>
             </div>
-            <div class="">
+            <!-- <div class="">
                 <mat-form-field appearance="standard">
                     <mat-label class="font-14"> <i class="fas fa-search"></i> {{ 'TITLE.SEARCH_ADVANCE' | translate }}
                     </mat-label>
-                    <!-- @ -->
+             
                     <input class="border-bottom-danger" [(ngModel)]="query.groupFilter" matInput #autoFocus />
                 </mat-form-field>
-            </div>
-            <div class="pt-0">
+            </div> -->
+            <div class="pt-5">
                 <div class="table-responsive angular-bootstrap-table">
                     <div class="mat-elevation-z8" style="overflow-x: scroll; width: 100%;">
                         <table mat-table [dataSource]="dataSource">

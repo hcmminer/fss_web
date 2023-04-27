@@ -1,6 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -18,7 +20,7 @@ import { timeToName } from 'src/app/utils/functions';
 
 
 const queryInit = {
-  groupFilter: '',
+  // groupFilter: '',
   organisation: '',
   assetCode: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
@@ -42,21 +44,30 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-report-asset',
   templateUrl: './report-asset.component.html',
-  styleUrls: ['./report-asset.component.scss']
+  styleUrls: ['./report-asset.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class ReportAssetComponent implements OnInit {
   currentPage = 1;
-  @ViewChild('autoFocus') private _inputElement: ElementRef; // autofocus
+  // @ViewChild('autoFocus') private _inputElement: ElementRef; 
   pageSize: number = 10;
   source: any;
   ngAfterViewInit(): void {
-    this.source = fromEvent(this._inputElement.nativeElement, 'keyup');
-    this.source.pipe(debounceTime(400)).subscribe((value) => {
-      this.eSearch();
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.firstPage();
-      }
-    });
+    // this.source = fromEvent(this._inputElement.nativeElement, 'keyup');
+    // this.source.pipe(debounceTime(400)).subscribe((value) => {
+    //   this.eSearch();
+    //   if (this.dataSource.paginator) {
+    //     this.dataSource.paginator.firstPage();
+    //   }
+    // });
   }
   dataSource: MatTableDataSource<any>;
 
@@ -78,9 +89,10 @@ export class ReportAssetComponent implements OnInit {
   query = {
     ...queryInit,
   };
+  maxDate = new Date();
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
-    'index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame','depreciationStartDateStr', 'sodauky', 'phatsinhtang', 'phatsinhgiam',
+    'index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame', 'depreciationStartDateStr', 'sodauky', 'phatsinhtang', 'phatsinhgiam',
     'soducuoiky', 'beginOriginalAmount', 'beginAmount', 'beginAvailable', 'increaseOriginalAmount', 'increaseAmount',
     'increaseAvailable', 'decreaseOriginalAmount', 'decreaseAmount', 'decreaseAvailable', 'endOriginalAmount', 'endAmount', 'endAvailable'
   ];
@@ -127,11 +139,12 @@ export class ReportAssetComponent implements OnInit {
   // init data for view form search
   loadSearchForm() {
     this.searchForm = this.fb.group({
-      groupFilter: [this.query.groupFilter],
+      // groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
-      assetCode: [ this.query.assetCode],
+      assetCode: [this.query.assetCode],
       start: [this.query.startDate],
       end: [this.query.endDate],
+      reportType: ''
     });
   }
 
@@ -178,11 +191,12 @@ export class ReportAssetComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       searchDTO: {
-        groupFilter: this.query.groupFilter,
+        // groupFilter: this.query.groupFilter,
         assetCode: this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
         toDateStr: this.transform(this.searchForm.get('end').value),
+        reportType: this.searchForm.get('reportType').value,
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-report-dep');
@@ -198,21 +212,22 @@ export class ReportAssetComponent implements OnInit {
 
   apiGetReport() {
     let req;
-   
-      req = {
-        userName: this.userName,
-        searchDTO: {
-          groupFilter: this.query.groupFilter,
-          assetCode: this.searchForm.get('assetCode').value,
-          organisation: this.searchForm.get('organisation').value,
-          fromDateStr: this.transform(this.searchForm.get('start').value),
-          toDateStr: this.transform(this.searchForm.get('end').value),
-        },
-      }
+
+    req = {
+      userName: this.userName,
+      searchDTO: {
+        // groupFilter: this.query.groupFilter,
+        assetCode: this.searchForm.get('assetCode').value,
+        organisation: this.searchForm.get('organisation').value,
+        fromDateStr: this.transform(this.searchForm.get('start').value),
+        toDateStr: this.transform(this.searchForm.get('end').value),
+        reportType: this.searchForm.get('reportType').value,
+      },
+    }
     return this.globalService.globalApi(req, 'export-dep-synthesis-report');
   }
 
-  report(){
+  report() {
     const sub = this.apiGetReport().subscribe((res) => {
       if (res.errorCode == '0') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));

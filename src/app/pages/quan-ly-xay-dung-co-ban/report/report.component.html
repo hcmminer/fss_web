@@ -116,15 +116,14 @@
                     </div>
                 </div>
             </div>
-            <div class="">
+            <!-- <div class="">
                 <mat-form-field appearance="standard">
                     <mat-label class="font-14"> <i class="fas fa-search"></i> {{ 'TITLE.SEARCH_ADVANCE' | translate }}
                     </mat-label>
-                    <!-- @ -->
                     <input class="border-bottom-danger" [(ngModel)]="query.groupFilter" matInput #autoFocus />
                 </mat-form-field>
-            </div>
-            <div class="pt-0">
+            </div> -->
+            <div class="pt-5">
                 <div class="table-responsive angular-bootstrap-table">
                     <div class="mat-elevation-z8" style="overflow-x: scroll; width: 100%;">
                         <table mat-table [dataSource]="dataSource">
@@ -326,12 +325,12 @@
                                  'phatsinhgiam', 'soducuoiky' ]">
                             </tr>
                             <tr mat-row
-                                *matHeaderRowDef="['openLabor','openMaterial','openTotal','increaseMaterial','increaseLabor',
+                                *matHeaderRowDef="['openMaterial','openLabor','openTotal','increaseMaterial','increaseLabor',
                                 'increaseTotal','decreaseMaterial','decreaseLabor','decreaseTotal', 'materialTotal','laborTotal',  'total']">
                             </tr>
                             <tr mat-row
                                 *matRowDef="let element; columns:['index','organisation','assetCode','contract', 'openMaterial', 'openLabor',
-                               'openTotal','increaseMaterial', 'increaseLabor','increaseTotal','decreaseMaterial','decreaseLabor','decreaseTotal', 'laborTotal', 'materialTotal', 'total']">
+                               'openTotal','increaseMaterial', 'increaseLabor','increaseTotal','decreaseMaterial','decreaseLabor','decreaseTotal', 'materialTotal','laborTotal',  'total']">
 
                         </table>
 

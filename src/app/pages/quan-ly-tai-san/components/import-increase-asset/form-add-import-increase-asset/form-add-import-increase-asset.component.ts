@@ -2,6 +2,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { DatePipe, formatNumber } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Inject, Injector, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -34,7 +36,16 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-form-add-import-increase-asset',
   templateUrl: './form-add-import-increase-asset.component.html',
-  styleUrls: ['./form-add-import-increase-asset.component.scss']
+  styleUrls: ['./form-add-import-increase-asset.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter, 
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class FormAddImportIncreaseAssetComponent implements OnInit {
   //biến
@@ -112,19 +123,22 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
     }
   }
 
+  logForm(){
+    console.log(this.addEditForm);
+  }
 
   loadAddForm() {
     this.addEditForm = this.fb.group({
-      typeOfAssetCode: [this.isUpdate ? this.item.typeOfAssetCode : '', [Validators.required]],
-      assetCode: [this.isUpdate ? this.item.assetCode : '', [Validators.required]],
+      typeOfAssetCode: [this.isUpdate ? this.item.typeOfAssetCode : '',this.isUpdate ? [] : [Validators.required]],
+      assetCode: [this.isUpdate ? this.item.assetCode : '', this.isUpdate ? [] : [Validators.required]],
       constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
       depreciationStartDateStr: [this.isUpdate ? moment(this.item.depreciationStartDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
-      departmentCode: [this.isUpdate ? this.item.departmentCode : '', [Validators.required]],
+      departmentCode: [this.isUpdate ? this.item.departmentCode : '', this.isUpdate ? [] : [Validators.required]],
       sourceOfAsset: [this.isUpdate ? this.item.sourceOfAssetName : '',this.isUpdate ? [] : [Validators.required]],
       increaseOriginalAmount: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0') : '', [Validators.required, Validators.maxLength(18)]],
       increaseAmount: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : '', [Validators.required, Validators.maxLength(18)]],
-      increaseOriginalAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0') : '', this.isUpdate ? [] : [Validators.required]],
-      increaseAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : '', this.isUpdate ? [] : [Validators.required]],
+      increaseOriginalAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0'): ''],
+      increaseAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : ''],
     });
   }
 
