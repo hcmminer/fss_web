@@ -90,11 +90,6 @@ export class ReportAssetComponent implements OnInit {
     ...queryInit,
   };
   maxDate = new Date();
-  cbxTypeReport = [
-    { id: '', reportName: 'DEFAULT_OPTION.SELECT' },
-    { id: 2, reportName: 'LABEL.DETAILED_REPORT' },
-    { id: 1, reportName: 'LABEL.SYNTHESIS_REPORT' }
-  ]
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
     'index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame', 'depreciationStartDateStr', 'sodauky', 'phatsinhtang', 'phatsinhgiam',

@@ -21,21 +21,8 @@
                             <div class="row">
                                 <label class="col-md-2 form-label col-form-label font-14" for="end">{{
                                     'LABEL.REPORT_DATE'
-                                    | translate }}<span style="color: red">*</span></label>
-                                <div class="col-md-3" *ngIf="searchForm.get('reportType').value != 2">
-                                    <mat-form-field appearance="fill">
-                                        <input matInput formControlName="end" [max]="maxDate" [matDatepicker]="picker"
-                                            (input)="eInputDate($event, 'end')" placeholder="end date">
-                                        <mat-hint>DD/MM/YYYY</mat-hint>
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker"
-                                            class="icon-datePicker"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker></mat-datepicker>
-                                        <!-- <div style="color: red" *ngIf="endDateErrorMsg != '' ">{{
-                                            endDateErrorMsg | translate }}</div> -->
-                                    </mat-form-field>
-                                </div>
-
-                                <div class="col-md-3" *ngIf="searchForm.get('reportType').value == 2">
+                                    | translate }}<span style="color: red">*</span></label>                      
+                                <div class="col-md-3">
                                     <mat-form-field appearance="fill">
                                         <mat-date-range-input [rangePicker]="picker"  [max]="maxDate">
                                             <input matStartDate formControlName="start"
@@ -85,20 +72,6 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2"></div>
-
-                                <label class="col-md-2 form-label col-form-label font-14" for="reportType">{{
-                                    'LABEL.TYPE_REPORT' |
-                                    translate }}</label>
-                                <div class="col-md-3">
-                                    <select class="form-control font-14" name="reportType" id="reportType"
-                                        formControlName="reportType">
-                                        <ng-container *ngFor="let item of cbxTypeReport">
-                                            <option [value]="item.id">
-                                                {{ item.reportName | translate }}
-                                            </option>
-                                        </ng-container>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                         <div class="col-md-1"></div>

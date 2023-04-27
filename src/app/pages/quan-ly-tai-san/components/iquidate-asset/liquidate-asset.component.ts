@@ -232,6 +232,7 @@ export class LiquidateAssetComponent implements OnInit {
     modalRef.componentInstance.req = requestTarget;
     modalRef.result.then((result) => {
       this.eSearch();
+      this.initCombobox();
     });
   }
 
