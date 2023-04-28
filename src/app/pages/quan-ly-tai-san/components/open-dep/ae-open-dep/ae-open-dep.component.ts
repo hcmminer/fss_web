@@ -235,34 +235,6 @@ export class AeOpenDepComponent implements OnInit {
     );
   }
 
-  //check CONSTRUCTION_DATE
-  constructionDateErrorMsg = '';
-  eInputDate1(event: any) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '') {
-      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
-        name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
-      });
-    }
-    if (value != '') {
-      this.constructionDateErrorMsg = '';
-    }
-  }
-
-  // depreciationStartDate
-  depreciationStartDateErrorMsg = '';
-  eInputDate2(event: any) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '') {
-      this.depreciationStartDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
-        name: this.translate.instant('LABEL.DEPRECIATION_START_DATE'),
-      });
-    }
-    if (value != '') {
-      this.depreciationStartDateErrorMsg = '';
-    }
-  }
-
   //check number
   isNumber(amountApproved: any) {
     return Number(amountApproved);
