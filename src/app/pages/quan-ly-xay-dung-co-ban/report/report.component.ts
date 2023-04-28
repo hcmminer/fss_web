@@ -113,7 +113,7 @@ export class ReportComponent implements OnInit {
   initCombobox() {
     let reqGetListStatus = { userName: this.userName };
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
-    this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease', true);
+    this.openingBalanceService.getListAssetCodeReportBC(reqGetListStatus, 'search-report-bc', true);
   }
 
   ngOnInit(): void {
@@ -147,19 +147,30 @@ export class ReportComponent implements OnInit {
     });
   }
 
-  eViewDetail(item: any) {
-    console.log('view detail', item);
-    // const modalRef = this.modalService.open(DetailBcDecreaseComponent, {
-    //   centered: true,
-    //   backdrop: 'static',
-    //   size: 'xl',
-    //   keyboard: false,
-    // });
-    // modalRef.componentInstance.data = item;
-    // modalRef.result.then((result) => {
-    //   this.eSearch();
-    // });
+  displayFnAssetCode(item: any): string {
+    return item ? item.assetCode : undefined;
   }
+  //filter
+  filterByAssetCode() {
+    console.log(  this.searchForm.get('assetCode').value);
+    
+    this.searchForm.get('assetCode').valueChanges.pipe(debounceTime(200)).subscribe(str => {
+      let tempAsssetCode = []
+      if (typeof str == 'string' && str.trim() == '') {
+        let reqGetListStatus = { userName: this.userName };
+        this.openingBalanceService.getListAssetCodeReportBC(reqGetListStatus, 'search-report-bc', true);
+      }
+      if (typeof str == 'string' && str.trim() != '') {
+        tempAsssetCode = this.openingBalanceService.cbxAssetCodeReportBC.value.filter(item => {
+          const regex = new RegExp(str, 'gi'); // 'gi' để bỏ qua phân biệt chữ hoa/thường
+          return regex.test(item.assetCode);
+        })
+        this.openingBalanceService.cbxAssetCodeReportBC.next(tempAsssetCode)
+      }
+    });
+
+  }
+
   transform(value: string) {
     let datePipe = new DatePipe('en-US');
     value = datePipe.transform(value, 'dd/MM/yyyy');
@@ -191,7 +202,7 @@ export class ReportComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         // groupFilter: this.query.groupFilter,
-        assetCode: this.searchForm.get('assetCode').value,
+        assetCode: !this.searchForm.get('assetCode').value.assetCode ?this.searchForm.get('assetCode').value : this.searchForm.get('assetCode').value.assetCode,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
         toDateStr: this.transform(this.searchForm.get('end').value),
@@ -210,12 +221,11 @@ export class ReportComponent implements OnInit {
 
   apiGetReport() {
     let req;
-
     req = {
       userName: this.userName,
       searchDTO: {
         // groupFilter: this.query.groupFilter,
-        assetCode: this.searchForm.get('assetCode').value,
+        assetCode: !this.searchForm.get('assetCode').value.assetCode ?this.searchForm.get('assetCode').value : this.searchForm.get('assetCode').value.assetCode,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
         toDateStr: this.transform(this.searchForm.get('end').value),

@@ -109,7 +109,15 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
   ) {
   }
 
+  initCombobox() {
+    let reqGetListStatus = { userName: this.userName };
+    this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
+    this.openingBalanceService.getSourceOfAsset(reqGetListStatus, 'get-source-of-asset', true);
+    this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
+  }
+
   ngOnInit(): void {
+    this.initCombobox();
     console.log(this.isUpdate);
 
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
@@ -135,8 +143,8 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
       depreciationStartDateStr: [this.isUpdate ? moment(this.item.depreciationStartDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
       departmentCode: [this.isUpdate ? this.item.departmentCode : '', this.isUpdate ? [] : [Validators.required]],
       sourceOfAsset: [this.isUpdate ? this.item.sourceOfAssetName : '',this.isUpdate ? [] : [Validators.required]],
-      increaseOriginalAmount: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0') : '', [Validators.required, Validators.maxLength(18)]],
-      increaseAmount: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : '', [Validators.required, Validators.maxLength(18)]],
+      increaseOriginalAmount: [ '0', [Validators.required, Validators.maxLength(18)]],
+      increaseAmount: ['0', [Validators.required, Validators.maxLength(18)]],
       increaseOriginalAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0'): ''],
       increaseAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : ''],
     });

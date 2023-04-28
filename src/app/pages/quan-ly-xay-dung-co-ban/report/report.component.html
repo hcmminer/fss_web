@@ -57,16 +57,19 @@
                                     'LABEL.ASSETCODE' |
                                     translate }}</label>
                                 <div class="col-md-3">
-                                    <select class="form-control font-14" name="assetCode" id="assetCode"
-                                        [(ngModel)]="query.assetCode" formControlName="assetCode">
-                                        <ng-container
-                                            *ngFor="let item of openingBalanceService.cbxListAssetCodeDecrease| async">
-                                            <option [value]="item.assetCode">
-                                                {{ item.assetCode == '' ? ('DEFAULT_OPTION.SELECT' | translate ):
-                                                item.assetCode }}
-                                            </option>
-                                        </ng-container>
-                                    </select>
+                                    <input type="text" matInput class="form-control field-autocomplete"
+                                        formControlName="assetCode" style="border: 1px solid #bdbdbd;"
+                                        [matAutocomplete]="autoAssetCode" (keyup)="filterByAssetCode()"
+                                        (click)="triggerAssetCode.openPanel()"
+                                        #triggerAssetCode="matAutocompleteTrigger">
+                                    <mat-autocomplete #autoAssetCode="matAutocomplete"
+                                        [displayWith]="displayFnAssetCode">
+                                        <mat-option
+                                            *ngFor="let item of openingBalanceService.cbxAssetCodeReportBC | async"
+                                            [value]="item">
+                                            {{ item.assetCode }}
+                                        </mat-option>
+                                    </mat-autocomplete>
                                 </div>
                                 <div class="col-md-2"></div>
 
@@ -331,7 +334,11 @@
                             <tr mat-row
                                 *matRowDef="let element; columns:['index','organisation','assetCode','contract', 'openMaterial', 'openLabor',
                                'openTotal','increaseMaterial', 'increaseLabor','increaseTotal','decreaseMaterial','decreaseLabor','decreaseTotal', 'materialTotal','laborTotal',  'total']">
-
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="15">
+                                    {{ 'NO_MATCH_DATA' | translate }}
+                                </td>
+                            </tr>
                         </table>
 
                     </div>

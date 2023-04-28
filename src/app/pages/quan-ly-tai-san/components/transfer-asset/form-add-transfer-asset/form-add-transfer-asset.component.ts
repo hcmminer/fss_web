@@ -13,6 +13,7 @@ import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
@@ -41,7 +42,7 @@ export const MY_FORMATS = {
   styleUrls: ['./form-add-transfer-asset.component.scss'],
   providers: [
     {
-      provide: DateAdapter, 
+      provide: DateAdapter,
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
@@ -108,8 +109,16 @@ export class FormAddTransferAssetComponent implements OnInit {
     @Inject(Injector) private readonly injector: Injector,
   ) {
   }
+  initCombobox() {
+    let reqGetListStatus = { userName: this.userName };
+    this.openingBalanceService.getSourceOfAsset(reqGetListStatus, 'get-source-of-asset', true);
+    this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
+    this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase', true);
+    this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
+  }
 
   ngOnInit(): void {
+    this.initCombobox();
     console.log(this.isTransferByFile);
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.addType == 'single') {
@@ -149,6 +158,27 @@ export class FormAddTransferAssetComponent implements OnInit {
     }
   }
 
+  displayFnAssetCode(item: any): string {
+    return item ? item.assetCode : undefined;
+  }
+  //filter
+  filterByAssetCode() {
+    this.addEditForm.get('assetCode').valueChanges.pipe(debounceTime(200)).subscribe(str => {
+      let tempAsssetCode = []
+      if (typeof str == 'string' && str.trim() == '') {
+        let reqGetListStatus = { userName: this.userName };
+        this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase', true);
+      }
+      if (typeof str == 'string' && str.trim() != '') {
+        tempAsssetCode = this.openingBalanceService.cbxAssetCodeIncrease.value.filter(item => {
+          const regex = new RegExp(str, 'gi'); // 'gi' để bỏ qua phân biệt chữ hoa/thường
+          return regex.test(item.assetCode);
+        })
+        this.openingBalanceService.cbxAssetCodeIncrease.next(tempAsssetCode)
+      }
+    });
+
+  }
 
   //check input date
   eInputDate(event: any) {
@@ -199,7 +229,7 @@ export class FormAddTransferAssetComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       depreciationDetailDTO: {
-        assetCode: this.addEditForm.get('assetCode').value,
+        assetCode:  !this.addEditForm.get('assetCode').value.assetCode ?this.addEditForm.get('assetCode').value : this.addEditForm.get('assetCode').value.assetCode,
         constructionDateStr: this.transform(this.addEditForm.get('constructionDateStr').value),
         departmentCode: this.addEditForm.get('organisation').value,
       }
@@ -235,7 +265,7 @@ export class FormAddTransferAssetComponent implements OnInit {
       (result) => {
         let request = this.conditionAddEdit().subscribe(res => {
           if (res.errorCode === '0') {
-            this.toastrService.success(this.translate.instant('COMMON.MESSAGE.CREATE_SUCCESS'));
+            this.toastrService.success(this.translate.instant('COMMON.MESSAGE.TRANSFER_SUCCESS'));
             this.activeModal.close();
             this.handleClose();
           } else {

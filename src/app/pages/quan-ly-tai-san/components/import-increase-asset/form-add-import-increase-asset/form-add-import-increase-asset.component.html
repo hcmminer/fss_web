@@ -2,7 +2,7 @@
   <div class="">
     <!-- begin: Filtration form -->
     <h5 style="font-weight: 700">
-      {{ isUpdate || isUpdateFile ? '': 'TITLE.ADD_IMPORT_INCREASE_ASSET' | translate }}
+      {{ isUpdate || isUpdateFile ? ('LABEL.EDIT_IMPORT_INCREASE_ASSET'  | translate) : ('TITLE.ADD_IMPORT_INCREASE_ASSET' | translate) }}
     </h5>
     <hr />
     <br />
@@ -236,7 +236,7 @@
               <div class="col-md-3">
                 <mat-form-field appearance="fill">
                   <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
-                    (input)="eInputDate($event)" placeholder="Construction date">
+                    (input)="eInputDate($event)" placeholder="Construction date"> 
                   <mat-hint>DD/MM/YYYY</mat-hint>
                   <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
@@ -249,9 +249,9 @@
                 'LABEL.DEPRECIATION_STARTDATE'
                 | translate }}<span style="color: red">*</span></label>
               <div class="col-md-3">
-                <mat-form-field appearance="fill">
-                  <input matInput formControlName="depreciationStartDateStr" [matDatepicker]="picker2"
-                    (input)="eInputDate($event)" placeholder="Depreciation date">
+                <mat-form-field appearance="fill" >
+                  <input matInput formControlName="depreciationStartDateStr" [disabled]="isUpdate" [matDatepicker]="picker2"
+                    (input)="eInputDate($event)" placeholder="Depreciation date" >
                   <mat-hint>DD/MM/YYYY</mat-hint>
                   <mat-datepicker-toggle matIconSuffix [for]="picker2" class="icon-datePicker"></mat-datepicker-toggle>
                   <mat-datepicker #picker2></mat-datepicker>

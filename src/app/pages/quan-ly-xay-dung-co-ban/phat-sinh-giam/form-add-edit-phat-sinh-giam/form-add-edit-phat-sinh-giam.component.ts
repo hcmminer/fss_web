@@ -107,10 +107,13 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
     @Inject(Injector) private readonly injector: Injector,
   ) {
   }
+  initCombobox() {
+    let reqGetListStatus = { userName: this.userName };
+    this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease', true);
+  }
 
   ngOnInit(): void {
-    console.log(this.item);
-
+    this.initCombobox()
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
       this.columnsToDisplay = ['index', 'assetCode', 'materialTotalStr', 'materialStr', 'laborTotalStr', 'laborStr', 'constructionDateStr','errorMsg'];
@@ -127,8 +130,6 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
           if (res.errorCode == '0') {
             this.addEditForm.get('totalMaterial').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'))
             this.addEditForm.get('totalLabor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'))
-            this.addEditForm.get('material').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'))
-            this.addEditForm.get('labor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'))
             console.log(this.addEditForm);
           } else if (res.errorCode == '1') {
             this.toastService.error(res.description);
@@ -152,8 +153,8 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
     this.addEditForm = this.fb.group({
       assetCode: [this.isUpdate ? this.item.assetCode :  '', [Validators.required]],
       constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
-      material: ['', [Validators.required,Validators.maxLength(18)]],
-      labor: ['', [Validators.required,Validators.maxLength(18)]],
+      material: ['0', [Validators.required,Validators.maxLength(18)]],
+      labor: ['0', [Validators.required,Validators.maxLength(18)]],
       totalMaterial: [''],
       totalLabor: [''],
       typeOfAssetCode: [this.isUpdate ? this.item.typeOfAssetCode : '', [Validators.required]],

@@ -38,12 +38,9 @@ export class DetailImportIncreaseAssetComponent implements OnInit {
     'index',
     'departmentCode',
     'assetCode',
-    'typeOfAssetCode',
     'increaseOriginalAmount',
     'increaseAmount',
-    'sourceOfAsset',
     'constructionDateStr',
-    'depreciationStartDateStr',
     'lastUpdatedDatetimeStr',
   ];
 

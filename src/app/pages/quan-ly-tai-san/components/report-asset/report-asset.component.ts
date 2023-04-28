@@ -86,13 +86,14 @@ export class ReportAssetComponent implements OnInit {
   isAdmin: any;
   selectedTabIndex = 0;
   private modal: any;
+  reportType = [{id: '', reportName: 'DEFAULT_OPTION.SELECT'},{id: 1, reportName: 'LABEL.SYNTHESIS_REPORT'}, {id: 2, reportName: 'LABEL.DETAILED_REPORT'}]
   query = {
     ...queryInit,
   };
   maxDate = new Date();
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
-    'index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame', 'depreciationStartDateStr', 'sodauky', 'phatsinhtang', 'phatsinhgiam',
+    'index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame', 'depreciationStartDateStr','depreciationEndDateStr', 'issueDateStr' ,'sodauky', 'phatsinhtang', 'phatsinhgiam',
     'soducuoiky', 'beginOriginalAmount', 'beginAmount', 'beginAvailable', 'increaseOriginalAmount', 'increaseAmount',
     'increaseAvailable', 'decreaseOriginalAmount', 'decreaseAmount', 'decreaseAvailable', 'endOriginalAmount', 'endAmount', 'endAvailable'
   ];
@@ -113,7 +114,7 @@ export class ReportAssetComponent implements OnInit {
   initCombobox() {
     let reqGetListStatus = { userName: this.userName };
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
-    this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease', true);
+    this.openingBalanceService.getAssetCodeReportAsset(reqGetListStatus, 'search-report-dep', true);
   }
 
   ngOnInit(): void {
@@ -131,8 +132,14 @@ export class ReportAssetComponent implements OnInit {
     if (typeof value == 'string' && value == '' && typeDate === 'start') {
       this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
     }
+    if (typeof value == 'string' && value == '' && typeDate === 'end') {
+      this.endDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.TO_DATE') });
+    }
     if (value != '' && typeDate === 'start') {
       this.startDateErrorMsg = '';
+    }
+    if (value != '' && typeDate === 'end') {
+      this.endDateErrorMsg = '';
     }
   }
 
@@ -148,24 +155,34 @@ export class ReportAssetComponent implements OnInit {
     });
   }
 
-  eViewDetail(item: any) {
-    console.log('view detail', item);
-    // const modalRef = this.modalService.open(DetailBcDecreaseComponent, {
-    //   centered: true,
-    //   backdrop: 'static',
-    //   size: 'xl',
-    //   keyboard: false,
-    // });
-    // modalRef.componentInstance.data = item;
-    // modalRef.result.then((result) => {
-    //   this.eSearch();
-    // });
-  }
   transform(value: string) {
     let datePipe = new DatePipe('en-US');
     value = datePipe.transform(value, 'dd/MM/yyyy');
     return value;
   }
+
+displayFnAssetCode  (item: any): string {
+    return item ? item.assetCode : undefined;
+  }
+   //filter
+   filterByAssetCode() {
+    this.searchForm.get('assetCode').valueChanges.pipe(debounceTime(200)).subscribe(str => {
+      let tempAsssetCode = []
+      if (typeof str == 'string' && str.trim() == '') {
+        let reqGetListStatus = { userName: this.userName };
+        this.openingBalanceService.getAssetCodeReportAsset(reqGetListStatus, 'search-report-dep', true);
+      }
+      if (typeof str == 'string' && str.trim() != '') {
+        tempAsssetCode = this.openingBalanceService.cbxAssetCodeReportAsset.value.filter(item => {
+          const regex = new RegExp(str, 'gi'); // 'gi' để bỏ qua phân biệt chữ hoa/thường
+          return regex.test(item.assetCode);
+        })
+        this.openingBalanceService.cbxAssetCodeReportAsset.next(tempAsssetCode)
+      }
+    });
+
+  }
+
   eSearch() {
     if (!this.isValidForm()) {
       this.searchForm.markAllAsTouched();
@@ -188,11 +205,12 @@ export class ReportAssetComponent implements OnInit {
   }
 
   conditionSearch() {
+    
     const requestTarget = {
       userName: this.userName,
       searchDTO: {
         // groupFilter: this.query.groupFilter,
-        assetCode: this.searchForm.get('assetCode').value,
+        assetCode: !this.searchForm.get('assetCode').value.assetCode ?this.searchForm.get('assetCode').value : this.searchForm.get('assetCode').value.assetCode,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
         toDateStr: this.transform(this.searchForm.get('end').value),
@@ -217,7 +235,7 @@ export class ReportAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         // groupFilter: this.query.groupFilter,
-        assetCode: this.searchForm.get('assetCode').value,
+        assetCode: !this.searchForm.get('assetCode').value.assetCode ?this.searchForm.get('assetCode').value : this.searchForm.get('assetCode').value.assetCode,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
         toDateStr: this.transform(this.searchForm.get('end').value),

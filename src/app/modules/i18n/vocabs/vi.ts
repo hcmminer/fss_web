@@ -58,6 +58,7 @@ export const locale = {
     SYSTEM_ERROR: 'Lỗi hệ thống, vui lòng thử lại sau!',
 
     //hunglm
+    NO_MATCH_DATA: 'Không có dữ liệu',
     TOTAL_ERROR: 'Tổng lỗi',
     RECORD: 'Bản ghi',
     DATA_NUL_ERR: '-> File rỗng !',
@@ -240,6 +241,7 @@ export const locale = {
         2 - Mua sắm)`,
       DEPRECIATION_STARTDATE: 'Ngày bắt đầu khấu hao',
       LAST_UPDATEDATE_TIME: 'Ngày tác động',
+      EDIT_IMPORT_INCREASE_ASSET: 'Cập nhật phát sinh tăng tài sản',
       ADD_IMPORT_INCREASE_ASSET: 'Thêm mới phát sinh tăng tài sản',
       LIST_IMPORT_INCREASE_ASSET: 'Danh sách phát sinh tăng tài sản',
       EDIT_IMPORT_INCREASE_ASSET_FILE: 'Cập nhật phát sinh tăng tài sản theo file',
@@ -433,7 +435,7 @@ export const locale = {
       PROVINCE_END_NOT_MATCH: 'Tỉnh đến thuộc chặng cuối cùng không khớp với tỉnh kết thúc của lộ trình',
       PROVINCE_BEGIN_NOT_MATCH: 'Tỉnh đi thuộc chặng đầu tiên không khớp với tỉnh bắt đầu của lộ trình',
       NOT_HOTEL: 'Chưa có phòng nào cho khách sạn/nhà nghỉ này',
-      NO_MATCH_DATA: 'Không có dữ liệu',
+
 
       //Openning balance
       CF_ADD_OP_BL_BY_FILE: 'Bạn có chắc chắn muốn thêm số dư đầu kỳ theo file không',
@@ -731,6 +733,8 @@ export const locale = {
       SHOW_PAGINATION: 'Hiển thị từ {{from}} đến {{to}} của {{total}}',
       SEARCH_RESULTS: 'Kết quả tìm kiếm',
       MESSAGE: {
+        TRANSFER_SUCCESS: 'Điều chuyển thành công',
+        LIQUIDATE_SUCCESS: 'Thanh lí thành công',
         CREATE_SUCCESS: 'Thêm mới thành công',
         UPDATE_SUCCESS: 'Sửa thành công',
         DELETE_SUCCESS: 'Xóa thành công',

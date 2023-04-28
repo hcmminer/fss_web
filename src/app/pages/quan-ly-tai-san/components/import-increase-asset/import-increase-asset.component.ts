@@ -104,6 +104,7 @@ export class ImportIncreaseAssetComponent implements OnInit {
     'sourceOfAssetName',
     'constructionDateStr',
     'depreciationStartDateStr',
+    'depreciationEndDateStr',
     'lastUpdatedDatetimeStr',
     'status',
     'action'
@@ -245,6 +246,7 @@ export class ImportIncreaseAssetComponent implements OnInit {
     modalRef.componentInstance.req = requestTarget;
     modalRef.result.then((result) => {
       this.eSearch();
+      this.initCombobox();
     });
   }
 

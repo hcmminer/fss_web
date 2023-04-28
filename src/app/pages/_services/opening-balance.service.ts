@@ -21,6 +21,9 @@ export class openingBalanceService {
   cbxTypeOfAsset =  new BehaviorSubject<any[]>([]);
   cbxSourceOfAsset= new BehaviorSubject<any[]>([]);
   cbxAssetCodeIncrease = new BehaviorSubject<any[]>([]);
+  cbxAssetCodeReportBC = new BehaviorSubject<any[]>([]);
+  cbxAssetCodeReportAsset = new BehaviorSubject<any[]>([]);
+
   //só dư đầu kỳ
   getErrOpeningBalanceFile = new BehaviorSubject<any>({});//v
   getSuccessOpeningBalanceFile = new BehaviorSubject<any>({});
@@ -164,10 +167,6 @@ export class openingBalanceService {
           } else {
             this.cbxAssetCodeIncrease.next([]);
           }
-          if (allowDefault)
-            this.cbxAssetCodeIncrease.value.unshift({
-              assetCode: '',
-            });
         }),
         catchError((err) => {
           // this.toastrService.error(err.error?.message || err.message, 'Error');
@@ -197,6 +196,65 @@ export class openingBalanceService {
             this.cbxListAssetCodeDecrease.value.unshift({
               assetCode: '',
             });
+        }),
+        catchError((err) => {
+          // this.toastrService.error(err.error?.message || err.message, 'Error');
+          return of(undefined);
+        }),
+        finalize(() => { }),
+      )
+      .subscribe();
+    this.subscriptions.push(request);
+  }
+
+  //AssetCodeReportBC
+  getListAssetCodeReportBC(query: RequestApiModelOld, redirectFunction, allowDefault: boolean) {
+    const request = this.globalService
+      .globalApi(query, redirectFunction)
+      .pipe(
+        map((response) => {
+          if (response.errorCode != '0') {
+            this.cbxAssetCodeReportBC.next([]);
+            throw new Error(response.description);
+          }
+          if (typeof response.data !== 'undefined' && response.data !== null) {
+            this.cbxAssetCodeReportBC.next(response.data.filter((value, index, self) =>
+            index === self.findIndex((t) => (
+              t.assetCode === value.assetCode
+            ))
+          ));
+          } else {
+            this.cbxAssetCodeReportBC.next([]);
+          }
+        }),
+        catchError((err) => {
+          // this.toastrService.error(err.error?.message || err.message, 'Error');
+          return of(undefined);
+        }),
+        finalize(() => { }),
+      )
+      .subscribe();
+    this.subscriptions.push(request);
+  }
+
+  getAssetCodeReportAsset(query: RequestApiModelOld, redirectFunction, allowDefault: boolean) {
+    const request = this.globalService
+      .globalApi(query, redirectFunction)
+      .pipe(
+        map((response) => {
+          if (response.errorCode != '0') {
+            this.cbxAssetCodeReportAsset.next([]);
+            throw new Error(response.description);
+          }
+          if (typeof response.data !== 'undefined' && response.data !== null) {
+            this.cbxAssetCodeReportAsset.next(response.data.filter((value, index, self) =>
+            index === self.findIndex((t) => (
+              t.assetCode === value.assetCode
+            ))
+          ));
+          } else {
+            this.cbxAssetCodeReportAsset.next([]);
+          }
         }),
         catchError((err) => {
           // this.toastrService.error(err.error?.message || err.message, 'Error');
