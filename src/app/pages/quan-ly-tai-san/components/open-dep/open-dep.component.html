@@ -161,12 +161,12 @@
                 </td>
               </ng-container>
               <!-- sourceOfAsset -->
-              <ng-container matColumnDef="sourceOfAsset">
+              <ng-container matColumnDef="sourceOfAssetName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   {{ 'LABEL.SOURCE_OF_ASSET' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: left">
-                  {{ item.sourceOfAsset }}
+                  {{ item.sourceOfAssetName }}
                 </td>
               </ng-container>
               <!-- depreciationFrame -->
@@ -262,7 +262,7 @@
               <!-- Row shown when there is no matching data. -->
               <tr class="mat-row" *matNoDataRow>
                 <td class="mat-cell" colspan="15">
-                  {{ 'MESSAGE.NO_MATCH_DATA' | translate }}
+                  {{ 'NO_MATCH_DATA' | translate }}
                 </td>
               </tr>
             </table>
