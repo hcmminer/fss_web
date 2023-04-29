@@ -77,8 +77,10 @@ export class ReportAssetComponent implements OnInit {
   searchForm: FormGroup;
 
   @ViewChild('formSearch') formSearch: ElementRef;
-  startDateErrorMsg = '';
+  startDetailDateErrorMsg = '';
   endDateErrorMsg = '';
+  endDetailDateErrorMsg = '';
+
   isLoading$ = false;
   userRes: any;
   userName: string;
@@ -86,14 +88,14 @@ export class ReportAssetComponent implements OnInit {
   isAdmin: any;
   selectedTabIndex = 0;
   private modal: any;
-  reportType = [{id: '', reportName: 'DEFAULT_OPTION.SELECT'},{id: 1, reportName: 'LABEL.SYNTHESIS_REPORT'}, {id: 2, reportName: 'LABEL.DETAILED_REPORT'}]
+  reportType = [{ id: '', reportName: 'DEFAULT_OPTION.SELECT' }, { id: 1, reportName: 'LABEL.SYNTHESIS_REPORT' }, { id: 2, reportName: 'LABEL.DETAILED_REPORT' }]
   query = {
     ...queryInit,
   };
   maxDate = new Date();
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
-    'index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame', 'depreciationStartDateStr','depreciationEndDateStr', 'issueDateStr' ,'sodauky', 'phatsinhtang', 'phatsinhgiam',
+    'index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame', 'depreciationStartDateStr', 'depreciationEndDateStr', 'issueDateStr', 'sodauky', 'phatsinhtang', 'phatsinhgiam',
     'soducuoiky', 'beginOriginalAmount', 'beginAmount', 'beginAvailable', 'increaseOriginalAmount', 'increaseAmount',
     'increaseAvailable', 'decreaseOriginalAmount', 'decreaseAmount', 'decreaseAvailable', 'endOriginalAmount', 'endAmount', 'endAvailable'
   ];
@@ -129,16 +131,16 @@ export class ReportAssetComponent implements OnInit {
 
   eInputDate(event: any, typeDate: string) {
     let value = event.target.value;
-    if (typeof value == 'string' && value == '' && typeDate === 'start') {
-      this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
+    if (typeof value == 'string' && value == '' && typeDate === 'startDetail') {
+      this.startDetailDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
     }
-    if (typeof value == 'string' && value == '' && typeDate === 'end') {
+    if (typeof value == 'string' && value == '' && (typeDate === 'end' || typeDate == 'endDetail')) {
       this.endDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.TO_DATE') });
     }
     if (value != '' && typeDate === 'start') {
-      this.startDateErrorMsg = '';
+      this.startDetailDateErrorMsg = '';
     }
-    if (value != '' && typeDate === 'end') {
+    if (value != '' && (typeDate === 'end' || typeDate == 'endDetail')) {
       this.endDateErrorMsg = '';
     }
   }
@@ -149,8 +151,9 @@ export class ReportAssetComponent implements OnInit {
       // groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
       assetCode: [this.query.assetCode],
-      start: [this.query.startDate],
+      startDetail: [this.query.startDate],
       end: [this.query.endDate],
+      endDetail:[this.query.endDate],
       reportType: ''
     });
   }
@@ -161,11 +164,11 @@ export class ReportAssetComponent implements OnInit {
     return value;
   }
 
-displayFnAssetCode  (item: any): string {
+  displayFnAssetCode(item: any): string {
     return item ? item.assetCode : undefined;
   }
-   //filter
-   filterByAssetCode() {
+  //filter
+  filterByAssetCode() {
     this.searchForm.get('assetCode').valueChanges.pipe(debounceTime(200)).subscribe(str => {
       let tempAsssetCode = []
       if (typeof str == 'string' && str.trim() == '') {
@@ -182,6 +185,8 @@ displayFnAssetCode  (item: any): string {
     });
 
   }
+  
+  //change type report
 
   eSearch() {
     if (!this.isValidForm()) {
@@ -205,15 +210,14 @@ displayFnAssetCode  (item: any): string {
   }
 
   conditionSearch() {
-    
     const requestTarget = {
       userName: this.userName,
       searchDTO: {
         // groupFilter: this.query.groupFilter,
-        assetCode: !this.searchForm.get('assetCode').value.assetCode ?this.searchForm.get('assetCode').value : this.searchForm.get('assetCode').value.assetCode,
+        assetCode: !this.searchForm.get('assetCode').value.assetCode ? this.searchForm.get('assetCode').value : this.searchForm.get('assetCode').value.assetCode,
         organisation: this.searchForm.get('organisation').value,
-        fromDateStr: this.transform(this.searchForm.get('start').value),
-        toDateStr: this.transform(this.searchForm.get('end').value),
+        fromDateStr: this.transform(this.searchForm.get('startDetail').value),
+        toDateStr: this.searchForm.get('reportType').value == 2 ? this.transform(this.searchForm.get('endDetail').value) : this.transform(this.searchForm.get('end').value),
         reportType: this.searchForm.get('reportType').value,
       },
     };
@@ -224,7 +228,9 @@ displayFnAssetCode  (item: any): string {
     this.query = {
       ...queryInit,
     };
-    this.startDateErrorMsg = '';
+    this.startDetailDateErrorMsg = '';
+    this.endDateErrorMsg = '';
+    this.endDetailDateErrorMsg = '';
     this.loadSearchForm();
   }
 
@@ -235,10 +241,10 @@ displayFnAssetCode  (item: any): string {
       userName: this.userName,
       searchDTO: {
         // groupFilter: this.query.groupFilter,
-        assetCode: !this.searchForm.get('assetCode').value.assetCode ?this.searchForm.get('assetCode').value : this.searchForm.get('assetCode').value.assetCode,
+        assetCode: !this.searchForm.get('assetCode').value.assetCode ? this.searchForm.get('assetCode').value : this.searchForm.get('assetCode').value.assetCode,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
-        toDateStr: this.transform(this.searchForm.get('end').value),
+        toDateStr: this.searchForm.get('reportType').value == 2 ? this.transform(this.searchForm.get('endDetail').value) : this.transform(this.searchForm.get('end').value),
         reportType: this.searchForm.get('reportType').value,
       },
     }
@@ -302,7 +308,7 @@ displayFnAssetCode  (item: any): string {
       }
     });
 
-    if (this.startDateErrorMsg !== '' || this.endDateErrorMsg !== '') {
+    if (this.startDetailDateErrorMsg !== '' || this.endDateErrorMsg !== '' || this.endDetailDateErrorMsg !== '') {
       isValid = false;
     }
 
