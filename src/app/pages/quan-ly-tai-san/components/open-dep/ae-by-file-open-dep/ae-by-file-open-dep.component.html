@@ -23,8 +23,8 @@
 
     </div>
     <!-- << -->
-
-    <!-- modal nhap file -->
+    <div *ngIf="true && !isHasSuccessFile">
+          <!-- modal nhap file -->
     <form action="#" class="form form-label-right" [formGroup]="addFileForm">
       <div class="row form-group">
         <div class="col-md-2">
@@ -269,6 +269,8 @@
         aria-label="Select page of results"></mat-paginator>
     </div>
     <!--<< table  -->
+    </div>
+
 
     <!-- >> action modal  -->
     <div class="d-flex justify-content-end my-5">
