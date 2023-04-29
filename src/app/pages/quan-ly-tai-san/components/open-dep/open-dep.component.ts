@@ -67,7 +67,7 @@ export class OpenDepComponent implements OnInit {
     'typeOfAssetCode',
     'typeOfAssetName',
     'depreciationFrame',
-    'sourceOfAsset',
+    'sourceOfAssetName',
     'beginOriginalAmount',
     'beginAmount',
     'depreciationStartDateStr',
