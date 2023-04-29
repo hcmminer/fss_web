@@ -25,12 +25,12 @@
 
                                 <div class="col-md-3" *ngIf="searchForm.get('reportType').value != 2">
                                     <mat-form-field appearance="fill">
-                                        <input matInput formControlName="end" [matDatepicker]="picker"
+                                        <input matInput formControlName="end" [matDatepicker]="picker2"
                                             (input)="eInputDate($event, 'end')" placeholder="end date" [max]="maxDate">
                                         <mat-hint>DD/MM/YYYY</mat-hint>
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker"
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker2"
                                             class="icon-datePicker"></mat-datepicker-toggle>
-                                        <mat-datepicker #picker></mat-datepicker>
+                                        <mat-datepicker #picker2></mat-datepicker>
                                         <div style="color: red" *ngIf="endDateErrorMsg != ''">{{
                                             endDateErrorMsg | translate }}</div>
                                     </mat-form-field>
@@ -38,18 +38,18 @@
                                 <div class="col-md-3" *ngIf="searchForm.get('reportType').value == 2">
                                     <mat-form-field appearance="fill">
                                         <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
-                                            <input matStartDate formControlName="start"
+                                            <input matStartDate formControlName="startDetail"
                                                 (input)="eInputDate($event, 'start')" placeholder="Start date" />
-                                            <input matEndDate formControlName="end" (input)="eInputDate($event, 'end')"
+                                            <input matEndDate formControlName="endDetail" (input)="eInputDate($event, 'endDetail')"
                                                 placeholder="End date" />
                                         </mat-date-range-input>
                                         <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
                                         <mat-date-range-picker #picker></mat-date-range-picker>
                                         <mat-datepicker-toggle matIconSuffix [for]="picker"
                                             class="icon-datePicker"></mat-datepicker-toggle>
-                                        <div style="color: red" *ngIf="startDateErrorMsg != ''">{{ startDateErrorMsg |
+                                        <div style="color: red" *ngIf="startDetailDateErrorMsg != ''">{{ startDetailDateErrorMsg |
                                             translate }}</div>
-                                        <div style="color: red" *ngIf="endDateErrorMsg != ''">{{ endDateErrorMsg |
+                                        <div style="color: red" *ngIf="endDetailDateErrorMsg != ''">{{ endDetailDateErrorMsg |
                                             translate }}</div>
                                     </mat-form-field>
 
