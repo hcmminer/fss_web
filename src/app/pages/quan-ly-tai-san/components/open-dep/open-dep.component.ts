@@ -131,7 +131,7 @@ export class OpenDepComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       searchDTO: {
-        organisation: this.query.organisation,
+        departmentCode: this.query.organisation,
         typeOfAssetCode: this.query.typeOfAsset,
         sourceOfAsset: this.query.sourceOfAsset,
         groupFilter: this.query.groupFilter,
@@ -195,7 +195,7 @@ export class OpenDepComponent implements OnInit {
       // typeOfAssetCode: this.query.typeOfAsset,
       // groupFilter: this.query.groupFilter,
       modalRef.componentInstance.searchDTO = {
-        organisation: this.query.organisation,
+        departmentCode: this.query.organisation,
         typeOfAssetCode: this.query.typeOfAsset,
         sourceOfAsset: this.query.sourceOfAsset,
         groupFilter: this.query.groupFilter,

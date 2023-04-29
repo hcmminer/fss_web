@@ -204,7 +204,7 @@
               {{ 'LABEL.BEGIN_AMOUNT_TARGET' | translate }}
               <span style="color: red">*</span></label>
             <div class="col-md-3">
-              <input class="form-control" formControlName="beginAmount"
+              <input class="form-control" formControlName="beginAmount" maxlength="15"
                 [class.is-invalid]="isControlInvalid('beginAmount')" NumbersOnly [allowThousandSeparator]="true" />
               <div class="invalid-feedback" *ngIf="controlHasError('required', 'beginAmount')">
                 {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.BEGIN_AMOUNT' | translate } }}
