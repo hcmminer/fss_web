@@ -186,7 +186,7 @@
                 [class.is-invalid]="isControlInvalid('beginOriginalAmount')" NumbersOnly
                 [allowThousandSeparator]="true" />
               <div class="invalid-feedback" *ngIf="controlHasError('required', 'beginOriginalAmount')">
-                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.BEGIN_ORIGINAL_AMOUNT' | translate } }}
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.BEGIN_ORIGINAL_AMOUNT_TARGET' | translate } }}
               </div>
             </div>
           </div>
@@ -207,7 +207,7 @@
               <input class="form-control" formControlName="beginAmount" maxlength="15"
                 [class.is-invalid]="isControlInvalid('beginAmount')" NumbersOnly [allowThousandSeparator]="true" />
               <div class="invalid-feedback" *ngIf="controlHasError('required', 'beginAmount')">
-                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.BEGIN_AMOUNT' | translate } }}
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.BEGIN_AMOUNT_TARGET' | translate } }}
               </div>
             </div>
           </div>

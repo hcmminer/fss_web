@@ -136,7 +136,7 @@
             {{
             item.beginOriginalAmountStr != null
             ? (item.beginOriginalAmountStr | number : '1.0-0')
-            : item.beginOriginalAmountStr
+            : (item.beginOriginalAmount | number : '1.0-0')
             }}
           </td>
         </ng-container>
@@ -209,7 +209,7 @@
             {{
             item.beginOriginalAmountTotalStr != null
             ? (item.beginOriginalAmountTotalStr | number : '1.0-0')
-            : item.beginOriginalAmountTotalStr
+            : (item.beginOriginalAmountTotal | number : '1.0-0')
             }}
           </td>
         </ng-container>
@@ -224,7 +224,7 @@
             {{
             item.beginOriginalAmountStr != null
             ? (item.beginOriginalAmountStr | number : '1.0-0')
-            : item.beginOriginalAmountStr
+            : (item.beginOriginalAmount | number : '1.0-0')
             }}
           </td>
         </ng-container>
@@ -237,7 +237,7 @@
             {{
             item.beginAmountTotalStr != null
             ? (item.beginAmountTotalStr | number : '1.0-0')
-            : item.beginAmountTotalStr
+            : (item.beginAmountTotal | number : '1.0-0')
             }}
           </td>
         </ng-container>

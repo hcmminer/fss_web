@@ -490,7 +490,7 @@
                     {{ 'LABEL.INCREASE_ORIGINAL_AMOUNT' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let item" style="text-align: right">
-                    {{item.increaseOriginalAmountStr != null ? item.increaseOriginalAmountStr :
+                    {{item.increaseOriginalAmountStr != null ? (item.increaseOriginalAmountStr | number : '1.0-0')  :
                     (item.increaseOriginalAmount | number : '1.0-0')}}
                   </td>
                 </ng-container>
@@ -500,7 +500,7 @@
                     {{ 'LABEL.INCREASE_AMOUNT' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let item" style="text-align: right">
-                    {{item.increaseAmountStr != null ? item.increaseAmountStr : (item.increaseAmount | number :
+                    {{item.increaseAmountStr != null ? (item.increaseAmountStr | number : '1.0-0') : (item.increaseAmount | number :
                     '1.0-0')}}
                   </td>
                 </ng-container>
@@ -660,7 +660,7 @@
                     {{ 'LABEL.INCREASE_ORIGINAL_AMOUNT_CUR' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let item" style="text-align: right">
-                    {{item.increaseOriginalAmountCurStr != null ? item.increaseOriginalAmountCurStr :
+                    {{item.increaseOriginalAmountCurStr != null ? (item.increaseOriginalAmountCurStr| number : '1.0-0') :
                     (item.increaseOriginalAmountCur | number : '1.0-0')}}
                   </td>
                 </ng-container>
@@ -670,7 +670,7 @@
                     {{ 'LABEL.INCREASE_ORIGINAL_AMOUNT_DESIRE' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let item" style="text-align: right">
-                    {{item.increaseOriginalAmountStr != null ? item.increaseOriginalAmountStr :
+                    {{item.increaseOriginalAmountStr != null ? (item.increaseOriginalAmountStr | number : '1.0-0') :
                     (item.increaseOriginalAmount | number : '1.0-0')}}
                   </td>
                 </ng-container>
@@ -680,7 +680,7 @@
                     {{ 'LABEL.INCREASE_AMOUNT_CUR' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let item" style="text-align: right">
-                    {{item.increaseAmountCurStr != null ? item.increaseAmountCurStr : (item.increaseAmountCur | number :
+                    {{item.increaseAmountCurStr != null ? (item.increaseAmountCurStr | number : '1.0-0') : (item.increaseAmountCur | number :
                     '1.0-0')}}
                   </td>
                 </ng-container>
@@ -690,7 +690,7 @@
                     {{ 'LABEL.INCREASE_AMOUNT_DESIRE' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let item" style="text-align: right">
-                    {{item.increaseAmountStr != null ? item.increaseAmountStr : (item.increaseAmount | number :
+                    {{item.increaseAmountStr != null ? (item.increaseAmountStr | number : '1.0-0') : (item.increaseAmount | number :
                     '1.0-0')}}
                   </td>
                 </ng-container>
