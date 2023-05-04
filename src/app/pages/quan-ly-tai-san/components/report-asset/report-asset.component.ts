@@ -88,14 +88,14 @@ export class ReportAssetComponent implements OnInit {
   isAdmin: any;
   selectedTabIndex = 0;
   private modal: any;
-  reportType = [{ id: '', reportName: 'DEFAULT_OPTION.SELECT' }, { id: 1, reportName: 'LABEL.SYNTHESIS_REPORT' }, { id: 2, reportName: 'LABEL.DETAILED_REPORT' }]
+  reportType = [{ id: 1, reportName: 'LABEL.SYNTHESIS_REPORT' }, { id: 2, reportName: 'LABEL.DETAILED_REPORT' }]
   query = {
     ...queryInit,
   };
   maxDate = new Date();
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
-    'index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame', 'depreciationStartDateStr', 'depreciationEndDateStr', 'issueDateStr', 'sodauky', 'phatsinhtang', 'phatsinhgiam',
+    'index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame', 'depreciationStartDateStr', 'issueDateStr', 'sodauky', 'phatsinhtang', 'phatsinhgiam',
     'soducuoiky', 'beginOriginalAmount', 'beginAmount', 'beginAvailable', 'increaseOriginalAmount', 'increaseAmount',
     'increaseAvailable', 'decreaseOriginalAmount', 'decreaseAmount', 'decreaseAvailable', 'endOriginalAmount', 'endAmount', 'endAvailable'
   ];
@@ -154,7 +154,7 @@ export class ReportAssetComponent implements OnInit {
       startDetail: [this.query.startDate],
       end: [this.query.endDate],
       endDetail:[this.query.endDate],
-      reportType: ''
+      reportType: 1
     });
   }
 
