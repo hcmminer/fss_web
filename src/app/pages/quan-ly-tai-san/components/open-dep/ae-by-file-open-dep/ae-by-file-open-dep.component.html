@@ -5,7 +5,7 @@
     <hr />
     <br />
     <!-- modal download file thanh cong -->
-    <div class="p-4" *ngIf="isHasSuccessFile">
+    <div class="p-4 m-10 border border-success rounded-card" *ngIf="isHasSuccessFile">
       <div class="text-center text-success font-14">
         <img
           src="data:image/png;base64,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" />
@@ -274,17 +274,18 @@
 
     <!-- >> action modal  -->
     <div class="d-flex justify-content-end my-5">
-      <button class="btn btn-primary mx-3" style="width: 150px" *ngIf="!magicButtonUpdate" (click)="eUpdateFromFile()">
-        {{ 'ACTION.UPLOAD' | translate }}
+      <button class="btn btn-primary mx-3" style="width: 150px" *ngIf="!magicButtonUpdate  && !isHasSuccessFile"
+          (click)="eUpdateFromFile()">
+          {{ 'ACTION.UPLOAD' | translate }}
       </button>
-      <button class="btn btn-danger mx-3" style="width: 150px" *ngIf="magicButtonUpdate"
-        (click)="eCofirmUpdateByFile()">
-        {{ 'ACTION.UPDATE' | translate }}
+      <button class="btn btn-danger mx-3" style="width: 150px" *ngIf="magicButtonUpdate && !isHasSuccessFile"
+          (click)="eCofirmUpdateByFile()">
+          {{ 'ACTION.UPDATE' | translate }}
       </button>
       <button class="btn btn-outline-dark mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
-        {{ 'ACTION.CLOSE' | translate }}
+          {{ 'ACTION.CLOSE' | translate }}
       </button>
-    </div>
+  </div>
     <!-- << action modal  -->
   </div>
 </div>

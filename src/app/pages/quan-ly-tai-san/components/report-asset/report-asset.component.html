@@ -16,14 +16,14 @@
                         {{ 'TITLE.REPORT' | translate | lowercase }}
                     </div>
                     <div class="row form-group">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-10">
+                        <div class="col-lg-1 col-sm-1"></div>
+                        <div class="col-lg-10 col-sm-10">
                             <div class="row">
-                                <label class="col-md-2 form-label col-form-label font-14" for="end">{{
+                                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="end">{{
                                     'LABEL.REPORT_DATE'
                                     | translate }}<span style="color: red">*</span></label>
 
-                                <div class="col-md-3" *ngIf="searchForm.get('reportType').value != 2">
+                                <div class="col-lg-4 col-sm-12" *ngIf="searchForm.get('reportType').value != 2">
                                     <mat-form-field appearance="fill">
                                         <input matInput formControlName="end" [matDatepicker]="picker2"
                                             (input)="eInputDate($event, 'end')" placeholder="end date" [max]="maxDate">
@@ -35,31 +35,32 @@
                                             endDateErrorMsg | translate }}</div>
                                     </mat-form-field>
                                 </div>
-                                <div class="col-md-3" *ngIf="searchForm.get('reportType').value == 2">
+                                <div class="col-lg-4 col-sm-12" *ngIf="searchForm.get('reportType').value == 2">
                                     <mat-form-field appearance="fill">
                                         <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
                                             <input matStartDate formControlName="startDetail"
                                                 (input)="eInputDate($event, 'start')" placeholder="Start date" />
-                                            <input matEndDate formControlName="endDetail" (input)="eInputDate($event, 'endDetail')"
-                                                placeholder="End date" />
+                                            <input matEndDate formControlName="endDetail"
+                                                (input)="eInputDate($event, 'endDetail')" placeholder="End date" />
                                         </mat-date-range-input>
                                         <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
                                         <mat-date-range-picker #picker></mat-date-range-picker>
                                         <mat-datepicker-toggle matIconSuffix [for]="picker"
                                             class="icon-datePicker"></mat-datepicker-toggle>
-                                        <div style="color: red" *ngIf="startDetailDateErrorMsg != ''">{{ startDetailDateErrorMsg |
+                                        <div style="color: red" *ngIf="startDetailDateErrorMsg != ''">{{
+                                            startDetailDateErrorMsg |
                                             translate }}</div>
-                                        <div style="color: red" *ngIf="endDetailDateErrorMsg != ''">{{ endDetailDateErrorMsg |
+                                        <div style="color: red" *ngIf="endDetailDateErrorMsg != ''">{{
+                                            endDetailDateErrorMsg |
                                             translate }}</div>
                                     </mat-form-field>
 
                                 </div>
-
-                                <div class="col-md-2"></div>
-                                <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
+                                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14"
+                                    for="organisation">{{
                                     'LABEL.ORGANISATION' |
                                     translate }}</label>
-                                <div class="col-md-3">
+                                <div class="col-lg-4 col-sm-12">
                                     <select class="form-control font-14" name="organisation" id="organisation"
                                         formControlName="organisation" [(ngModel)]="query.organisation">
                                         <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation| async">
@@ -71,10 +72,10 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-md-2 form-label col-form-label font-14" for="reportType">{{
+                                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="reportType">{{
                                     'LABEL.TYPE_REPORT' |
                                     translate }}</label>
-                                <div class="col-md-3">
+                                <div class="col-lg-4 col-sm-12">
                                     <select class="form-control font-14" name="reportType" id="reportType"
                                         formControlName="reportType">
                                         <ng-container *ngFor="let item of reportType">
@@ -84,11 +85,10 @@
                                         </ng-container>
                                     </select>
                                 </div>
-                                <div class="col-md-2"></div>
-                                <label class="col-md-2 form-label col-form-label font-14" for="assetCode">{{
+                                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="assetCode">{{
                                     'LABEL.ASSETCODE' |
                                     translate }}</label>
-                                <div class="col-md-3">
+                                <div class="col-lg-4 col-sm-12">
                                     <input type="text" matInput class="form-control field-autocomplete"
                                         formControlName="assetCode" style="border: 1px solid #bdbdbd;"
                                         [matAutocomplete]="autoAssetCode" (keyup)="filterByAssetCode()"
@@ -105,7 +105,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-1"></div>
+                        <div class="col-lg-1 col-sm-1"></div>
                     </div>
 
                     <div class="form-group pb-0 mt-5">

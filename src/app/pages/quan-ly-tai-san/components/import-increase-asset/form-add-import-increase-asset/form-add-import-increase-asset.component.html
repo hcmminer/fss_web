@@ -2,11 +2,12 @@
   <div class="">
     <!-- begin: Filtration form -->
     <h5 style="font-weight: 700">
-      {{ isUpdate || isUpdateFile ? ('LABEL.EDIT_IMPORT_INCREASE_ASSET'  | translate) : ('TITLE.ADD_IMPORT_INCREASE_ASSET' | translate) }}
+      {{ isUpdate || isUpdateFile ? ('LABEL.EDIT_IMPORT_INCREASE_ASSET' | translate) :
+      ('TITLE.ADD_IMPORT_INCREASE_ASSET' | translate) }}
     </h5>
     <hr />
     <br />
-    <div class="row form-group" *ngIf="!isUpdate && !isUpdateFile"  >
+    <div class="row form-group" *ngIf="!isUpdate && !isUpdateFile">
       <label class="col-md-2 form-label col-form-label" style="padding-left: 75px" for="tinhDi">{{ 'LABEL.METHOD'
         | translate }}</label>
       <div class="col-md-4 d-flex align-items-center">
@@ -19,12 +20,13 @@
     </div>
     <div *ngIf="addType == 'single' && !isUpdateFile">
       <!-- add form -->
-      <form action="#" class="form form-label-right" [formGroup]="addEditForm"  *ngIf="!isUpdate">
+      <form action="#" class="form form-label-right" [formGroup]="addEditForm" *ngIf="!isUpdate">
         <div class="row form-group">
           <div class="col-md-1"></div>
           <div class="col-md-10">
             <div class="row">
-              <label class="col-md-2 form-label col-form-label font-14" for="typeOfAssetCode">{{ 'LABEL.TYPE_OF_ASSET_CODE' |
+              <label class="col-md-2 form-label col-form-label font-14" for="typeOfAssetCode">{{
+                'LABEL.TYPE_OF_ASSET_CODE' |
                 translate }}</label>
               <div class="col-md-3">
                 <select class="form-control font-14" name="typeOfAssetCode" id="typeOfAssetCode"
@@ -189,16 +191,17 @@
       </form>
 
       <!-- edit form -->
-      <form action="#" class="form form-label-right" [formGroup]="addEditForm"  *ngIf="isUpdate">
+      <form action="#" class="form form-label-right" [formGroup]="addEditForm" *ngIf="isUpdate">
 
         <div class="row form-group">
           <div class="col-md-1"></div>
           <div class="col-md-10">
             <div class="row">
-              <label class="col-md-2 form-label col-form-label font-14" for="typeOfAssetCode">{{ 'LABEL.TYPE_OF_ASSET_CODE' |
+              <label class="col-md-2 form-label col-form-label font-14" for="typeOfAssetCode">{{
+                'LABEL.TYPE_OF_ASSET_CODE' |
                 translate }}</label>
-                <div class="col-md-3">
-                  <input type="text" maxlength="50" class="form-control" id="typeOfAssetCode" autocomplete="off"
+              <div class="col-md-3">
+                <input type="text" maxlength="50" class="form-control" id="typeOfAssetCode" autocomplete="off"
                   formControlName="typeOfAssetCode" [attr.disabled]="isUpdate" />
               </div>
 
@@ -216,17 +219,17 @@
               <label class="col-md-2 form-label col-form-label font-14" for="departmentCode">{{
                 'LABEL.ORGANISATION_CODE' |
                 translate }}</label>
-                <div class="col-md-3">
-                  <input type="text" maxlength="50" class="form-control" id="departmentCode" autocomplete="off"
-                    formControlName="departmentCode" [attr.disabled]="isUpdate" />
-                </div>
+              <div class="col-md-3">
+                <input type="text" maxlength="50" class="form-control" id="departmentCode" autocomplete="off"
+                  formControlName="departmentCode" [attr.disabled]="isUpdate" />
+              </div>
               <div class="col-md-2"></div>
               <label class="col-md-2 form-label col-form-label font-14" for="sourceOfAsset">{{ 'LABEL.SOURCE_OF_ASSET' |
                 translate }}</label>
-                <div class="col-md-3">
-                  <input type="text" maxlength="50" class="form-control" id="sourceOfAsset" autocomplete="off"
-                    formControlName="sourceOfAsset" [attr.disabled]="isUpdate" />
-                </div>
+              <div class="col-md-3">
+                <input type="text" maxlength="50" class="form-control" id="sourceOfAsset" autocomplete="off"
+                  formControlName="sourceOfAsset" [attr.disabled]="isUpdate" />
+              </div>
             </div>
 
             <div class="row mt-3">
@@ -236,7 +239,7 @@
               <div class="col-md-3">
                 <mat-form-field appearance="fill">
                   <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
-                    (input)="eInputDate($event)" placeholder="Construction date"> 
+                    (input)="eInputDate($event)" placeholder="Construction date">
                   <mat-hint>DD/MM/YYYY</mat-hint>
                   <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
@@ -249,9 +252,9 @@
                 'LABEL.DEPRECIATION_STARTDATE'
                 | translate }}<span style="color: red">*</span></label>
               <div class="col-md-3">
-                <mat-form-field appearance="fill" >
-                  <input matInput formControlName="depreciationStartDateStr" [disabled]="isUpdate" [matDatepicker]="picker2"
-                    (input)="eInputDate($event)" placeholder="Depreciation date" >
+                <mat-form-field appearance="fill">
+                  <input matInput formControlName="depreciationStartDateStr" [disabled]="isUpdate"
+                    [matDatepicker]="picker2" (input)="eInputDate($event)" placeholder="Depreciation date">
                   <mat-hint>DD/MM/YYYY</mat-hint>
                   <mat-datepicker-toggle matIconSuffix [for]="picker2" class="icon-datePicker"></mat-datepicker-toggle>
                   <mat-datepicker #picker2></mat-datepicker>
@@ -261,13 +264,14 @@
               </div>
             </div>
 
-          <!-- nguyên giá  -->
+            <!-- nguyên giá  -->
             <div class="row mt-3">
               <label class="col-md-2 form-label col-form-label font-14" for="increaseOriginalAmountCur">{{
                 'LABEL.INCREASE_ORIGINAL_AMOUNT_CUR' | translate }}</label>
               <div class="col-md-3">
                 <input type="text" class="form-control" id="increaseOriginalAmountCur" autocomplete="off"
-                [attr.disabled]="isUpdate" formControlName="increaseOriginalAmountCur"  NumbersOnly [allowThousandSeparator]="true" />
+                  [attr.disabled]="isUpdate" formControlName="increaseOriginalAmountCur" NumbersOnly
+                  [allowThousandSeparator]="true" />
               </div>
               <div class="col-md-2"></div>
               <label class="col-md-2 form-label col-form-label font-14" for="increaseOriginalAmount">{{
@@ -275,7 +279,7 @@
               <div class="col-md-3">
                 <input type="text" class="form-control" id="increaseOriginalAmount" autocomplete="off"
                   formControlName="increaseOriginalAmount" maxlength="18" NumbersOnly [allowThousandSeparator]="true" />
-                  <div
+                <div
                   *ngIf="addEditForm.get('increaseOriginalAmount').invalid && (addEditForm.get('increaseOriginalAmount').dirty || addEditForm.get('increaseOriginalAmountCur').touched)">
                   <small class="form-text text-danger"
                     *ngIf="addEditForm.get('increaseOriginalAmount').errors.required">
@@ -296,7 +300,7 @@
                   </small>
                 </div>
               </div>
-          
+
             </div>
 
             <!-- khấu hao -->
@@ -305,7 +309,8 @@
                 'LABEL.INCREASE_AMOUNT_CUR' | translate }}</label>
               <div class="col-md-3">
                 <input type="text" maxlength="18" class="form-control" id="increaseAmountCur" autocomplete="off"
-                [attr.disabled]="isUpdate" formControlName="increaseAmountCur" maxlength="18" NumbersOnly [allowThousandSeparator]="true" />
+                  [attr.disabled]="isUpdate" formControlName="increaseAmountCur" maxlength="18" NumbersOnly
+                  [allowThousandSeparator]="true" />
               </div>
 
               <div class="col-md-2"></div>
@@ -316,28 +321,26 @@
                   formControlName="increaseAmount" maxlength="18" NumbersOnly [allowThousandSeparator]="true" />
               </div>
               <div
-                  *ngIf="addEditForm.get('increaseAmount').invalid && (addEditForm.get('increaseAmount').dirty || addEditForm.get('increaseAmount').touched)">
-                  <small class="form-text text-danger"
-                    *ngIf="addEditForm.get('increaseAmount').errors.required">
-                    {{'VALIDATION.REQUIRED' | translate
-                    : {
-                    name: 'LABEL.INCREASE_AMOUNT_DESIRE' | translate
-                    }
-                    }}
-                  </small>
-                  <small class="form-text text-danger"
-                    *ngIf="addEditForm.get('increaseAmount').errors.maxlength ">
-                    {{'VALIDATION.MAX_LENGTH' | translate
-                    : {
-                    name: 'LABEL.INCREASE_AMOUNT_DESIRE' | translate,
-                    max: 18
-                    }
-                    }}
-                  </small>
-                </div>
+                *ngIf="addEditForm.get('increaseAmount').invalid && (addEditForm.get('increaseAmount').dirty || addEditForm.get('increaseAmount').touched)">
+                <small class="form-text text-danger" *ngIf="addEditForm.get('increaseAmount').errors.required">
+                  {{'VALIDATION.REQUIRED' | translate
+                  : {
+                  name: 'LABEL.INCREASE_AMOUNT_DESIRE' | translate
+                  }
+                  }}
+                </small>
+                <small class="form-text text-danger" *ngIf="addEditForm.get('increaseAmount').errors.maxlength ">
+                  {{'VALIDATION.MAX_LENGTH' | translate
+                  : {
+                  name: 'LABEL.INCREASE_AMOUNT_DESIRE' | translate,
+                  max: 18
+                  }
+                  }}
+                </small>
+              </div>
             </div>
 
-        
+
           </div>
           <div class="col-md-1"></div>
         </div>
@@ -368,11 +371,6 @@
           <button (click)="eDownloadFileSuccess()"
             class="m-4 px-10 my-2 rounded-sm text-success cursor-pointer font-size-h3 font-14">
             {{ 'COMMON_BUTTON.DOWNLOAD' | translate }}
-          </button>
-        </div>
-        <div class="d-flex justify-content-end my-5">
-          <button class="btn btn-outline-dark mx-3 font-14" style="width: 150px" (click)="eCloseAndReRender()">
-            {{ 'ACTION.CLOSE' | translate }}
           </button>
         </div>
       </div>
@@ -490,7 +488,7 @@
                     {{ 'LABEL.INCREASE_ORIGINAL_AMOUNT' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let item" style="text-align: right">
-                    {{item.increaseOriginalAmountStr != null ? (item.increaseOriginalAmountStr | number : '1.0-0')  :
+                    {{item.increaseOriginalAmountStr != null ? (item.increaseOriginalAmountStr | number : '1.0-0') :
                     (item.increaseOriginalAmount | number : '1.0-0')}}
                   </td>
                 </ng-container>
@@ -500,7 +498,8 @@
                     {{ 'LABEL.INCREASE_AMOUNT' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let item" style="text-align: right">
-                    {{item.increaseAmountStr != null ? (item.increaseAmountStr | number : '1.0-0') : (item.increaseAmount | number :
+                    {{item.increaseAmountStr != null ? (item.increaseAmountStr | number : '1.0-0') :
+                    (item.increaseAmount | number :
                     '1.0-0')}}
                   </td>
                 </ng-container>
@@ -529,26 +528,25 @@
             </div>
             <!-- << so ban ghi loi -->
 
-            <div class="d-flex justify-content-end my-5">
-              <button class="btn btn-primary mx-3" style="width: 150px" *ngIf="!magicButtonUpdate"
-                (click)="eUpdateFromFile()">
-                {{ 'ACTION.UPLOAD' | translate }}
-              </button>
-              <button class="btn btn-danger mx-3" style="width: 150px" *ngIf="magicButtonUpdate"
-                (click)="eCofirmUpdateByFile()">
-                {{ 'ACTION.UPDATE' | translate }}
-              </button>
-              <button class="btn btn-outline-dark mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
-                {{ 'ACTION.CLOSE' | translate }}
-              </button>
-            </div>
+
           </form>
+        </div>
+        <div class="d-flex justify-content-end my-5">
+          <button class="btn btn-primary mx-3" style="width: 150px" *ngIf="!magicButtonUpdate  && !isHasSuccessFile"
+            (click)="eUpdateFromFile()">
+            {{ 'ACTION.UPLOAD' | translate }}
+          </button>
+          <button class="btn btn-danger mx-3" style="width: 150px" *ngIf="magicButtonUpdate && !isHasSuccessFile"
+            (click)="eCofirmUpdateByFile()">
+            {{ 'ACTION.UPDATE' | translate }}
+          </button>
+          <button class="btn btn-outline-dark mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
+            {{ 'ACTION.CLOSE' | translate }}
+          </button>
         </div>
         <div class="pb-1"></div>
       </div>
-
     </div>
-
     <!-- file update -->
     <div *ngIf="addType == 'file' && isUpdateFile">
       <div class="p-4 m-10 border border-success rounded-card" *ngIf="isHasSuccessFile">
@@ -564,11 +562,6 @@
           <button (click)="eDownloadFileSuccess()"
             class="m-4 px-10 my-2 rounded-sm text-success cursor-pointer font-size-h3 font-14">
             {{ 'COMMON_BUTTON.DOWNLOAD' | translate }}
-          </button>
-        </div>
-        <div class="d-flex justify-content-end my-5">
-          <button class="btn btn-outline-dark mx-3 font-14" style="width: 150px" (click)="eCloseAndReRender()">
-            {{ 'ACTION.CLOSE' | translate }}
           </button>
         </div>
       </div>
@@ -660,7 +653,8 @@
                     {{ 'LABEL.INCREASE_ORIGINAL_AMOUNT_CUR' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let item" style="text-align: right">
-                    {{item.increaseOriginalAmountCurStr != null ? (item.increaseOriginalAmountCurStr| number : '1.0-0') :
+                    {{item.increaseOriginalAmountCurStr != null ? (item.increaseOriginalAmountCurStr| number : '1.0-0')
+                    :
                     (item.increaseOriginalAmountCur | number : '1.0-0')}}
                   </td>
                 </ng-container>
@@ -680,17 +674,19 @@
                     {{ 'LABEL.INCREASE_AMOUNT_CUR' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let item" style="text-align: right">
-                    {{item.increaseAmountCurStr != null ? (item.increaseAmountCurStr | number : '1.0-0') : (item.increaseAmountCur | number :
+                    {{item.increaseAmountCurStr != null ? (item.increaseAmountCurStr | number : '1.0-0') :
+                    (item.increaseAmountCur | number :
                     '1.0-0')}}
                   </td>
                 </ng-container>
-                 <!-- khấu hao mong muốn-->
-                 <ng-container matColumnDef="increaseAmountStr">
+                <!-- khấu hao mong muốn-->
+                <ng-container matColumnDef="increaseAmountStr">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'LABEL.INCREASE_AMOUNT_DESIRE' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let item" style="text-align: right">
-                    {{item.increaseAmountStr != null ? (item.increaseAmountStr | number : '1.0-0') : (item.increaseAmount | number :
+                    {{item.increaseAmountStr != null ? (item.increaseAmountStr | number : '1.0-0') :
+                    (item.increaseAmount | number :
                     '1.0-0')}}
                   </td>
                 </ng-container>
@@ -710,21 +706,20 @@
                 aria-label="Select page of results"></mat-paginator>
             </div>
             <!-- << so ban ghi loi -->
-
-            <div class="d-flex justify-content-end my-5">
-              <button class="btn btn-primary mx-3" style="width: 150px" *ngIf="!magicButtonUpdate"
-                (click)="eUpdateFromFile()">
-                {{ 'ACTION.UPLOAD' | translate }}
-              </button>
-              <button class="btn btn-danger mx-3" style="width: 150px" *ngIf="magicButtonUpdate"
-                (click)="eCofirmUpdateByFile()">
-                {{ 'ACTION.UPDATE' | translate }}
-              </button>
-              <button class="btn btn-outline-dark mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
-                {{ 'ACTION.CLOSE' | translate }}
-              </button>
-            </div>
           </form>
+        </div>
+        <div class="d-flex justify-content-end my-5">
+          <button class="btn btn-primary mx-3" style="width: 150px" *ngIf="!magicButtonUpdate  && !isHasSuccessFile"
+            (click)="eUpdateFromFile()">
+            {{ 'ACTION.UPLOAD' | translate }}
+          </button>
+          <button class="btn btn-danger mx-3" style="width: 150px" *ngIf="magicButtonUpdate && !isHasSuccessFile"
+            (click)="eCofirmUpdateByFile()">
+            {{ 'ACTION.UPDATE' | translate }}
+          </button>
+          <button class="btn btn-outline-dark mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
+            {{ 'ACTION.CLOSE' | translate }}
+          </button>
         </div>
         <div class="pb-1"></div>
       </div>

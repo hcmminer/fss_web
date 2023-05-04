@@ -16,12 +16,12 @@
             {{ 'TITLE.TRANSFER_ASSET' | translate | lowercase }}
           </div>
           <div class="row form-group">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
+            <div class="col-lg-1 col-sm-1"></div>
+            <div class="col-lg-10 col-sm-10">
               <div class="row">
-                <label class="col-md-2 form-label col-form-label font-14" for="lastUpdateDatetime">{{
+                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="lastUpdateDatetime">{{
                   'LABEL.CONSTRUCTION_DATE' | translate }} <span style="color: red">*</span></label>
-                <div class="col-md-3">
+                <div class="col-lg-4 col-sm-12">
                   <mat-form-field appearance="fill">
                     <mat-date-range-input [rangePicker]="picker">
                       <input matStartDate formControlName="start" (input)="eInputDate($event, 'start')"
@@ -35,11 +35,10 @@
                     <div style="color: red" *ngIf="startDateErrorMsg != ''">{{ startDateErrorMsg | translate }}</div>
                   </mat-form-field>
                 </div>
-                <div class="col-md-2"></div>
-                <label class="col-md-2 form-label col-form-label font-14" for="assetCode">{{ 'LABEL.TYPE_OF_ASSET_CODE'
+                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="assetCode">{{ 'LABEL.TYPE_OF_ASSET_CODE'
                   |
                   translate }}</label>
-                <div class="col-md-3">
+                <div class="col-lg-4 col-sm-12">
                   <select class="form-control font-14" name="typeOfAssetCode" id="typeOfAssetCode"
                     [(ngModel)]="query.typeOfAssetCode" formControlName="typeOfAssetCode">
                     <ng-container *ngFor="let item of openingBalanceService.cbxTypeOfAsset | async">
@@ -49,13 +48,12 @@
                     </ng-container>
                   </select>
                 </div>
-
               </div>
               <div class="row">
-                <label class="col-md-2 form-label col-form-label font-14" for="sourceOfAsset">{{ 'LABEL.SOURCE_OF_ASSET'
+                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="sourceOfAsset">{{ 'LABEL.SOURCE_OF_ASSET'
                   |
                   translate }}</label>
-                <div class="col-md-3">
+                <div class="col-lg-4 col-sm-12">
                   <select class="form-control font-14" name="sourceOfAsset" id="sourceOfAsset"
                     formControlName="sourceOfAsset" [(ngModel)]="query.sourceOfAsset">
                     <ng-container *ngFor="let item of openingBalanceService.cbxSourceOfAsset | async">

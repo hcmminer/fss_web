@@ -282,12 +282,6 @@
                         {{ 'COMMON_BUTTON.DOWNLOAD' | translate }}
                     </button>
                 </div>
-                <div class="d-flex justify-content-end my-5">
-                    <button class="btn btn-outline-dark mx-3 font-14" style="width: 150px"
-                        (click)="eCloseAndReRender()">
-                        {{ 'ACTION.CLOSE' | translate }}
-                    </button>
-                </div>
             </div>
 
             <div class="position-relative">
@@ -430,22 +424,20 @@
                                 aria-label="Select page of results"></mat-paginator>
                         </div>
                         <!-- << so ban ghi loi -->
-
-                        <div class="d-flex justify-content-end my-5">
-                            <button class="btn btn-primary mx-3" style="width: 150px" *ngIf="!magicButtonUpdate"
-                                (click)="eUpdateFromFile()">
-                                {{ 'ACTION.UPLOAD' | translate }}
-                            </button>
-                            <button class="btn btn-danger mx-3" style="width: 150px" *ngIf="magicButtonUpdate"
-                                (click)="eCofirmUpdateByFile()">
-                                {{ 'ACTION.UPDATE' | translate }}
-                            </button>
-                            <button class="btn btn-outline-dark mx-3" style="width: 150px"
-                                (click)="eCloseWithoutEdit()">
-                                {{ 'ACTION.CLOSE' | translate }}
-                            </button>
-                        </div>
                     </form>
+                </div>
+                <div class="d-flex justify-content-end my-5">
+                    <button class="btn btn-primary mx-3" style="width: 150px" *ngIf="!magicButtonUpdate  && !isHasSuccessFile"
+                        (click)="eUpdateFromFile()">
+                        {{ 'ACTION.UPLOAD' | translate }}
+                    </button>
+                    <button class="btn btn-danger mx-3" style="width: 150px" *ngIf="magicButtonUpdate && !isHasSuccessFile"
+                        (click)="eCofirmUpdateByFile()">
+                        {{ 'ACTION.UPDATE' | translate }}
+                    </button>
+                    <button class="btn btn-outline-dark mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
+                        {{ 'ACTION.CLOSE' | translate }}
+                    </button>
                 </div>
                 <div class="pb-1"></div>
             </div>
@@ -466,12 +458,6 @@
                     <button (click)="eDownloadFileSuccess()"
                         class="m-4 px-10 my-2 rounded-sm text-success cursor-pointer font-size-h3 font-14">
                         {{ 'COMMON_BUTTON.DOWNLOAD' | translate }}
-                    </button>
-                </div>
-                <div class="d-flex justify-content-end my-5">
-                    <button class="btn btn-outline-dark mx-3 font-14" style="width: 150px"
-                        (click)="eCloseAndReRender()">
-                        {{ 'ACTION.CLOSE' | translate }}
                     </button>
                 </div>
             </div>
@@ -618,22 +604,20 @@
                                 aria-label="Select page of results"></mat-paginator>
                         </div>
                         <!-- << so ban ghi loi -->
-
-                        <div class="d-flex justify-content-end my-5">
-                            <button class="btn btn-primary mx-3" style="width: 150px" *ngIf="!magicButtonUpdate"
-                                (click)="eUpdateFromFile()">
-                                {{ 'ACTION.UPLOAD' | translate }}
-                            </button>
-                            <button class="btn btn-danger mx-3" style="width: 150px" *ngIf="magicButtonUpdate"
-                                (click)="eCofirmUpdateByFile()">
-                                {{ 'ACTION.UPDATE' | translate }}
-                            </button>
-                            <button class="btn btn-outline-dark mx-3" style="width: 150px"
-                                (click)="eCloseWithoutEdit()">
-                                {{ 'ACTION.CLOSE' | translate }}
-                            </button>
-                        </div>
                     </form>
+                </div>
+                <div class="d-flex justify-content-end my-5">
+                    <button class="btn btn-primary mx-3" style="width: 150px" *ngIf="!magicButtonUpdate  && !isHasSuccessFile"
+                        (click)="eUpdateFromFile()">
+                        {{ 'ACTION.UPLOAD' | translate }}
+                    </button>
+                    <button class="btn btn-danger mx-3" style="width: 150px" *ngIf="magicButtonUpdate && !isHasSuccessFile"
+                        (click)="eCofirmUpdateByFile()">
+                        {{ 'ACTION.UPDATE' | translate }}
+                    </button>
+                    <button class="btn btn-outline-dark mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
+                        {{ 'ACTION.CLOSE' | translate }}
+                    </button>
                 </div>
                 <div class="pb-1"></div>
             </div>

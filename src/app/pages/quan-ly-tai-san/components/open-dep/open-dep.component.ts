@@ -19,18 +19,45 @@ import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-di
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
 import { AeOpenDepComponent } from './ae-open-dep/ae-open-dep.component';
 import { AeByFileOpenDepComponent } from './ae-by-file-open-dep/ae-by-file-open-dep.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 const queryInit = {
   groupFilter: '',
   organisation: '',
-  typeOfAsset: '',
+  typeOfAssetCode: '',
   sourceOfAsset: '',
+  startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+  // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
+  endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
+  // iValidEndDate: new NgbDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
+};
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
 };
 
 @Component({
   selector: 'app-open-dep',
   templateUrl: './open-dep.component.html',
   styleUrls: ['./open-dep.component.scss'],
+  providers: [
+    {
+      provide: DateAdapter, 
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class OpenDepComponent implements OnInit {
   // >> search advance
@@ -55,6 +82,7 @@ export class OpenDepComponent implements OnInit {
 
   startDateErrorMsg = '';
   endDateErrorMsg = '';
+  searchForm: FormGroup;
   userRes: any;
   userName: string;
   query = {
@@ -86,7 +114,9 @@ export class OpenDepComponent implements OnInit {
     private activeModal: NgbActiveModal,
     public openingBalanceService: openingBalanceService,
     @Inject(Injector) private readonly injector: Injector,
-  ) {}
+  ) {
+    this.loadSearchForm();
+  }
 
   ngOnInit(): void {
     this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
@@ -101,6 +131,18 @@ export class OpenDepComponent implements OnInit {
     this.openingBalanceService.getListOrganisation(reqTar, 'get-list-organisation', true);
     this.openingBalanceService.getCbxTypeOfAsset(reqTar, 'getCbxTypeOfAsset', true);
     this.openingBalanceService.getSourceOfAsset(reqTar, 'get-source-of-asset', true);
+  }
+
+  
+  loadSearchForm() {
+    this.searchForm = this.fb.group({
+      groupFilter: [this.query.groupFilter],
+      organisation: [this.query.organisation],
+      typeOfAssetCode: [this.query.typeOfAssetCode],
+      sourceOfAsset: [this.query.sourceOfAsset],
+      start: [this.query.startDate],
+      end: [this.query.endDate],
+    });
   }
 
   onOrganisationChange() {
@@ -131,10 +173,12 @@ export class OpenDepComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       searchDTO: {
-        departmentCode: this.query.organisation,
-        typeOfAssetCode: this.query.typeOfAsset,
-        sourceOfAsset: this.query.sourceOfAsset,
         groupFilter: this.query.groupFilter,
+        departmentCode: this.searchForm.get('organisation').value,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+        typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
+        sourceOfAsset: this.searchForm.get('sourceOfAsset').value,
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModel, 'search-open-dep');
@@ -195,10 +239,12 @@ export class OpenDepComponent implements OnInit {
       // typeOfAssetCode: this.query.typeOfAsset,
       // groupFilter: this.query.groupFilter,
       modalRef.componentInstance.searchDTO = {
-        departmentCode: this.query.organisation,
-        typeOfAssetCode: this.query.typeOfAsset,
-        sourceOfAsset: this.query.sourceOfAsset,
         groupFilter: this.query.groupFilter,
+        departmentCode: this.searchForm.get('organisation').value,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+        typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
+        sourceOfAsset: this.searchForm.get('sourceOfAsset').value,
       };
     }
     modalRef.result.then(() => {
@@ -257,6 +303,15 @@ export class OpenDepComponent implements OnInit {
     return value;
   }
 
+  eInputDate(event: any, typeDate: string) {
+    let value = event.target.value;
+    if (typeof value == 'string' && value == '' && typeDate === 'start') {
+      this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
+    }
+    if (value != '' && typeDate === 'start') {
+      this.startDateErrorMsg = '';
+    }
+  }
   public get toastService() {
     return this.injector.get(ToastrService);
   }
