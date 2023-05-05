@@ -321,6 +321,7 @@ export const locale = {
       //Phát sinh giảm
       DECREASE: 'Phát sinh giảm',
       REPORT: 'Báo cáo tổng hợp',
+      REPORT_ASSET: 'Báo cáo tài sản',
       ADD_DECREASE: 'Thêm mới phát sinh giảm',
       UPDATE_DECREASE: 'Cập nhật phát sinh giảm',
 

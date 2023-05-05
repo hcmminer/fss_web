@@ -25,7 +25,7 @@ const queryInit = {
   assetCode: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
-  endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() -1),
+  endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1),
   // iValidEndDate: new NgbDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
 };
 
@@ -128,32 +128,32 @@ export class ReportAssetComponent implements OnInit {
 
   }
 
-  eChangeDate(){
+  eChangeDate() {
     let tempStartDetailDate = this.transform(this.searchForm.get('startDetail').value)
     let tempEndDetailDate = this.transform(this.searchForm.get('endDetail').value)
     let tempEndDate = this.transform(this.searchForm.get('end').value)
 
-    
-    if(tempStartDetailDate == '' || tempStartDetailDate == null || tempStartDetailDate == undefined){
+
+    if (tempStartDetailDate == '' || tempStartDetailDate == null || tempStartDetailDate == undefined) {
       this.startDetailDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
-    }else {
+    } else {
       this.startDetailDateErrorMsg = ''
     }
 
-    if(tempEndDetailDate == '' || tempEndDetailDate == null || tempEndDetailDate == undefined){
+    if (tempEndDetailDate == '' || tempEndDetailDate == null || tempEndDetailDate == undefined) {
       this.endDetailDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.TO_DATE') });
-    }else {
+    } else {
       this.endDetailDateErrorMsg = ''
     }
 
-    if(tempEndDate == '' || tempEndDate == null || tempEndDate == undefined){
+    if (tempEndDate == '' || tempEndDate == null || tempEndDate == undefined) {
       this.endDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.TO_DATE') });
-    }else {
+    } else {
       this.endDateErrorMsg = ''
     }
   }
 
-  
+
 
   // init data for view form search
   loadSearchForm() {
@@ -163,7 +163,7 @@ export class ReportAssetComponent implements OnInit {
       assetCode: [this.query.assetCode],
       startDetail: [this.query.startDate],
       end: [this.query.endDate],
-      endDetail:[this.query.endDate],
+      endDetail: [this.query.endDate],
       reportType: 1
     });
   }
@@ -202,7 +202,7 @@ export class ReportAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         // groupFilter: this.query.groupFilter,
-        assetCode:  this.searchForm.get('assetCode').value,
+        assetCode: this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('startDetail').value),
         toDateStr: this.searchForm.get('reportType').value == 2 ? this.transform(this.searchForm.get('endDetail').value) : this.transform(this.searchForm.get('end').value),
@@ -229,9 +229,9 @@ export class ReportAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         // groupFilter: this.query.groupFilter,
-        assetCode:  this.searchForm.get('assetCode').value,
+        assetCode: this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
-        fromDateStr: this.transform(this.searchForm.get('start').value),
+        fromDateStr: this.transform(this.searchForm.get('startDetail').value),
         toDateStr: this.searchForm.get('reportType').value == 2 ? this.transform(this.searchForm.get('endDetail').value) : this.transform(this.searchForm.get('end').value),
         reportType: this.searchForm.get('reportType').value,
       },
