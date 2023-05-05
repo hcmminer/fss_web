@@ -25,9 +25,9 @@
                                     <mat-form-field appearance="fill">
                                         <mat-date-range-input [rangePicker]="picker">
                                             <input matStartDate formControlName="start"
-                                                (input)="eInputDate($event, 'start')" placeholder="Start date" />
-                                            <input matEndDate formControlName="end" (input)="eInputDate($event, 'end')"
-                                                placeholder="End date" />
+                                                (input)="eChangeDate()" [placeholder]="'DATE.FROM_DATE' | translate" (dateChange)="eChangeDate()"/>
+                                            <input matEndDate formControlName="end"
+                                            [placeholder]="'DATE.TO_DATE' | translate" />
                                         </mat-date-range-input>
                                         <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
                                         <mat-date-range-picker #picker></mat-date-range-picker>
@@ -58,17 +58,7 @@
                                 <div class="col-lg-4 col-sm-12">
                                     <input type="text" matInput class="form-control field-autocomplete"
                                         formControlName="assetCode" style="border: 1px solid #bdbdbd;"
-                                        [matAutocomplete]="autoAssetCode" (keyup)="filterByAssetCode()"
-                                        (click)="triggerAssetCode.openPanel()"
-                                        #triggerAssetCode="matAutocompleteTrigger">
-                                    <mat-autocomplete #autoAssetCode="matAutocomplete"
-                                        [displayWith]="displayFnAssetCode">
-                                        <mat-option
-                                            *ngFor="let item of openingBalanceService.cbxAssetCodeReportBC | async"
-                                            [value]="item">
-                                            {{ item.assetCode }}
-                                        </mat-option>
-                                    </mat-autocomplete>
+                                      >
                                 </div>
                             </div>
                         </div>

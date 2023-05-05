@@ -92,7 +92,7 @@ export class OpenDepComponent implements OnInit {
     'index',
     'assetCode',
     'departmentCode',
-    'typeOfAssetCode',
+    // 'typeOfAssetCode',
     'typeOfAssetName',
     'depreciationFrame',
     'sourceOfAssetName',
@@ -303,15 +303,16 @@ export class OpenDepComponent implements OnInit {
     return value;
   }
 
-  eInputDate(event: any, typeDate: string) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '' && typeDate === 'start') {
+  eChangeDate(){
+    let tempStartDate = this.transform(this.searchForm.get('start').value)
+    
+    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
       this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
-    }
-    if (value != '' && typeDate === 'start') {
-      this.startDateErrorMsg = '';
+    }else {
+      this.startDateErrorMsg = ''
     }
   }
+  
   public get toastService() {
     return this.injector.get(ToastrService);
   }

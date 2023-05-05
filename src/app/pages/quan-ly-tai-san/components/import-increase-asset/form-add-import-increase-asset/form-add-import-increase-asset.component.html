@@ -26,14 +26,14 @@
           <div class="col-md-10">
             <div class="row">
               <label class="col-md-2 form-label col-form-label font-14" for="typeOfAssetCode">{{
-                'LABEL.TYPE_OF_ASSET_CODE' |
+                'LABEL.TYPE_OF_ASSET' |
                 translate }}</label>
               <div class="col-md-3">
                 <select class="form-control font-14" name="typeOfAssetCode" id="typeOfAssetCode"
                   formControlName="typeOfAssetCode">
                   <ng-container *ngFor="let item of openingBalanceService.cbxTypeOfAsset | async">
-                    <option [value]="item.code">
-                      {{item.name}}
+                    <option [value]="item.name">
+                      {{ item.name == ''? ('DEFAULT_OPTION.SELECT' | translate) : item.name }}
                     </option>
                   </ng-container>
                 </select>
@@ -96,7 +96,7 @@
               <div class="col-md-3">
                 <mat-form-field appearance="fill">
                   <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
-                    (input)="eInputDate($event)" placeholder="Construction date">
+                  (dateChange)="eChangeDate()" (input)="eChangeDate()"  [placeholder]="'DATE.CONSTRUCTION' | translate">
                   <mat-hint>DD/MM/YYYY</mat-hint>
                   <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
@@ -111,7 +111,7 @@
               <div class="col-md-3">
                 <mat-form-field appearance="fill">
                   <input matInput formControlName="depreciationStartDateStr" [matDatepicker]="picker2"
-                    (input)="eInputDate($event)" placeholder="Depreciation date">
+                    (input)="eChangeDate()" (dateChange)="eChangeDate()" [placeholder]="'DATE.DEPRECIATION_DATE' | translate">
                   <mat-hint>DD/MM/YYYY</mat-hint>
                   <mat-datepicker-toggle matIconSuffix [for]="picker2" class="icon-datePicker"></mat-datepicker-toggle>
                   <mat-datepicker #picker2></mat-datepicker>
@@ -197,69 +197,25 @@
           <div class="col-md-1"></div>
           <div class="col-md-10">
             <div class="row">
-              <label class="col-md-2 form-label col-form-label font-14" for="typeOfAssetCode">{{
-                'LABEL.TYPE_OF_ASSET_CODE' |
-                translate }}</label>
-              <div class="col-md-3">
-                <input type="text" maxlength="50" class="form-control" id="typeOfAssetCode" autocomplete="off"
-                  formControlName="typeOfAssetCode" [attr.disabled]="isUpdate" />
-              </div>
-
-              <div class="col-md-2"></div>
               <label class="col-md-2 form-label col-form-label font-14" for="assetCode">{{
                 'LABEL.ASSETCODE' | translate }}</label>
               <div class="col-md-3">
                 <input type="text" maxlength="50" class="form-control" id="assetCode" autocomplete="off"
                   formControlName="assetCode" [attr.disabled]="isUpdate" />
               </div>
-            </div>
-
-
-            <div class="row mt-3">
-              <label class="col-md-2 form-label col-form-label font-14" for="departmentCode">{{
-                'LABEL.ORGANISATION_CODE' |
-                translate }}</label>
-              <div class="col-md-3">
-                <input type="text" maxlength="50" class="form-control" id="departmentCode" autocomplete="off"
-                  formControlName="departmentCode" [attr.disabled]="isUpdate" />
-              </div>
               <div class="col-md-2"></div>
-              <label class="col-md-2 form-label col-form-label font-14" for="sourceOfAsset">{{ 'LABEL.SOURCE_OF_ASSET' |
-                translate }}</label>
-              <div class="col-md-3">
-                <input type="text" maxlength="50" class="form-control" id="sourceOfAsset" autocomplete="off"
-                  formControlName="sourceOfAsset" [attr.disabled]="isUpdate" />
-              </div>
-            </div>
-
-            <div class="row mt-3">
               <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr">{{
                 'LABEL.CONSTRUCTION_DATE'
                 | translate }}<span style="color: red">*</span></label>
               <div class="col-md-3">
                 <mat-form-field appearance="fill">
                   <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
-                    (input)="eInputDate($event)" placeholder="Construction date">
+                  (dateChange)="eChangeDate()"  (input)="eChangeDate()"  [placeholder]="'DATE.CONSTRUCTION' | translate">
                   <mat-hint>DD/MM/YYYY</mat-hint>
                   <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                   <div style="color: red" *ngIf="constructionDateErrorMsg != ''">{{
                     constructionDateErrorMsg | translate }}</div>
-                </mat-form-field>
-              </div>
-              <div class="col-md-2"></div>
-              <label class="col-md-2 form-label col-form-label font-14" for="depreciationStartDateStr">{{
-                'LABEL.DEPRECIATION_STARTDATE'
-                | translate }}<span style="color: red">*</span></label>
-              <div class="col-md-3">
-                <mat-form-field appearance="fill">
-                  <input matInput formControlName="depreciationStartDateStr" [disabled]="isUpdate"
-                    [matDatepicker]="picker2" (input)="eInputDate($event)" placeholder="Depreciation date">
-                  <mat-hint>DD/MM/YYYY</mat-hint>
-                  <mat-datepicker-toggle matIconSuffix [for]="picker2" class="icon-datePicker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker2></mat-datepicker>
-                  <div style="color: red" *ngIf="depreciationStartDateErrorMsg != ''">{{
-                    depreciationStartDateErrorMsg | translate }}</div>
                 </mat-form-field>
               </div>
             </div>

@@ -175,18 +175,23 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
 
 
   //check input date
-  eInputDate(event: any) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '') {
-      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
+  eChangeDate(){
+    let tempdepreciationStartDate = this.transform(this.addEditForm.get('depreciationStartDateStr').value)
+    let tempconstructionDate= this.transform(this.addEditForm.get('constructionDateStr').value)
+
+    
+    if(tempdepreciationStartDate == '' || tempdepreciationStartDate == null || tempdepreciationStartDate == undefined){
       this.depreciationStartDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.DEPRECIATION_STARTDATE') });
+    }else {
+      this.depreciationStartDateErrorMsg = ''
     }
-    if (value != '') {
-      this.constructionDateErrorMsg = '';
-      this.depreciationStartDateErrorMsg = '';
+
+    if(tempconstructionDate == '' || tempconstructionDate == null || tempconstructionDate == undefined){
+      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
+    }else {
+      this.constructionDateErrorMsg = ''
     }
   }
-
 
   handleClose() {
     this.closeContent.emit(true);
@@ -215,7 +220,7 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
       }
     });
 
-    if (this.constructionDateErrorMsg !== '' && this.depreciationStartDateErrorMsg !== '') {
+    if (this.constructionDateErrorMsg !== '' || this.depreciationStartDateErrorMsg !== '') {
       isValid = false;
     }
     return isValid;

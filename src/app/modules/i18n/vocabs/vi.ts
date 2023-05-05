@@ -684,6 +684,8 @@ export const locale = {
     DATE: {
       FROM_DATE: 'Từ ngày',
       TO_DATE: 'Đến ngày',
+      CONSTRUCTION: 'Ngày nhập liệu',
+      DEPRECIATION_DATE: 'Ngày bắt đầu khấu hao'
     },
     ACTION: {
       TITLE: 'Thao tác',

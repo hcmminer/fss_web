@@ -25,7 +25,7 @@ const queryInit = {
   assetCode: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
-  endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
+  endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() -1),
   // iValidEndDate: new NgbDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
 };
 
@@ -116,7 +116,6 @@ export class ReportAssetComponent implements OnInit {
   initCombobox() {
     let reqGetListStatus = { userName: this.userName };
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
-    this.openingBalanceService.getAssetCodeReportAsset(reqGetListStatus, 'search-report-dep', true);
   }
 
   ngOnInit(): void {
@@ -129,21 +128,32 @@ export class ReportAssetComponent implements OnInit {
 
   }
 
-  eInputDate(event: any, typeDate: string) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '' && typeDate === 'startDetail') {
+  eChangeDate(){
+    let tempStartDetailDate = this.transform(this.searchForm.get('startDetail').value)
+    let tempEndDetailDate = this.transform(this.searchForm.get('endDetail').value)
+    let tempEndDate = this.transform(this.searchForm.get('end').value)
+
+    
+    if(tempStartDetailDate == '' || tempStartDetailDate == null || tempStartDetailDate == undefined){
       this.startDetailDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
+    }else {
+      this.startDetailDateErrorMsg = ''
     }
-    if (typeof value == 'string' && value == '' && (typeDate === 'end' || typeDate == 'endDetail')) {
+
+    if(tempEndDetailDate == '' || tempEndDetailDate == null || tempEndDetailDate == undefined){
+      this.endDetailDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.TO_DATE') });
+    }else {
+      this.endDetailDateErrorMsg = ''
+    }
+
+    if(tempEndDate == '' || tempEndDate == null || tempEndDate == undefined){
       this.endDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.TO_DATE') });
-    }
-    if (value != '' && typeDate === 'start') {
-      this.startDetailDateErrorMsg = '';
-    }
-    if (value != '' && (typeDate === 'end' || typeDate == 'endDetail')) {
-      this.endDateErrorMsg = '';
+    }else {
+      this.endDateErrorMsg = ''
     }
   }
+
+  
 
   // init data for view form search
   loadSearchForm() {
@@ -164,28 +174,6 @@ export class ReportAssetComponent implements OnInit {
     return value;
   }
 
-  displayFnAssetCode(item: any): string {
-    return item ? item.assetCode : undefined;
-  }
-  //filter
-  filterByAssetCode() {
-    this.searchForm.get('assetCode').valueChanges.pipe(debounceTime(200)).subscribe(str => {
-      let tempAsssetCode = []
-      if (typeof str == 'string' && str.trim() == '') {
-        let reqGetListStatus = { userName: this.userName };
-        this.openingBalanceService.getAssetCodeReportAsset(reqGetListStatus, 'search-report-dep', true);
-      }
-      if (typeof str == 'string' && str.trim() != '') {
-        tempAsssetCode = this.openingBalanceService.cbxAssetCodeReportAsset.value.filter(item => {
-          const regex = new RegExp(str, 'gi'); // 'gi' để bỏ qua phân biệt chữ hoa/thường
-          return regex.test(item.assetCode);
-        })
-        this.openingBalanceService.cbxAssetCodeReportAsset.next(tempAsssetCode)
-      }
-    });
-
-  }
-  
   //change type report
 
   eSearch() {
@@ -214,7 +202,7 @@ export class ReportAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         // groupFilter: this.query.groupFilter,
-        assetCode: !this.searchForm.get('assetCode').value.assetCode ? this.searchForm.get('assetCode').value : this.searchForm.get('assetCode').value.assetCode,
+        assetCode:  this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('startDetail').value),
         toDateStr: this.searchForm.get('reportType').value == 2 ? this.transform(this.searchForm.get('endDetail').value) : this.transform(this.searchForm.get('end').value),
@@ -241,7 +229,7 @@ export class ReportAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         // groupFilter: this.query.groupFilter,
-        assetCode: !this.searchForm.get('assetCode').value.assetCode ? this.searchForm.get('assetCode').value : this.searchForm.get('assetCode').value.assetCode,
+        assetCode:  this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
         toDateStr: this.searchForm.get('reportType').value == 2 ? this.transform(this.searchForm.get('endDetail').value) : this.transform(this.searchForm.get('end').value),

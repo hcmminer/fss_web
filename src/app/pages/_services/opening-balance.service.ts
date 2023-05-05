@@ -18,11 +18,10 @@ import { catchError, finalize, map } from "rxjs/operators";
 export class openingBalanceService {
   subscriptions: Subscription[] = [];
   cbxOrganisation = new BehaviorSubject<any[]>([]);
-  cbxTypeOfAsset =  new BehaviorSubject<any[]>([]);
-  cbxSourceOfAsset= new BehaviorSubject<any[]>([]);
+  cbxTypeOfAsset = new BehaviorSubject<any[]>([]);
+  cbxSourceOfAsset = new BehaviorSubject<any[]>([]);
   cbxAssetCodeIncrease = new BehaviorSubject<any[]>([]);
   cbxAssetCodeReportBC = new BehaviorSubject<any[]>([]);
-  cbxAssetCodeReportAsset = new BehaviorSubject<any[]>([]);
 
   //só dư đầu kỳ
   getErrOpeningBalanceFile = new BehaviorSubject<any>({});//v
@@ -53,18 +52,18 @@ export class openingBalanceService {
   listTransferAsset = new BehaviorSubject<any[]>([]);
   errTransferAssetList = new BehaviorSubject<any[]>([]);
 
-  
+
   //liquidate-asset
   getErrLiquidateAssetFile = new BehaviorSubject<any>({});//v
   getSuccessLiquidateAssetFile = new BehaviorSubject<any>({});
   listLiquidateAsset = new BehaviorSubject<any[]>([]);
   errLiquidateAssetList = new BehaviorSubject<any[]>([]);
 
-   //ImportIncrease-asset
-   getErrImportIncreaseAssetFile = new BehaviorSubject<any>({});//v
-   getSuccessImportIncreaseAssetFile = new BehaviorSubject<any>({});
-   listImportIncreaseAsset = new BehaviorSubject<any[]>([]);
-   errImportIncreaseAssetList = new BehaviorSubject<any[]>([]);
+  //ImportIncrease-asset
+  getErrImportIncreaseAssetFile = new BehaviorSubject<any>({});//v
+  getSuccessImportIncreaseAssetFile = new BehaviorSubject<any>({});
+  listImportIncreaseAsset = new BehaviorSubject<any[]>([]);
+  errImportIncreaseAssetList = new BehaviorSubject<any[]>([]);
 
 
 
@@ -125,7 +124,7 @@ export class openingBalanceService {
       .globalApi(query, redirectFunction)
       .pipe(
         map((response) => {
-          if (response.errorCode != '0') {  
+          if (response.errorCode != '0') {
             this.cbxTypeOfAsset.next([]);
             throw new Error(response.description);
           }
@@ -136,8 +135,7 @@ export class openingBalanceService {
           }
           if (allowDefault)
             this.cbxTypeOfAsset.value.unshift({
-              code: '',
-              name: this.translateService.instant('DEFAULT_OPTION.SELECT'),
+              name: '',
             });
         }),
         catchError((err) => {
@@ -151,7 +149,7 @@ export class openingBalanceService {
   }
 
 
-  getCbxAssetCodeIncrease(query: RequestApiModelOld, redirectFunction, allowDefault: boolean) {
+  getCbxAssetCodeIncrease(query: RequestApiModelOld, redirectFunction, str?: any) {
     const request = this.globalService
       .globalApi(query, redirectFunction)
       .pipe(
@@ -161,9 +159,18 @@ export class openingBalanceService {
             throw new Error(response.description);
           }
           if (typeof response.data !== 'undefined' && response.data !== null) {
-            this.cbxAssetCodeIncrease.next(response.data.filter(item => {
+            let tempData = []
+            tempData = response.data.filter(item => {
               return item.isUpdate == 1
-            }));
+            })
+            if (str && str != '') {
+              tempData = tempData.filter(item => {
+                const regex = new RegExp(str, 'gi'); // 'gi' để bỏ qua phân biệt chữ hoa/thường
+                return regex.test(item.assetCode);
+              })
+            }
+
+            this.cbxAssetCodeIncrease.next(tempData);
           } else {
             this.cbxAssetCodeIncrease.next([]);
           }
@@ -178,7 +185,7 @@ export class openingBalanceService {
     this.subscriptions.push(request);
   }
 
-  getListAssetCodeDecrease(query: RequestApiModelOld, redirectFunction, allowDefault: boolean) {
+  getListAssetCodeDecrease(query: RequestApiModelOld, redirectFunction, str?: any) {
     const request = this.globalService
       .globalApi(query, redirectFunction)
       .pipe(
@@ -188,14 +195,18 @@ export class openingBalanceService {
             throw new Error(response.description);
           }
           if (typeof response.data !== 'undefined' && response.data !== null) {
-            this.cbxListAssetCodeDecrease.next(response.data);
+            let tempData = []
+            tempData = response.data
+            if (str && str != '') {
+              tempData = tempData.filter(item => {
+                const regex = new RegExp(str, 'gi'); // 'gi' để bỏ qua phân biệt chữ hoa/thường
+                return regex.test(item.assetCode);
+              })
+            }
+            this.cbxListAssetCodeDecrease.next(tempData);
           } else {
             this.cbxListAssetCodeDecrease.next([]);
           }
-          if (allowDefault)
-            this.cbxListAssetCodeDecrease.value.unshift({
-              assetCode: '',
-            });
         }),
         catchError((err) => {
           // this.toastrService.error(err.error?.message || err.message, 'Error');
@@ -219,10 +230,10 @@ export class openingBalanceService {
           }
           if (typeof response.data !== 'undefined' && response.data !== null) {
             this.cbxAssetCodeReportBC.next(response.data.filter((value, index, self) =>
-            index === self.findIndex((t) => (
-              t.assetCode === value.assetCode
-            ))
-          ));
+              index === self.findIndex((t) => (
+                t.assetCode === value.assetCode
+              ))
+            ));
           } else {
             this.cbxAssetCodeReportBC.next([]);
           }
@@ -236,36 +247,6 @@ export class openingBalanceService {
       .subscribe();
     this.subscriptions.push(request);
   }
-
-  getAssetCodeReportAsset(query: RequestApiModelOld, redirectFunction, allowDefault: boolean) {
-    const request = this.globalService
-      .globalApi(query, redirectFunction)
-      .pipe(
-        map((response) => {
-          if (response.errorCode != '0') {
-            this.cbxAssetCodeReportAsset.next([]);
-            throw new Error(response.description);
-          }
-          if (typeof response.data !== 'undefined' && response.data !== null) {
-            this.cbxAssetCodeReportAsset.next(response.data.filter((value, index, self) =>
-            index === self.findIndex((t) => (
-              t.assetCode === value.assetCode
-            ))
-          ));
-          } else {
-            this.cbxAssetCodeReportAsset.next([]);
-          }
-        }),
-        catchError((err) => {
-          // this.toastrService.error(err.error?.message || err.message, 'Error');
-          return of(undefined);
-        }),
-        finalize(() => { }),
-      )
-      .subscribe();
-    this.subscriptions.push(request);
-  }
-
 
   //cbx nguồn tài sản
   getSourceOfAsset(query: RequestApiModelOld, redirectFunction, allowDefault: boolean) {

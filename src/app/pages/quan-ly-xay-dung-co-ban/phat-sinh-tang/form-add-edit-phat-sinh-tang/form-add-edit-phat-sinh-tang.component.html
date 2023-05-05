@@ -84,7 +84,7 @@
                             <div class="col-md-3">
                                 <mat-form-field appearance="fill">
                                     <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
-                                        (input)="eInputDate($event)" placeholder="Construction date">
+                                    (dateChange)="eChangeDate()" (input)="eChangeDate()"  [placeholder]="'DATE.CONSTRUCTION' | translate">
                                     <mat-hint>DD/MM/YYYY</mat-hint>
                                     <mat-datepicker-toggle matIconSuffix [for]="picker"
                                         class="icon-datePicker"></mat-datepicker-toggle>
@@ -216,7 +216,7 @@
                             <div class="col-md-3">
                                 <mat-form-field appearance="fill">
                                     <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
-                                        (input)="eInputDate($event)" placeholder="Construction date">
+                                    (dateChange)="eChangeDate()" (input)="eChangeDate()" [placeholder]="'DATE.CONSTRUCTION' | translate">
                                     <mat-hint>DD/MM/YYYY</mat-hint>
                                     <mat-datepicker-toggle matIconSuffix [for]="picker"
                                         class="icon-datePicker"></mat-datepicker-toggle>

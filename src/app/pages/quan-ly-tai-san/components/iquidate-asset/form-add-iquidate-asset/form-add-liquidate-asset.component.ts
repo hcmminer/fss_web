@@ -11,7 +11,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
 import { GlobalService } from 'src/app/pages/_services/global.service';
@@ -94,6 +94,7 @@ export class FormAddLiquidateAssetComponent implements OnInit {
       checked: false,
     },
   ];
+  modelChanged = new Subject<string>();
 
   constructor(
     public fb: FormBuilder,
@@ -114,13 +115,19 @@ export class FormAddLiquidateAssetComponent implements OnInit {
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
     this.openingBalanceService.getSourceOfAsset(reqGetListStatus, 'get-source-of-asset', true);
     this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
-    this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase', true);
+    this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase');
   }
 
 
   ngOnInit(): void {
     this.initCombobox();
-    console.log(this.isTransferByFile);
+    this.modelChanged
+      .pipe(
+        debounceTime(800))
+      .subscribe((value) => {
+        let reqGetListStatus = { userName: this.userName };
+        this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase', value); 
+      })
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.addType == 'single') {
       this.loadAddForm();
@@ -154,21 +161,7 @@ export class FormAddLiquidateAssetComponent implements OnInit {
   }
   //filter
   filterByAssetCode() {
-    this.addEditForm.get('assetCode').valueChanges.pipe(debounceTime(200)).subscribe(str => {
-      let tempAsssetCode = []
-      if (typeof str == 'string' && str.trim() == '') {
-        let reqGetListStatus = { userName: this.userName };
-        this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase', true);
-      }
-      if (typeof str == 'string' && str.trim() != '') {
-        tempAsssetCode = this.openingBalanceService.cbxAssetCodeIncrease.value.filter(item => {
-          const regex = new RegExp(str, 'gi'); // 'gi' để bỏ qua phân biệt chữ hoa/thường
-          return regex.test(item.assetCode);
-        })
-        this.openingBalanceService.cbxAssetCodeIncrease.next(tempAsssetCode)
-      }
-    });
-
+    this.modelChanged.next(this.addEditForm.get('assetCode').value);
   }
 
 
@@ -182,13 +175,13 @@ export class FormAddLiquidateAssetComponent implements OnInit {
 
 
   //check input date
-  eInputDate(event: any) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '') {
+  eChangeDate(){
+    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value)
+    
+    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
       this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
-    }
-    if (value != '') {
-      this.constructionDateErrorMsg = '';
+    }else {
+      this.constructionDateErrorMsg = ''
     }
   }
 

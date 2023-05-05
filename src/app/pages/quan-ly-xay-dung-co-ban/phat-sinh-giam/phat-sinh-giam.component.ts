@@ -100,7 +100,7 @@ export class PhatSinhGiamComponent implements OnInit {
     'material',
     'depreciationFrame',
     'typeOfAssetAccount',
-    'typeOfAssetCode',
+    // 'typeOfAssetCode',
     'typeOfAssetName',
     'constructionDateStr',
     'createdDatetimeStr',
@@ -123,7 +123,7 @@ export class PhatSinhGiamComponent implements OnInit {
   initCombobox() {
     let reqGetListStatus = { userName: this.userName };
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
-    this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease', true);
+    this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease');
     this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
   }
 
@@ -136,14 +136,15 @@ export class PhatSinhGiamComponent implements OnInit {
     this.eSearch();
     
   }
-
-  eInputDate(event: any, typeDate: string) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '' && typeDate === 'start') {
+  
+  eChangeDate(){
+    let tempStartDate = this.transform(this.searchForm.get('start').value)
+    console.log(tempStartDate);
+    
+    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
       this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
-    }
-    if (value != '' && typeDate === 'start') {
-      this.startDateErrorMsg = '';
+    }else {
+      this.startDateErrorMsg = ''
     }
   }
 

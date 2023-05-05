@@ -98,7 +98,7 @@ export class ImportIncreaseAssetComponent implements OnInit {
     'index',
     'departmentCode',
     'assetCode',
-    'typeOfAssetCode',
+    'typeOfAssetName',
     'increaseOriginalAmount',
     'increaseAmount',
     'sourceOfAssetName',
@@ -139,13 +139,13 @@ export class ImportIncreaseAssetComponent implements OnInit {
     this.eSearch();
   }
 
-  eInputDate(event: any, typeDate: string) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '' && typeDate === 'start') {
+  eChangeDate(){
+    let tempStartDate = this.transform(this.searchForm.get('start').value)
+    
+    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
       this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
-    }
-    if (value != '' && typeDate === 'start') {
-      this.startDateErrorMsg = '';
+    }else {
+      this.startDateErrorMsg = ''
     }
   }
 

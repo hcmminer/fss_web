@@ -113,7 +113,7 @@ export class LiquidateAssetComponent implements OnInit {
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
     this.openingBalanceService.getSourceOfAsset(reqGetListStatus, 'get-source-of-asset', true);
     this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
-    this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase', true);
+    this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase');
   }
 
 
@@ -126,13 +126,13 @@ export class LiquidateAssetComponent implements OnInit {
     this.eSearch();
   }
 
-  eInputDate(event: any, typeDate: string) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '' && typeDate === 'start') {
+  eChangeDate(){
+    let tempStartDate = this.transform(this.searchForm.get('start').value)
+    
+    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
       this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
-    }
-    if (value != '' && typeDate === 'start') {
-      this.startDateErrorMsg = '';
+    }else {
+      this.startDateErrorMsg = ''
     }
   }
 
@@ -141,7 +141,6 @@ export class LiquidateAssetComponent implements OnInit {
     this.searchForm = this.fb.group({
       groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
-      typeOfAssetCode: [this.query.typeOfAssetCode],
       sourceOfAsset: [this.query.sourceOfAsset],
       start: [this.query.startDate],
       end: [this.query.endDate],
@@ -195,7 +194,6 @@ export class LiquidateAssetComponent implements OnInit {
         departmentCode: this.searchForm.get('organisation').value,
         fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
         toConstructionDateStr: this.transform(this.searchForm.get('end').value),
-        typeOfAssetCode: this.searchForm.get('typeOfAssetCode').value,
         sourceOfAsset: this.searchForm.get('sourceOfAsset').value,
       },
     };
@@ -222,11 +220,10 @@ export class LiquidateAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         groupFilter: this.query.groupFilter,
-        organisation: this.query.organisation,
-        typeOfAssetCode: this.query.typeOfAssetCode,
-        sourceOfAsset: this.query.sourceOfAsset,
-        start: this.query.startDate,
-        end: this.query.endDate,
+        departmentCode: this.searchForm.get('organisation').value,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+        sourceOfAsset: this.searchForm.get('sourceOfAsset').value,
       },
     };
     modalRef.componentInstance.req = requestTarget;
