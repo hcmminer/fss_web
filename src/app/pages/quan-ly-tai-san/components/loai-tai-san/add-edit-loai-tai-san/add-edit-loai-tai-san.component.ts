@@ -89,7 +89,6 @@ export class AddEditLoaiTaiSanComponent implements OnInit {
 
   loadAddEditForm() {
     this.addEditForm = this.fb.group({
-      code: [this.code, [Validators.required]],
       name: [this.name, [Validators.required]],
       account: [this.account, [Validators.required]],
       depreciationFrame: [this.depreciationFrame, [Validators.required, minValue(1)]],
@@ -101,7 +100,6 @@ export class AddEditLoaiTaiSanComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       typeOfAssetDTO: {
-        code: this.addEditForm.get('code').value,
         name: this.addEditForm.get('name').value,
         account: this.addEditForm.get('account').value,
         depreciationFrame: this.addEditForm.get('depreciationFrame').value,
