@@ -55,7 +55,7 @@ export class LoaiTaiSanComponent implements OnInit {
   };
   columnsToDisplay = [
     'index',
-    'code',
+    // 'code', // không check trung mã tài sản nữa
     'name',
     'account',
     'depreciationFrame',
