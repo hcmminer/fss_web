@@ -12,7 +12,7 @@
       <form class="form" [formGroup]="addEditForm">
         <div class="row form-group justify-content-around">
           <!-- code -->
-          <label class="col-md-2 form-label col-form-label">
+          <!-- <label class="col-md-2 form-label col-form-label">
             {{ 'TYPE_OF_ASSET.CODE' | translate }}
             <span style="color: red">*</span></label
           >
@@ -27,21 +27,27 @@
             <div class="invalid-feedback" *ngIf="controlHasError('required', 'code')">
               {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.CODE' | translate } }}
             </div>
-          </div>
+          </div> -->
           <!-- name -->
           <label class="col-md-2 form-label col-form-label">
             {{ 'TYPE_OF_ASSET.NAME' | translate }}
-            <span style="color: red">*</span></label
-          >
+            <span style="color: red">*</span></label>
           <div class="col-md-3">
-            <input
-              class="form-control"
-              formControlName="name"
-              [class.is-invalid]="isControlInvalid('name')"
-              maxlength="50"
-            />
+            <input class="form-control" formControlName="name" [class.is-invalid]="isControlInvalid('name')"
+              maxlength="50" />
             <div class="invalid-feedback" *ngIf="controlHasError('required', 'name')">
               {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.NAME' | translate } }}
+            </div>
+          </div>
+          <!-- description -->
+          <label class="col-md-2 form-label col-form-label">
+            {{ 'TYPE_OF_ASSET.DESCRIPTION' | translate }}
+            <span style="color: red">*</span></label>
+          <div class="col-md-3">
+            <input class="form-control" formControlName="description"
+              [class.is-invalid]="isControlInvalid('description')" maxlength="500" />
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'description')">
+              {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.DESCRIPTION' | translate } }}
             </div>
           </div>
         </div>
@@ -49,15 +55,10 @@
           <!-- account -->
           <label class="col-md-2 form-label col-form-label">
             {{ 'TYPE_OF_ASSET.ACCOUNT' | translate }}
-            <span style="color: red">*</span></label
-          >
+            <span style="color: red">*</span></label>
           <div class="col-md-3">
-            <input
-              class="form-control"
-              formControlName="account"
-              [class.is-invalid]="isControlInvalid('account')"
-              maxlength="50"
-            />
+            <input class="form-control" formControlName="account" [class.is-invalid]="isControlInvalid('account')"
+              maxlength="50" />
             <div class="invalid-feedback" *ngIf="controlHasError('required', 'account')">
               {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.ACCOUNT' | translate } }}
             </div>
@@ -65,59 +66,26 @@
           <!-- depreciation_frame -->
           <label class="col-md-2 form-label col-form-label">
             {{ 'TYPE_OF_ASSET.DEPRECIATION_FRAME' | translate }}
-            <span style="color: red">*</span></label
-          >
+            <span style="color: red">*</span></label>
           <div class="col-md-3">
-            <input
-              NumbersOnly
-              class="form-control"
-              formControlName="depreciationFrame"
-              [class.is-invalid]="isControlInvalid('depreciationFrame')"
-              maxlength="3"
-            />
+            <input NumbersOnly class="form-control" formControlName="depreciationFrame"
+              [class.is-invalid]="isControlInvalid('depreciationFrame')" maxlength="3" />
             <div class="invalid-feedback" *ngIf="controlHasError('required', 'depreciationFrame')">
               {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.DEPRECIATION_FRAME' | translate } }}
             </div>
             <div class="invalid-feedback" *ngIf="controlHasError('minValue', 'depreciationFrame')">
-              {{ 'VALIDATION.MIN_VALUE' | translate : { name: 'TYPE_OF_ASSET.DEPRECIATION_FRAME' | translate, min: 0 } }}
+              {{ 'VALIDATION.MIN_VALUE' | translate : { name: 'TYPE_OF_ASSET.DEPRECIATION_FRAME' | translate, min: 0 }
+              }}
             </div>
           </div>
-        </div>
-        <div class="row form-group justify-content-around">
-          <!-- description -->
-          <label class="col-md-2 form-label col-form-label">
-            {{ 'TYPE_OF_ASSET.DESCRIPTION' | translate }}
-            <span style="color: red">*</span></label
-          >
-          <div class="col-md-3">
-            <input
-              class="form-control"
-              formControlName="description"
-              [class.is-invalid]="isControlInvalid('description')"
-              maxlength="500"
-            />
-            <div class="invalid-feedback" *ngIf="controlHasError('required', 'description')">
-              {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.DESCRIPTION' | translate } }}
-            </div>
-          </div>
-          <div class="col-md-2"></div>
-          <div class="col-md-3"></div>
         </div>
         <div class="d-flex justify-content-end my-5">
-          <button
-            *ngIf="this.propAction == 'add'"
-            class="btn btn-primary mx-3"
-            style="width: 150px"
-            (click)="eSave('add')"
-          >
+          <button *ngIf="this.propAction == 'add'" class="btn btn-primary mx-3" style="width: 150px"
+            (click)="eSave('add')">
             {{ 'ACTION.SAVE' | translate }}
           </button>
-          <button
-            *ngIf="this.propAction == 'update'"
-            class="btn btn-primary mx-3"
-            style="width: 150px"
-            (click)="eSave('update')"
-          >
+          <button *ngIf="this.propAction == 'update'" class="btn btn-primary mx-3" style="width: 150px"
+            (click)="eSave('update')">
             {{ 'ACTION.SAVE' | translate }}
           </button>
           <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eClose()">
