@@ -61,7 +61,8 @@ export class AeOpenDepComponent implements OnInit {
 
   constructionDateStr;
   depreciationStartDateStr;
-
+  depreciationStartDateErrorMsg = '';
+  constructionDateErrorMsg = '';
   userName: any;
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -81,7 +82,7 @@ export class AeOpenDepComponent implements OnInit {
     public openingBalanceService: openingBalanceService,
     private _liveAnnouncer: LiveAnnouncer,
     @Inject(Injector) private readonly injector: Injector,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
@@ -111,8 +112,8 @@ export class AeOpenDepComponent implements OnInit {
       sourceOfAsset: [this.sourceOfAsset, [Validators.required]],
       beginOriginalAmount: [this.beginOriginalAmount, [Validators.required]],
       beginAmount: [this.beginAmount, [Validators.required]],
-      constructionDateStr: [this.constructionDateStr, [Validators.required]],
-      depreciationStartDateStr: [this.depreciationStartDateStr, [Validators.required]],
+      constructionDateStr: [new Date(), [Validators.required]],
+      depreciationStartDateStr: [new Date(), [Validators.required]],
     });
   }
 
@@ -126,6 +127,8 @@ export class AeOpenDepComponent implements OnInit {
       beginAmount: [this.beginAmount, [Validators.required]],
     });
   }
+
+
 
   httpAdd() {
     const requestTarget = {
@@ -168,7 +171,9 @@ export class AeOpenDepComponent implements OnInit {
           isValid = false;
         }
       });
-
+      if (this.depreciationStartDateErrorMsg !== '' || this.constructionDateErrorMsg != '') {
+        isValid = false;
+      }
       return isValid;
     } else if (this.propAction == 'update') {
       Object.keys(this.editForm.controls).forEach((key) => {
@@ -177,7 +182,9 @@ export class AeOpenDepComponent implements OnInit {
           isValid = false;
         }
       });
-
+      if (this.constructionDateErrorMsg !== '') {
+        isValid = false;
+      }
       return isValid;
     }
   }
@@ -231,7 +238,7 @@ export class AeOpenDepComponent implements OnInit {
           this.subscriptions.push(request);
         }
       },
-      () => {},
+      () => { },
     );
   }
 
@@ -247,6 +254,32 @@ export class AeOpenDepComponent implements OnInit {
     return value;
   }
 
+  eChangeDate() {
+    if(this.propAction == 'add'){
+      let tempdepreciationStartDate = this.transform(this.addForm.get('depreciationStartDateStr').value)
+      let tempconstructionDate = this.transform(this.addForm.get('constructionDateStr').value)
+        if (tempdepreciationStartDate == '' || tempdepreciationStartDate == null || tempdepreciationStartDate == undefined) {
+          this.depreciationStartDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.DEPRECIATION_STARTDATE') });
+        } else {
+          this.depreciationStartDateErrorMsg = ''
+        }
+  
+        if (tempconstructionDate == '' || tempconstructionDate == null || tempconstructionDate == undefined) {
+          this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
+        } else {
+          this.constructionDateErrorMsg = ''
+        }    
+    }
+    if(this.propAction == 'update'){
+      let tempconstructionDate = this.transform(this.editForm.get('constructionDateStr').value)
+        if (tempconstructionDate == '' || tempconstructionDate == null || tempconstructionDate == undefined) {
+          this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
+        } else {
+          this.constructionDateErrorMsg = ''
+        }     
+    }
+
+  }
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);

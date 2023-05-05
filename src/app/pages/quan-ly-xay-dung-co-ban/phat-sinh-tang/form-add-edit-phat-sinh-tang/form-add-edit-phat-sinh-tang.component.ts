@@ -183,15 +183,16 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
   }
 
   //check input date
-  eInputDate(event: any) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '') {
+  eChangeDate(){
+    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value)
+    
+    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
       this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
-    }
-    if (value != '') {
-      this.constructionDateErrorMsg = '';
+    }else {
+      this.constructionDateErrorMsg = ''
     }
   }
+
 
   handleClose() {
     this.closeContent.emit(true);
@@ -307,7 +308,7 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
         userName: this.userName
       }
     }
-    return this.globalService.globalApi(req, this.isUpdateFile ? 'down-temp-update-dep-increase' : 'down-template-add-bc-increase');
+    return this.globalService.globalApi(req, this.isUpdateFile ? 'down-temp-update-bc-increase' : 'down-template-add-bc-increase');
   }
   getTemplate() {
     const sub = this.apiGetTemplate().subscribe((res) => {

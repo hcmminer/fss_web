@@ -125,14 +125,15 @@ export class ReportComponent implements OnInit {
     this.eSearch();
 
   }
-
-  eInputDate(event: any, typeDate: string) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '' && typeDate === 'start') {
+ 
+  eChangeDate(){
+    let tempStartDate = this.transform(this.searchForm.get('start').value)
+    console.log(tempStartDate);
+    
+    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
       this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
-    }
-    if (value != '' && typeDate === 'start') {
-      this.startDateErrorMsg = '';
+    }else {
+      this.startDateErrorMsg = ''
     }
   }
 
@@ -147,29 +148,6 @@ export class ReportComponent implements OnInit {
     });
   }
 
-  displayFnAssetCode(item: any): string {
-    return item ? item.assetCode : undefined;
-  }
-  //filter
-  filterByAssetCode() {
-    console.log(  this.searchForm.get('assetCode').value);
-    
-    this.searchForm.get('assetCode').valueChanges.pipe(debounceTime(200)).subscribe(str => {
-      let tempAsssetCode = []
-      if (typeof str == 'string' && str.trim() == '') {
-        let reqGetListStatus = { userName: this.userName };
-        this.openingBalanceService.getListAssetCodeReportBC(reqGetListStatus, 'search-report-bc', true);
-      }
-      if (typeof str == 'string' && str.trim() != '') {
-        tempAsssetCode = this.openingBalanceService.cbxAssetCodeReportBC.value.filter(item => {
-          const regex = new RegExp(str, 'gi'); // 'gi' để bỏ qua phân biệt chữ hoa/thường
-          return regex.test(item.assetCode);
-        })
-        this.openingBalanceService.cbxAssetCodeReportBC.next(tempAsssetCode)
-      }
-    });
-
-  }
 
   transform(value: string) {
     let datePipe = new DatePipe('en-US');
@@ -202,7 +180,7 @@ export class ReportComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         // groupFilter: this.query.groupFilter,
-        assetCode: !this.searchForm.get('assetCode').value.assetCode ?this.searchForm.get('assetCode').value : this.searchForm.get('assetCode').value.assetCode,
+        assetCode: this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
         toDateStr: this.transform(this.searchForm.get('end').value),
@@ -225,7 +203,7 @@ export class ReportComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         // groupFilter: this.query.groupFilter,
-        assetCode: !this.searchForm.get('assetCode').value.assetCode ?this.searchForm.get('assetCode').value : this.searchForm.get('assetCode').value.assetCode,
+        assetCode: this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
         toDateStr: this.transform(this.searchForm.get('end').value),

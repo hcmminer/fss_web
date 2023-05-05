@@ -321,6 +321,7 @@ export const locale = {
       //Phát sinh giảm
       DECREASE: 'Phát sinh giảm',
       REPORT: 'Báo cáo tổng hợp',
+      REPORT_ASSET: 'Báo cáo tài sản',
       ADD_DECREASE: 'Thêm mới phát sinh giảm',
       UPDATE_DECREASE: 'Cập nhật phát sinh giảm',
 
@@ -684,6 +685,8 @@ export const locale = {
     DATE: {
       FROM_DATE: 'Từ ngày',
       TO_DATE: 'Đến ngày',
+      CONSTRUCTION: 'Ngày nhập liệu',
+      DEPRECIATION_DATE: 'Ngày bắt đầu khấu hao'
     },
     ACTION: {
       TITLE: 'Thao tác',

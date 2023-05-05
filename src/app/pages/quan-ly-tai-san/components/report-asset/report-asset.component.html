@@ -2,7 +2,7 @@
     <div class="py-5">
         <div class="col-md-2 col-sm-12 col-12 col-lg-12">
             <div class="label-card">
-                <label class="form-label title-screen text-uppercase">{{ 'TITLE.REPORT' | translate }}</label>
+                <label class="form-label title-screen text-uppercase">{{ 'TITLE.REPORT_ASSET' | translate }}</label>
             </div>
         </div>
     </div>
@@ -13,7 +13,7 @@
                 <form action="#" class="form form-label-right" [formGroup]="searchForm">
                     <div class="font-weight-bolder mb-12" style="font-size: 1.275rem">
                         {{ 'BUTTON.SEARCH' | translate }}
-                        {{ 'TITLE.REPORT' | translate | lowercase }}
+                        {{ 'TITLE.REPORT_ASSET' | translate | lowercase }}
                     </div>
                     <div class="row form-group">
                         <div class="col-lg-1 col-sm-1"></div>
@@ -25,8 +25,8 @@
 
                                 <div class="col-lg-4 col-sm-12" *ngIf="searchForm.get('reportType').value != 2">
                                     <mat-form-field appearance="fill">
-                                        <input matInput formControlName="end" [matDatepicker]="picker2"
-                                            (input)="eInputDate($event, 'end')" placeholder="end date" [max]="maxDate">
+                                        <input matInput formControlName="end" [matDatepicker]="picker2" 
+                                        (dateChange)="eChangeDate()" (input)="eChangeDate()" [placeholder]="'DATE.TO_DATE' | translate" [max]="maxDate">
                                         <mat-hint>DD/MM/YYYY</mat-hint>
                                         <mat-datepicker-toggle matIconSuffix [for]="picker2"
                                             class="icon-datePicker"></mat-datepicker-toggle>
@@ -39,9 +39,9 @@
                                     <mat-form-field appearance="fill">
                                         <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
                                             <input matStartDate formControlName="startDetail"
-                                                (input)="eInputDate($event, 'start')" placeholder="Start date" />
+                                            (dateChange)="eChangeDate()" (input)="eChangeDate()"  [placeholder]="'DATE.FROM_DATE' | translate" />
                                             <input matEndDate formControlName="endDetail"
-                                                (input)="eInputDate($event, 'endDetail')" placeholder="End date" />
+                                            (dateChange)="eChangeDate()" (input)="eChangeDate()" [placeholder]="'DATE.TO_DATE' | translate" />
                                         </mat-date-range-input>
                                         <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
                                         <mat-date-range-picker #picker></mat-date-range-picker>
@@ -90,18 +90,7 @@
                                     translate }}</label>
                                 <div class="col-lg-4 col-sm-12">
                                     <input type="text" matInput class="form-control field-autocomplete"
-                                        formControlName="assetCode" style="border: 1px solid #bdbdbd;"
-                                        [matAutocomplete]="autoAssetCode" (keyup)="filterByAssetCode()"
-                                        (click)="triggerAssetCode.openPanel()"
-                                        #triggerAssetCode="matAutocompleteTrigger">
-                                    <mat-autocomplete #autoAssetCode="matAutocomplete"
-                                        [displayWith]="displayFnAssetCode">
-                                        <mat-option
-                                            *ngFor="let item of openingBalanceService.cbxAssetCodeReportAsset | async"
-                                            [value]="item">
-                                            {{ item.assetCode }}
-                                        </mat-option>
-                                    </mat-autocomplete>
+                                        formControlName="assetCode" style="border: 1px solid #bdbdbd;">
                                 </div>
                             </div>
                         </div>
@@ -394,7 +383,7 @@
                                 </td>
                             </ng-container>
                             <!-- kết thúc số dư cuối kỳ -->
-                            <tr mat-row *matHeaderRowDef="['index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame','depreciationStartDateStr','depreciationEndDateStr','issueDateStr','sodauky','phatsinhtang',
+                            <tr mat-row *matHeaderRowDef="['index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame','depreciationStartDateStr','issueDateStr','sodauky','phatsinhtang',
                                  'phatsinhgiam', 'soducuoiky' ]">
                             </tr>
                             <tr mat-row
@@ -402,7 +391,7 @@
                                 'increaseAvailable', 'decreaseOriginalAmount', 'decreaseAmount', 'decreaseAvailable', 'endOriginalAmount', 'endAmount', 'endAvailable']">
                             </tr>
                             <tr mat-row
-                                *matRowDef="let element; columns:['index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame','depreciationStartDateStr', 'depreciationEndDateStr','issueDateStr', 'beginOriginalAmount', 'beginAmount', 'beginAvailable', 'increaseOriginalAmount', 'increaseAmount',
+                                *matRowDef="let element; columns:['index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame','depreciationStartDateStr', 'issueDateStr', 'beginOriginalAmount', 'beginAmount', 'beginAvailable', 'increaseOriginalAmount', 'increaseAmount',
     'increaseAvailable', 'decreaseOriginalAmount', 'decreaseAmount', 'decreaseAvailable', 'endOriginalAmount', 'endAmount', 'endAvailable']">
                                 <!-- Row shown when there is no matching data. -->
                             <tr class="mat-row" *matNoDataRow>

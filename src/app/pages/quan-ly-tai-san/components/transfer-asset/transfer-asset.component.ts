@@ -120,7 +120,7 @@ export class TransferAssetComponent implements OnInit {
     let reqGetListStatus = { userName: this.userName };
     this.openingBalanceService.getSourceOfAsset(reqGetListStatus, 'get-source-of-asset', true);
     this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
-    this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase', true);
+    this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase');
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
   }
 
@@ -132,16 +132,16 @@ export class TransferAssetComponent implements OnInit {
     this.isAdmin = this.userRes.isAdmin;
     this.eSearch();
   }
-
-  eInputDate(event: any, typeDate: string) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '' && typeDate === 'start') {
+  eChangeDate(){
+    let tempStartDate = this.transform(this.searchForm.get('start').value)
+    
+    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
       this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
-    }
-    if (value != '' && typeDate === 'start') {
-      this.startDateErrorMsg = '';
+    }else {
+      this.startDateErrorMsg = ''
     }
   }
+
   
   // init data for view form search
   loadSearchForm() {

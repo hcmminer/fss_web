@@ -23,16 +23,16 @@
                 {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.ASSETCODE' | translate } }}
               </div>
             </div>
-            <!-- TYPE_OF_ASSET_CODE -->
+            <!-- TYPE_OF_ASSET -->
             <label class="col-md-2 form-label col-form-label">
-              {{ 'LABEL.TYPE_OF_ASSET_CODE' | translate }}
+              {{ 'LABEL.TYPE_OF_ASSET' | translate }}
               <span style="color: red">*</span></label>
             <div class="col-md-3">
               <select class="form-control font-14" name="typeOfAsset" id="typeOfAsset" formControlName="typeOfAssetCode"
                 [class.is-invalid]="isControlInvalid('typeOfAssetCode')">
                 <ng-container *ngFor="let item of openingBalanceService.cbxTypeOfAsset | async">
-                  <option [value]="item.code">
-                    <span>{{ item.name }}</span>
+                  <option [value]="item.name">
+                    {{ item.name == ''? ('DEFAULT_OPTION.SELECT' | translate) : item.name }}
                   </option>
                 </ng-container>
               </select>
@@ -115,14 +115,12 @@
             <div class="col-md-3">
               <mat-form-field appearance="fill">
                 <input matInput formControlName="constructionDateStr" [matDatepicker]="picker1"
-                  [class.is-invalid]="isControlInvalid('beginAmount')"
-                  [class.is-invalid]="isControlInvalid('constructionDateStr')" class="w-100" />
+                (dateChange)="eChangeDate()"  (input)="eChangeDate()" class="w-100" />
                 <mat-hint>DD/MM/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker1" class="icon-datePicker"></mat-datepicker-toggle>
                 <mat-datepicker #picker1></mat-datepicker>
-                <div style="color: red" *ngIf="controlHasError('required', 'constructionDateStr')">
-                  {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.CONSTRUCTION_DATE' | translate } }}
-                </div>
+                <div style="color: red" *ngIf="constructionDateErrorMsg != ''">{{
+                  constructionDateErrorMsg | translate }}</div>
 
               </mat-form-field>
 
@@ -132,13 +130,12 @@
               'LABEL.DEPRECIATION_START_DATE' | translate }}<span style="color: red">*</span></label>
             <div class="col-md-3">
               <mat-form-field appearance="fill">
-                <input matInput formControlName="depreciationStartDateStr" [matDatepicker]="picker2" />
+                <input matInput formControlName="depreciationStartDateStr" (dateChange)="eChangeDate()"  (input)="eChangeDate()" [matDatepicker]="picker2" />
                 <mat-hint>DD/MM/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker2" class="icon-datePicker"></mat-datepicker-toggle>
                 <mat-datepicker #picker2></mat-datepicker>
-                <div style="color: red" *ngIf="controlHasError('required', 'depreciationStartDateStr')">
-                  {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.DEPRECIATION_START_DATE' | translate } }}
-                </div>
+                <div style="color: red" *ngIf="depreciationStartDateErrorMsg != ''">{{
+                  depreciationStartDateErrorMsg | translate }}</div>
               </mat-form-field>
             </div>
           </div>
@@ -158,13 +155,13 @@
               'LABEL.CONSTRUCTION_DATE' | translate }}<span style="color: red">*</span></label>
             <div class="col-md-3">
               <mat-form-field appearance="fill">
-                <input matInput formControlName="constructionDateStr" [matDatepicker]="picker3" class="w-100" />
+                <input matInput formControlName="constructionDateStr" [matDatepicker]="picker3" class="w-100" (dateChange)="eChangeDate()"  (input)="eChangeDate()" />
                 <mat-hint>DD/MM/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker3" class="icon-datePicker"></mat-datepicker-toggle>
                 <mat-datepicker #picker3></mat-datepicker>
-                <div style="color: red" *ngIf="controlHasError('required', 'constructionDateStr')">
-                  {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.CONSTRUCTION_DATE' | translate } }}
-                </div>
+
+                <div style="color: red" *ngIf="constructionDateErrorMsg != ''">{{
+                  constructionDateErrorMsg | translate }}</div>
               </mat-form-field>
             </div>
           </div>

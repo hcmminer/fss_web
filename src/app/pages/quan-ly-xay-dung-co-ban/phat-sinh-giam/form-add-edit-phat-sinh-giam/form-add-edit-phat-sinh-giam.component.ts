@@ -12,7 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
@@ -39,7 +40,7 @@ export const MY_FORMATS = {
   styleUrls: ['./form-add-edit-phat-sinh-giam.component.scss'],
   providers: [
     {
-      provide: DateAdapter, 
+      provide: DateAdapter,
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
@@ -91,7 +92,7 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
   totalRecord: number = null;
   isHasResult: boolean = false;
   columnsToDisplay: any;
-
+  modelChanged = new Subject<string>();
   //
 
   constructor(
@@ -109,14 +110,21 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
   }
   initCombobox() {
     let reqGetListStatus = { userName: this.userName };
-    this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease', true);
+    this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease');
   }
 
   ngOnInit(): void {
     this.initCombobox()
+    this.modelChanged
+      .pipe(
+        debounceTime(800))
+      .subscribe((value) => {
+        let reqGetListStatus = { userName: this.userName };
+        this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease', value);
+      })
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
-      this.columnsToDisplay = ['index', 'assetCode', 'materialTotalStr', 'materialStr', 'laborTotalStr', 'laborStr', 'constructionDateStr','errorMsg'];
+      this.columnsToDisplay = ['index', 'assetCode', 'materialTotalStr', 'materialStr', 'laborTotalStr', 'laborStr', 'constructionDateStr', 'errorMsg'];
       this.addType = 'file';
       this.loadAddFileForm()
     } else {
@@ -151,10 +159,10 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
 
   loadAddForm() {
     this.addEditForm = this.fb.group({
-      assetCode: [this.isUpdate ? this.item.assetCode :  '', [Validators.required]],
+      assetCode: [this.isUpdate ? this.item.assetCode : '', [Validators.required]],
       constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
-      material: ['0', [Validators.required,Validators.maxLength(18)]],
-      labor: ['0', [Validators.required,Validators.maxLength(18)]],
+      material: ['0', [Validators.required, Validators.maxLength(18)]],
+      labor: ['0', [Validators.required, Validators.maxLength(18)]],
       totalMaterial: [''],
       totalLabor: [''],
       typeOfAssetCode: [this.isUpdate ? this.item.typeOfAssetCode : '', [Validators.required]],
@@ -187,15 +195,22 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
   }
 
   //check input date
-  eInputDate(event: any) {
-    let value = event.target.value;
-    if (typeof value == 'string' && value == '') {
+  eChangeDate() {
+    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value)
+    if (tempStartDate == '' || tempStartDate == null || tempStartDate == undefined) {
       this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
-    }
-    if (value != '') {
-      this.constructionDateErrorMsg = '';
+    } else {
+      this.constructionDateErrorMsg = ''
     }
   }
+  displayFnAssetCode(item: any): string {
+    return item ? item.assetCode : undefined;
+  }
+  //filter
+  filterByAssetCode() {
+    this.modelChanged.next(this.addEditForm.get('assetCode').value);
+  }
+
 
   handleClose() {
     this.closeContent.emit(true);
@@ -238,11 +253,11 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
     }
   }
 
-  conditionAddEdit() {
+  conditionAddEdit() { 
     const requestTarget = {
       userName: this.userName,
       constructionDTO: {
-        assetCode: this.addEditForm.get('assetCode').value,
+        assetCode: !this.addEditForm.get('assetCode').value.assetCode ? this.addEditForm.get('assetCode').value : this.addEditForm.get('assetCode').value.assetCode,
         constructionDateStr: this.transform(this.addEditForm.get('constructionDateStr').value),
         material: Number(this.addEditForm.get('material').value.replaceAll(',', '')),
         labor: Number(this.addEditForm.get('labor').value.replaceAll(',', '')),
@@ -535,7 +550,7 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
     this.magicButtonUpdate = false;
     this.totalRecord = 0;
     this.dataSource = new MatTableDataSource([]);
-    this.isHasResult =  false;
+    this.isHasResult = false;
   }
 
   validateFile(event: any) {
