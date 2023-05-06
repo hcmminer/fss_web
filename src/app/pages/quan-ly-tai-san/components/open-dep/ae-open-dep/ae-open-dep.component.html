@@ -28,16 +28,16 @@
               {{ 'LABEL.TYPE_OF_ASSET' | translate }}
               <span style="color: red">*</span></label>
             <div class="col-md-3">
-              <select class="form-control font-14" name="typeOfAsset" id="typeOfAsset" formControlName="typeOfAssetCode"
+              <select class="form-control font-14" name="typeOfAssetCode" id="typeOfAssetCode" formControlName="typeOfAssetCode"
                 [class.is-invalid]="isControlInvalid('typeOfAssetCode')">
                 <ng-container *ngFor="let item of openingBalanceService.cbxTypeOfAsset | async">
-                  <option [value]="item.name">
+                  <option [value]="item.code">
                     {{ item.name == ''? ('DEFAULT_OPTION.SELECT' | translate) : item.name }}
                   </option>
                 </ng-container>
               </select>
               <div class="invalid-feedback" *ngIf="controlHasError('required', 'typeOfAssetCode')">
-                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.TYPE_OF_ASSET_CODE' | translate } }}
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.TYPE_OF_ASSET' | translate } }}
               </div>
             </div>
           </div>
