@@ -253,7 +253,7 @@ export const locale = {
       REPORT_DATE: 'Ngày chốt dữ liệu',
       TYPE_REPORT: 'Loại báo cáo',
       DETAILED_REPORT: 'Báo cáo chi tiết',
-      SYNTHESIS_REPORT: 'Báo cáo tổng hợp'
+      SYNTHESIS_REPORT: 'Báo cáo tổng hợp',
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -342,6 +342,8 @@ export const locale = {
       ADD_IMPORT_INCREASE_ASSET: 'Thêm mới phát sinh tăng tài sản',
       UPDATE_IMPORT_INCREASE_ASSET: 'Cập nhật phát sinh tăng tài sản',
       GET_REPORT: 'Xuất file báo cáo',
+      // dữ liệu đầu kỳ
+      OPEN_DEP: 'Dữ liệu đầu kỳ',
     },
     REQUIRED: {
       REASON_REFUSE: 'Bắt buộc nhập lý do từ chối',
@@ -436,7 +438,6 @@ export const locale = {
       PROVINCE_END_NOT_MATCH: 'Tỉnh đến thuộc chặng cuối cùng không khớp với tỉnh kết thúc của lộ trình',
       PROVINCE_BEGIN_NOT_MATCH: 'Tỉnh đi thuộc chặng đầu tiên không khớp với tỉnh bắt đầu của lộ trình',
       NOT_HOTEL: 'Chưa có phòng nào cho khách sạn/nhà nghỉ này',
-
 
       //Openning balance
       CF_ADD_OP_BL_BY_FILE: 'Bạn có chắc chắn muốn thêm số dư đầu kỳ theo file không',
@@ -686,7 +687,7 @@ export const locale = {
       FROM_DATE: 'Từ ngày',
       TO_DATE: 'Đến ngày',
       CONSTRUCTION: 'Ngày nhập liệu',
-      DEPRECIATION_DATE: 'Ngày bắt đầu khấu hao'
+      DEPRECIATION_DATE: 'Ngày bắt đầu khấu hao',
     },
     ACTION: {
       TITLE: 'Thao tác',
