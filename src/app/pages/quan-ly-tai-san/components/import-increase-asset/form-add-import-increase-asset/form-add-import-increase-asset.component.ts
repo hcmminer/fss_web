@@ -118,8 +118,6 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
 
   ngOnInit(): void {
     this.initCombobox();
-    console.log(this.isUpdate);
-
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
       this.addType = 'file';

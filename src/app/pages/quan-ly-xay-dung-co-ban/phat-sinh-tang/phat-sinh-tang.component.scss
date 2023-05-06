@@ -76,6 +76,10 @@ img:hover {
     font-size: 15px !important;
   }
   
+  .mat-cell:first-of-type {
+    min-width: 50px !important;
+  }
+  
   .mat-cell {
     max-width: 150px;
     word-wrap: break-word;

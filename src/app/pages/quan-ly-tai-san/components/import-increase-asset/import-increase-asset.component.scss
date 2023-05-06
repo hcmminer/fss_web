@@ -68,6 +68,10 @@ img:hover {
     padding-right: 0px;
     font-weight: 600;
   }
+
+  th.mat-header-cell{
+    min-width: 100px;
+  }
   
   .mat-table {
     width: 100%;

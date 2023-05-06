@@ -65,6 +65,11 @@ th.mat-header-cell{
   border-bottom-color:rgba(60, 60, 180, 0.556) !important;
 }
 
+th.mat-header-cell:first-of-type {
+  min-width: 50px !important;
+  padding-left: 0px;
+  font-weight: 600;
+}
 
 .mat-table {
   width: 100%;
@@ -79,6 +84,10 @@ th,td {
   max-width: 150px;
   min-width: 100px;
   word-wrap: break-word;
+}
+
+.mat-cell:first-of-type {
+  min-width: 30px !important;
 }
 
 .blue {

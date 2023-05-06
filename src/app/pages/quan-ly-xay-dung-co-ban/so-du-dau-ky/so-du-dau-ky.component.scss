@@ -60,6 +60,7 @@ th.mat-header-cell:first-of-type {
   padding-left: 0px;
   font-weight: 600;
 }
+
 th.mat-header-cell:last-of-type {
   padding-right: 0px;
   font-weight: 600;
@@ -77,6 +78,10 @@ td {
 .mat-cell {
   max-width: 150px;
   word-wrap: break-word;
+}
+
+.mat-cell:first-of-type {
+  min-width: 50px !important;
 }
 
 .blue {
