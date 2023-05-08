@@ -24,268 +24,268 @@
     </div>
     <!-- << -->
     <div *ngIf="true && !isHasSuccessFile">
-          <!-- modal nhap file -->
-    <form action="#" class="form form-label-right" [formGroup]="addFileForm">
-      <div class="row form-group">
-        <div class="col-md-2">
-          <button class="form-control btn btn-outline-primary mr-5 font-14" (click)="getTemplate()">
-            <i class="fas fa-download"></i>{{ 'COMMON_BUTTON.DOWNLOAD_TEMPLATE' | translate }}
-          </button>
-        </div>
-        <div class="col-md-6">
-          <div class="input-group">
-            <button class="btn btn-primary sticky-input-button font-14" type="button" mat-raised-button
-              (click)="fileInput.click()" style="margin-right: -3px">
-              {{ 'LABEL.SELECT_FLE' | translate }} *
+      <!-- modal nhap file -->
+      <form action="#" class="form form-label-right" [formGroup]="addFileForm">
+        <div class="row form-group">
+          <div class="col-md-2">
+            <button class="form-control btn btn-outline-primary mr-5 font-14" (click)="getTemplate()">
+              <i class="fas fa-download"></i>{{ 'COMMON_BUTTON.DOWNLOAD_TEMPLATE' | translate }}
             </button>
-            <input class="form-control" hidden (change)="onFileSelected($event)" (click)="onFileResset($event)"
-              #fileInput type="file" accept=".xls, .xlsx" name="chonFile" id="chonFile" formControlName="chonFile" />
-            <span class="file-name form-control input-field" [class.is-invalid]="isControlInvalidFile('chonFile')">
-              {{ selectedFile?.name }}
-            </span>
-            <div class="invalid-feedback font-14" *ngIf="controlHasErrorFile('required', 'chonFile')">
-              {{ 'VALIDATION.REQUIRED' | translate : { name: 'File' } }}
+          </div>
+          <div class="col-md-6">
+            <div class="input-group">
+              <button class="btn btn-primary sticky-input-button font-14" type="button" mat-raised-button
+                (click)="fileInput.click()" style="margin-right: -3px">
+                {{ 'LABEL.SELECT_FLE' | translate }} *
+              </button>
+              <input class="form-control" hidden (change)="onFileSelected($event)" (click)="onFileResset($event)"
+                #fileInput type="file" accept=".xls, .xlsx" name="chonFile" id="chonFile" formControlName="chonFile" />
+              <span class="file-name form-control input-field" [class.is-invalid]="isControlInvalidFile('chonFile')">
+                {{ selectedFile?.name }}
+              </span>
+              <div class="invalid-feedback font-14" *ngIf="controlHasErrorFile('required', 'chonFile')">
+                {{ 'VALIDATION.REQUIRED' | translate : { name: 'File' } }}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-form-label" *ngIf="isHasResult">
+            <span *ngIf="isHasResult" style="color: red; padding-left: 13px">{{ 'TOTAL_ERROR' | translate }}: {{
+              totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{
+              totalRecord | number : '1.0' : 'en-US'
+              }}
+              {{ 'RECORD' | translate }} {{ dataNullErr ? ('DATA_NUL_ERR' | translate) : '' }}</span>
+          </div>
+        </div>
+      </form>
+      <!-- end modal nhap file -->
+
+      <!-- >> table -->
+      <div style="overflow-x: scroll">
+        <div class="container-fluid mt-4 mb-4" *ngIf="isErrorFile">
+          <div class="d-flex align-items-center justify-content-between">
+            <h6 class="form-label">
+              {{ 'TITLE.LIST_ERR_FILE' | translate }}
+            </h6>
+            <div class="" *ngIf="!dataNullErr">
+              <div (click)="eDownloadErrFile()"
+                class="btn btn-outline-danger font-weight-bolder mx-auto text-center font-14"
+                style="height: 38px; padding: 7px 16px; margin: auto">
+                <img
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABZ0lEQVR4nM2VP0vEMBjGg38QXRx0OThOed/eXd+I000u3qdQ8VZFcBB0OtEmucFN3Fz8DLrdLPgNXAURcREHcRCXmypprw6VtE3M4AuBkr55fsnTkocFB8EMSbwhASMuMTYOgc9ttbTMbCuMcLdQWKbizhASOCgDUNID/fHzy6pqgncAY4w5QWwAThBbgDXEBZCD/HpnDeCW8CqA1/pRfZYi3ExF4JIpNkEC7n0B4lDAYVd1p7TPK6cB8gh6Pk8Qk8S3jqrNkWqud/Y60yTg0SsghcC+7uEStn1/A+37SFvTUq3F8KRRIwlfY8Ghvr8KRatZBBdsg02SwFttERdwVmnHVQAk8SM8DhdI4lYyF0EP+jDPJbxngGydq0UPJPGKBDyZPP8rIC86zPvuGzAwrSsHyGCn/EqAc92rw+YnfPLDFEZJZAq4Lo5M+AwFrhkhrnFqKq6gkf0A1glXtdr6JBLuvO78X9Y3YXnm03g1hWUAAAAASUVORK5CYII=" />
+                {{ 'DOWNLOAD_ERR_FILE' | translate }}
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-4 col-form-label" *ngIf="isHasResult">
-          <span *ngIf="isHasResult" style="color: red; padding-left: 13px">{{ 'TOTAL_ERROR' | translate }}: {{
-            totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{
-            totalRecord | number : '1.0' : 'en-US'
-            }}
-            {{ 'RECORD' | translate }} {{ dataNullErr ? ('DATA_NUL_ERR' | translate) : '' }}</span>
-        </div>
+        <table *ngIf="propAction == 'adds'" mat-table [dataSource]="dataSource" matSort
+          (matSortChange)="announceSortChange($event)" class="w-100">
+          <!-- STT -->
+          <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ 'COMMON.INDEX' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let index = index" style="text-align: center">
+              {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
+            </td>
+          </ng-container>
+          <!-- Ngày xây dựng -->
+          <ng-container matColumnDef="constructionDateStr">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: center">{{ item.constructionDateStr }}</td>
+          </ng-container>
+          <!-- Tổ chức -->
+          <ng-container matColumnDef="organisation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.ORGANISATION' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.organisation }}</td>
+          </ng-container>
+          <ng-container matColumnDef="typeOfAssetName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.TYPE_OF_ASSET' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.typeOfAssetName }}</td>
+          </ng-container>
+          <!-- sourceOfAsset -->
+          <ng-container matColumnDef="sourceOfAsset">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.SOURCE_OF_ASSET' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: left">
+              {{ item.sourceOfAsset }}
+            </td>
+          </ng-container>
+          <!-- Mã tài sản -->
+          <ng-container matColumnDef="assetCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.ASSETCODE' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: right">
+              {{ item.assetCode }}
+            </td>
+          </ng-container>
+
+          <!-- beginOriginalAmountStr -->
+          <ng-container matColumnDef="beginOriginalAmountStr">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.BEGIN_ORIGINAL_AMOUNT' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: center">
+              {{
+              item.beginOriginalAmountStr != null
+              ? (item.beginOriginalAmountStr | number : '1.0-0')
+              : (item.beginOriginalAmount | number : '1.0-0')
+              }}
+            </td>
+          </ng-container>
+          <!-- beginAmountStr -->
+          <ng-container matColumnDef="beginAmountStr">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.BEGIN_AMOUNT' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: center">
+              {{ item.beginAmountStr != null ? (item.beginAmountStr | number : '1.0-0') : item.beginAmountStr }}
+            </td>
+          </ng-container>
+
+          <!-- depreciationStartDateStr -->
+          <ng-container matColumnDef="depreciationStartDateStr">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.DEPRECIATION_START_DATE' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: center">
+              {{ item.depreciationStartDateStr }}
+            </td>
+          </ng-container>
+
+          <!-- errorMsg -->
+          <ng-container matColumnDef="errorMsg">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.ERROR_MSG' | translate }}
+            </th>
+            <td class="text-danger" mat-cell *matCellDef="let item" style="text-align: left">
+              {{ item.errorMsg }}
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
+        </table>
+        <table *ngIf="propAction == 'updates'" mat-table [dataSource]="dataSource" matSort
+          (matSortChange)="announceSortChange($event)" class="w-100">
+          <!-- STT -->
+          <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ 'COMMON.INDEX' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let index = index" style="text-align: center">
+              {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
+            </td>
+          </ng-container>
+          <!-- Ngày xây dựng -->
+          <ng-container matColumnDef="constructionDateStr">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: center">{{ item.constructionDateStr }}</td>
+          </ng-container>
+          <!-- Mã tài sản -->
+          <ng-container matColumnDef="assetCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.ASSETCODE' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: right">
+              {{ item.assetCode }}
+            </td>
+          </ng-container>
+
+          <!--beginOriginalAmountTotalStr -->
+          <ng-container matColumnDef="beginOriginalAmountTotalStr">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.BEGIN_ORIGINAL_AMOUNT_CURRENT' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: right">
+              {{
+              item.beginOriginalAmountTotalStr != null
+              ? (item.beginOriginalAmountTotalStr | number : '1.0-0')
+              : (item.beginOriginalAmountTotal | number : '1.0-0')
+              }}
+            </td>
+          </ng-container>
+
+          <!--beginOriginalAmountStr -->
+
+          <ng-container matColumnDef="beginOriginalAmountStr">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.BEGIN_ORIGINAL_AMOUNT_TARGET' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: right">
+              {{
+              item.beginOriginalAmountStr != null
+              ? (item.beginOriginalAmountStr | number : '1.0-0')
+              : (item.beginOriginalAmount | number : '1.0-0')
+              }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="beginAmountTotalStr">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.BEGIN_AMOUNT_CURRENT' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: right">
+              {{
+              item.beginAmountTotalStr != null
+              ? (item.beginAmountTotalStr | number : '1.0-0')
+              : (item.beginAmountTotal | number : '1.0-0')
+              }}
+            </td>
+          </ng-container>
+
+          <!--beginAmountStr -->
+          <ng-container matColumnDef="beginAmountStr">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.BEGIN_AMOUNT_TARGET' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" style="text-align: right">
+              {{ item.beginAmountStr != null ? (item.beginAmountStr | number : '1.0-0') : item.beginAmountStr }}
+            </td>
+          </ng-container>
+
+          <!-- errorMsg -->
+          <ng-container matColumnDef="errorMsg">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.ERROR_MSG' | translate }}
+            </th>
+            <td class="text-danger" mat-cell *matCellDef="let item" style="text-align: left">
+              {{ item.errorMsg }}
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
+        </table>
+        <mat-paginator #paginator (page)="onPaginateChange($event)" [pageSize]="10"
+          [pageSizeOptions]="[10, 20, 25, 30, 50]" showFirstLastButtons
+          aria-label="Select page of results"></mat-paginator>
       </div>
-    </form>
-    <!-- end modal nhap file -->
-
-    <!-- >> table -->
-    <div style="overflow-x: scroll">
-      <div class="container-fluid mt-4 mb-4" *ngIf="isErrorFile">
-        <div class="d-flex align-items-center justify-content-between">
-          <h6 class="form-label">
-            {{ 'TITLE.LIST_ERR_FILE' | translate }}
-          </h6>
-          <div class="" *ngIf="!dataNullErr">
-            <div (click)="eDownloadErrFile()"
-              class="btn btn-outline-danger font-weight-bolder mx-auto text-center font-14"
-              style="height: 38px; padding: 7px 16px; margin: auto">
-              <img
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABZ0lEQVR4nM2VP0vEMBjGg38QXRx0OThOed/eXd+I000u3qdQ8VZFcBB0OtEmucFN3Fz8DLrdLPgNXAURcREHcRCXmypprw6VtE3M4AuBkr55fsnTkocFB8EMSbwhASMuMTYOgc9ttbTMbCuMcLdQWKbizhASOCgDUNID/fHzy6pqgncAY4w5QWwAThBbgDXEBZCD/HpnDeCW8CqA1/pRfZYi3ExF4JIpNkEC7n0B4lDAYVd1p7TPK6cB8gh6Pk8Qk8S3jqrNkWqud/Y60yTg0SsghcC+7uEStn1/A+37SFvTUq3F8KRRIwlfY8Ghvr8KRatZBBdsg02SwFttERdwVmnHVQAk8SM8DhdI4lYyF0EP+jDPJbxngGydq0UPJPGKBDyZPP8rIC86zPvuGzAwrSsHyGCn/EqAc92rw+YnfPLDFEZJZAq4Lo5M+AwFrhkhrnFqKq6gkf0A1glXtdr6JBLuvO78X9Y3YXnm03g1hWUAAAAASUVORK5CYII=" />
-              {{ 'DOWNLOAD_ERR_FILE' | translate }}
-            </div>
-          </div>
-        </div>
-      </div>
-      <table *ngIf="propAction == 'adds'" mat-table [dataSource]="dataSource" matSort
-        (matSortChange)="announceSortChange($event)" class="w-100">
-        <!-- STT -->
-        <ng-container matColumnDef="index">
-          <th mat-header-cell *matHeaderCellDef>
-            {{ 'COMMON.INDEX' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let index = index" style="text-align: center">
-            {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
-          </td>
-        </ng-container>
-        <!-- Ngày xây dựng -->
-        <ng-container matColumnDef="constructionDateStr">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: center">{{ item.constructionDateStr }}</td>
-        </ng-container>
-        <!-- Tổ chức -->
-        <ng-container matColumnDef="organisation">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.ORGANISATION' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.organisation }}</td>
-        </ng-container>
-        <ng-container matColumnDef="typeOfAssetCode">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.TYPE_OF_ASSET_CODE' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.typeOfAssetCode }}</td>
-        </ng-container>
-        <!-- sourceOfAsset -->
-        <ng-container matColumnDef="sourceOfAsset">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.SOURCE_OF_ASSET' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: left">
-            {{ item.sourceOfAsset }}
-          </td>
-        </ng-container>
-        <!-- Mã tài sản -->
-        <ng-container matColumnDef="assetCode">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.ASSETCODE' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: right">
-            {{ item.assetCode }}
-          </td>
-        </ng-container>
-
-        <!-- beginOriginalAmountStr -->
-        <ng-container matColumnDef="beginOriginalAmountStr">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.BEGIN_ORIGINAL_AMOUNT' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: center">
-            {{
-            item.beginOriginalAmountStr != null
-            ? (item.beginOriginalAmountStr | number : '1.0-0')
-            : (item.beginOriginalAmount | number : '1.0-0')
-            }}
-          </td>
-        </ng-container>
-        <!-- beginAmountStr -->
-        <ng-container matColumnDef="beginAmountStr">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.BEGIN_AMOUNT' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: center">
-            {{ item.beginAmountStr != null ? (item.beginAmountStr | number : '1.0-0') : item.beginAmountStr }}
-          </td>
-        </ng-container>
-
-        <!-- depreciationStartDateStr -->
-        <ng-container matColumnDef="depreciationStartDateStr">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.DEPRECIATION_START_DATE' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: center">
-            {{ item.depreciationStartDateStr }}
-          </td>
-        </ng-container>
-
-        <!-- errorMsg -->
-        <ng-container matColumnDef="errorMsg">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.ERROR_MSG' | translate }}
-          </th>
-          <td class="text-danger" mat-cell *matCellDef="let item" style="text-align: left">
-            {{ item.errorMsg }}
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-        <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
-      </table>
-      <table *ngIf="propAction == 'updates'" mat-table [dataSource]="dataSource" matSort
-        (matSortChange)="announceSortChange($event)" class="w-100">
-        <!-- STT -->
-        <ng-container matColumnDef="index">
-          <th mat-header-cell *matHeaderCellDef>
-            {{ 'COMMON.INDEX' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let index = index" style="text-align: center">
-            {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
-          </td>
-        </ng-container>
-        <!-- Ngày xây dựng -->
-        <ng-container matColumnDef="constructionDateStr">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: center">{{ item.constructionDateStr }}</td>
-        </ng-container>
-        <!-- Mã tài sản -->
-        <ng-container matColumnDef="assetCode">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.ASSETCODE' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: right">
-            {{ item.assetCode }}
-          </td>
-        </ng-container>
-
-        <!--beginOriginalAmountTotalStr -->
-        <ng-container matColumnDef="beginOriginalAmountTotalStr">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.BEGIN_ORIGINAL_AMOUNT_CURRENT' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: right">
-            {{
-            item.beginOriginalAmountTotalStr != null
-            ? (item.beginOriginalAmountTotalStr | number : '1.0-0')
-            : (item.beginOriginalAmountTotal | number : '1.0-0')
-            }}
-          </td>
-        </ng-container>
-
-        <!--beginOriginalAmountStr -->
-
-        <ng-container matColumnDef="beginOriginalAmountStr">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.BEGIN_ORIGINAL_AMOUNT_TARGET' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: right">
-            {{
-            item.beginOriginalAmountStr != null
-            ? (item.beginOriginalAmountStr | number : '1.0-0')
-            : (item.beginOriginalAmount | number : '1.0-0')
-            }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="beginAmountTotalStr">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.BEGIN_AMOUNT_CURRENT' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: right">
-            {{
-            item.beginAmountTotalStr != null
-            ? (item.beginAmountTotalStr | number : '1.0-0')
-            : (item.beginAmountTotal | number : '1.0-0')
-            }}
-          </td>
-        </ng-container>
-
-        <!--beginAmountStr -->
-        <ng-container matColumnDef="beginAmountStr">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.BEGIN_AMOUNT_TARGET' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let item" style="text-align: right">
-            {{ item.beginAmountStr != null ? (item.beginAmountStr | number : '1.0-0') : item.beginAmountStr }}
-          </td>
-        </ng-container>
-
-        <!-- errorMsg -->
-        <ng-container matColumnDef="errorMsg">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'LABEL.ERROR_MSG' | translate }}
-          </th>
-          <td class="text-danger" mat-cell *matCellDef="let item" style="text-align: left">
-            {{ item.errorMsg }}
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-        <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
-      </table>
-      <mat-paginator #paginator (page)="onPaginateChange($event)" [pageSize]="10"
-        [pageSizeOptions]="[10, 20, 25, 30, 50]" showFirstLastButtons
-        aria-label="Select page of results"></mat-paginator>
-    </div>
-    <!--<< table  -->
+      <!--<< table  -->
     </div>
 
 
     <!-- >> action modal  -->
     <div class="d-flex justify-content-end my-5">
       <button class="btn btn-primary mx-3" style="width: 150px" *ngIf="!magicButtonUpdate  && !isHasSuccessFile"
-          (click)="eUpdateFromFile()">
-          {{ 'ACTION.UPLOAD' | translate }}
+        (click)="eUpdateFromFile()">
+        {{ 'ACTION.UPLOAD' | translate }}
       </button>
       <button class="btn btn-danger mx-3" style="width: 150px" *ngIf="magicButtonUpdate && !isHasSuccessFile"
-          (click)="eCofirmUpdateByFile()">
-          {{ 'ACTION.UPDATE' | translate }}
+        (click)="eCofirmUpdateByFile()">
+        {{ 'ACTION.UPDATE' | translate }}
       </button>
       <button class="btn btn-outline-dark mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
-          {{ 'ACTION.CLOSE' | translate }}
+        {{ 'ACTION.CLOSE' | translate }}
       </button>
-  </div>
+    </div>
     <!-- << action modal  -->
   </div>
 </div>
