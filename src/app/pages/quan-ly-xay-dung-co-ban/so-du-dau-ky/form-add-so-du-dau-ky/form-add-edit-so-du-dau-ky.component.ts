@@ -153,8 +153,8 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       assetCode: [this.isUpdate ? this.item.assetCode : '', [Validators.required]],
       contract: [this.isUpdate ? this.item.contract : '', [Validators.required]],
       constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
-      material: ['0', [Validators.required]],
-      labor: ['0', [Validators.required]],
+      material: ['', [Validators.required]],
+      labor: ['', [Validators.required]],
       totalMaterial: [''],
       totalLabor: [''],
     });

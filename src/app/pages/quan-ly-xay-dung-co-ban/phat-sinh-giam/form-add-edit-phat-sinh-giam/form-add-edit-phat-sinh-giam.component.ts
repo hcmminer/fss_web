@@ -161,8 +161,8 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
     this.addEditForm = this.fb.group({
       assetCode: [this.isUpdate ? this.item.assetCode : '', [Validators.required]],
       constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
-      material: ['0', [Validators.required, Validators.maxLength(18)]],
-      labor: ['0', [Validators.required, Validators.maxLength(18)]],
+      material: ['', [Validators.required, Validators.maxLength(18)]],
+      labor: ['', [Validators.required, Validators.maxLength(18)]],
       totalMaterial: [''],
       totalLabor: [''],
       typeOfAssetCode: [this.isUpdate ? this.item.typeOfAssetCode : '', [Validators.required]],

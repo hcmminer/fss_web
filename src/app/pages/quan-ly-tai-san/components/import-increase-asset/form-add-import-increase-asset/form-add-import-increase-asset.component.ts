@@ -141,8 +141,8 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
       depreciationStartDateStr: [this.isUpdate ? moment(this.item.depreciationStartDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
       departmentCode: [this.isUpdate ? this.item.departmentCode : '', this.isUpdate ? [] : [Validators.required]],
       sourceOfAsset: [this.isUpdate ? this.item.sourceOfAssetName : '',this.isUpdate ? [] : [Validators.required]],
-      increaseOriginalAmount: [ '0', [Validators.required, Validators.maxLength(18)]],
-      increaseAmount: ['0', [Validators.required, Validators.maxLength(18)]],
+      increaseOriginalAmount: [ '', [Validators.required, Validators.maxLength(18)]],
+      increaseAmount: ['', [Validators.required, Validators.maxLength(18)]],
       increaseOriginalAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseOriginalAmount, 'en-US', '1.0'): ''],
       increaseAmountCur: [this.isUpdate ? formatNumber(+this.item.increaseAmount, 'en-US', '1.0') : ''],
     });
