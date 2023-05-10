@@ -246,7 +246,7 @@ export class FormAddLiquidateAssetComponent implements OnInit {
     modalRef.componentInstance.data = {
       type: 'WARNING',
       title: 'COMMON_MODAL.WARNING',
-      message: this.translate.instant('CONFIRM.ADD_OPEN_BALANCE'),
+      message: this.translate.instant('CONFIRM.LIQUIDATE_ASSET'),
       continue: true,
       cancel: true,
       btn: [

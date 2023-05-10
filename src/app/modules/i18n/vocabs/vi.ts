@@ -524,20 +524,27 @@ export const locale = {
       UPDATE_STAFF: 'Bạn có muốn cập nhật nhân viên này?',
 
       //Số dư đầu kỳ
-      UPDATE_OPEN_BALANCE: 'Bạn có muốn cập nhật số dư đầu kỳ này không',
-      ADD_OPEN_BALANCE: 'Bạn có muốn thêm mới số dư đầu kỳ này không',
+      UPDATE_OPEN_BALANCE: 'Bạn có muốn cập nhật số dư đầu kỳ này không?',
+      ADD_OPEN_BALANCE: 'Bạn có muốn thêm mới số dư đầu kỳ này không?',
 
       //phát sinh tăng
-      UPDATE_IMPORT_INCREASE: 'Bạn có muốn cập nhật phát sinh tăng này không',
-      ADD_IMPORT_INCREASE: 'Bạn có muốn thêm mới phát sinh tăng này không',
+      UPDATE_IMPORT_INCREASE: 'Bạn có muốn cập nhật phát sinh tăng này không?',
+      ADD_IMPORT_INCREASE: 'Bạn có muốn thêm mới phát sinh tăng này không?',
 
       //phát sinh giảm
-      UPDATE_DECREASE: 'Bạn có muốn cập nhật phát sinh giảm này không',
-      ADD_DECREASE: 'Bạn có muốn thêm mới phát sinh giảm này không',
+      UPDATE_DECREASE: 'Bạn có muốn cập nhật phát sinh giảm này không?',
+      ADD_DECREASE: 'Bạn có muốn thêm mới phát sinh giảm này không?',
 
       //phát sinh tăng tài sản
-      UPDATE_IMPORT_INCREASE_ASSET: 'Bạn có muốn cập nhật phát sinh tăng này không',
-      ADD_IMPORT_INCREASE_ASSET: 'Bạn có muốn thêm mới phát sinh tăng này không',
+      UPDATE_IMPORT_INCREASE_ASSET: 'Bạn có muốn cập nhật phát sinh tăng này không?',
+      ADD_IMPORT_INCREASE_ASSET: 'Bạn có muốn thêm mới phát sinh tăng này không?',
+
+      //điều chuyển tài sản
+      TRANSFER_ASSET: 'Bạn có muốn điều chuyển tài sản này không?',
+
+      //thanh lý tài sản
+      LIQUIDATE_ASSET: 'Bạn có muốn thanh lý tài sản này không?',
+
     },
     TOOLTIP: {
       REFUSE: 'Từ chối',

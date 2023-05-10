@@ -245,7 +245,7 @@ export class FormAddTransferAssetComponent implements OnInit {
     modalRef.componentInstance.data = {
       type: 'WARNING',
       title: 'COMMON_MODAL.WARNING',
-      message: this.translate.instant('CONFIRM.ADD_OPEN_BALANCE'),
+      message: this.translate.instant('CONFIRM.TRANSFER_ASSET'),
       continue: true,
       cancel: true,
       btn: [
