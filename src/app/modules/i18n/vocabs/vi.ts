@@ -353,6 +353,7 @@ export const locale = {
       //common
       CF_UPLOAD_FILE: 'Bạn có chắc chắn tải file này lên không?',
       UPLOAD_FILE_SC: 'Tải lên file thành công',
+      NO_MATCH_DATA: 'Không có dữ liệu',
       //I.Lập phiếu công tác
       // 1.Danh sách phiếu công tác
       SUBMIT_REQUEST_SIGN_SUCCESS: 'Gửi yêu cầu trình ký thành công!',
