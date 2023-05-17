@@ -100,7 +100,6 @@ export class ImportIncreaseAssetComponent implements OnInit {
     'assetCode',
     'typeOfAssetName',
     'increaseOriginalAmount',
-    'increaseAmount',
     'sourceOfAssetName',
     'constructionDateStr',
     'depreciationStartDateStr',

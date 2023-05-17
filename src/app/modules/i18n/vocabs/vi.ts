@@ -18,8 +18,8 @@ export const locale = {
     'TYPE-OF-ASSET': 'Danh mục loại tài sản',
     'OPENING-BALANCE': 'Nhập dữ liệu đầu kỳ',
     'IMPORT-INCREASE-ASSET': 'Nhập dữ liệu phát sinh tăng',
-    'TRANSFER-ASSET': 'Điều chuyển tài sản	',
-    'LIQUIDATE-ASSET': 'Thanh lý tài sản ',
+    'TRANSFER-ASSET': 'Điều chuyển tài sản',
+    'LIQUIDATE-ASSET': 'Thanh lý tài sản',
     'REPORT-ASSET': 'Báo cáo tài sản',
     // end menu
     CREATED_DATETIME: 'Ngày tạo',
@@ -214,7 +214,7 @@ export const locale = {
 
       //điều chuyển tài sản
       LIST_TRANSFER_ASSET: 'Danh sách điều chuyển tài sản',
-      ADD_TRANSFER_ASSET: 'Thêm mới điều chuyển tài sản',
+      ADD_TRANSFER_ASSET: 'Điều chuyển tài sản',
       DEPARTMENT_CODE: 'Mã đơn vị chuyển',
       DEPARTMENT_CODE_RECEIVE: 'Mã đơn vị nhận',
       TOTAL: 'Tổng cộng',
@@ -458,16 +458,16 @@ export const locale = {
       ADD_DECREASE_FROM_FILE_SC: 'Thêm phát sinh giảm theo file thành công',
 
       //điều chuyển tài sản
-      CF_ADD_TRANSFER_ASSET_BY_FILE: 'Bạn có chắc chắn muốn thêm điều chuyển tải sản theo file không',
+      CF_ADD_TRANSFER_ASSET_BY_FILE: 'Bạn có chắc chắn muốn điều chuyển tải sản theo file không',
       CF_UPDATE_TRANSFER_ASSET_FILE: 'Bạn có chắc chắn muốn cập nhật điều chuyển tải sản theo file không',
       UPDATE_TRANSFER_ASSET_FROM_FILE_SC: 'Cập nhật điều chuyển tải sản theo file thành công',
-      ADD_TRANSFER_ASSET_FROM_FILE_SC: 'Thêm điều chuyển tải sản theo file thành công',
+      ADD_TRANSFER_ASSET_FROM_FILE_SC: 'Điều chuyển tải sản theo file thành công',
 
       //thanh lí tài sản
-      CF_ADD_LIQUIDATE_ASSET_BY_FILE: 'Bạn có chắc chắn muốn thêm thanh lý tải sản theo file không',
+      CF_ADD_LIQUIDATE_ASSET_BY_FILE: 'Bạn có chắc chắn muốn thanh lý tải sản theo file không',
       CF_UPDATE_LIQUIDATE_ASSET_FILE: 'Bạn có chắc chắn muốn cập nhật thanh lý tải sản theo file không',
       UPDATE_LIQUIDATE_ASSET_FROM_FILE_SC: 'Cập nhật thanh lý tải sản theo file thành công',
-      ADD_LIQUIDATE_ASSET_FROM_FILE_SC: 'Thêm thanh lý tải sản theo file thành công',
+      ADD_LIQUIDATE_ASSET_FROM_FILE_SC: 'Thanh lý tải sản theo file thành công',
 
       //phát sing tăng tài sản
       CF_ADD_IP_INCREASE_ASSET_BY_FILE: 'Bạn có chắc chắn muốn thêm phát sinh tăng tải sản theo file không',

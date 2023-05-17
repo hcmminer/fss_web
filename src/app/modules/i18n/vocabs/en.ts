@@ -2,15 +2,76 @@
 export const locale = {
   lang: 'en',
   data: {
+    // begin menu
+    LIST: 'Danh sách',
+    'BASIC-CONSTRUCTION': 'Basic construction management',
+    'TRANSFER-TO-ASSET': 'Enter decrease occurrence',
+    'OPENING-BALANCE-BC': 'Enter opening balance',
+    'IMPORT-INCREASE': 'Enter incremental growth',
+    REPORT: 'Summary report',
+
+    'ASSET-MANAGE': 'Asset management',
+    'TYPE-OF-ASSET': 'Asset category list',
+    'OPENING-BALANCE': 'Opening balance of assets',
+    'IMPORT-INCREASE-ASSET': 'Increase in assets',
+    'TRANSFER-ASSET': 'Asset transfer',
+    'LIQUIDATE-ASSET': 'Asset liquidation',
+    'REPORT-ASSET': 'Asset report',
+    // end menu
+
+    CREATED_DATETIME: 'Date Created',
+    CREATED_BY: 'Creator',
+    LAST_UPDATED_DATETIME: 'Updated date',
+    LAST_UPDATED_BY: 'Updater',
+    MODAL_WARNING: 'Warning!',
+
+    FUNCTION: {
+      ADD: 'Add New',
+      SUCCSESS_ADD: 'New successfully added',
+      CONFIRM_ADD: 'Are you sure to add new?',
+      UPDATE: 'Update',
+      SUCCSESS_UPDATE: 'Update successful',
+      CONFIRM_UPDATE: 'Are you sure to update?',
+      ADD_BY_FILE: 'Add new by file',
+      UPDATE_BY_FILE: 'Update by file',
+      CONFIRM_DELETE: 'Are you sure to delete?',
+      SUCCSESS_DELETE: 'Delete successful',
+    },
+
+    TYPE_OF_ASSET: {
+      TITLE: 'Asset Type',
+      LIST: 'List of asset types',
+      CODE: 'Asset Type Code',
+      NAME: 'Asset Type Name',
+      ACCOUNT: 'Account',
+      DEPRECIATION_FRAME: 'Amortization frame (year)',
+      DESCRIPTION: 'Description',
+    },
+
     SESSION_EXPIRED: 'Session expired',
     INTERNET_ERROR: 'Internet error',
     FSS_JOB_REQUEST: 'Create job request',
     FSS_MANAGEMENT_JOB_REQUEST: 'Manage job requests',
     FSS_CATEGORY: 'Manage categories',
     SYSTEM_ERROR: 'System error, please try again later!',
-    // 'import-increase':'Psadasdg',
-    // 'OPENING-BALANCE': 'Nhập dữ liệu đầu kỳ',
+
+    NO_MATCH_DATA: 'No data matching the filter',
+    TOTAL_ERROR: 'Total Error',
+    RECORD: 'Record',
+    DATA_NUL_ERR: '-> Empty file !',
+    DOWNLOAD_ERR_FILE: 'Loading error file',
     LABEL: {
+      // ban >>
+      BEGIN_ORIGINAL_AMOUNT: 'Original amount',
+      BEGIN_AMOUNT: 'Begin amount',
+      BEGIN_ORIGINAL_AMOUNT_CURRENT: 'Begin original amount current',
+      BEGIN_ORIGINAL_AMOUNT_TARGET: 'Desired original amount',
+      BEGIN_AMOUNT_CURRENT: 'Current Depreciation',
+      BEGIN_AMOUNT_TARGET: 'Desired depreciation',
+      DEPRECIATION_START_DATE: 'Depreciation start date',
+      DEPRECIATION_END_DATE: 'Depreciation end date',
+      LIST_ASSET: 'List of asset',
+      // ban <<
       // Quản lý phiếu công tác
       USER: 'Username',
       PASSWORD: 'Password',
@@ -85,6 +146,7 @@ export const locale = {
       JOB_DAY: 'Number of working days',
       TOTAL_COST: 'Total cost',
       EMAIL: 'Email',
+      STATUS: 'Status',
       STAFF: 'Staff',
       GENDER: 'Gender',
       POSITION: 'Position',
@@ -109,6 +171,77 @@ export const locale = {
       METHOD: 'Method',
       INPUT_SINGLE: 'Single',
       UPLOAD_FILE: 'Upload file',
+      //số dư đầu kỳ
+      ORGANISATION: 'Organisation',
+      ORGANISATION_CODE: 'Organisation code',
+      ASSETCODE: 'Asset code',
+      CONTRACT: 'Contract',
+      LABOR: 'Labor',
+      MATERIAL: 'Material',
+      CONSTRUCTION_DATE: 'Contruction date',
+      CREATED_DATE: 'Created date',
+      ADD_OPEN_BALANCE: 'Add new opening balance',
+      LIST_OPEN_BALANCE: 'List of opening balances',
+      ERROR_MSG: 'Error Info',
+      TOTAL_MATERIAL: 'Current material',
+      TOTAL_LABOR: 'Current labor',
+      TOTAL_DESIRED_MATERIAL: 'Desired material',
+      TOTAL_DESIRED_LABOR: 'Desired labor',
+      EDIT_OPEN_BALANCE_FILE: 'Update opening balance by file',
+
+      //phát sinh giảm
+      DEPRECIATIONFRAME: 'Depreciation framework',
+      TYPE_OF_ASSET_ACCOUNT: 'Account',
+      TYPE_OF_ASSET_NAME: 'Asset category name',
+      TYPE_OF_ASSET_CODE: 'Asset category code',
+      TYPE_OF_ASSET: 'Asset type',
+      ADD_DECREASE: 'Add new decrease occurrence',
+      EDIT_DECREASE_FILE: 'Update decrease occurrences by file',
+      LIST_DECREASE: 'List of decrease occurrences',
+      LIST_REPORT: 'Summary report list',
+
+      //điều chuyển tài sản
+      LIST_TRANSFER_ASSET: 'Asset transfer list',
+      ADD_TRANSFER_ASSET: 'Add new asset transfer',
+      DEPARTMENT_CODE: 'Transfer department code',
+      DEPARTMENT_CODE_RECEIVE: 'Receiving department code',
+      TOTAL: 'Total',
+      TRANSFER_ORIGINAL_AMOUNT: 'Transfer original amount',
+      TRANSFER_INCREASE_AMOUNT: 'Transfer depreciation',
+
+      NOT_LIQUIDATED: 'Not yet liquidated',
+      LIQUIDATED: 'Already liquidated',
+
+      //thanh lí tài sản
+      LIST_LIQUIDATE_ASSET: 'List of liquidated assets',
+      ADD_LIQUIDATE_ASSET: 'Add new asset liquidation',
+      LIQUIDATE_ASSET: 'Asset liquidation',
+
+      //phát sinh tăng khấu hao
+      INCREASE_ORIGINAL_AMOUNT: ' Increased original amount',
+      INCREASE_ORIGINAL_AMOUNT_CUR: 'Current increased original amount',
+      INCREASE_ORIGINAL_AMOUNT_DESIRE: 'Desired increased original amount',
+      INCREASE_AMOUNT: 'Incremental depreciation',
+      INCREASE_AMOUNT_CUR: 'Current incremental depreciation',
+      INCREASE_AMOUNT_DESIRE: 'Desired incremental depreciatione',
+      SOURCE_OF_ASSET: 'Asset source',
+      SOURCE_OF_ASSET_FILE: `Source of Asset (1 - Basic Construction
+        2 - Shopping)`,
+      DEPRECIATION_STARTDATE: 'Depreciation start date',
+      LAST_UPDATEDATE_TIME: 'Impact date',
+      EDIT_IMPORT_INCREASE_ASSET: 'Update asset incremental growth',
+      ADD_IMPORT_INCREASE_ASSET: 'Add new asset incremental growth',
+      LIST_IMPORT_INCREASE_ASSET: 'List of asset incremental growth',
+      EDIT_IMPORT_INCREASE_ASSET_FILE: 'Update asset incremental growth by file',
+
+      DEPRECIATION_FRAME: 'Depreciation framework (year)',
+      AMOUNT_REPORT: 'Accumulated depreciation',
+      ORIGINAL_AMOUNT_REPORT: 'Original amount',
+      TOTAL_AMOUNT_REPORT: 'Residual value',
+      REPORT_DATE: 'Data closing date',
+      TYPE_REPORT: 'Report Type',
+      DETAILED_REPORT: 'Detailed Report',
+      SYNTHESIS_REPORT: 'Summary report',
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -162,6 +295,43 @@ export const locale = {
       DEPARTMENTS_MANAGER: 'Departments manager',
       LIST_OF_DEPARTMENT: 'List of departments',
       UPDATE_DEPARTMENT: 'Update department',
+
+      //Số dư đầu kỳ
+      OPEN_BALANCE: 'Opening balance',
+      ADD_OPEN_BALANCE: 'Create new opening balance',
+      UPDATE_OPEN_BALANCE: 'Update opening balance',
+
+      //Phát sinh tăng
+      IMPORT_INCREASE: 'Incremental growth',
+      ADD_IMPORT_INCREASE: 'Create new incremental growth',
+      UPDATE_IMPORT_INCREASE: 'Update incremental growth',
+
+      //Phát sinh giảm
+      DECREASE: 'Decrease occurrence',
+      REPORT: 'Summary report',
+      REPORT_ASSET: 'Asset report',
+      ADD_DECREASE: 'Add new decrease occurrence',
+      UPDATE_DECREASE: 'Update decrease occurrence',
+
+      //số dư cuối kỳ
+      CLOSING_BALANCEL: 'Closing balance',
+
+      //điều truyển tài sản
+      TRANSFER_ASSET: 'Asset transfer',
+      ADD_TRANSFER_ASSET: 'Add new asset transfer',
+      LIST_ERR_FILE: 'List of error',
+
+      //thanh lý tài sản
+      LIQUIDATE_ASSET: 'Asset liquidation',
+      ADD_LIQUIDATE_ASSET: 'Asset liquidation',
+
+      //phát sing tăng tài sản
+      IMPORT_INCREASE_ASSET: 'Incremental growth of assets',
+      ADD_IMPORT_INCREASE_ASSET: 'Add new incremental growth of assets',
+      UPDATE_IMPORT_INCREASE_ASSET: 'Update incremental growth of assets',
+      GET_REPORT: 'Export report file',
+      // dữ liệu đầu kỳ
+      OPEN_DEP: 'Opening data',
     },
     REQUIRED: {
       REASON_REFUSE: 'Required to enter a reason for rejection',
@@ -198,7 +368,8 @@ export const locale = {
       ADD_JOB_REQUEST_SUCCESS: 'Add new job requests successfully!',
       REFUSE_JOB_SUCCESS: 'Successful job rejection!',
       //Quản lý danh mục
-      UPDATE_FILE_NORM_MOVING_SUCCESS: 'Upload file of moving norms successfully. Please check the error log in the returned file!',
+      UPDATE_FILE_NORM_MOVING_SUCCESS:
+        'Upload file of moving norms successfully. Please check the error log in the returned file!',
       NORM_MOVING_EXIST: 'This norm of moving already exists on the system!',
       STAFF_EXIST: 'This staff already exits on the system',
       UPDATE_NORM_MOVES_SUCCESS: 'Update norm of moving successfully!',
@@ -242,8 +413,10 @@ export const locale = {
       VEHICLE_BELONG_ROUTE: 'The vehicle to depend on the leg ',
       COST_BELONG_ROUTE: 'The cost to depend on the leg ',
       NOT_BLANK: ' cannot be left',
-      PROVINCE_END_NOT_MATCH: 'The destination province of the last routing detail does not match the province of the end point of the route',
-      PROVINCE_BEGIN_NOT_MATCH: 'The destination province of the first routing detail does not match the province of the begin point of the route',
+      PROVINCE_END_NOT_MATCH:
+        'The destination province of the last routing detail does not match the province of the end point of the route',
+      PROVINCE_BEGIN_NOT_MATCH:
+        'The destination province of the first routing detail does not match the province of the begin point of the route',
       NOT_HOTEL: 'There are no rooms for this hotel/motel yet',
       NO_MATCH_DATA: 'No data matching the filter',
       UPDATE_STAFF_SUCCESS: 'Update Officer/Staff successfully',
@@ -251,6 +424,41 @@ export const locale = {
       SHOP_EXIST: 'This department already exists in the system',
       UPDATE_SHOP_SUCCESS: 'Department update completed',
       ADD_SHOP_SUCCESS: 'Department added successfully',
+
+      //Openning balance
+      CF_ADD_OP_BL_BY_FILE: 'Do you want to add the opening balance by file?',
+      CF_UPDATE_OP_BL_BY_FILE: 'Do you want to update the opening balance by file?',
+      UPDATE_OP_BL_FROM_FILE_SC: 'Successfully updated the opening balance by file',
+      ADD_OP_BL_FROM_FILE_SC: 'Successfully added the opening balance by file',
+      //phát sinh tăng
+      CF_ADD_IM_INCREASE_BY_FILE: 'Do you want to add the incremental growth by file?',
+      CF_UPDATE_IM_INCREASE_BY_FILE: 'Do you want to update the incremental growth by file?',
+      UPDATE_IM_INCREASE_FROM_FILE_SC: 'Successfully updated the incremental growth by file',
+      ADD_IM_INCREASE_FROM_FILE_SC: 'Successfully added the incremental growth by file',
+
+      //phát sinh tăng
+      CF_ADD_DECREASE_BY_FILE: 'Do you want to add decrease occurrences by file?',
+      CF_UPDATE_DECREASE_BY_FILE: 'Do you want to update decrease occurrences by file?',
+      UPDATE_DECREASE_FROM_FILE_SC: 'Successfully updated decrease occurrences by file',
+      ADD_DECREASE_FROM_FILE_SC: 'Successfully added decrease occurrences by file',
+
+      //điều chuyển tài sản
+      CF_ADD_TRANSFER_ASSET_BY_FILE: 'Do you want to transfer assets by file?',
+      CF_UPDATE_TRANSFER_ASSET_FILE: 'Do you want to update asset transfers by file?',
+      UPDATE_TRANSFER_ASSET_FROM_FILE_SC: 'Successfully updated asset transfers by file',
+      ADD_TRANSFER_ASSET_FROM_FILE_SC: 'Successfully transferred assets by file',
+
+      //thanh lí tài sản
+      CF_ADD_LIQUIDATE_ASSET_BY_FILE: 'Do you want to liquidate assets by file?',
+      CF_UPDATE_LIQUIDATE_ASSET_FILE: 'Do you want to update asset liquidation by file?',
+      UPDATE_LIQUIDATE_ASSET_FROM_FILE_SC: 'Successfully updated asset liquidation by file',
+      ADD_LIQUIDATE_ASSET_FROM_FILE_SC: 'Successfully liquidated assets by file',
+
+      //phát sing tăng tài sản
+      CF_ADD_IP_INCREASE_ASSET_BY_FILE: 'Do you want to add asset increases by file?',
+      CF_UPDATE_IP_INCREASE_ASSET_FILE: 'DO you want to update asset increases by file?',
+      UPDATE_IP_INCREASE_ASSET_FROM_FILE_SC: 'Successfully updated asset increases by file',
+      ADD_IP_INCREASE_ASSET_FROM_FILE_SC: 'Successfully added asset increases by file',
     },
     CONFIRM: {
       //I.Lập phiếu công tác
@@ -299,6 +507,28 @@ export const locale = {
       ADD_SHOP: 'Do you want to add this shop?',
       UPDATE_SHOP: 'Do you want to update this department?',
       DELETE_SHOP: 'Do you want to delete this department?',
+
+       //Số dư đầu kỳ
+       UPDATE_OPEN_BALANCE: 'Do you want to update this opening balance?',
+       ADD_OPEN_BALANCE: 'Do you want to add a new opening balance?',
+ 
+       //phát sinh tăng
+       UPDATE_IMPORT_INCREASE: '"Do you want to update this increase occurrence?"?',
+       ADD_IMPORT_INCREASE: 'Do you want to add this new increase occurrence?',
+ 
+       //phát sinh giảm
+       UPDATE_DECREASE: 'Do you want to update this decrease occurrence?',
+       ADD_DECREASE: 'Do you want to add this decrease occurrence?',
+ 
+       //phát sinh tăng tài sản
+       UPDATE_IMPORT_INCREASE_ASSET: 'Do you want to update this asset increase occurrence?',
+       ADD_IMPORT_INCREASE_ASSET: 'Do you want to add this new asset increase occurrence?',
+ 
+       //điều chuyển tài sản
+       TRANSFER_ASSET: 'Do you want to transfer this asset?',
+ 
+       //thanh lý tài sản
+       LIQUIDATE_ASSET: 'Do you want to liquidate this asset?',
     },
     TOOLTIP: {
       REFUSE: 'Refuse',
@@ -447,6 +677,8 @@ export const locale = {
     DATE: {
       FROM_DATE: 'From date',
       TO_DATE: 'To date',
+      CONSTRUCTION: 'data entry date',
+      DEPRECIATION_DATE: 'Depreciation start date',
     },
     ACTION: {
       TITLE: 'Action',

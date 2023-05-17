@@ -2,13 +2,73 @@
 export const locale = {
   lang: 'la',
   data: {
+    LIST: 'Danh sách',
+    'BASIC-CONSTRUCTION': 'ການຄຸ້ມຄອງການກໍ່ສ້າງພື້ນຖານ',
+    'TRANSFER-TO-ASSET': 'ປ້ອນຂໍ້ມູນກໍລະນີມີການຫຼຸດລົງ',
+    'OPENING-BALANCE-BC': 'Nhập số dư đầu kỳ',
+    'IMPORT-INCREASE': 'ປ້ອນຂໍ້ມູນກໍລະນີມີການເພີ່ມຂື້ນ',
+    REPORT: 'ບົດລາຍງານສັງລວມ',
+
+    'ASSET-MANAGE': 'ການຄຸ້ມຄອງຊັບສິນ',
+    'TYPE-OF-ASSET': 'ລາຍຊື່ຂອງປະເພດຊັບສິນ',
+    'OPENING-BALANCE': 'Nhập dữ liệu đầu kỳ',
+    'IMPORT-INCREASE-ASSET': 'ກະລຸນາໃສ່ຂໍ້ມູນກໍລະນີມີການເພີ່ມຂຶ້ນ',
+    'TRANSFER-ASSET': 'ການໂອນຊັບສິນ',
+    'LIQUIDATE-ASSET': 'ການຊຳລະຊັບສິນ',
+    'REPORT-ASSET': 'ບົດລາຍງານຊັບສິນ',
+    // end menu
+    CREATED_DATETIME: 'ວັນທີສ້າງ',
+    CREATED_BY: 'ຜູ້ສ້າງ',
+    LAST_UPDATED_DATETIME: 'ມື້ອັບເດດ',
+    LAST_UPDATED_BY: 'ຜູ້ອັບເດດ',
+    MODAL_WARNING: 'ແຈ້ງເຕືອນ',
+
+    FUNCTION: {
+      ADD: 'ເພີ່ມໃໝ່',
+      SUCCSESS_ADD: 'ເພີ່ມໃໝ່ສຳເລັດແລ້ວ',
+      CONFIRM_ADD: 'ທ່ານແນ່ໃຈບໍ່ວ່າເພີ່ມໃຫມ່?',
+      UPDATE: 'ອັບເດດ',
+      SUCCSESS_UPDATE: 'ອັບເດດສຳເລັດແລ້ວ',
+      CONFIRM_UPDATE: 'ທ່ານແນ່ໃຈບໍ່ທີ່ຈະອັບເດດ?',
+      ADD_BY_FILE: 'ເພີ່ມໃຫມ່ດ້ວຍໄຟລ໌',
+      UPDATE_BY_FILE: 'ອັບເດດດ້ວຍໄຟລ໌',
+      CONFIRM_DELETE: 'ທ່ານແນ່ໃຈບໍ່ວ່າລົບ?',
+      SUCCSESS_DELETE: 'ອັບເດດດ້ວຍໄຟລ໌',
+    },
+    TYPE_OF_ASSET: {
+      TITLE: 'ປະເພດຊັບສິນ',
+      LIST: 'Danh sách loại tài sản',
+      CODE: 'ລະຫັດປະເພດຊັບສິນ',
+      NAME: 'ຊື່ປະເພດຊັບສິນ',
+      ACCOUNT: 'ບັນຊີ',
+      DEPRECIATION_FRAME: 'ຂອບ​ເຂດ​ຄ່າລູ້ຍ​ຫ້ຽນ(ປີ)',
+      DESCRIPTION: 'Mô tả',
+    },
+
     SESSION_EXPIRED: 'ເວີຊັ່ນໝົດອາຍຸແລ້ວ',
     INTERNET_ERROR: 'ເຄືອຂ່າຍຜິດພາດ',
     FSS_JOB_REQUEST: 'ສ້າງໃບສະເໜີອອກວຽກນອກ',
     FSS_MANAGEMENT_JOB_REQUEST: 'ການຄູ້ມຄອງໃບສະເໜີອອກວຽກນອກ',
     FSS_CATEGORY: 'ການຈັດການລາຍການ',
     SYSTEM_ERROR: 'ລະບົບຜິດພາດ, ກະລຸນາລອງໃໝ່ໃນພາຍຫຼັງ!',
+
+    NO_MATCH_DATA: 'Không có dữ liệu',
+    TOTAL_ERROR: 'Tổng lỗi',
+    RECORD: 'ຈຳນວນຂໍ້ມູນ',
+    DATA_NUL_ERR: '-> File rỗng !',
+    DOWNLOAD_ERR_FILE: 'Tải file lỗi',
     LABEL: {
+      // ban >>
+      BEGIN_ORIGINAL_AMOUNT: 'ລາຄາຕົ້ນທືນ',
+      BEGIN_AMOUNT: 'ຄ່າລູ້ຍ​ຫ້ຽນໃນຕອນຕົ້ນ',
+      BEGIN_ORIGINAL_AMOUNT_CURRENT: 'ລາ​ຄາ​ຕົ້ນ​ທືນປັດຈຸບັນ',
+      BEGIN_ORIGINAL_AMOUNT_TARGET: 'ລາ​ຄາ​ຕົ້ນ​ທືນທີ່ຕ້ອງການປ່ຽນ',
+      BEGIN_AMOUNT_CURRENT: 'ຄ່າລູ້ຍ​ຫ້ຽນປັດຈຸບັນ',
+      BEGIN_AMOUNT_TARGET: 'ຄ່າລູ້ຍ​ຫ້ຽນທີ່ຕ້ອງການ',
+      DEPRECIATION_START_DATE: 'ວັນທີເລີ່ມຕົ້ນຂອງຄ່າລູ້ຍ​ຫ້ຽນ',
+      DEPRECIATION_END_DATE: 'ວັນທີສິ້ນສຸດຂອງຄ່າລູ້ຍ​ຫ້ຽນ',
+      LIST_ASSET: 'ລາຍຊື່ຊັບສິນ',
+      // ban <<
       // Quản lý phiếu công tác
       USER: 'ຊື່ຜູ້ໃຊ້',
       PASSWORD: 'ລະຫັດຜ່ານ',
@@ -87,6 +147,7 @@ export const locale = {
       GENDER: 'ເພດ',
       SHOP: 'ພະແນກ',
       STAFF_TYPE: 'ປະເພດພະນັກງານ',
+      STATUS: 'Trạng thái',
       // tab đơn vị
       SHOP_CODE: 'ລະ​ຫັດ​ພະ​ແນກ​',
       PROVINCE_ID: 'ລະຫັັດແຂວງ',
@@ -108,6 +169,84 @@ export const locale = {
       METHOD: 'ວິທີ',
       INPUT_SINGLE: 'ເພີ່່ມແບບດ່ຽວ',
       UPLOAD_FILE: 'ອັບໂຫຼດໄຟລ໌',
+
+       //Số dư đầu kỳ
+       ORGANISATION: 'ພາກສ່ວນ',
+       ORGANISATION_CODE: 'ລະຫັດພາກສ່ວນ',
+       ASSETCODE: 'ລະຫັດຊັບສິນ',
+       CONTRACT: 'ສັນຍາ',
+       LABOR: 'ແຮງ​ງານ',
+       MATERIAL: 'ອຸປະກອນ',
+       CONSTRUCTION_DATE: 'ວັນທີປ້ອນຂໍ້ມູນ',
+       CREATED_DATE: 'Ngày tác động',
+       ADD_OPEN_BALANCE: 'Thêm mới số dư đầu kỳ',
+       LIST_OPEN_BALANCE: 'Danh sách số dư đầu kỳ',
+       ERROR_MSG: 'ຂໍ້​ມູນ​ຄວາມ​ຜິດ​ພາດ​',
+       TOTAL_MATERIAL: 'ອຸ​ປະ​ກອນ​ປະ​ຈຸ​ບັນ​',
+       TOTAL_LABOR: 'ພະນັກງານປະຈຸບັນ',
+       TOTAL_DESIRED_MATERIAL: 'ອຸປະກອນທີ່ຕ້ອງການປ່ຽນ',
+       TOTAL_DESIRED_LABOR: 'ພະນັກງານທີ່ຕ້ອງການປ່ຽນ',
+       EDIT_OPEN_BALANCE_FILE: 'Cập nhật số dư đầu kỳ theo file',
+ 
+       //Phát sinh tăng
+       ADD_IMPORT_INCREASE: 'ເພີ່ມໃໝ່ກໍລະນີມີການເພີ່ມຂຶ້ນ',
+       EDIT_IMPORT_INCREASE_FILE: 'ອັບເດດກໍລະນີມີການເພີ່ມຂຶ້ນດ້ວຍໄຟລ໌',
+       LIST_IMPORT_INCREASE: 'ລາຍຊື່ຂອງກໍລະນີມີການເພີ່ມຂຶ້ນ',
+       PER_PAGE_LABEL: 'ຈຳນວນຂໍ້ມູນ/ໜ້າ',
+ 
+       //phát sinh giảm
+      DEPRECIATIONFRAME: 'ຂອບ​ເຂດ​ຄ່າລູ້ຍ​ຫ້ຽນ',
+      TYPE_OF_ASSET_ACCOUNT: 'ບັນຊີ',
+      TYPE_OF_ASSET_NAME: 'ຊື່ປະເພດຊັບສິນ',
+      TYPE_OF_ASSET_CODE: 'ລະຫັດປະເພດຊັບສິນ',
+      TYPE_OF_ASSET: 'ປະເພດຊັບສິນ',
+      ADD_DECREASE: 'ເພີ່ມໃຫມ່ກໍລະນີມີການເພີ່ມຂຶ້ນ',
+      EDIT_DECREASE_FILE: 'ເພີ່ມໃຫມ່ກໍລະນີມີການຫຼຸດລົງ',
+      LIST_DECREASE: 'ລາຍຊື່ຂອງກໍລະນີມີການຫຼຸດລົງ',
+      LIST_REPORT: 'ລາຍຊື່ຂອງບົດລາຍງານທົ່ວໄປ',
+
+      //điều chuyển tài sản
+      LIST_TRANSFER_ASSET: 'ລາຍຊື່ຂອງການໂອນຊັບສິນ',
+      ADD_TRANSFER_ASSET: 'ການໂອນຊັບສິນ',
+      DEPARTMENT_CODE: 'ລະຫັດພາກສ່ວນທີ່ໂອນ',
+      DEPARTMENT_CODE_RECEIVE: 'ລະຫັດພາກສ່ວນທີ່ຮັບ',
+      TOTAL: 'ທັງໝົດ',
+      TRANSFER_ORIGINAL_AMOUNT: 'ລາຄາຕົ້ນທຶນທີ່ໂອນ',
+      TRANSFER_INCREASE_AMOUNT: 'ຄ່າລູ້ຍ​ຫ້ຽນທີ່ໂອນ',
+
+      NOT_LIQUIDATED: 'ຍັງບໍ່ທັນໄດ້ຊໍາລະ',
+      LIQUIDATED: 'ໄດ້ຊໍາລະແລ້ວ',
+
+      //thanh lí tài sản
+      LIST_LIQUIDATE_ASSET: 'ລາຍຊື່ຂອງການຊໍາລະຊັບສິນ',
+      ADD_LIQUIDATE_ASSET: 'ເພີ່ມໃຫມ່ການຊໍາລະຊັບສິນ',
+      LIQUIDATE_ASSET: 'ການຊຳລະຊັບສິນ',
+ 
+       //phát sinh tăng khấu hao
+       INCREASE_ORIGINAL_AMOUNT: 'ລາຄາຕົ້ນທຶນທີ່ເພີ່ມຂື້ນ',
+       INCREASE_ORIGINAL_AMOUNT_CUR: 'ລາຄາຕົ້ນທຶນທີ່ເພີ່ມຂື້ນປັດຈຸບັນ',
+       INCREASE_ORIGINAL_AMOUNT_DESIRE: 'ລາຄາຕົ້ນທຶນທີ່ເພີ່ມຂື້ນທີ່ຕ້ອງການປ່ຽນ',
+       INCREASE_AMOUNT: 'ຄ່າລູ້ຍ​ຫ້ຽນທີ່ເພີ່ມຂຶ້ນ',
+       INCREASE_AMOUNT_CUR: 'ຄ່າລູ້ຍ​ຫ້ຽນທີ່ເພີ່ມຂຶ້ນປັດຈຸບັນ',
+       INCREASE_AMOUNT_DESIRE: 'ຄ່າລູ້ຍ​ຫ້ຽນທີ່ເພີ່ມຂຶ້ນທີ່ຕ້ອງການປ່ຽນ',
+       SOURCE_OF_ASSET: 'ແຫຼ່ງ​ກຳ​ເນີດ​ຊັບ​ສິນ',
+       SOURCE_OF_ASSET_FILE: `Nguồn hình thành tài sản (1 - Xây dựng cơ bản
+         2 - Mua sắm)`,
+       DEPRECIATION_STARTDATE: 'ວັນທີເລີ່ມຕົ້ນຄ່າລູ້ຍ​ຫ້ຽນ',
+       LAST_UPDATEDATE_TIME: 'Ngày tác động',
+       EDIT_IMPORT_INCREASE_ASSET: 'ອັບເດດກໍລະນີຊັບສິນມີການເພີ່ມຂຶ້ນ',
+       ADD_IMPORT_INCREASE_ASSET: 'ເພີ່ມໃໝ່ກໍລະນີຊັບສິນມີການເພີ່ມຂຶ້ນ',
+       LIST_IMPORT_INCREASE_ASSET: 'ລາຍຊື່ຊັບສິນກໍລະນີມີການເພີ່ມຂຶ້ນ',
+       EDIT_IMPORT_INCREASE_ASSET_FILE: 'ອັບເດດກໍລະນີຊັບສິນມີການເພີ່ມຂຶ້ນດ້ວຍໄຟລ໌',
+ 
+       DEPRECIATION_FRAME: 'ຂອບ​ເຂດ​ຄ່າລູ້ຍ​ຫ້ຽນ(ປີ)',
+       AMOUNT_REPORT: 'ຄ່າລູ້ຍ​ຫ້ຽນສະສົມ',
+       ORIGINAL_AMOUNT_REPORT: 'ລາຄາຕົ້ນທຶນ',
+       TOTAL_AMOUNT_REPORT: 'ມູນຄ່າທີ່ເຫຼືອ',
+       REPORT_DATE: 'ວັນທີປິດຂໍ້ມູນ',
+       TYPE_REPORT: 'ປະເພດລາຍງານ',
+       DETAILED_REPORT: 'ບົດລາຍງານລະອຽດ',
+       SYNTHESIS_REPORT: 'ບົດລາຍງານທົ່ວໄປ',
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -161,6 +300,42 @@ export const locale = {
       LIST_OF_DEPARTMENT: 'ລາຍຊື່ພະແນກ',
       UPDATE_DEPARTMENT: 'ປັບປຸງພະແນກ',
       ADD_NEW_DEPARTMENT: 'ເພີ່ມພະເເນກໃໝ່',
+       //Số dư đầu kỳ
+       OPEN_BALANCE: 'Số dư đầu kỳ',
+       ADD_OPEN_BALANCE: 'Thêm mới số dư đầu kỳ',
+       UPDATE_OPEN_BALANCE: 'Cập nhật số dư đầu kỳ',
+ 
+       //Phát sinh tăng
+       IMPORT_INCREASE: 'ກໍລະນີມີການເພີ່ມຂຶ້ນ',
+       ADD_IMPORT_INCREASE: 'ເພີ່ມໃໝ່ກໍລະນີມີການເພີ່ມຂຶ້ນ',
+       UPDATE_IMPORT_INCREASE: 'ອັບເດດກໍລະນີມີການເພີ່ມຂຶ້ນ',
+ 
+       //Phát sinh giảm
+       DECREASE: 'ກໍລະນີມີການຫຼຸດລົງ',
+       REPORT: 'ບົດລາຍງານທົ່ວໄປ',
+       REPORT_ASSET: 'ບົດລາຍງານຊັບສິນ',
+       ADD_DECREASE: 'ເພີ່ມໃໝ່ກໍລະນີມີການຫຼຸດລົງ',
+       UPDATE_DECREASE: 'ອັບເດດກໍລະນີມີການຫຼຸດລົງ',
+ 
+       //số dư cuối kỳ
+       CLOSING_BALANCEL: 'Số dư cuối kỳ',
+ 
+       //điều truyển tài sản
+       TRANSFER_ASSET: 'ການໂອນຊັບສິນ',
+       ADD_TRANSFER_ASSET: 'ການໂອນຊັບສິນ',
+       LIST_ERR_FILE: 'ລາຍຊື່ໄຟລ໌ຜິດພາດ',
+ 
+       //thanh lý tài sản
+       LIQUIDATE_ASSET: 'ການຊຳລະຊັບສິນ',
+       ADD_LIQUIDATE_ASSET: 'ການຊຳລະຊັບສິນ',
+ 
+       //phát sing tăng tài sản
+       IMPORT_INCREASE_ASSET: 'ກໍລະນີຊັບສິນມີການເພີ່ມຂຶ້ນ',
+       ADD_IMPORT_INCREASE_ASSET: 'ເພີ່ມໃໝ່ກໍລະນີຊັບສິນມີການເພີ່ມຂຶ້ນ',
+       UPDATE_IMPORT_INCREASE_ASSET: 'ອັບເດດກໍລະນີຊັບສິນມີການເພີ່ມຂຶ້ນ',
+       GET_REPORT: 'ສົ່ງອອກເອກະສານລາຍງານ',
+       // dữ liệu đầu kỳ
+       OPEN_DEP: 'Dữ liệu đầu kỳ',
     },
     REQUIRED: {
       REASON_REFUSE: 'ຕ້ອງໄດ້ໃສ່ເຫດຜົນການປະຕິເສດເອກະສານອອກວຽກນອກ',
@@ -250,6 +425,41 @@ export const locale = {
       SHOP_EXIST: 'ພະແນກນີ້ມີຢູ່ໃນລະບົບແລ້ວ',
       UPDATE_SHOP_SUCCESS: 'ອັບເດດພະແນກສຳເລັດແລ້ວ',
       ADD_SHOP_SUCCESS: 'ເພີ່ມພະແນກສຳເລັດແລ້ວ',
+
+       //Openning balance
+       CF_ADD_OP_BL_BY_FILE: 'Bạn có chắc chắn muốn thêm số dư đầu kỳ theo file không',
+       CF_UPDATE_OP_BL_BY_FILE: 'Bạn có chắc chắn muốn cập nhật số dư đầu kỳ theo file không',
+       UPDATE_OP_BL_FROM_FILE_SC: 'Cập nhật số dư đầu kỳ theo file thành công',
+       ADD_OP_BL_FROM_FILE_SC: 'Thêm số dư đầu kỳ theo file thành công',
+       //phát sinh tăng
+       CF_ADD_IM_INCREASE_BY_FILE: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການເພີ່ມໃໝ່ກໍລະນີມີການເພີ່ມຂຶ້ນດ້ວຍໄຟລ໌',
+       CF_UPDATE_IM_INCREASE_BY_FILE: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການອັບເດດກໍລະນີມີການເພີ່ມຂຶ້ນດ້ວຍໄຟລ໌',
+       UPDATE_IM_INCREASE_FROM_FILE_SC: 'ອັບເດດກໍລະນີມີການເພີ່ມຂຶ້ນດ້ວຍໄຟລ໌ສໍາ​ເລັດ​',
+       ADD_IM_INCREASE_FROM_FILE_SC: 'ການເພີ່ມໃໝ່ກໍລະນີມີການຫຼຸດລົງດ້ວຍໄຟລ໌ສໍາ​ເລັດ​',
+ 
+       //phát sinh tăng
+       CF_ADD_DECREASE_BY_FILE: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການເພີ່ມໃໝ່ກໍລະນີມີການຫຼຸດລົງດ້ວຍໄຟລ໌',
+       CF_UPDATE_DECREASE_BY_FILE: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການອັບເດດກໍລະນີມີການຫຼຸດລົງດ້ວຍໄຟລ໌',
+       UPDATE_DECREASE_FROM_FILE_SC: 'ອັບເດດກໍລະນີມີການຫຼຸດລົງດ້ວຍໄຟລ໌ສໍາ​ເລັດ​',
+       ADD_DECREASE_FROM_FILE_SC: 'ເພີ່ມໃໝ່ກໍລະນີມີການເພີ່ມຂຶ້ນດ້ວຍໄຟລ໌ສໍາ​ເລັດ​',
+ 
+       //điều chuyển tài sản
+       CF_ADD_TRANSFER_ASSET_BY_FILE: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການເພີ່ມໃຫມ່ການໂອນຊັບສິນຂອງທ່ານດ້ວຍໄຟລ໌?',
+       CF_UPDATE_TRANSFER_ASSET_FILE: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການອັບເດດການໂອນຊັບສິນຂອງທ່ານດ້ວຍໄຟລ໌?',
+       UPDATE_TRANSFER_ASSET_FROM_FILE_SC: 'ອັບເດດການໂອນຊັບສິນໄຟລ໌ດ້ວຍໄຟລ໌ນສຳເລັດແລ້ວ',
+       ADD_TRANSFER_ASSET_FROM_FILE_SC: 'ເພີ່ມການໂອນຊັບສິນໄຟລ໌ດ້ວຍໄຟລ໌ນສຳເລັດແລ້ວ',
+ 
+       //thanh lí tài sản
+       CF_ADD_LIQUIDATE_ASSET_BY_FILE: 'ທ່ານຕ້ອງການເພີ່ມໃຫມ່ຊໍາລະຊັບສິນດ້ວຍໄຟລ໌ນບໍ?',
+       CF_UPDATE_LIQUIDATE_ASSET_FILE: 'ທ່ານຕ້ອງການອັບເດດຊໍາລະຊັບສິນດ້ວຍໄຟລ໌ນບໍ?',
+       UPDATE_LIQUIDATE_ASSET_FROM_FILE_SC: 'ອັບເດດຊໍາລະຊັບສິນດ້ວຍໄຟລ໌ສໍາເລັດ',
+       ADD_LIQUIDATE_ASSET_FROM_FILE_SC: 'ເພີ່ມການຊໍາລະຊັບສິນດ້ວຍໄຟລ໌ສໍາເລັດ',
+ 
+       //phát sing tăng tài sản
+       CF_ADD_IP_INCREASE_ASSET_BY_FILE: 'ທ່ານຕ້ອງການເພີ່ມໃຫມ່ກໍລະນີຊັບສິນມີການເພີ່ມຂຶ້ນນີ້ບໍ?',
+       CF_UPDATE_IP_INCREASE_ASSET_FILE: 'ທ່ານຕ້ອງການອັບເດດກໍລະນີຊັບສິນມີການເພີ່ມຂຶ້ນນີ້ບໍ?',
+       UPDATE_IP_INCREASE_ASSET_FROM_FILE_SC: 'ອັບເດດກໍລະນີຊັບສິນມີການເພີ່ມຂຶ້ນດ້ວຍໄຟລ໌ສໍາ​ເລັດ​',
+       ADD_IP_INCREASE_ASSET_FROM_FILE_SC: 'ເພີ່ມໃໝ່ກໍລະນີຊັບສິນມີການເພີ່ມຂຶ້ນດ້ວຍໄຟລ໌ສໍາ​ເລັດ​',
     },
     CONFIRM: {
       //I.Lập phiếu công tác
@@ -298,6 +508,28 @@ export const locale = {
       ADD_SHOP: 'ທ່ານຕ້ອງການເພີ່ມພະແນກໃໝ່ນີ້ບໍ?',
       UPDATE_SHOP: 'ທ່ານຕ້ອງການອັບເດດພະແນກນີ້ບໍ?',
       DELETE_SHOP: 'ທ່ານຕ້ອງການລົບພະແນກນີ້ບໍ?',
+
+       //Số dư đầu kỳ
+       UPDATE_OPEN_BALANCE: 'Bạn có muốn cập nhật số dư đầu kỳ này không?',
+       ADD_OPEN_BALANCE: 'Bạn có muốn thêm mới số dư đầu kỳ này không?',
+ 
+       //phát sinh tăng
+       UPDATE_IMPORT_INCREASE: 'ທ່ານຕ້ອງການອັບເດດກໍລະນີມີການເພີ່ມຂຶ້ນນີ້ບໍ?',
+       ADD_IMPORT_INCREASE: 'ທ່ານຕ້ອງການເພີ່ມໃຫມ່ກໍລະນີມີການເພີ່ມຂຶ້ນນີ້ບໍ?',
+ 
+       //phát sinh giảm
+       UPDATE_DECREASE: 'ທ່ານຕ້ອງການອັບເດດກໍລະນີມີຫຼຸດລົງນີ້ບໍ?',
+       ADD_DECREASE: 'ທ່ານຕ້ອງການເພີ່ມໃຫມ່ກໍລະນີມີຫຼຸດລົງນີ້ບໍ?',
+ 
+       //phát sinh tăng tài sản
+       UPDATE_IMPORT_INCREASE_ASSET: 'ທ່ານຕ້ອງການອັບເດດກໍລະນີມີການເພີ່ມຂຶ້ນນີ້ບໍ?',
+       ADD_IMPORT_INCREASE_ASSET: 'ທ່ານຕ້ອງການເພີ່ມໃຫມ່ກໍລະນີມີການເພີ່ມຂຶ້ນນີ້ບໍ?',
+ 
+       //điều chuyển tài sản
+       TRANSFER_ASSET: 'Bạn có muốn điều chuyển tài sản này không?',
+ 
+       //thanh lý tài sản
+       LIQUIDATE_ASSET: 'Bạn có muốn thanh lý tài sản này không?',
     },
     TOOLTIP: {
       REFUSE: 'ປະຕິເສດ',
@@ -446,6 +678,8 @@ export const locale = {
     DATE: {
       FROM_DATE: 'ແຕ່ວັນທີ',
       TO_DATE: 'ຮອດວັນທີ',
+      CONSTRUCTION: 'ວັນທີປ້ອນຂໍ້ມູນ',
+      DEPRECIATION_DATE: 'ວັນທີເລີ່ມຕົ້ນຂອງຄ່າລູ້ຍ​ຫ້ຽນ',
     },
     ACTION: {
       TITLE: 'ການຫມູນໃຊ້',
