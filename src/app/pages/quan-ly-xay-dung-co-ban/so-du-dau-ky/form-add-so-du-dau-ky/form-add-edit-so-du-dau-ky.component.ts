@@ -39,7 +39,7 @@ export const MY_FORMATS = {
   styleUrls: ['./form-add-so-du-dau-ky.component.scss'],
   providers: [
     {
-      provide: DateAdapter, 
+      provide: DateAdapter,
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
@@ -105,29 +105,46 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     public openingBalanceService: openingBalanceService,
     private _liveAnnouncer: LiveAnnouncer,
     @Inject(Injector) private readonly injector: Injector,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     console.log(!this.isUpdate);
 
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
-      this.columnsToDisplay = ['index', 'assetCode', 'materialTotalStr', 'materialStr', 'laborTotalStr', 'laborStr', 'constructionDateStr','errorMsg'];
+      this.columnsToDisplay = [
+        'index',
+        'parentAssetCode',
+        'assetCode',
+        'materialTotalStr',
+        'materialStr',
+        'laborTotalStr',
+        'laborStr',
+        'constructionDateStr',
+        'errorMsg',
+      ];
       this.addType = 'file';
-      this.loadAddFileForm()
+      this.loadAddFileForm();
     } else {
-      this.columnsToDisplay = ['index', 'organisation', 'assetCode', 'contract', 'material', 'labor', 'constructionDateStr', 'errorMsg'];
+      this.columnsToDisplay = [
+        'index',
+        'organisation',
+        'assetCode',
+        'contract',
+        'material',
+        'labor',
+        'constructionDateStr',
+        'errorMsg',
+      ];
     }
 
     if (this.isUpdate) {
-
       this.loadAddForm();
       let request = this.apiGetSum().subscribe(
         (res) => {
           if (res.errorCode == '0') {
-            this.addEditForm.get('totalMaterial').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'))
-            this.addEditForm.get('totalLabor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'))
+            this.addEditForm.get('totalMaterial').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'));
+            this.addEditForm.get('totalLabor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'));
             console.log(this.addEditForm);
           } else if (res.errorCode == '1') {
             this.toastService.error(res.description);
@@ -140,19 +157,21 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
         },
       );
       this.subscriptions.push(request);
-
     } else {
       this.loadAddForm();
     }
   }
 
-
   loadAddForm() {
     this.addEditForm = this.fb.group({
       organisation: [this.isUpdate ? this.item.organisation : '', [Validators.required]],
       assetCode: [this.isUpdate ? this.item.assetCode : '', [Validators.required]],
+      parentAssetCode: [this.isUpdate ? this.item.parentAssetCode : ''],
       contract: [this.isUpdate ? this.item.contract : '', [Validators.required]],
-      constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
+      constructionDateStr: [
+        this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(),
+        [Validators.required],
+      ],
       material: ['', [Validators.required]],
       labor: ['', [Validators.required]],
       totalMaterial: [''],
@@ -171,9 +190,9 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     const req = {
       userName: this.userName,
       constructionDTO: {
-        assetCode: this.item.assetCode
-      }
-    }
+        assetCode: this.item.assetCode,
+      },
+    };
     return this.globalService.globalApi(req, 'get-bc-open-sum-current');
   }
 
@@ -186,13 +205,15 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   }
 
   //check input date
-  eChangeDate(){
-    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value)
-    
-    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
-      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
-    }else {
-      this.constructionDateErrorMsg = ''
+  eChangeDate() {
+    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value);
+
+    if (tempStartDate == '' || tempStartDate == null || tempStartDate == undefined) {
+      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+      });
+    } else {
+      this.constructionDateErrorMsg = '';
     }
   }
 
@@ -209,14 +230,13 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       backdrop: 'static',
       keyboard: false,
       size: 'lg',
-      centered: true
+      centered: true,
     });
   }
   isValidForm(): boolean {
     let isValid = true;
     Object.keys(this.addEditForm.controls).forEach((key) => {
-      const controlErrors: ValidationErrors =
-        this.addEditForm.get(key).errors;
+      const controlErrors: ValidationErrors = this.addEditForm.get(key).errors;
 
       if (controlErrors) {
         isValid = false;
@@ -242,6 +262,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       userName: this.userName,
       constructionDTO: {
         assetCode: this.addEditForm.get('assetCode').value,
+        parentAssetCode: this.addEditForm.get('parentAssetCode').value,
         organisation: this.addEditForm.get('organisation').value,
         contract: this.addEditForm.get('contract').value,
         constructionDateStr: this.transform(this.addEditForm.get('constructionDateStr').value),
@@ -249,7 +270,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
         labor: Number(this.addEditForm.get('labor').value.replaceAll(',', '')),
         materialTotal: Number(this.addEditForm.get('totalMaterial').value.replaceAll(',', '')),
         laborTotal: Number(this.addEditForm.get('totalLabor').value.replaceAll(',', '')),
-      }
+      },
     };
     if (this.isUpdate) {
       return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'update-bc-opening-single');
@@ -264,7 +285,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     return value;
   }
 
-  //add hoặc edit 
+  //add hoặc edit
   save() {
     const modalRef = this.modalService.open(CommonAlertDialogComponent, {
       centered: true,
@@ -273,7 +294,9 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     modalRef.componentInstance.data = {
       type: 'WARNING',
       title: 'COMMON_MODAL.WARNING',
-      message: this.isUpdate ? this.translate.instant('CONFIRM.UPDATE_OPEN_BALANCE') : this.translate.instant('CONFIRM.ADD_OPEN_BALANCE'),
+      message: this.isUpdate
+        ? this.translate.instant('CONFIRM.UPDATE_OPEN_BALANCE')
+        : this.translate.instant('CONFIRM.ADD_OPEN_BALANCE'),
       continue: true,
       cancel: true,
       btn: [
@@ -283,9 +306,13 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     };
     modalRef.result.then(
       (result) => {
-        let request = this.conditionAddEdit().subscribe(res => {
+        let request = this.conditionAddEdit().subscribe((res) => {
           if (res.errorCode === '0') {
-            this.toastrService.success(this.isUpdate ? this.translate.instant('COMMON.MESSAGE.UPDATE_SUCCESS') : this.translate.instant('COMMON.MESSAGE.CREATE_SUCCESS'));
+            this.toastrService.success(
+              this.isUpdate
+                ? this.translate.instant('COMMON.MESSAGE.UPDATE_SUCCESS')
+                : this.translate.instant('COMMON.MESSAGE.CREATE_SUCCESS'),
+            );
             this.activeModal.close();
             this.handleClose();
           } else {
@@ -293,12 +320,11 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
             this.handleClose();
           }
         });
-        this.subscriptions.push(request)
+        this.subscriptions.push(request);
       },
-      (reason) => { },
+      (reason) => {},
     );
   }
-
 
   //theo file
   apiGetTemplate() {
@@ -307,12 +333,16 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       req = this.req;
     } else {
       req = {
-        userName: this.userName
-      }
+        userName: this.userName,
+      };
     }
-    return this.globalService.globalApi(req, this.isUpdateFile ? 'down-temp-update-bc-opening' : 'down-temp-add-bc-opening');
+    return this.globalService.globalApi(
+      req,
+      this.isUpdateFile ? 'down-temp-update-bc-opening' : 'down-temp-add-bc-opening',
+    );
   }
   getTemplate() {
+    debugger
     const sub = this.apiGetTemplate().subscribe((res) => {
       if (res.errorCode == '0') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
@@ -371,60 +401,64 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
           params: {
             userName: this.userName,
           },
-          formData: formData
+          formData: formData,
         };
 
         this.dataSource = new MatTableDataSource([]);
-        let request = this.globalService.globalApi(requestTarget, this.isUpdateFile ? 'update-bc-opening-by-file' : 'add-bc-opening-by-file').subscribe(
-          (res) => {
-            if (res.errorCode == '0') {
-              this.toastService.success(this.translate.instant('MESSAGE.UPLOAD_FILE_SC'));
-              this.openingBalanceService.errOpeningBalanceList.next(res.data);
-              this.dataSource = new MatTableDataSource(this.openingBalanceService.errOpeningBalanceList.value);
-              this.dataSource.paginator = this.paginator;
-              this.dataSource.sort = this.sort;
-              let isError = res.data.find((item) => item.errorMsg != '');
-              this.totalSuccess = res.data.filter((item) => item.errorMsg == '').length;
-              this.totalRecord = res.data.length;
-              this.isHasResult = true;
-              if (isError) {
-                this.openingBalanceService.getErrOpeningBalanceFile.next(res);
+        let request = this.globalService
+          .globalApi(requestTarget, this.isUpdateFile ? 'update-bc-opening-by-file' : 'add-bc-opening-by-file')
+          .subscribe(
+            (res) => {
+              if (res.errorCode == '0') {
+                this.toastService.success(this.translate.instant('MESSAGE.UPLOAD_FILE_SC'));
+                this.openingBalanceService.errOpeningBalanceList.next(res.data);
+                this.dataSource = new MatTableDataSource(this.openingBalanceService.errOpeningBalanceList.value);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+                let isError = res.data.find((item) => item.errorMsg != '');
+                this.totalSuccess = res.data.filter((item) => item.errorMsg == '').length;
+                this.totalRecord = res.data.length;
+                this.isHasResult = true;
+                if (isError) {
+                  this.openingBalanceService.getErrOpeningBalanceFile.next(res);
+                  this.isErrorFile = true;
+                } else {
+                  this.openingBalanceService.getErrOpeningBalanceFile.next(null);
+                  this.isErrorFile = false;
+                }
+                this.magicButtonUpdate = isError ? false : true;
+                this.dataNullErr = false;
+              } else if (res.errorCode == '1') {
+                this.isHasResult = true;
+                this.totalSuccess = 0;
+                this.totalRecord = 0;
                 this.isErrorFile = true;
+                this.dataNullErr = true;
+                this.toastService.error(res.description);
               } else {
-                this.openingBalanceService.getErrOpeningBalanceFile.next(null);
-                this.isErrorFile = false;
+                this.toastService.error(res.description);
               }
-              this.magicButtonUpdate = isError ? false : true;
-              this.dataNullErr = false;
-            } else if (res.errorCode == '1') {
-              this.isHasResult = true;
-              this.totalSuccess = 0;
-              this.totalRecord = 0;
-              this.isErrorFile = true;
-              this.dataNullErr = true;
-              this.toastService.error(res.description);
-            } else {
-              this.toastService.error(res.description);
-            }
-          },
-          (error) => {
-            this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
-          },
-        );
+            },
+            (error) => {
+              this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
+            },
+          );
         this.subscriptions.push(request);
       },
-      (reason) => { },
+      (reason) => {},
     );
   }
 
-
-  //confirm file 
+  //confirm file
   apiCofirmUpdateByFile() {
     const req = {
       userName: this.userName,
       listConstructionDTO: this.openingBalanceService.errOpeningBalanceList.value,
     };
-    return this.globalService.globalApi(req, this.isUpdateFile ? 'confirm-update-bc-opening-by-file' : 'confirm-add-bc-opening-by-file');
+    return this.globalService.globalApi(
+      req,
+      this.isUpdateFile ? 'confirm-update-bc-opening-by-file' : 'confirm-add-bc-opening-by-file',
+    );
   }
 
   eDownloadFileSuccess() {
@@ -461,7 +495,9 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     modalRef.componentInstance.data = {
       type: 'WARNING',
       title: 'MODAL_WARNING',
-      message: this.isUpdateFile ? this.translate.instant('MESSAGE.CF_UPDATE_OP_BL_BY_FILE') : this.translate.instant('MESSAGE.CF_ADD_OP_BL_BY_FILE'),
+      message: this.isUpdateFile
+        ? this.translate.instant('MESSAGE.CF_UPDATE_OP_BL_BY_FILE')
+        : this.translate.instant('MESSAGE.CF_ADD_OP_BL_BY_FILE'),
       continue: true,
       cancel: true,
       btn: [
@@ -481,7 +517,11 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
               this.openingBalanceService.getSuccessOpeningBalanceFile.next(res);
               this.resultDesc = res.description;
               this.resultCode = 'success';
-              this.toastService.success(this.isUpdateFile ? this.translate.instant('MESSAGE.UPDATE_OP_BL_FROM_FILE_SC') : this.translate.instant('MESSAGE.ADD_OP_BL_FROM_FILE_SC'));
+              this.toastService.success(
+                this.isUpdateFile
+                  ? this.translate.instant('MESSAGE.UPDATE_OP_BL_FROM_FILE_SC')
+                  : this.translate.instant('MESSAGE.ADD_OP_BL_FROM_FILE_SC'),
+              );
             } else if (res.errorCode == '3') {
               this.resultDesc = res.description;
               this.resultCode = 'warning';
@@ -497,7 +537,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
           this.subscriptions.push(sub);
         }
       },
-      (reason) => { },
+      (reason) => {},
     );
   }
 
@@ -535,7 +575,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     this.magicButtonUpdate = false;
     this.totalRecord = 0;
     this.dataSource = new MatTableDataSource([]);
-    this.isHasResult =  false;
+    this.isHasResult = false;
   }
 
   validateFile(event: any) {

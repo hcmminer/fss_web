@@ -94,6 +94,7 @@ export class PhatSinhGiamComponent implements OnInit {
   columnsToDisplay = [
     'index',
     'organisation',
+    'parentAssetCode',
     'assetCode',
     'contract',
     'labor',
@@ -104,7 +105,7 @@ export class PhatSinhGiamComponent implements OnInit {
     'typeOfAssetName',
     'constructionDateStr',
     'createdDatetimeStr',
-    'action'
+    // 'action'
   ];
 
   constructor(

@@ -91,6 +91,7 @@ export class TransferAssetComponent implements OnInit {
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
     'index',
+    'parentAssetCode',
     'assetCode',
     'increaseOriginalAmount',
     'increaseAmount',

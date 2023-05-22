@@ -18,11 +18,10 @@ import { timeToName } from 'src/app/utils/functions';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
-
 const queryInit = {
-  // groupFilter: '',
+  groupFilter: '',
   organisation: '',
-  assetCode: '',
+  // assetCode: '',
   contract: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
@@ -58,17 +57,17 @@ export const MY_FORMATS = {
 })
 export class ReportComponent implements OnInit {
   currentPage = 1;
-  // @ViewChild('autoFocus') private _inputElement: ElementRef; 
+  @ViewChild('autoFocus') private _inputElement: ElementRef;
   pageSize: number = 10;
   source: any;
   ngAfterViewInit(): void {
-    // this.source = fromEvent(this._inputElement.nativeElement, 'keyup');
-    // this.source.pipe(debounceTime(400)).subscribe((value) => {
-    //   this.eSearch();
-    //   if (this.dataSource.paginator) {
-    //     this.dataSource.paginator.firstPage();
-    //   }
-    // });
+    this.source = fromEvent(this._inputElement.nativeElement, 'keyup');
+    this.source.pipe(debounceTime(400)).subscribe((value) => {
+      this.eSearch();
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
+    });
   }
   dataSource: MatTableDataSource<any>;
 
@@ -92,9 +91,27 @@ export class ReportComponent implements OnInit {
   };
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
-    'index', 'organisation', 'assetCode', 'contract', 'sodauky', 'phatsinhtang', 'phatsinhgiam',
-    'soducuoiky', 'openMaterial', 'openLabor', 'openTotal', 'increaseLabor', 'increaseMaterial',
-    'increaseTotal', 'decreaseLabor', 'decreaseMaterial', 'decreaseTotal', 'laborTotal', 'materialTotal', 'total'
+    'index',
+    'organisation',
+    'parentAssetCode',
+    'assetCode',
+    'contract',
+    'sodauky',
+    'phatsinhtang',
+    'phatsinhgiam',
+    'soducuoiky',
+    'openMaterial',
+    'openLabor',
+    'openTotal',
+    'increaseLabor',
+    'increaseMaterial',
+    'increaseTotal',
+    'decreaseLabor',
+    'decreaseMaterial',
+    'decreaseTotal',
+    'laborTotal',
+    'materialTotal',
+    'total',
   ];
 
   constructor(
@@ -117,37 +134,37 @@ export class ReportComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initCombobox()
+    this.initCombobox();
     this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.isAdmin = this.userRes.isAdmin;
     this.eSearch();
-
   }
- 
-  eChangeDate(){
-    let tempStartDate = this.transform(this.searchForm.get('start').value)
+
+  eChangeDate() {
+    let tempStartDate = this.transform(this.searchForm.get('start').value);
     console.log(tempStartDate);
-    
-    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
-      this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
-    }else {
-      this.startDateErrorMsg = ''
+
+    if (tempStartDate == '' || tempStartDate == null || tempStartDate == undefined) {
+      this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('DATE.FROM_DATE'),
+      });
+    } else {
+      this.startDateErrorMsg = '';
     }
   }
 
   // init data for view form search
   loadSearchForm() {
     this.searchForm = this.fb.group({
-      // groupFilter: [this.query.groupFilter],
+      groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
-      assetCode: [this.query.assetCode],
+      // assetCode: [this.query.assetCode],
       start: [this.query.startDate],
       end: [this.query.endDate],
     });
   }
-
 
   transform(value: string) {
     let datePipe = new DatePipe('en-US');
@@ -179,8 +196,8 @@ export class ReportComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       searchDTO: {
-        // groupFilter: this.query.groupFilter,
-        assetCode: this.searchForm.get('assetCode').value,
+        groupFilter: this.query.groupFilter,
+        // assetCode: this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
         toDateStr: this.transform(this.searchForm.get('end').value),
@@ -202,13 +219,13 @@ export class ReportComponent implements OnInit {
     req = {
       userName: this.userName,
       searchDTO: {
-        // groupFilter: this.query.groupFilter,
-        assetCode: this.searchForm.get('assetCode').value,
+        groupFilter: this.query.groupFilter,
+        // assetCode: this.searchForm.get('assetCode').value,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
         toDateStr: this.transform(this.searchForm.get('end').value),
       },
-    }
+    };
     return this.globalService.globalApi(req, 'export-bc-synthesis-report');
   }
 
@@ -295,5 +312,4 @@ export class ReportComponent implements OnInit {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
-
 }

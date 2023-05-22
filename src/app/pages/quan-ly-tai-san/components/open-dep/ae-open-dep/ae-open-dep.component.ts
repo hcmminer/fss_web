@@ -47,7 +47,7 @@ export const MY_FORMATS = {
 export class AeOpenDepComponent implements OnInit {
   propData;
   propAction;
-
+  parentAssetCode;
   assetCode;
   typeOfAssetCode = '';
 
@@ -106,6 +106,7 @@ export class AeOpenDepComponent implements OnInit {
 
   loadAddForm() {
     this.addForm = this.fb.group({
+      parentAssetCode: [this.parentAssetCode],
       assetCode: [this.assetCode, [Validators.required]],
       typeOfAssetCode: [this.typeOfAssetCode, [Validators.required]],
       departmentCode: [this.departmentCode, [Validators.required]],
@@ -134,6 +135,7 @@ export class AeOpenDepComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       depreciationDetailDTO: {
+        parentAssetCode: this.addForm.get('parentAssetCode').value,
         assetCode: this.addForm.get('assetCode').value,
         typeOfAssetCode: this.addForm.get('typeOfAssetCode').value,
         organisation: this.addForm.get('departmentCode').value,

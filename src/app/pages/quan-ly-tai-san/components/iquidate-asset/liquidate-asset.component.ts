@@ -90,6 +90,7 @@ export class LiquidateAssetComponent implements OnInit {
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
     'index',
+    'parentAssetCode',
     'assetCode',
     'constructionDateStr',
     'createdDatetimeStr',

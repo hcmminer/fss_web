@@ -92,13 +92,14 @@ export class SoDuDauKyComponent implements OnInit {
   columnsToDisplay = [
     'index',
     'organisation',
+    'parentAssetCode',
     'assetCode',
     'contract',
     'labor',
     'material',
     'constructionDateStr',
     'createdDatetimeStr',
-    'action'
+    'action',
   ];
 
   constructor(
@@ -120,7 +121,7 @@ export class SoDuDauKyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initCombobox()
+    this.initCombobox();
     this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
@@ -128,14 +129,16 @@ export class SoDuDauKyComponent implements OnInit {
     this.eSearch();
   }
 
-  eChangeDate(){
-    let tempStartDate = this.transform(this.searchForm.get('start').value)
+  eChangeDate() {
+    let tempStartDate = this.transform(this.searchForm.get('start').value);
     console.log(tempStartDate);
-    
-    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
-      this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
-    }else {
-      this.startDateErrorMsg = ''
+
+    if (tempStartDate == '' || tempStartDate == null || tempStartDate == undefined) {
+      this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('DATE.FROM_DATE'),
+      });
+    } else {
+      this.startDateErrorMsg = '';
     }
   }
 

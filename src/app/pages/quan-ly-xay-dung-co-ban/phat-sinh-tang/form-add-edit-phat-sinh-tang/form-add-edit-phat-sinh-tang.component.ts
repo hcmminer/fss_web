@@ -39,7 +39,7 @@ export const MY_FORMATS = {
   styleUrls: ['./form-add-edit-phat-sinh-tang.component.scss'],
   providers: [
     {
-      provide: DateAdapter, 
+      provide: DateAdapter,
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
@@ -105,17 +105,34 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     public openingBalanceService: openingBalanceService,
     private _liveAnnouncer: LiveAnnouncer,
     @Inject(Injector) private readonly injector: Injector,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
-      this.columnsToDisplay = ['index', 'assetCode', 'materialTotalStr', 'materialStr', 'laborTotalStr', 'laborStr','constructionDateStr' ,'errorMsg'];
+      this.columnsToDisplay = [
+        'index',
+        'assetCode',
+        'materialTotalStr',
+        'materialStr',
+        'laborTotalStr',
+        'laborStr',
+        'constructionDateStr',
+        'errorMsg',
+      ];
       this.addType = 'file';
-      this.loadAddFileForm()
+      this.loadAddFileForm();
     } else {
-      this.columnsToDisplay = ['index', 'organisation', 'assetCode', 'contract', 'material', 'labor', 'constructionDateStr', 'errorMsg'];
+      this.columnsToDisplay = [
+        'index',
+        // 'organisation',
+        'assetCode',
+        // 'contract',
+        'material',
+        'labor',
+        'constructionDateStr',
+        'errorMsg',
+      ];
     }
 
     if (this.isUpdate) {
@@ -123,9 +140,8 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
       let request = this.apiGetSum().subscribe(
         (res) => {
           if (res.errorCode == '0') {
-
-            this.addEditForm.get('totalMaterial').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'))
-            this.addEditForm.get('totalLabor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'))
+            this.addEditForm.get('totalMaterial').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'));
+            this.addEditForm.get('totalLabor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'));
           } else if (res.errorCode == '1') {
             this.toastService.error(res.description);
           } else {
@@ -137,19 +153,20 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
         },
       );
       this.subscriptions.push(request);
-
     } else {
       this.loadAddForm();
     }
   }
 
-
   loadAddForm() {
     this.addEditForm = this.fb.group({
-      organisation: [this.isUpdate ? this.item.organisation : '', [Validators.required]],
+      // organisation: [this.isUpdate ? this.item.organisation : '', [Validators.required]],
       assetCode: [this.isUpdate ? this.item.assetCode : '', [Validators.required]],
-      contract: [this.isUpdate ? this.item.contract : '', [Validators.required]],
-      constructionDateStr: [this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(), [Validators.required]],
+      // contract: [this.isUpdate ? this.item.contract : '', [Validators.required]],
+      constructionDateStr: [
+        this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(),
+        [Validators.required],
+      ],
       material: ['', [Validators.required]],
       labor: ['', [Validators.required]],
       totalMaterial: [''],
@@ -168,9 +185,9 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     const req = {
       userName: this.userName,
       constructionDTO: {
-        assetCode: this.item.assetCode
-      }
-    }
+        assetCode: this.item.assetCode,
+      },
+    };
     return this.globalService.globalApi(req, 'get-bc-increase-sum-current');
   }
 
@@ -183,16 +200,17 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
   }
 
   //check input date
-  eChangeDate(){
-    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value)
-    
-    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
-      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
-    }else {
-      this.constructionDateErrorMsg = ''
+  eChangeDate() {
+    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value);
+
+    if (tempStartDate == '' || tempStartDate == null || tempStartDate == undefined) {
+      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+      });
+    } else {
+      this.constructionDateErrorMsg = '';
     }
   }
-
 
   handleClose() {
     this.closeContent.emit(true);
@@ -207,14 +225,13 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
       backdrop: 'static',
       keyboard: false,
       size: 'lg',
-      centered: true
+      centered: true,
     });
   }
   isValidForm(): boolean {
     let isValid = true;
     Object.keys(this.addEditForm.controls).forEach((key) => {
-      const controlErrors: ValidationErrors =
-        this.addEditForm.get(key).errors;
+      const controlErrors: ValidationErrors = this.addEditForm.get(key).errors;
 
       if (controlErrors) {
         isValid = false;
@@ -240,14 +257,14 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
       userName: this.userName,
       constructionDTO: {
         assetCode: this.addEditForm.get('assetCode').value,
-        organisation: this.addEditForm.get('organisation').value,
-        contract: this.addEditForm.get('contract').value,
+        // organisation: this.addEditForm.get('organisation').value,
+        // contract: this.addEditForm.get('contract').value,
         constructionDateStr: this.transform(this.addEditForm.get('constructionDateStr').value),
         material: Number(this.addEditForm.get('material').value.replaceAll(',', '')),
         labor: Number(this.addEditForm.get('labor').value.replaceAll(',', '')),
         materialTotal: Number(this.addEditForm.get('totalMaterial').value.replaceAll(',', '')),
         laborTotal: Number(this.addEditForm.get('totalLabor').value.replaceAll(',', '')),
-      }
+      },
     };
     if (this.isUpdate) {
       return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'update-bc-increase-single');
@@ -262,7 +279,7 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     return value;
   }
 
-  //add hoặc edit 
+  //add hoặc edit
   save() {
     const modalRef = this.modalService.open(CommonAlertDialogComponent, {
       centered: true,
@@ -270,8 +287,10 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     });
     modalRef.componentInstance.data = {
       type: 'WARNING',
-      title: 'COMMON_MODAL.WARNING',  
-      message: this.isUpdate ? this.translate.instant('CONFIRM.UPDATE_IMPORT_INCREASE') : this.translate.instant('CONFIRM.ADD_IMPORT_INCREASE'),
+      title: 'COMMON_MODAL.WARNING',
+      message: this.isUpdate
+        ? this.translate.instant('CONFIRM.UPDATE_IMPORT_INCREASE')
+        : this.translate.instant('CONFIRM.ADD_IMPORT_INCREASE'),
       continue: true,
       cancel: true,
       btn: [
@@ -281,9 +300,13 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     };
     modalRef.result.then(
       (result) => {
-        let request = this.conditionAddEdit().subscribe(res => {
+        let request = this.conditionAddEdit().subscribe((res) => {
           if (res.errorCode === '0') {
-            this.toastrService.success(this.isUpdate ? this.translate.instant('COMMON.MESSAGE.UPDATE_SUCCESS') : this.translate.instant('COMMON.MESSAGE.CREATE_SUCCESS'));
+            this.toastrService.success(
+              this.isUpdate
+                ? this.translate.instant('COMMON.MESSAGE.UPDATE_SUCCESS')
+                : this.translate.instant('COMMON.MESSAGE.CREATE_SUCCESS'),
+            );
             this.activeModal.close();
             this.handleClose();
           } else {
@@ -291,12 +314,11 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
             this.handleClose();
           }
         });
-        this.subscriptions.push(request)
+        this.subscriptions.push(request);
       },
-      (reason) => { },
+      (reason) => {},
     );
   }
-
 
   //theo file
   apiGetTemplate() {
@@ -305,10 +327,13 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
       req = this.req;
     } else {
       req = {
-        userName: this.userName
-      }
+        userName: this.userName,
+      };
     }
-    return this.globalService.globalApi(req, this.isUpdateFile ? 'down-temp-update-bc-increase' : 'down-template-add-bc-increase');
+    return this.globalService.globalApi(
+      req,
+      this.isUpdateFile ? 'down-temp-update-bc-increase' : 'down-template-add-bc-increase',
+    );
   }
   getTemplate() {
     const sub = this.apiGetTemplate().subscribe((res) => {
@@ -369,60 +394,64 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
           params: {
             userName: this.userName,
           },
-          formData: formData
+          formData: formData,
         };
 
         this.dataSource = new MatTableDataSource([]);
-        let request = this.globalService.globalApi(requestTarget, this.isUpdateFile ? 'update-bc-increase-by-file' : 'add-bc-increase-by-file').subscribe(
-          (res) => {
-            if (res.errorCode == '0') {
-              this.toastService.success(this.translate.instant('MESSAGE.UPLOAD_FILE_SC'));
-              this.openingBalanceService.errImportIncreaseList.next(res.data);
-              this.dataSource = new MatTableDataSource(this.openingBalanceService.errImportIncreaseList.value);
-              this.dataSource.paginator = this.paginator;
-              this.dataSource.sort = this.sort;
-              let isError = res.data.find((item) => item.errorMsg != '');
-              this.totalSuccess = res.data.filter((item) => item.errorMsg == '').length;
-              this.totalRecord = res.data.length;
-              this.isHasResult = true;
-              if (isError) {
-                this.openingBalanceService.getErrImportIncreaseFile.next(res);
+        let request = this.globalService
+          .globalApi(requestTarget, this.isUpdateFile ? 'update-bc-increase-by-file' : 'add-bc-increase-by-file')
+          .subscribe(
+            (res) => {
+              if (res.errorCode == '0') {
+                this.toastService.success(this.translate.instant('MESSAGE.UPLOAD_FILE_SC'));
+                this.openingBalanceService.errImportIncreaseList.next(res.data);
+                this.dataSource = new MatTableDataSource(this.openingBalanceService.errImportIncreaseList.value);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+                let isError = res.data.find((item) => item.errorMsg != '');
+                this.totalSuccess = res.data.filter((item) => item.errorMsg == '').length;
+                this.totalRecord = res.data.length;
+                this.isHasResult = true;
+                if (isError) {
+                  this.openingBalanceService.getErrImportIncreaseFile.next(res);
+                  this.isErrorFile = true;
+                } else {
+                  this.openingBalanceService.getErrImportIncreaseFile.next(null);
+                  this.isErrorFile = false;
+                }
+                this.magicButtonUpdate = isError ? false : true;
+                this.dataNullErr = false;
+              } else if (res.errorCode == '1') {
+                this.isHasResult = true;
+                this.totalSuccess = 0;
+                this.totalRecord = 0;
                 this.isErrorFile = true;
+                this.dataNullErr = true;
+                this.toastService.error(res.description);
               } else {
-                this.openingBalanceService.getErrImportIncreaseFile.next(null);
-                this.isErrorFile = false;
+                this.toastService.error(res.description);
               }
-              this.magicButtonUpdate = isError ? false : true;
-              this.dataNullErr = false;
-            } else if (res.errorCode == '1') {
-              this.isHasResult = true;
-              this.totalSuccess = 0;
-              this.totalRecord = 0;
-              this.isErrorFile = true;
-              this.dataNullErr = true;
-              this.toastService.error(res.description);
-            } else {
-              this.toastService.error(res.description);
-            }
-          },
-          (error) => {
-            this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
-          },
-        );
+            },
+            (error) => {
+              this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
+            },
+          );
         this.subscriptions.push(request);
       },
-      (reason) => { },
+      (reason) => {},
     );
   }
 
-
-  //confirm file 
+  //confirm file
   apiCofirmUpdateByFile() {
     const req = {
       userName: this.userName,
       listConstructionDTO: this.openingBalanceService.errImportIncreaseList.value,
     };
-    return this.globalService.globalApi(req, this.isUpdateFile ? 'confirm-update-bc-increase-by-file' : 'confirm-add-bc-increase-by-file');
+    return this.globalService.globalApi(
+      req,
+      this.isUpdateFile ? 'confirm-update-bc-increase-by-file' : 'confirm-add-bc-increase-by-file',
+    );
   }
 
   eDownloadFileSuccess() {
@@ -459,7 +488,9 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     modalRef.componentInstance.data = {
       type: 'WARNING',
       title: 'MODAL_WARNING',
-      message: this.isUpdateFile ? this.translate.instant('MESSAGE.CF_UPDATE_IM_INCREASE_BY_FILE') : this.translate.instant('MESSAGE.CF_ADD_IM_INCREASE_BY_FILE'),
+      message: this.isUpdateFile
+        ? this.translate.instant('MESSAGE.CF_UPDATE_IM_INCREASE_BY_FILE')
+        : this.translate.instant('MESSAGE.CF_ADD_IM_INCREASE_BY_FILE'),
       continue: true,
       cancel: true,
       btn: [
@@ -479,7 +510,11 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
               this.openingBalanceService.getSuccessImportIncreaseFile.next(res);
               this.resultDesc = res.description;
               this.resultCode = 'success';
-              this.toastService.success(this.isUpdateFile ? this.translate.instant('MESSAGE.UPDATE_IM_INCREASE_FROM_FILE_SC') : this.translate.instant('MESSAGE.ADD_IM_INCREASE_FROM_FILE_SC'));
+              this.toastService.success(
+                this.isUpdateFile
+                  ? this.translate.instant('MESSAGE.UPDATE_IM_INCREASE_FROM_FILE_SC')
+                  : this.translate.instant('MESSAGE.ADD_IM_INCREASE_FROM_FILE_SC'),
+              );
             } else if (res.errorCode == '3') {
               this.resultDesc = res.description;
               this.resultCode = 'warning';
@@ -495,7 +530,7 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
           this.subscriptions.push(sub);
         }
       },
-      (reason) => { },
+      (reason) => {},
     );
   }
 
@@ -533,7 +568,7 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     this.magicButtonUpdate = false;
     this.totalRecord = 0;
     this.dataSource = new MatTableDataSource([]);
-    this.isHasResult =  false;
+    this.isHasResult = false;
   }
 
   validateFile(event: any) {
