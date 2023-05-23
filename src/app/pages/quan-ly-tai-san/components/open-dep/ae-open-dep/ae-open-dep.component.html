@@ -17,11 +17,25 @@
               {{ 'LABEL.PARENT_ASSETCODE' | translate }}</label>
             <div class="col-md-3">
               <input
-                class="form-control"
-                formControlName="parentAssetCode"
-                [class.is-invalid]="isControlInvalid('parentAssetCode')"
-                maxlength="200"
-              />
+              type="text"
+              matInput
+              maxlength="50"
+              class="form-control field-autocomplete"
+              formControlName="parentAssetCode"
+              style="border: 1px solid #bdbdbd"
+              [matAutocomplete]="autoParentAssetCode"
+              (keyup)="filterByParentAssetCode()"
+              (click)="triggerParentAssetCode.openPanel()"
+              #triggerParentAssetCode="matAutocompleteTrigger"
+            />
+            <mat-autocomplete #autoParentAssetCode="matAutocomplete" [displayWith]="displayFnParentAssetCode">
+              <mat-option
+                *ngFor="let item of openingBalanceService.cbxparentAssetParentAssetCode | async"
+                [value]="item"
+              >
+                {{ item.assetCode }}
+              </mat-option>
+            </mat-autocomplete>
             </div>
             <!-- assetCode -->
             <label class="col-md-2 form-label col-form-label">
@@ -33,7 +47,7 @@
                 class="form-control"
                 formControlName="assetCode"
                 [class.is-invalid]="isControlInvalid('assetCode')"
-                maxlength="200"
+                maxlength="50"
               />
               <div class="invalid-feedback" *ngIf="controlHasError('required', 'assetCode')">
                 {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.ASSETCODE' | translate } }}

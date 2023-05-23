@@ -17,14 +17,21 @@
             {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
           </td>
         </ng-container>
+           <!-- parentAssetCode -->
+           <ng-container matColumnDef="parentAssetCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ 'LABEL.PARENT_ASSETCODE' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let item" class="text-left">{{ item.parentAssetCode }}</td>
+          </ng-container>
         <!-- assetCode -->
         <ng-container matColumnDef="assetCode">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'LABEL.ASSETCODE' | translate }}
           </th>
           <td mat-cell *matCellDef="let item" class="text-left">{{ item.assetCode }}</td>
-        </ng-container>
-        <!-- assetCode -->
+        </ng-container>   
+        <!-- contract -->
         <ng-container matColumnDef="contract">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'LABEL.CONTRACT' | translate }}

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { CONFIG } from 'src/app/utils/constants';
 import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
@@ -19,6 +19,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import * as moment from 'moment';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { debounceTime } from 'rxjs/operators';
 
 const MAX_FILE_SIZE_TEMPLATE = 1024 * 1024 * 10;
 export const MY_FORMATS = {
@@ -91,7 +92,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   totalRecord: number = null;
   isHasResult: boolean = false;
   columnsToDisplay: any;
-
+  modelChanged = new Subject<string>();
   //
 
   constructor(
@@ -107,14 +108,25 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     @Inject(Injector) private readonly injector: Injector,
   ) {}
 
-  ngOnInit(): void {
-    console.log(!this.isUpdate);
+  initCombobox() {
+    let reqGetListStatus = { userName: this.userName };
+    this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
+    this.openingBalanceService.getCbxBcParentAssetCode(reqGetListStatus, 'search-bc-opening'); 
+  }
 
+  ngOnInit(): void {
+    this.initCombobox();
+    this.modelChanged
+    .pipe(
+      debounceTime(800))
+    .subscribe((value) => {
+      let reqGetListStatus = { userName: this.userName };
+      this.openingBalanceService.getCbxBcParentAssetCode(reqGetListStatus, 'search-bc-opening', value); 
+    })
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
       this.columnsToDisplay = [
         'index',
-        'parentAssetCode',
         'assetCode',
         'materialTotalStr',
         'materialStr',
@@ -129,6 +141,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       this.columnsToDisplay = [
         'index',
         'organisation',
+        'parentAssetCode',
         'assetCode',
         'contract',
         'material',
@@ -262,7 +275,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       userName: this.userName,
       constructionDTO: {
         assetCode: this.addEditForm.get('assetCode').value,
-        parentAssetCode: this.addEditForm.get('parentAssetCode').value,
+        parentAssetCode: !this.addEditForm.get('parentAssetCode').value.assetCode ? this.addEditForm.get('parentAssetCode').value : this.addEditForm.get('parentAssetCode').value.assetCode,
         organisation: this.addEditForm.get('organisation').value,
         contract: this.addEditForm.get('contract').value,
         constructionDateStr: this.transform(this.addEditForm.get('constructionDateStr').value),
@@ -324,6 +337,14 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       },
       (reason) => {},
     );
+  }
+
+  filterByParentAssetCode() {
+    this.modelChanged.next(this.addEditForm.get('parentAssetCode').value);
+  }
+
+  displayFnParentAssetCode(item: any): string {
+    return item ? item.assetCode : undefined;
   }
 
   //theo file

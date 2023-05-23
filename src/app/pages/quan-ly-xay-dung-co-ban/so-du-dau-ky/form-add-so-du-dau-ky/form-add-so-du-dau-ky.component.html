@@ -27,18 +27,30 @@
           <div class="col-md-1"></div>
           <div class="col-md-10">
             <div class="row">
-              <label class="col-md-2 form-label col-form-label font-14" for="parentAssetCode"
-                >{{ 'LABEL.PARENT_ASSETCODE' | translate }}</label
-              >
+              <label class="col-md-2 form-label col-form-label font-14" for="parentAssetCode">{{
+                'LABEL.PARENT_ASSETCODE' | translate
+              }}</label>
               <div class="col-md-3">
                 <input
                   type="text"
+                  matInput
                   maxlength="50"
-                  class="form-control"
-                  id="assetCode"
-                  autocomplete="off"
+                  class="form-control field-autocomplete"
                   formControlName="parentAssetCode"
+                  style="border: 1px solid #bdbdbd"
+                  [matAutocomplete]="autoParentAssetCode"
+                  (keyup)="filterByParentAssetCode()"
+                  (click)="triggerParentAssetCode.openPanel()"
+                  #triggerParentAssetCode="matAutocompleteTrigger"
                 />
+                <mat-autocomplete #autoParentAssetCode="matAutocomplete" [displayWith]="displayFnParentAssetCode">
+                  <mat-option
+                    *ngFor="let item of openingBalanceService.cbxparentBcParentAssetCode | async"
+                    [value]="item"
+                  >
+                    {{ item.assetCode }}
+                  </mat-option>
+                </mat-autocomplete>
               </div>
               <div class="col-md-2"></div>
               <label class="col-md-2 form-label col-form-label font-14" for="assetCode"

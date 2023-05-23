@@ -36,6 +36,7 @@ export class DetailBcDecreaseComponent implements OnInit {
   columnsToDisplay = [
     'index',
     'organisation',
+    // 'parentAssetCode',
     'assetCode',
     'contract',
     'labor',
