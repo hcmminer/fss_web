@@ -68,7 +68,7 @@ export class ChecklistDatabase implements OnInit {
     public quanLyKpiService: QuanLyKpiService,
   ) {
     this.eSearch();
-    this.initialize();
+    
   }
 
   userName;
@@ -80,8 +80,9 @@ export class ChecklistDatabase implements OnInit {
   eSearch() {
     const rq = this.httpSearch().subscribe((res) => {
       if (res.errorCode == '0') {
-        TREE_DATA = res.data;
-        console.log("🚀 ~ file: bo-tieu-chi.component.ts:84 ~ ChecklistDatabase ~ rq ~ TREE_DATA:", TREE_DATA)
+        // TREE_DATA = res.data;
+        TREE_DATA = TREE_DATA_1;
+        this.initialize();
       } else {
         TREE_DATA = null;
       }
