@@ -106,6 +106,7 @@ export const locale = {
       ROOM_TYPE: 'ປະເພດຫ້ອງ',
       SHOP_NAME: 'ຊື່ື່ພະແນກ',
       POSITION: 'ຕໍາ​ແຫນ່ງ',
+      STAFF_CATEGORY: 'ກຸ່ມ​ພະ​ນັກ​ງານ​',
       DEPARTMENT_TYPE: 'ປະເພດພະແນກ',
       SHOP_TYPE: 'ປະເພດພະແນກ',
       // Lập phiếu công tác

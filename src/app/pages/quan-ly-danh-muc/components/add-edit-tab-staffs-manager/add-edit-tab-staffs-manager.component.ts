@@ -37,6 +37,7 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
   staffType = 1;
   shopId = '';
   position = '';
+  staffCategory = '';
   // no required
   staffCode = '';
   mobile;
@@ -51,11 +52,11 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
       name: this.translate.instant('LABEL.INPUT_SINGLE'),
       checked: true,
     },
-    // {
-    //   value: 'file',
-    //   name: this.translate.instant('LABEL.UPLOAD_FILE'),
-    //   checked: false,
-    // },
+    {
+      value: 'file',
+      name: this.translate.instant('LABEL.UPLOAD_FILE'),
+      checked: false,
+    },
   ];
   addType: string = 'single';
   selectedFile: any = null;
@@ -94,6 +95,7 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
       email: [this.email, [Validators.email, Validators.required]],
       provinceId: [this.provinceId, [Validators.required]],
       title: [this.title, [Validators.required]],
+      staffCategory: [this.staffCategory, [Validators.required]],
     });
   }
 
@@ -115,6 +117,10 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
     this.validateFile(event);
     this.selectedFile = event.target.files[0] ?? null;
     this.resultFileData = null;
+  }
+
+  ressetFile(event: any): void {
+    event.target.value = null;
   }
 
   validateFile(event: any) {
@@ -146,11 +152,11 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
   }
   // download excell mẫu
   getTemplate() {
-    this.categoryManagerService.downloadTemplate().subscribe((x) => {
+    this.categoryManagerService.downloadTemplateStaff().subscribe((x) => {
       var blob = new Blob([x], { type: '' });
       var elem = window.document.createElement('a');
       elem.href = window.URL.createObjectURL(blob);
-      elem.download = 'IMPORT_ROUTING_PRICE_TMP.xlsx';
+      elem.download = 'IMPORT_STAFF.xlsx';
       document.body.appendChild(elem);
       elem.click();
       document.body.removeChild(elem);
@@ -203,7 +209,7 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.data = {
         type: 'WARNING',
         title: 'COMMON_MODAL.WARNING',
-        message: this.translate.instant('MESSAGE.UPLOAD_FILE_NORM_MOVE'),
+        message: this.translate.instant('MESSAGE.CF_UPLOAD_FILE'),
         continue: true,
         cancel: true,
         btn: [
@@ -222,7 +228,7 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
             const formData: FormData = new FormData();
             formData.append('fileCreateRequest', this.selectedFile);
             const requestTarget = {
-              functionName: 'importRoutingPrice',
+              functionName: 'importStaff',
               method: 'POST',
               params: {
                 userName: this.userName,
@@ -234,13 +240,13 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
             this.commonService.callAPICommon(requestTarget as RequestApiModel).subscribe(
               (res) => {
                 if (res) {
-                  this.toastService.success(this.translate.instant('MESSAGE.UPDATE_FILE_NORM_MOVING_SUCCESS'));
+                  this.toastService.success(this.translate.instant('MESSAGE.UPLOAD_FILE_SC'));
                   this.totalSuccess = res.headers.get('total-success');
                   this.totalRecord = res.headers.get('total-record');
                   this.isHasResult = true;
                   this.resultFileData = res;
                   //download result file
-                  this.exportFile();
+                  this.exportFileStaff();
                   // this.activeModal.close();
                 } else {
                   this.toastService.error(this.translate.instant('SYSTEM_ERROR'));
@@ -252,21 +258,23 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
             );
           }
         },
-        (reason) => {},
+        (reason) => {console.log(reason)},
       );
     }
   }
 
-  exportFile() {
+  
+  exportFileStaff() {
     if (this.resultFileData) {
       let now = new Date();
       let month = now.getMonth() < 9 ? '0' + (now.getMonth() + 1) : now.getMonth() + 1;
       let day = now.getDate() < 10 ? '0' + now.getDate() : now.getDate();
-      let fileName = 'importRoutingPrice_result_' + now.getFullYear() + month + day + '.xlsx';
+      let fileName = 'import_staff_result_' + now.getFullYear() + month + day + '.xlsx';
       // FileSaver.saveAs(data, fileName);
       this.categoryManagerService.saveFile(fileName, 'application/octet-stream', this.resultFileData);
     }
   }
+
   // kiem tra du lieu truoc khi day len api
   checkValidBeforeAddOrUpdate(): any {
     // Checking nhan vien da ton tai trong DB
@@ -346,6 +354,7 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
             staffType: this.addForm.get('staffType').value,
             shopId: this.addForm.get('shopId').value,
             position: this.addForm.get('position').value,
+            staffCategory: this.addForm.get('staffCategory').value,
             // no required
             staffCode: this.addForm.get('staffCode').value,
             mobile: this.addForm.get('mobile').value,
@@ -377,6 +386,7 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
             staffType: this.addForm.get('staffType').value,
             shopId: this.addForm.get('shopId').value,
             position: this.addForm.get('position').value,
+            staffCategory: this.addForm.get('staffCategory').value,
             // no required
             staffCode: this.addForm.get('staffCode').value,
             mobile: this.addForm.get('mobile').value,

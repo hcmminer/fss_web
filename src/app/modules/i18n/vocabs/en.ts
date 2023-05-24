@@ -150,6 +150,7 @@ export const locale = {
       STAFF: 'Staff',
       GENDER: 'Gender',
       POSITION: 'Position',
+      STAFF_CATEGORY: 'Staff group',
       // Tab đơn vị
       SHOP_CODE: 'Shop code',
       PROVINCE_ID: 'Province ID',

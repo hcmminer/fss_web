@@ -6,7 +6,9 @@
     <hr />
     <br />
     <div class="row form-group" *ngIf="!isUpdate">
-      <label class="col-md-2 form-label col-form-label" style="padding-left: 75px" for="tinhDi">{{ 'LABEL.METHOD' | translate }}</label>
+      <label class="col-md-2 form-label col-form-label" style="padding-left: 75px" for="tinhDi">{{
+        'LABEL.METHOD' | translate
+      }}</label>
       <div class="col-md-4 d-flex align-items-center">
         <mat-radio-group [(ngModel)]="addType" (change)="changeState()">
           <mat-radio-button *ngFor="let type of addTypeList" [value]="type.value" [checked]="type.checked">
@@ -23,8 +25,16 @@
           {{ 'LABEL.FROM_PROVINCE' | translate }} <span style="color: red">*</span></label
         >
         <div class="col-md-4">
-          <select class="form-control" name="tinhDi" id="tinhDi" formControlName="tinhDi" [class.is-invalid]="isControlInvalid('tinhDi')">
-            <option *ngFor="let tinhDi of quanLyPhieuCongTacService.cbxTinh | async" [value]="tinhDi.provinceId">{{ tinhDi.provinceName }}</option>
+          <select
+            class="form-control"
+            name="tinhDi"
+            id="tinhDi"
+            formControlName="tinhDi"
+            [class.is-invalid]="isControlInvalid('tinhDi')"
+          >
+            <option *ngFor="let tinhDi of quanLyPhieuCongTacService.cbxTinh | async" [value]="tinhDi.provinceId">
+              {{ tinhDi.provinceName }}
+            </option>
           </select>
           <div class="invalid-feedback" *ngIf="controlHasError('required', 'tinhDi')">
             {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.FROM_PROVINCE' | translate } }}
@@ -35,8 +45,16 @@
           {{ 'LABEL.TO_PROVINCE' | translate }} <span style="color: red">*</span></label
         >
         <div class="col-md-3">
-          <select class="form-control" name="tinhDen" id="tinhDen" formControlName="tinhDen" [class.is-invalid]="isControlInvalid('tinhDen')">
-            <option *ngFor="let tinhDen of quanLyPhieuCongTacService.cbxTinh | async" [value]="tinhDen.provinceId">{{ tinhDen.provinceName }}</option>
+          <select
+            class="form-control"
+            name="tinhDen"
+            id="tinhDen"
+            formControlName="tinhDen"
+            [class.is-invalid]="isControlInvalid('tinhDen')"
+          >
+            <option *ngFor="let tinhDen of quanLyPhieuCongTacService.cbxTinh | async" [value]="tinhDen.provinceId">
+              {{ tinhDen.provinceName }}
+            </option>
           </select>
           <div class="invalid-feedback" *ngIf="controlHasError('required', 'tinhDen')">
             {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.TO_PROVINCE' | translate } }}
@@ -55,7 +73,10 @@
             formControlName="phuongTien"
             [class.is-invalid]="isControlInvalid('phuongTien')"
           >
-            <option *ngFor="let phuongTien of quanLyPhieuCongTacService.cbxPhuongTien | async" [value]="phuongTien.value">
+            <option
+              *ngFor="let phuongTien of quanLyPhieuCongTacService.cbxPhuongTien | async"
+              [value]="phuongTien.value"
+            >
               {{ phuongTien.name }}
             </option>
           </select>
@@ -92,7 +113,9 @@
       </div>
 
       <div class="row form-group">
-        <label class="col-md-2 form-label col-form-label" style="padding-left: 75px" for="ghiChu">{{ 'LABEL.NOTE' | translate }}</label>
+        <label class="col-md-2 form-label col-form-label" style="padding-left: 75px" for="ghiChu">{{
+          'LABEL.NOTE' | translate
+        }}</label>
         <div class="col-md-4">
           <textarea
             class="form-control"
@@ -117,7 +140,9 @@
         <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
           {{ 'COMMON_BUTTON.CLOSE' | translate }}
         </button>
-        <button class="btn btn-primary mx-3" style="width: 150px" (click)="eSave('single')">{{ 'COMMON_BUTTON.SAVE' | translate }}</button>
+        <button class="btn btn-primary mx-3" style="width: 150px" (click)="eSave('single')">
+          {{ 'COMMON_BUTTON.SAVE' | translate }}
+        </button>
       </div>
     </form>
 
@@ -134,7 +159,12 @@
         </div>
         <div class="col-md-6">
           <div class="input-group">
-            <button class="btn btn-primary sticky-input-button" type="button" mat-raised-button (click)="fileInput.click()">
+            <button
+              class="btn btn-primary sticky-input-button"
+              type="button"
+              mat-raised-button
+              (click)="fileInput.click()"
+            >
               {{ 'LABEL.SELECT_FLE' | translate }} *
             </button>
             <input
@@ -159,7 +189,10 @@
 
         <div class="col-md-3 col-form-label" *ngIf="isHasResult">
           <span style="color: red"
-            >Tổng lỗi: {{ totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{ totalRecord | number : '1.0' : 'en-US' }} bản ghi</span
+            >Tổng lỗi: {{ totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{
+              totalRecord | number : '1.0' : 'en-US'
+            }}
+            bản ghi</span
           >
         </div>
 
@@ -175,10 +208,18 @@
         <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
           {{ 'COMMON_BUTTON.CLOSE' | translate }}
         </button>
-        <button class="btn btn-primary mx-3" style="width: 150px" (click)="eSave('file')">{{ 'COMMON_BUTTON.UPLOAD' | translate }}</button>
+        <button class="btn btn-primary mx-3" style="width: 150px" (click)="eSave('file')">
+          {{ 'COMMON_BUTTON.UPLOAD' | translate }}
+        </button>
       </div>
     </form>
   </div>
   <div class="pb-1"></div>
-  <ngx-spinner bdColor="rgba(0,0,0,0.6)" size="default" color="#1dc5be" type="ball-clip-rotate" [fullScreen]="true"></ngx-spinner>
+  <ngx-spinner
+    bdColor="rgba(0,0,0,0.6)"
+    size="default"
+    color="#1dc5be"
+    type="ball-clip-rotate"
+    [fullScreen]="true"
+  ></ngx-spinner>
 </div>

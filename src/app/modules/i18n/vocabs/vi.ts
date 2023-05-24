@@ -155,6 +155,7 @@ export const locale = {
       STATUS: 'Trạng thái',
       SHOP_ID: 'ID đơn vị',
       POSITION: 'Chức danh',
+      STAFF_CATEGORY: 'Nhóm nhân viên',
       // Tab đơn vị
       SHOP_CODE: 'Mã đơn vị',
       PROVINCE_ID: 'Mã tỉnh',

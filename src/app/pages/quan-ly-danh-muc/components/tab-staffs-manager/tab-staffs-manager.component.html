@@ -7,10 +7,17 @@
           {{ 'TITLE.LIST_OF_STAFFS' | translate }}
         </h5>
       </div>
-      <div class="col-md-6"></div>
-      <div class="col-md-1">
-        <div (click)="eSave(null, false)" class="btn btn-green font-weight-bolder mx-2" style="height: 38px; padding: 7px 32px; margin: auto">
-          <i class="fas fa-plus cursor-pointer" style="color: white"></i>
+      <!-- hành động đầu bảng -->
+      <div class="col-md-7">
+        <div class="d-flex justify-content-end">
+          <div
+            (click)="eSave(null, false)"
+            class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
+          >
+            <!-- <i class="fas fa-file-excel fa-xs" style="color: green"></i> -->
+            <i class="fas fa-plus fa-xs" style="color: green"></i>
+            {{ 'FUNCTION.ADD' | translate }}
+          </div>
         </div>
       </div>
     </div>
@@ -27,7 +34,14 @@
             <!-- Index Column -->
             <ng-container matColumnDef="index">
               <th mat-header-cell *matHeaderCellDef>{{ 'LABEL.STT' | translate }}</th>
-              <td mat-cell *matCellDef="let index = index">{{ paginator.pageIndex * paginator.pageSize + index + 1 }}</td>
+              <td mat-cell *matCellDef="let index = index">
+                {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
+              </td>
+            </ng-container>
+            <!-- staffCategory -->
+            <ng-container matColumnDef="staffCategoryName">
+              <th mat-header-cell *matHeaderCellDef>{{ 'LABEL.STAFF_CATEGORY' | translate }}</th>
+              <td mat-cell *matCellDef="let item">{{ item.staffCategoryName }}</td>
             </ng-container>
             <!-- STAFF_CODE -->
             <ng-container matColumnDef="staffCode">
@@ -56,7 +70,10 @@
                 {{ (item.gender === '1' ? 'LABEL.G_MALE' : 'LABEL.G_FEMALE') | translate }}
               </td> -->
               <td mat-cell *matCellDef="let item">
-                <ng-template *ngFor="let option of categoryManagerService.cbxGender | async" [ngIf]="option.value == item.gender">
+                <ng-template
+                  *ngFor="let option of categoryManagerService.cbxGender | async"
+                  [ngIf]="option.value == item.gender"
+                >
                   <div id="item.staffType">{{ option.name }}</div>
                 </ng-template>
               </td>
@@ -70,7 +87,12 @@
               <td mat-cell *matCellDef="let item">
                 <div class="d-flex justify-content-around">
                   <div (click)="eSave(item, true)">
-                    <i data-toggle="tooltip" data-placement="top" [title]="'ACTION.UPDATE' | translate" class="fas fa-edit p-0 icon-view-detail"></i>
+                    <i
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      [title]="'ACTION.UPDATE' | translate"
+                      class="fas fa-edit p-0 icon-view-detail"
+                    ></i>
                   </div>
                   <div (click)="eDelete(item)">
                     <i

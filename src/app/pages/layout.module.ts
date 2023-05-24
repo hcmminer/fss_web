@@ -26,6 +26,7 @@ import {TruncatePipe} from '../utils/TruncatePipe';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgbDateCustomParserFormatter} from '../_metronic/core/utils/ngb-date-custom-parser-formatter';
 import {SharedLanguageSelectionModule} from '../_metronic/shared/shared-language-selection/shared-language-selection.module';
+import { QuanLyKpiComponent } from './quan-ly-kpi/quan-ly-kpi.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import {SharedLanguageSelectionModule} from '../_metronic/shared/shared-language
     TopbarComponent,
     AsideDynamicComponent,
     HeaderMenuDynamicComponent,
+    QuanLyKpiComponent,
   ],
   imports: [
     CommonModule,
