@@ -10,8 +10,8 @@ export const environment = {
   // local
   // apiUrl: 'http://localhost:8322/api',
   // test
-  // apiUrl: 'http://10.120.44.68:8885/fss/api',
-  apiUrl: 'http://10.120.44.68:8885/kpi/api',
+  apiUrl: 'http://10.120.44.68:8885/fss/api',
+  // apiUrl: 'http://10.120.44.68:8885/kpi/api',
   defaultLanguage: 'vi',
 };
 
