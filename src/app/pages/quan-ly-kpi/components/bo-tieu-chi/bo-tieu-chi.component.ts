@@ -1,8 +1,17 @@
-import {SelectionModel} from '@angular/cdk/collections';
-import {FlatTreeControl} from '@angular/cdk/tree';
-import {Component, Injectable} from '@angular/core';
-import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
-import {BehaviorSubject} from 'rxjs';
+import { SelectionModel } from '@angular/cdk/collections';
+import { FlatTreeControl } from '@angular/cdk/tree';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { RequestApiModel } from 'src/app/pages/_models/request-api.model';
+import { GlobalService } from 'src/app/pages/_services/global.service';
+import { QuanLyKpiService } from 'src/app/pages/_services/quan-ly-kpi.service';
+import { CONFIG } from 'src/app/utils/constants';
 
 /**
  * Node for to-do item
@@ -22,7 +31,7 @@ export class TodoItemFlatNode {
 /**
  * The Json object for to-do list data.
  */
-const TREE_DATA = {
+let TREE_DATA_1 = {
   Groceries: {
     'Almond Meal flour': null,
     'Organic eggs': null,
@@ -30,15 +39,13 @@ const TREE_DATA = {
     Fruits: {
       Apple: null,
       Berries: ['Blueberry', 'Raspberry'],
-      Orange: null
-    }
+      Orange: null,
+    },
   },
-  Reminders: [
-    'Cook dinner',
-    'Read the Material Design spec',
-    'Upgrade Application to Angular'
-  ]
+  Reminders: ['Cook dinner', 'Read the Material Design spec', 'Upgrade Application to Angular'],
 };
+
+let TREE_DATA = {};
 
 /**
  * Checklist database, it can build a tree structured Json object.
@@ -46,13 +53,48 @@ const TREE_DATA = {
  * If a node is a category, it has children items and new items can be added under the category.
  */
 @Injectable()
-export class ChecklistDatabase {
+export class ChecklistDatabase implements OnInit {
+  private subscriptions: Subscription[] = [];
   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
+  @ViewChild('paginator', { static: true }) paginator: MatPaginator;
 
-  get data(): TodoItemNode[] { return this.dataChange.value; }
+  get data(): TodoItemNode[] {
+    return this.dataChange.value;
+  }
 
-  constructor() {
+  constructor(
+    private globalService: GlobalService,
+    public translate: TranslateService,
+    public quanLyKpiService: QuanLyKpiService,
+  ) {
+    this.eSearch();
     this.initialize();
+  }
+
+  userName;
+  ngOnInit(): void {
+    this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
+    this.eSearch();
+  }
+
+  eSearch() {
+    const rq = this.httpSearch().subscribe((res) => {
+      if (res.errorCode == '0') {
+        TREE_DATA = res.data;
+        console.log("🚀 ~ file: bo-tieu-chi.component.ts:84 ~ ChecklistDatabase ~ rq ~ TREE_DATA:", TREE_DATA)
+      } else {
+        TREE_DATA = null;
+      }
+    });
+    this.subscriptions.push(rq);
+  }
+
+  httpSearch() {
+    const requestTarget = {
+      userName: this.userName,
+      kpiPeriodDTO: {},
+    };
+    return this.globalService.globalApi(requestTarget, 'searchKpiManager');
   }
 
   initialize() {
@@ -68,7 +110,7 @@ export class ChecklistDatabase {
    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
    * The return value is the list of `TodoItemNode`.
    */
-  buildFileTree(obj: {[key: string]: any}, level: number): TodoItemNode[] {
+  buildFileTree(obj: { [key: string]: any }, level: number): TodoItemNode[] {
     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
       const value = obj[key];
       const node = new TodoItemNode();
@@ -89,7 +131,7 @@ export class ChecklistDatabase {
   /** Add an item to to-do list */
   insertItem(parent: TodoItemNode, name: string) {
     if (parent.children) {
-      parent.children.push({item: name} as TodoItemNode);
+      parent.children.push({ item: name } as TodoItemNode);
       this.dataChange.next(this.data);
     }
   }
@@ -108,9 +150,8 @@ export class ChecklistDatabase {
   selector: 'app-bo-tieu-chi',
   templateUrl: './bo-tieu-chi.component.html',
   styleUrls: ['./bo-tieu-chi.component.scss'],
-  providers: [ChecklistDatabase]
+  providers: [ChecklistDatabase],
 })
-
 export class BoTieuChiComponent {
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
   flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
@@ -134,12 +175,11 @@ export class BoTieuChiComponent {
   checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
 
   constructor(private _database: ChecklistDatabase) {
-    this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
-      this.isExpandable, this.getChildren);
+    this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel, this.isExpandable, this.getChildren);
     this.treeControl = new FlatTreeControl<TodoItemFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-    _database.dataChange.subscribe(data => {
+    _database.dataChange.subscribe((data) => {
       this.dataSource.data = data;
     });
   }
@@ -159,30 +199,30 @@ export class BoTieuChiComponent {
    */
   transformer = (node: TodoItemNode, level: number) => {
     const existingNode = this.nestedNodeMap.get(node);
-    const flatNode = existingNode && existingNode.item === node.item
-        ? existingNode
-        : new TodoItemFlatNode();
+    const flatNode = existingNode && existingNode.item === node.item ? existingNode : new TodoItemFlatNode();
     flatNode.item = node.item;
     flatNode.level = level;
     flatNode.expandable = !!node.children?.length;
     this.flatNodeMap.set(flatNode, node);
     this.nestedNodeMap.set(node, flatNode);
     return flatNode;
-  }
+  };
 
   /** Whether all the descendants of the node are selected. */
   descendantsAllSelected(node: TodoItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
-    const descAllSelected = descendants.length > 0 && descendants.every(child => {
-      return this.checklistSelection.isSelected(child);
-    });
+    const descAllSelected =
+      descendants.length > 0 &&
+      descendants.every((child) => {
+        return this.checklistSelection.isSelected(child);
+      });
     return descAllSelected;
   }
 
   /** Whether part of the descendants are selected */
   descendantsPartiallySelected(node: TodoItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
-    const result = descendants.some(child => this.checklistSelection.isSelected(child));
+    const result = descendants.some((child) => this.checklistSelection.isSelected(child));
     return result && !this.descendantsAllSelected(node);
   }
 
@@ -195,7 +235,7 @@ export class BoTieuChiComponent {
       : this.checklistSelection.deselect(...descendants);
 
     // Force update for the parent
-    descendants.forEach(child => this.checklistSelection.isSelected(child));
+    descendants.forEach((child) => this.checklistSelection.isSelected(child));
     this.checkAllParentsSelection(node);
   }
 
@@ -218,9 +258,11 @@ export class BoTieuChiComponent {
   checkRootNodeSelection(node: TodoItemFlatNode): void {
     const nodeSelected = this.checklistSelection.isSelected(node);
     const descendants = this.treeControl.getDescendants(node);
-    const descAllSelected = descendants.length > 0 && descendants.every(child => {
-      return this.checklistSelection.isSelected(child);
-    });
+    const descAllSelected =
+      descendants.length > 0 &&
+      descendants.every((child) => {
+        return this.checklistSelection.isSelected(child);
+      });
     if (nodeSelected && !descAllSelected) {
       this.checklistSelection.deselect(node);
     } else if (!nodeSelected && descAllSelected) {
@@ -262,8 +304,6 @@ export class BoTieuChiComponent {
   }
 }
 
-
 /**  Copyright 2020 Google LLC. All Rights Reserved.
     Use of this source code is governed by an MIT-style license that
     can be found in the LICENSE file at http://angular.io/license */
-
