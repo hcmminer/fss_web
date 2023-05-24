@@ -90,6 +90,7 @@ export class OpenDepComponent implements OnInit {
   };
   columnsToDisplay = [
     'index',
+    'parentAssetCode',
     'assetCode',
     'departmentCode',
     // 'typeOfAssetCode',
@@ -101,7 +102,7 @@ export class OpenDepComponent implements OnInit {
     'depreciationStartDateStr',
     'depreciationEndDateStr',
     'isUpdate',
-    'action',
+    // 'action',
   ];
 
   constructor(

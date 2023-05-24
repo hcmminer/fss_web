@@ -1,57 +1,65 @@
 <div class="position-relative" style="height: 100%">
-    <div class="py-5">
-        <div class="col-md-2 col-sm-12 col-12 col-lg-12">
-            <div class="label-card">
-                <label class="form-label title-screen text-uppercase">{{ 'TITLE.REPORT' | translate }}</label>
-            </div>
-        </div>
+  <div class="py-5">
+    <div class="col-md-2 col-sm-12 col-12 col-lg-12">
+      <div class="label-card">
+        <label class="form-label title-screen text-uppercase">{{ 'TITLE.REPORT' | translate }}</label>
+      </div>
     </div>
-    <div #formSearch class="p-4" style="background-color: white">
-        <div class="text-break">
-            <div class="mb-4">
-                <!-- begin: Filtration form -->
-                <form action="#" class="form form-label-right" [formGroup]="searchForm">
-                    <div class="font-weight-bolder mb-12" style="font-size: 1.275rem">
-                        {{ 'BUTTON.SEARCH' | translate }}
-                        {{ 'TITLE.REPORT' | translate | lowercase }}
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-lg-1 col-sm-1"></div>
-                        <div class="col-lg-10 col-sm-10">
-                            <div class="row">
-                                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="lastUpdateDatetime">{{
-                                    'LABEL.CONSTRUCTION_DATE' | translate }} <span style="color: red">*</span></label>
-                                <div class="col-lg-4 col-sm-12">
-                                    <mat-form-field appearance="fill">
-                                        <mat-date-range-input [rangePicker]="picker">
-                                            <input matStartDate formControlName="start"
-                                                (input)="eChangeDate()" [placeholder]="'DATE.FROM_DATE' | translate" (dateChange)="eChangeDate()"/>
-                                            <input matEndDate formControlName="end"
-                                            [placeholder]="'DATE.TO_DATE' | translate" />
-                                        </mat-date-range-input>
-                                        <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
-                                        <mat-date-range-picker #picker></mat-date-range-picker>
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker"
-                                            class="icon-datePicker"></mat-datepicker-toggle>
-                                        <div style="color: red" *ngIf="startDateErrorMsg != ''">{{ startDateErrorMsg |
-                                            translate }}</div>
-                                    </mat-form-field>
-                                </div>
-                                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="organisation">{{
-                                    'LABEL.ORGANISATION' |
-                                    translate }}</label>
-                                <div class="col-lg-4 col-sm-12">
-                                    <select class="form-control font-14" name="organisation" id="organisation"
-                                        formControlName="organisation" [(ngModel)]="query.organisation">
-                                        <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation| async">
-                                            <option [value]="item.code">
-                                                <span *ngIf="item.code != ''">{{ item.code }} -</span> {{ item.name }}
-                                            </option>
-                                        </ng-container>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
+  </div>
+  <div #formSearch class="p-4" style="background-color: white">
+    <div class="text-break">
+      <div class="mb-4">
+        <!-- begin: Filtration form -->
+        <form action="#" class="form form-label-right" [formGroup]="searchForm">
+          <div class="font-weight-bolder mb-12" style="font-size: 1.275rem">
+            {{ 'BUTTON.SEARCH' | translate }}
+            {{ 'TITLE.REPORT' | translate | lowercase }}
+          </div>
+          <div class="row form-group">
+            <div class="col-lg-1 col-sm-1"></div>
+            <div class="col-lg-10 col-sm-10">
+              <div class="row">
+                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="lastUpdateDatetime"
+                  >{{ 'LABEL.CONSTRUCTION_DATE' | translate }} <span style="color: red">*</span></label
+                >
+                <div class="col-lg-4 col-sm-12">
+                  <mat-form-field appearance="fill">
+                    <mat-date-range-input [rangePicker]="picker">
+                      <input
+                        matStartDate
+                        formControlName="start"
+                        (input)="eChangeDate()"
+                        [placeholder]="'DATE.FROM_DATE' | translate"
+                        (dateChange)="eChangeDate()"
+                      />
+                      <input matEndDate formControlName="end" [placeholder]="'DATE.TO_DATE' | translate" />
+                    </mat-date-range-input>
+                    <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
+                    <div style="color: red" *ngIf="startDateErrorMsg != ''">{{ startDateErrorMsg | translate }}</div>
+                  </mat-form-field>
+                </div>
+                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="organisation">{{
+                  'LABEL.ORGANISATION' | translate
+                }}</label>
+                <div class="col-lg-4 col-sm-12">
+                  <select
+                    class="form-control font-14"
+                    name="organisation"
+                    id="organisation"
+                    formControlName="organisation"
+                    [(ngModel)]="query.organisation"
+                  >
+                    <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation | async">
+                      <option [value]="item.code">
+                        <span *ngIf="item.code != ''">{{ item.code }} -</span> {{ item.name }}
+                      </option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+              <!-- <div class="row">
                                 <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="assetCode">{{
                                     'LABEL.ASSETCODE' |
                                     translate }}</label>
@@ -60,284 +68,341 @@
                                         formControlName="assetCode" style="border: 1px solid #bdbdbd;"
                                       >
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1 col-sm-1"></div>
-                    </div>
-
-                    <div class="form-group pb-0 mt-5">
-                        <div class="d-flex justify-content-center">
-                            <div (click)="eSearch()"
-                                class="mx-3 px-8 btn btn-primary font-weight-bolder d-flex align-items-center justify-content-around"
-                                style="height: 38px">
-                                <i class="mr-2 fas fa-search cursor-pointer"></i>
-                                {{ 'ACTION.SEARCH' | translate }}
-                            </div>
-
-                            <div (click)="eResetForm()"
-                                class="mx-3 px-8 btn btn-outline-primary font-weight-bolder d-flex align-items-center justify-content-around"
-                                style="height: 38px">
-                                <i class="mr-2 fas fa-redo cursor-pointer"></i>
-                                {{ 'COMMON_BUTTON.RESET' | translate }}
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <!-- end: Filtration form -->
+                            </div> -->
             </div>
+            <div class="col-lg-1 col-sm-1"></div>
+          </div>
 
-            <div class="">
-                <div class="d-flex align-items-center justify-content-between">
-                    <!-- tiêu đề bảng -->
-                    <div>
-                        <span class="" style="font-weight: 600; font-size: 1.275rem">
-                            {{ 'LABEL.LIST_REPORT' | translate }}
-                        </span>
-                    </div>
-                    <!-- hành động bảng -->
-                    <div class="d-flex">
-                        <div (click)="report()"
-                            class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
-                            style="height: 38px">
-                            <img class="pr-2"
-                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABAklEQVR4nGNgoDcw77UpJxr32yuQbIFFn81/YnDK8vT/NhMdH5n02SjRxIIJhyb/335z53+7SU6kWUKKBS++viTdElIteEGqJeRY8AJhyQOqWWCBA49a8J8mQbT6wtr/998++O82zet/3trC/08+PP3fsL2JehaEL4j+//vv7/9zT8z/f+HJRbAFthMdqRvJay6s+//rz6//IFC5uZr6qahiUzXYcJBPPKb7UNcC6wn2/+++uff/9us7/7/9+v5/7YX11LWge28f2PWF60r+Lzuz4v/ff3//Ry+Ko54Fkw9O/T/j6Cww22uG3/9Fp5b8L99UNZqTbYZuYddBCSZoAbUBANu81uCxSVXLAAAAAElFTkSuQmCC" />
-                            {{ 'TITLE.GET_REPORT' | translate }}
-                        </div>
-                    </div>
-                </div>
+          <div class="form-group pb-0 mt-5">
+            <div class="d-flex justify-content-center">
+              <div
+                (click)="eSearch()"
+                class="mx-3 px-8 btn btn-primary font-weight-bolder d-flex align-items-center justify-content-around"
+                style="height: 38px"
+              >
+                <i class="mr-2 fas fa-search cursor-pointer"></i>
+                {{ 'ACTION.SEARCH' | translate }}
+              </div>
+
+              <div
+                (click)="eResetForm()"
+                class="mx-3 px-8 btn btn-outline-primary font-weight-bolder d-flex align-items-center justify-content-around"
+                style="height: 38px"
+              >
+                <i class="mr-2 fas fa-redo cursor-pointer"></i>
+                {{ 'COMMON_BUTTON.RESET' | translate }}
+              </div>
             </div>
-            <!-- <div class="">
-                <mat-form-field appearance="standard">
-                    <mat-label class="font-14"> <i class="fas fa-search"></i> {{ 'TITLE.SEARCH_ADVANCE' | translate }}
-                    </mat-label>
-                    <input class="border-bottom-danger" [(ngModel)]="query.groupFilter" matInput #autoFocus />
-                </mat-form-field>
-            </div> -->
-            <div class="pt-5">
-                <div class="table-responsive angular-bootstrap-table">
-                    <div class="mat-elevation-z8" style="overflow-x: scroll; width: 100%;">
-                        <table mat-table [dataSource]="dataSource">
+          </div>
+        </form>
+        <!-- end: Filtration form -->
+      </div>
 
-                            <!-- Index Column -->
-                            <ng-container matColumnDef="index">
-                                <th mat-header-cell *matHeaderCellDef rowspan="2">
-                                    {{ 'COMMON.INDEX' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let index = index">
-                                    {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
-                                </td>
-                            </ng-container>
-
-                            <!-- organisation -->
-                            <ng-container matColumnDef="organisation">
-                                <th mat-header-cell *matHeaderCellDef rowspan="2">
-                                    {{ 'LABEL.ORGANISATION' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.organisation }}
-                                </td>
-                            </ng-container>
-
-                            <!-- assetCode  -->
-                            <ng-container matColumnDef="assetCode">
-                                <th mat-header-cell *matHeaderCellDef rowspan="2">
-                                    {{ 'LABEL.ASSETCODE' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.assetCode }}</td>
-                            </ng-container>
-
-                            <!-- contract -->
-                            <ng-container matColumnDef="contract">
-                                <th mat-header-cell *matHeaderCellDef rowspan="2">
-                                    {{ 'LABEL.CONTRACT' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.contract }}</td>
-                            </ng-container>
-
-                            <!-- cot to thu 1 -->
-                            <!-- so du dau ky -->
-                            <ng-container matColumnDef="sodauky">
-                                <th mat-header-cell *matHeaderCellDef colspan="3"
-                                    style="background-color: rgba(255, 255, 0, 0.552);">
-                                    {{ 'TITLE.OPEN_BALANCE' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: left"></td>
-                            </ng-container>
-                            <!-- material -->
-                            <ng-container matColumnDef="openMaterial">
-                                <th mat-header-cell *matHeaderCellDef
-                                    style="background-color: rgba(255, 255, 0, 0.552);">
-                                    {{ 'LABEL.MATERIAL' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.openMaterial |
-                                    number : '1.0-0'}}
-                                </td>
-                            </ng-container>
-                            <!-- labor -->
-                            <ng-container matColumnDef="openLabor">
-                                <th mat-header-cell *matHeaderCellDef
-                                    style="background-color: rgba(255, 255, 0, 0.552);">
-                                    {{ 'LABEL.LABOR' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">
-                                    {{ item.openLabor | number : '1.0-0'}}
-                                </td>
-                            </ng-container>
-
-                            <!-- Tong vat tu nhan cong -->
-                            <ng-container matColumnDef="openTotal">
-                                <th mat-header-cell *matHeaderCellDef
-                                    style="background-color: rgba(255, 255, 0, 0.552);">
-                                    {{ 'LABEL.TOTAL' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.openTotal |
-                                    number : '1.0-0'}}</td>
-                            </ng-container>
-                            <!-- ket thuc cot to thu 1 -->
-
-                            <!-- cot to thu 2 -->
-                            <!-- phat sinh tang -->
-                            <ng-container matColumnDef="phatsinhtang">
-                                <th mat-header-cell *matHeaderCellDef colspan="3"
-                                    style="background-color: rgba(0, 128, 0, 0.412)">
-                                    {{ 'TITLE.IMPORT_INCREASE' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: left"></td>
-                            </ng-container>
-                            <!-- material -->
-                            <ng-container matColumnDef="increaseMaterial">
-                                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0, 128, 0, 0.412)">
-                                    {{ 'LABEL.MATERIAL' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.increaseMaterial |
-                                    number : '1.0-0'
-                                    }}
-                                </td>
-                            </ng-container>
-                            <!-- labor -->
-                            <ng-container matColumnDef="increaseLabor">
-                                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0, 128, 0, 0.412)">
-                                    {{ 'LABEL.LABOR' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">
-                                    {{ item.increaseLabor | number : '1.0-0'}}
-                                </td>
-                            </ng-container>
-                            <!-- Tong vat tu nhan cong -->
-                            <ng-container matColumnDef="increaseTotal">
-                                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0, 128, 0, 0.412)">
-                                    {{ 'LABEL.TOTAL' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.increaseTotal |
-                                    number : '1.0-0'}}
-                                </td>
-                            </ng-container>
-                            <!-- ket thuc cot to thu 2 -->
-
-                            <!-- cot to thu 3 -->
-                            <!-- phat sinh giam -->
-                            <ng-container matColumnDef="phatsinhgiam">
-                                <th mat-header-cell *matHeaderCellDef colspan="3"
-                                    style="background-color: rgba(255, 0, 0, 0.471)">
-                                    {{ 'TITLE.DECREASE' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: left"></td>
-                            </ng-container>
-                            <!-- material -->
-                            <ng-container matColumnDef="decreaseMaterial">
-                                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 0, 0, 0.471)">
-                                    {{ 'LABEL.MATERIAL' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.decreaseMaterial |
-                                    number : '1.0-0'
-                                    }}
-                                </td>
-                            </ng-container>
-                            <!-- labor -->
-                            <ng-container matColumnDef="decreaseLabor">
-                                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 0, 0, 0.471)">
-                                    {{ 'LABEL.LABOR' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">
-                                    {{ item.decreaseLabor | number : '1.0-0'}}
-                                </td>
-                            </ng-container>
-                            <!-- Tong vat tu nhan cong -->
-                            <ng-container matColumnDef="decreaseTotal">
-                                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 0, 0, 0.471)">
-                                    {{ 'LABEL.TOTAL' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.decreaseTotal |
-                                    number : '1.0-0'}}
-                                </td>
-                            </ng-container>
-                            <!-- ket thuc cot to thu 3 -->
-
-
-                            <!-- Số dư cuối kỳ -->
-                            <ng-container matColumnDef="soducuoiky">
-                                <th mat-header-cell *matHeaderCellDef colspan="3"
-                                    style="background-color:rgb(3 113 185);">
-                                    {{ 'TITLE.CLOSING_BALANCEL' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: left"></td>
-                            </ng-container>
-                            <!-- material -->
-                            <ng-container matColumnDef="materialTotal">
-                                <th mat-header-cell *matHeaderCellDef style="background-color:rgb(3 113 185);">
-                                    {{ 'LABEL.MATERIAL' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.materialTotal |
-                                    number : '1.0-0'
-                                    }}
-                                </td>
-                            </ng-container>
-                            <!-- labor -->
-                            <ng-container matColumnDef="laborTotal">
-                                <th mat-header-cell *matHeaderCellDef style="background-color:rgb(3 113 185);">
-                                    {{ 'LABEL.LABOR' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right">
-                                    {{ item.laborTotal | number : '1.0-0'}}
-                                </td>
-                            </ng-container>
-
-                            <!-- Tong vat tu nhan cong -->
-                            <ng-container matColumnDef="total">
-                                <th mat-header-cell *matHeaderCellDef style="background-color:rgb(3 113 185);">
-                                    {{ 'LABEL.TOTAL' | translate }}
-                                </th>
-                                <td mat-cell *matCellDef="let item" style="text-align: right"> {{ item.total | number :
-                                    '1.0-0'}}
-                                </td>
-                            </ng-container>
-                            <!-- kết thúc số dư cuối kỳ -->
-                            <tr mat-row *matHeaderRowDef="['index','organisation','assetCode','contract','sodauky','phatsinhtang',
-                                 'phatsinhgiam', 'soducuoiky' ]">
-                            </tr>
-                            <tr mat-row
-                                *matHeaderRowDef="['openMaterial','openLabor','openTotal','increaseMaterial','increaseLabor',
-                                'increaseTotal','decreaseMaterial','decreaseLabor','decreaseTotal', 'materialTotal','laborTotal',  'total']">
-                            </tr>
-                            <tr mat-row
-                                *matRowDef="let element; columns:['index','organisation','assetCode','contract', 'openMaterial', 'openLabor',
-                               'openTotal','increaseMaterial', 'increaseLabor','increaseTotal','decreaseMaterial','decreaseLabor','decreaseTotal', 'materialTotal','laborTotal',  'total']">
-                            <tr class="mat-row" *matNoDataRow>
-                                <td class="mat-cell" colspan="15">
-                                    {{ 'NO_MATCH_DATA' | translate }}
-                                </td>
-                            </tr>
-                        </table>
-
-                    </div>
-                </div>
+      <div class="">
+        <div class="d-flex align-items-center justify-content-between">
+          <!-- tiêu đề bảng -->
+          <div>
+            <span class="" style="font-weight: 600; font-size: 1.275rem">
+              {{ 'LABEL.LIST_REPORT' | translate }}
+            </span>
+          </div>
+          <!-- hành động bảng -->
+          <div class="d-flex">
+            <div
+              (click)="report()"
+              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
+              style="height: 38px"
+            >
+              <img
+                class="pr-2"
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABAklEQVR4nGNgoDcw77UpJxr32yuQbIFFn81/YnDK8vT/NhMdH5n02SjRxIIJhyb/335z53+7SU6kWUKKBS++viTdElIteEGqJeRY8AJhyQOqWWCBA49a8J8mQbT6wtr/998++O82zet/3trC/08+PP3fsL2JehaEL4j+//vv7/9zT8z/f+HJRbAFthMdqRvJay6s+//rz6//IFC5uZr6qahiUzXYcJBPPKb7UNcC6wn2/+++uff/9us7/7/9+v5/7YX11LWge28f2PWF60r+Lzuz4v/ff3//Ry+Ko54Fkw9O/T/j6Cww22uG3/9Fp5b8L99UNZqTbYZuYddBCSZoAbUBANu81uCxSVXLAAAAAElFTkSuQmCC"
+              />
+              {{ 'TITLE.GET_REPORT' | translate }}
             </div>
-            <mat-paginator #paginator (page)="onPaginateChange($event)" [pageSize]="20"
-                [pageSizeOptions]="[10, 20, 25, 30, 50]" showFirstLastButtons
-                aria-label="Select page of results"></mat-paginator>
+          </div>
         </div>
-        <!-- end: trans -->
+      </div>
+      <div class="">
+        <mat-form-field appearance="standard">
+          <mat-label class="font-14">
+            <i class="fas fa-search"></i> {{ 'TITLE.SEARCH_ADVANCE' | translate }}
+          </mat-label>
+          <input class="border-bottom-danger" [(ngModel)]="query.groupFilter" matInput #autoFocus />
+        </mat-form-field>
+      </div>
+      <div class="pt-5">
+        <div class="table-responsive angular-bootstrap-table">
+          <div class="mat-elevation-z8" style="overflow-x: scroll; width: 100%">
+            <table mat-table [dataSource]="dataSource">
+              <!-- Index Column -->
+              <ng-container matColumnDef="index">
+                <th mat-header-cell *matHeaderCellDef rowspan="2">
+                  {{ 'COMMON.INDEX' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let index = index">
+                  {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
+                </td>
+              </ng-container>
+
+              <!-- organisation -->
+              <ng-container matColumnDef="organisation">
+                <th mat-header-cell *matHeaderCellDef rowspan="2">
+                  {{ 'LABEL.ORGANISATION' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.organisation }}</td>
+              </ng-container>
+
+              <!-- assetCode  -->
+              <ng-container matColumnDef="assetCode">
+                <th mat-header-cell *matHeaderCellDef rowspan="2">
+                  {{ 'LABEL.ASSETCODE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.assetCode }}</td>
+              </ng-container>
+              <!-- parentAssetCode  -->
+              <ng-container matColumnDef="parentAssetCode">
+                <th mat-header-cell *matHeaderCellDef rowspan="2">
+                  {{ 'LABEL.PARENT_ASSETCODE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.parentAssetCode }}</td>
+              </ng-container>
+
+              <!-- contract -->
+              <ng-container matColumnDef="contract">
+                <th mat-header-cell *matHeaderCellDef rowspan="2">
+                  {{ 'LABEL.CONTRACT' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.contract }}</td>
+              </ng-container>
+
+              <!-- cot to thu 1 -->
+              <!-- so du dau ky -->
+              <ng-container matColumnDef="sodauky">
+                <th mat-header-cell *matHeaderCellDef colspan="3" style="background-color: rgba(255, 255, 0, 0.552)">
+                  {{ 'TITLE.OPEN_BALANCE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left"></td>
+              </ng-container>
+              <!-- material -->
+              <ng-container matColumnDef="openMaterial">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 255, 0, 0.552)">
+                  {{ 'LABEL.MATERIAL' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.openMaterial | number : '1.0-0' }}
+                </td>
+              </ng-container>
+              <!-- labor -->
+              <ng-container matColumnDef="openLabor">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 255, 0, 0.552)">
+                  {{ 'LABEL.LABOR' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.openLabor | number : '1.0-0' }}
+                </td>
+              </ng-container>
+
+              <!-- Tong vat tu nhan cong -->
+              <ng-container matColumnDef="openTotal">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 255, 0, 0.552)">
+                  {{ 'LABEL.TOTAL' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.openTotal | number : '1.0-0' }}
+                </td>
+              </ng-container>
+              <!-- ket thuc cot to thu 1 -->
+
+              <!-- cot to thu 2 -->
+              <!-- phat sinh tang -->
+              <ng-container matColumnDef="phatsinhtang">
+                <th mat-header-cell *matHeaderCellDef colspan="3" style="background-color: rgba(0, 128, 0, 0.412)">
+                  {{ 'TITLE.IMPORT_INCREASE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left"></td>
+              </ng-container>
+              <!-- material -->
+              <ng-container matColumnDef="increaseMaterial">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0, 128, 0, 0.412)">
+                  {{ 'LABEL.MATERIAL' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.increaseMaterial | number : '1.0-0' }}
+                </td>
+              </ng-container>
+              <!-- labor -->
+              <ng-container matColumnDef="increaseLabor">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0, 128, 0, 0.412)">
+                  {{ 'LABEL.LABOR' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.increaseLabor | number : '1.0-0' }}
+                </td>
+              </ng-container>
+              <!-- Tong vat tu nhan cong -->
+              <ng-container matColumnDef="increaseTotal">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(0, 128, 0, 0.412)">
+                  {{ 'LABEL.TOTAL' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.increaseTotal | number : '1.0-0' }}
+                </td>
+              </ng-container>
+              <!-- ket thuc cot to thu 2 -->
+
+              <!-- cot to thu 3 -->
+              <!-- phat sinh giam -->
+              <ng-container matColumnDef="phatsinhgiam">
+                <th mat-header-cell *matHeaderCellDef colspan="3" style="background-color: rgba(255, 0, 0, 0.471)">
+                  {{ 'TITLE.DECREASE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left"></td>
+              </ng-container>
+              <!-- material -->
+              <ng-container matColumnDef="decreaseMaterial">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 0, 0, 0.471)">
+                  {{ 'LABEL.MATERIAL' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.decreaseMaterial | number : '1.0-0' }}
+                </td>
+              </ng-container>
+              <!-- labor -->
+              <ng-container matColumnDef="decreaseLabor">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 0, 0, 0.471)">
+                  {{ 'LABEL.LABOR' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.decreaseLabor | number : '1.0-0' }}
+                </td>
+              </ng-container>
+              <!-- Tong vat tu nhan cong -->
+              <ng-container matColumnDef="decreaseTotal">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgba(255, 0, 0, 0.471)">
+                  {{ 'LABEL.TOTAL' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.decreaseTotal | number : '1.0-0' }}
+                </td>
+              </ng-container>
+              <!-- ket thuc cot to thu 3 -->
+
+              <!-- Số dư cuối kỳ -->
+              <ng-container matColumnDef="soducuoiky">
+                <th mat-header-cell *matHeaderCellDef colspan="3" style="background-color: rgb(104 167 209)">
+                  {{ 'TITLE.CLOSING_BALANCEL' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left"></td>
+              </ng-container>
+              <!-- material -->
+              <ng-container matColumnDef="materialTotal">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgb(104 167 209)">
+                  {{ 'LABEL.MATERIAL' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.materialTotal | number : '1.0-0' }}
+                </td>
+              </ng-container>
+              <!-- labor -->
+              <ng-container matColumnDef="laborTotal">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgb(104 167 209)">
+                  {{ 'LABEL.LABOR' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">
+                  {{ item.laborTotal | number : '1.0-0' }}
+                </td>
+              </ng-container>
+
+              <!-- Tong vat tu nhan cong -->
+              <ng-container matColumnDef="total">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgb(104 167 209)">
+                  {{ 'LABEL.TOTAL' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.total | number : '1.0-0' }}</td>
+              </ng-container>
+              <!-- kết thúc số dư cuối kỳ -->
+              <tr
+                mat-row
+                *matHeaderRowDef="[
+                  'index',
+                  'organisation',
+                  'parentAssetCode',
+                  'assetCode',
+                  'contract',
+                  'sodauky',
+                  'phatsinhtang',
+                  'phatsinhgiam',
+                  'soducuoiky'
+                ]"
+              ></tr>
+              <tr
+                mat-row
+                *matHeaderRowDef="[
+                  'openMaterial',
+                  'openLabor',
+                  'openTotal',
+                  'increaseMaterial',
+                  'increaseLabor',
+                  'increaseTotal',
+                  'decreaseMaterial',
+                  'decreaseLabor',
+                  'decreaseTotal',
+                  'materialTotal',
+                  'laborTotal',
+                  'total'
+                ]"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="
+                  let element;
+                  columns: [
+                    'index',
+                    'organisation',
+                    'parentAssetCode',
+                    'assetCode',
+                    'contract',
+                    'openMaterial',
+                    'openLabor',
+                    'openTotal',
+                    'increaseMaterial',
+                    'increaseLabor',
+                    'increaseTotal',
+                    'decreaseMaterial',
+                    'decreaseLabor',
+                    'decreaseTotal',
+                    'materialTotal',
+                    'laborTotal',
+                    'total'
+                  ]
+                "
+              ></tr>
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="15">
+                  {{ 'NO_MATCH_DATA' | translate }}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <mat-paginator
+        #paginator
+        (page)="onPaginateChange($event)"
+        [pageSize]="20"
+        [pageSizeOptions]="[10, 20, 25, 30, 50]"
+        showFirstLastButtons
+        aria-label="Select page of results"
+      ></mat-paginator>
     </div>
-    <div class="pb-1"></div>
-    <ngx-spinner bdColor="rgba(0,0,0,0)" size="default" color="#1dc5be" type="ball-clip-rotate"
-        [fullScreen]="true"></ngx-spinner>
+    <!-- end: trans -->
+  </div>
+  <div class="pb-1"></div>
+  <ngx-spinner
+    bdColor="rgba(0,0,0,0)"
+    size="default"
+    color="#1dc5be"
+    type="ball-clip-rotate"
+    [fullScreen]="true"
+  ></ngx-spinner>
 </div>

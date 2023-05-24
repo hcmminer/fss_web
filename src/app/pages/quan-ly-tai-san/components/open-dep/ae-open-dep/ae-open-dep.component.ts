@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { CONFIG } from 'src/app/utils/constants';
 import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
@@ -17,6 +17,7 @@ import { openingBalanceService } from 'src/app/pages/_services/opening-balance.s
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { RequestApiModel } from 'src/app/pages/_models/api.request.model';
 import { removeNumberComma } from 'src/app/_validators/validateForm';
+import { debounceTime } from 'rxjs/operators';
 
 export const MY_FORMATS = {
   parse: {
@@ -47,7 +48,7 @@ export const MY_FORMATS = {
 export class AeOpenDepComponent implements OnInit {
   propData;
   propAction;
-
+  parentAssetCode;
   assetCode;
   typeOfAssetCode = '';
 
@@ -66,7 +67,7 @@ export class AeOpenDepComponent implements OnInit {
   userName: any;
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
+  modelChanged = new Subject<string>();
   addForm: FormGroup;
   editForm: FormGroup;
   private subscriptions: Subscription[] = [];
@@ -82,9 +83,22 @@ export class AeOpenDepComponent implements OnInit {
     public openingBalanceService: openingBalanceService,
     private _liveAnnouncer: LiveAnnouncer,
     @Inject(Injector) private readonly injector: Injector,
-  ) { }
+  ) {}
+
+  initCombobox() {
+    let reqGetListStatus = { userName: this.userName };
+    this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
+    this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
+    this.openingBalanceService.getSourceOfAsset(reqGetListStatus, 'get-source-of-asset', true);
+    this.openingBalanceService.getCbxAssetParentAssetCode(reqGetListStatus, 'search-open-dep');
+  }
 
   ngOnInit(): void {
+    this.initCombobox();
+    this.modelChanged.pipe(debounceTime(800)).subscribe((value) => {
+      let reqGetListStatus = { userName: this.userName };
+      this.openingBalanceService.getCbxAssetParentAssetCode(reqGetListStatus, 'search-open-dep', value);
+    });
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.propAction == 'update') {
       // this.constructionDateStr = this.propData.constructionDateStr;
@@ -106,6 +120,7 @@ export class AeOpenDepComponent implements OnInit {
 
   loadAddForm() {
     this.addForm = this.fb.group({
+      parentAssetCode: [this.parentAssetCode],
       assetCode: [this.assetCode, [Validators.required]],
       typeOfAssetCode: [this.typeOfAssetCode, [Validators.required]],
       departmentCode: [this.departmentCode, [Validators.required]],
@@ -128,12 +143,19 @@ export class AeOpenDepComponent implements OnInit {
     });
   }
 
+  filterByParentAssetCode() {
+    this.modelChanged.next(this.addForm.get('parentAssetCode').value);
+  }
 
+  displayFnParentAssetCode(item: any): string {
+    return item ? item.assetCode : undefined;
+  }
 
   httpAdd() {
     const requestTarget = {
       userName: this.userName,
       depreciationDetailDTO: {
+        parentAssetCode: !this.addForm.get('parentAssetCode').value.assetCode ? this.addForm.get('parentAssetCode').value : this.addForm.get('parentAssetCode').value.assetCode,
         assetCode: this.addForm.get('assetCode').value,
         typeOfAssetCode: this.addForm.get('typeOfAssetCode').value,
         organisation: this.addForm.get('departmentCode').value,
@@ -238,7 +260,7 @@ export class AeOpenDepComponent implements OnInit {
           this.subscriptions.push(request);
         }
       },
-      () => { },
+      () => {},
     );
   }
 
@@ -255,30 +277,39 @@ export class AeOpenDepComponent implements OnInit {
   }
 
   eChangeDate() {
-    if(this.propAction == 'add'){
-      let tempdepreciationStartDate = this.transform(this.addForm.get('depreciationStartDateStr').value)
-      let tempconstructionDate = this.transform(this.addForm.get('constructionDateStr').value)
-        if (tempdepreciationStartDate == '' || tempdepreciationStartDate == null || tempdepreciationStartDate == undefined) {
-          this.depreciationStartDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.DEPRECIATION_STARTDATE') });
-        } else {
-          this.depreciationStartDateErrorMsg = ''
-        }
-  
-        if (tempconstructionDate == '' || tempconstructionDate == null || tempconstructionDate == undefined) {
-          this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
-        } else {
-          this.constructionDateErrorMsg = ''
-        }    
-    }
-    if(this.propAction == 'update'){
-      let tempconstructionDate = this.transform(this.editForm.get('constructionDateStr').value)
-        if (tempconstructionDate == '' || tempconstructionDate == null || tempconstructionDate == undefined) {
-          this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
-        } else {
-          this.constructionDateErrorMsg = ''
-        }     
-    }
+    if (this.propAction == 'add') {
+      let tempdepreciationStartDate = this.transform(this.addForm.get('depreciationStartDateStr').value);
+      let tempconstructionDate = this.transform(this.addForm.get('constructionDateStr').value);
+      if (
+        tempdepreciationStartDate == '' ||
+        tempdepreciationStartDate == null ||
+        tempdepreciationStartDate == undefined
+      ) {
+        this.depreciationStartDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+          name: this.translate.instant('LABEL.DEPRECIATION_STARTDATE'),
+        });
+      } else {
+        this.depreciationStartDateErrorMsg = '';
+      }
 
+      if (tempconstructionDate == '' || tempconstructionDate == null || tempconstructionDate == undefined) {
+        this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+          name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+        });
+      } else {
+        this.constructionDateErrorMsg = '';
+      }
+    }
+    if (this.propAction == 'update') {
+      let tempconstructionDate = this.transform(this.editForm.get('constructionDateStr').value);
+      if (tempconstructionDate == '' || tempconstructionDate == null || tempconstructionDate == undefined) {
+        this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+          name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+        });
+      } else {
+        this.constructionDateErrorMsg = '';
+      }
+    }
   }
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {

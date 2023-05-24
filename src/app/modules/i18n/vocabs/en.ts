@@ -309,6 +309,7 @@ export const locale = {
 
       //Phát sinh giảm
       DECREASE: 'Decrease occurrence',
+      DECREASE_ASSET: 'Decrease occurrence',
       REPORT: 'Summary report',
       REPORT_ASSET: 'Asset report',
       ADD_DECREASE: 'Add new decrease occurrence',

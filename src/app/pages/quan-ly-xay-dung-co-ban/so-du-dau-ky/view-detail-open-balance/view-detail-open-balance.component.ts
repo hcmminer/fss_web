@@ -37,6 +37,7 @@ export class ViewDetailOpenBalanceComponent implements OnInit {
     'index',
     'organisation',
     'contract',
+    // 'parentAssetCode',
     'assetCode',
     'labor',
     'material',

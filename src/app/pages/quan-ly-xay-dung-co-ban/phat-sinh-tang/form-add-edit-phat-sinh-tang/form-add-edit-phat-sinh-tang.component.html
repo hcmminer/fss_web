@@ -1,51 +1,66 @@
 <div class="pt-5 pl-5 pr-5">
-    <div class="">
-        <!-- begin: Filtration form -->
-        <h5 style="font-weight: 700">
-            {{ isUpdate || isUpdateFile ? ('TITLE.UPDATE_IMPORT_INCREASE' | translate) : ('TITLE.ADD_IMPORT_INCREASE' |
-            translate) }}
-        </h5>
-        <hr />
-        <br />
-        <div class="row form-group" *ngIf="!isUpdate && !isUpdateFile">
-            <label class="col-md-2 form-label col-form-label" style="padding-left: 75px" for="tinhDi">{{ 'LABEL.METHOD'
-                | translate }}</label>
-            <div class="col-md-4 d-flex align-items-center">
-                <mat-radio-group [(ngModel)]="addType" (change)="changeState()">
-                    <mat-radio-button *ngFor="let type of addTypeList" [value]="type.value" [checked]="type.checked">
-                        {{ type.name }}
-                    </mat-radio-button>
-                </mat-radio-group>
-            </div>
-        </div>
-        <div *ngIf="addType == 'single' && !isUpdateFile">
-            <!-- add form -->
-            <form action="#" class="form form-label-right" [formGroup]="addEditForm" *ngIf="!isUpdate">
+  <div class="">
+    <!-- begin: Filtration form -->
+    <h5 style="font-weight: 700">
+      {{
+        isUpdate || isUpdateFile
+          ? ('TITLE.UPDATE_IMPORT_INCREASE' | translate)
+          : ('TITLE.ADD_IMPORT_INCREASE' | translate)
+      }}
+    </h5>
+    <hr />
+    <br />
+    <div class="row form-group" *ngIf="!isUpdate && !isUpdateFile">
+      <label class="col-md-2 form-label col-form-label" style="padding-left: 75px" for="tinhDi">{{
+        'LABEL.METHOD' | translate
+      }}</label>
+      <div class="col-md-4 d-flex align-items-center">
+        <mat-radio-group [(ngModel)]="addType" (change)="changeState()">
+          <mat-radio-button *ngFor="let type of addTypeList" [value]="type.value" [checked]="type.checked">
+            {{ type.name }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div *ngIf="addType == 'single' && !isUpdateFile">
+      <!-- add form -->
+      <form action="#" class="form form-label-right" [formGroup]="addEditForm" *ngIf="!isUpdate">
+        <div class="row form-group">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+            <div class="row">
+              <label class="col-md-2 form-label col-form-label font-14" for="assetCode"
+                >{{ 'LABEL.ASSETCODE' | translate }} <span style="color: red">*</span></label
+              >
+              <div class="col-md-3">
+                <input
+                  type="text"
+                  maxlength="50"
+                  class="form-control"
+                  id="assetCode"
+                  autocomplete="off"
+                  formControlName="assetCode"
+                />
 
-                <div class="row form-group">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <div class="row">
-                            <label class="col-md-2 form-label col-form-label font-14" for="assetCode">{{
-                                'LABEL.ASSETCODE' | translate }} <span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <input type="text" maxlength="50" class="form-control" id="assetCode" autocomplete="off"
-                                    formControlName="assetCode" />
-
-                                <div
-                                    *ngIf="addEditForm.get('assetCode').invalid && (addEditForm.get('assetCode').dirty || addEditForm.get('assetCode').touched)">
-                                    <small class="form-text text-danger"
-                                        *ngIf="addEditForm.get('assetCode').errors.required">
-                                        {{'VALIDATION.REQUIRED' | translate
-                                        : {
-                                        name: 'LABEL.ASSETCODE' | translate
-                                        }
-                                        }}
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-2"></div>
-                            <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
+                <div
+                  *ngIf="
+                    addEditForm.get('assetCode').invalid &&
+                    (addEditForm.get('assetCode').dirty || addEditForm.get('assetCode').touched)
+                  "
+                >
+                  <small class="form-text text-danger" *ngIf="addEditForm.get('assetCode').errors.required">
+                    {{
+                      'VALIDATION.REQUIRED'
+                        | translate
+                          : {
+                              name: 'LABEL.ASSETCODE' | translate
+                            }
+                    }}
+                  </small>
+                </div>
+              </div>
+              <div class="col-md-2"></div>
+              <!-- <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
                                 'LABEL.ORGANISATION' | translate }}<span style="color: red">*</span></label>
                             <div class="col-md-3">
                                 <select class="form-control font-14" [attr.disabled]="isUpdate" name="organisation"
@@ -56,10 +71,31 @@
                                         </option>
                                     </ng-container>
                                 </select>
-                            </div>
-                        </div>
+                            </div> -->
+              <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr"
+                >{{ 'LABEL.CONSTRUCTION_DATE' | translate }}<span style="color: red">*</span></label
+              >
+              <div class="col-md-3">
+                <mat-form-field appearance="fill">
+                  <input
+                    matInput
+                    formControlName="constructionDateStr"
+                    [matDatepicker]="picker"
+                    (dateChange)="eChangeDate()"
+                    (input)="eChangeDate()"
+                    [placeholder]="'DATE.CONSTRUCTION' | translate"
+                  />
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <div style="color: red" *ngIf="constructionDateErrorMsg != ''">
+                    {{ constructionDateErrorMsg | translate }}
+                  </div>
+                </mat-form-field>
+              </div>
+            </div>
 
-                        <div class="row mt-3">
+            <!-- <div class="row mt-3">
                             <label class="col-md-2 form-label col-form-label font-14" for="contract">{{
                                 'LABEL.CONTRACT' | translate }}<span style="color: red">*</span></label>
                             <div class="col-md-3">
@@ -78,120 +114,176 @@
                                 </div>
                             </div>
                             <div class="col-md-2"></div>
-                            <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr">{{
-                                'LABEL.CONSTRUCTION_DATE'
-                                | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <mat-form-field appearance="fill">
-                                    <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
-                                    (dateChange)="eChangeDate()" (input)="eChangeDate()"  [placeholder]="'DATE.CONSTRUCTION' | translate">
-                                    <mat-hint>DD/MM/YYYY</mat-hint>
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker"
-                                        class="icon-datePicker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker></mat-datepicker>
-                                    <div style="color: red" *ngIf="constructionDateErrorMsg != ''">{{
-                                        constructionDateErrorMsg | translate }}</div>
-                                </mat-form-field>
-                            </div>
 
-                        </div>
-                        <div class="row mt-3">
-                            <label class="col-md-2 form-label col-form-label font-14" for="labor">{{
-                                'LABEL.LABOR' | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <input type="text" name="labor" id="labor" class="form-control" formControlName="labor"
-                                    maxlength="18" NumbersOnly [allowThousandSeparator]="true" />
-                                <div
-                                    *ngIf="addEditForm.get('labor').invalid && (addEditForm.get('labor').dirty || addEditForm.get('labor').touched)">
-                                    <small class="form-text text-danger"
-                                        *ngIf="addEditForm.get('labor').errors.required">
-                                        {{'VALIDATION.REQUIRED' | translate
-                                        : {
-                                        name: 'LABEL.LABOR' | translate
-                                        }
-                                        }}
-                                    </small>
-                                    <small class="form-text text-danger"
-                                    *ngIf="addEditForm.get('labor').errors.maxlength ">
-                                    {{'VALIDATION.MAX_LENGTH' | translate
-                                    : {
-                                    name: 'LABEL.LABOR' | translate,
-                                    max: 18
-                                    }
-                                    }}
-                                </small>
-                                </div>
-                            </div>
-                            <div class="col-md-2"></div>
-                            <label class="col-md-2 form-label col-form-label font-14" for="material">{{
-                                'LABEL.MATERIAL'
-                                | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <input type="text" name="material" id="material" class="form-control"
-                                    formControlName="material" maxlength="18" NumbersOnly
-                                    [allowThousandSeparator]="true" />
-                                <div
-                                    *ngIf="addEditForm.get('material').invalid && (addEditForm.get('material').dirty || addEditForm.get('material').touched)">
-                                    <small class="form-text text-danger"
-                                        *ngIf="addEditForm.get('material').errors.required">
-                                        {{'VALIDATION.REQUIRED' | translate
-                                        : {
-                                        name: 'LABEL.MATERIAL' | translate
-                                        }
-                                        }}
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
+
+                        </div> -->
+            <div class="row mt-3">
+              <label class="col-md-2 form-label col-form-label font-14" for="labor"
+                >{{ 'LABEL.LABOR' | translate }}<span style="color: red">*</span></label
+              >
+              <div class="col-md-3">
+                <input
+                  type="text"
+                  name="labor"
+                  id="labor"
+                  class="form-control"
+                  formControlName="labor"
+                  maxlength="18"
+                  NumbersOnly
+                  [allowThousandSeparator]="true"
+                />
+                <div
+                  *ngIf="
+                    addEditForm.get('labor').invalid &&
+                    (addEditForm.get('labor').dirty || addEditForm.get('labor').touched)
+                  "
+                >
+                  <small class="form-text text-danger" *ngIf="addEditForm.get('labor').errors.required">
+                    {{
+                      'VALIDATION.REQUIRED'
+                        | translate
+                          : {
+                              name: 'LABEL.LABOR' | translate
+                            }
+                    }}
+                  </small>
+                  <small class="form-text text-danger" *ngIf="addEditForm.get('labor').errors.maxlength">
+                    {{
+                      'VALIDATION.MAX_LENGTH'
+                        | translate
+                          : {
+                              name: 'LABEL.LABOR' | translate,
+                              max: 18
+                            }
+                    }}
+                  </small>
                 </div>
-                <div class="d-flex justify-content-end my-5">
-                    <button type="button" class="font-weight-bolder btn btn-outline-primary mx-3"
-                        (click)="closeDialog()" style="padding: 8px 32px !important;">{{ 'BUTTON.CANCEL2' | translate
-                        }}</button>
-                    <button type="button" class=" font-weight-bolder btn btn-outline-primary mx-3"
-                        [disabled]="addEditForm.invalid" (click)="save() ;" style="padding: 8px 32px !important;">
-                        {{ 'BUTTON.SAVE' | translate }}
-                    </button>
+              </div>
+              <div class="col-md-2"></div>
+              <label class="col-md-2 form-label col-form-label font-14" for="material"
+                >{{ 'LABEL.MATERIAL' | translate }}<span style="color: red">*</span></label
+              >
+              <div class="col-md-3">
+                <input
+                  type="text"
+                  name="material"
+                  id="material"
+                  class="form-control"
+                  formControlName="material"
+                  maxlength="18"
+                  NumbersOnly
+                  [allowThousandSeparator]="true"
+                />
+                <div
+                  *ngIf="
+                    addEditForm.get('material').invalid &&
+                    (addEditForm.get('material').dirty || addEditForm.get('material').touched)
+                  "
+                >
+                  <small class="form-text text-danger" *ngIf="addEditForm.get('material').errors.required">
+                    {{
+                      'VALIDATION.REQUIRED'
+                        | translate
+                          : {
+                              name: 'LABEL.MATERIAL' | translate
+                            }
+                    }}
+                  </small>
                 </div>
-            </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+        <div class="d-flex justify-content-end my-5">
+          <button
+            type="button"
+            class="font-weight-bolder btn btn-outline-primary mx-3"
+            (click)="closeDialog()"
+            style="padding: 8px 32px !important"
+          >
+            {{ 'BUTTON.CANCEL2' | translate }}
+          </button>
+          <button
+            type="button"
+            class="font-weight-bolder btn btn-outline-primary mx-3"
+            [disabled]="addEditForm.invalid"
+            (click)="save()"
+            style="padding: 8px 32px !important"
+          >
+            {{ 'BUTTON.SAVE' | translate }}
+          </button>
+        </div>
+      </form>
 
+      <!-- edit form -->
+      <form action="#" class="form form-label-right" [formGroup]="addEditForm" *ngIf="isUpdate">
+        <div class="row form-group">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+            <div class="row">
+              <label class="col-md-2 form-label col-form-label font-14" for="assetCode"
+                >{{ 'LABEL.ASSETCODE' | translate }} <span style="color: red">*</span></label
+              >
+              <div class="col-md-3">
+                <input
+                  [attr.disabled]="isUpdate"
+                  type="text"
+                  maxlength="50"
+                  class="form-control"
+                  id="assetCode"
+                  autocomplete="off"
+                  formControlName="assetCode"
+                />
 
-            <!-- edit form -->
-            <form action="#" class="form form-label-right" [formGroup]="addEditForm" *ngIf="isUpdate">
-                <div class="row form-group">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10">
-                        <div class="row">
-                            <label class="col-md-2 form-label col-form-label font-14" for="assetCode">{{
-                                'LABEL.ASSETCODE' | translate }} <span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <input [attr.disabled]="isUpdate" type="text" maxlength="50" class="form-control"
-                                    id="assetCode" autocomplete="off" formControlName="assetCode" />
-
-                                <div
-                                    *ngIf="addEditForm.get('assetCode').invalid && (addEditForm.get('assetCode').dirty || addEditForm.get('assetCode').touched)">
-                                    <small class="form-text text-danger"
-                                        *ngIf="addEditForm.get('assetCode').errors.required">
-                                        {{'VALIDATION.REQUIRED' | translate
-                                        : {
-                                        name: 'LABEL.ASSETCODE' | translate
-                                        }
-                                        }}
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="col-md-2"></div>
-                            <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
+                <div
+                  *ngIf="
+                    addEditForm.get('assetCode').invalid &&
+                    (addEditForm.get('assetCode').dirty || addEditForm.get('assetCode').touched)
+                  "
+                >
+                  <small class="form-text text-danger" *ngIf="addEditForm.get('assetCode').errors.required">
+                    {{
+                      'VALIDATION.REQUIRED'
+                        | translate
+                          : {
+                              name: 'LABEL.ASSETCODE' | translate
+                            }
+                    }}
+                  </small>
+                </div>
+              </div>
+              <div class="col-md-2"></div>
+              <!-- <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
                                 'LABEL.ORGANISATION' | translate }}<span style="color: red">*</span></label>
                             <div class="col-md-3">
                                 <input type="text" maxlength="50" class="form-control" id="organisation" autocomplete="off"
                                 formControlName="organisation" [attr.disabled]="isUpdate" />
-                            </div>
-                        </div>
+                            </div> -->
+              <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr"
+                >{{ 'LABEL.CONSTRUCTION_DATE' | translate }}<span style="color: red">*</span></label
+              >
+              <div class="col-md-3">
+                <mat-form-field appearance="fill">
+                  <input
+                    matInput
+                    formControlName="constructionDateStr"
+                    [matDatepicker]="picker"
+                    (dateChange)="eChangeDate()"
+                    (input)="eChangeDate()"
+                    [placeholder]="'DATE.CONSTRUCTION' | translate"
+                  />
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <div style="color: red" *ngIf="constructionDateErrorMsg != ''">
+                    {{ constructionDateErrorMsg | translate }}
+                  </div>
+                </mat-form-field>
+              </div>
+            </div>
 
-                        <div class="row mt-3">
+            <!-- <div class="row mt-3">
                             <label class="col-md-2 form-label col-form-label font-14" for="contract">{{
                                 'LABEL.CONTRACT' | translate }}<span style="color: red">*</span></label>
                             <div class="col-md-3">
@@ -210,457 +302,594 @@
                                 </div>
                             </div>
                             <div class="col-md-2"></div>
-                            <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr">{{
-                                'LABEL.CONSTRUCTION_DATE'
-                                | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <mat-form-field appearance="fill">
-                                    <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
-                                    (dateChange)="eChangeDate()" (input)="eChangeDate()" [placeholder]="'DATE.CONSTRUCTION' | translate">
-                                    <mat-hint>DD/MM/YYYY</mat-hint>
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker"
-                                        class="icon-datePicker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker></mat-datepicker>
-                                    <div style="color: red" *ngIf="constructionDateErrorMsg != ''">{{
-                                        constructionDateErrorMsg | translate }}</div>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <label class="col-md-2 form-label col-form-label font-14" for="totalLabor">{{
-                                'LABEL.TOTAL_LABOR' | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <input type="text" name="totalLabor" id="totalLabor" [attr.disabled]="isUpdate"
-                                    class="form-control" [value]="addEditForm?.get('totalLabor').value" maxlength="100"
-                                    NumbersOnly [allowThousandSeparator]="true" />
-                            </div>
-                            <div class="col-md-2"></div>
-                            <label class="col-md-2 form-label col-form-label font-14" for="labor">{{
-                                'LABEL.TOTAL_DESIRED_LABOR' | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <input type="text" name="labor" id="labor" class="form-control" formControlName="labor"
-                                    maxlength="18" NumbersOnly [allowThousandSeparator]="true" />
-                                <div
-                                    *ngIf="addEditForm.get('labor').invalid && (addEditForm.get('labor').dirty || addEditForm.get('labor').touched)">
-                                    <small class="form-text text-danger"
-                                        *ngIf="addEditForm.get('labor').errors.required">
-                                        {{'VALIDATION.REQUIRED' | translate
-                                        : {
-                                        name: 'LABEL.TOTAL_DESIRED_LABOR' | translate
-                                        }
-                                        }}
-                                    </small>
-                                    <small class="form-text text-danger"
-                                    *ngIf="addEditForm.get('labor').errors.maxlength ">
-                                    {{'VALIDATION.MAX_LENGTH' | translate
-                                    : {
-                                    name: 'LABEL.LABOR' | translate,
-                                    max: 18
-                                    }
-                                    }}
-                                </small>
-                                </div>
-                            </div>
 
-                        </div>
-
-                        <!-- material -->
-                        <div class="row mt-3">
-                            <label class="col-md-2 form-label col-form-label font-14" for="totalMaterial">{{
-                                'LABEL.TOTAL_MATERIAL' | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <input type="text" name="totalMaterial" id="totalMaterial" class="form-control"
-                                    [value]="addEditForm?.get('totalMaterial').value" maxlength="100" NumbersOnly
-                                    [allowThousandSeparator]="true" [attr.disabled]="isUpdate" />
-                            </div>
-
-                            <div class="col-md-2"></div>
-                            <label class="col-md-2 form-label col-form-label font-14" for="material">{{
-                                'LABEL.TOTAL_DESIRED_MATERIAL'
-                                | translate }}<span style="color: red">*</span></label>
-                            <div class="col-md-3">
-                                <input type="text" name="material" id="material" class="form-control"
-                                    formControlName="material" maxlength="18" NumbersOnly
-                                    [allowThousandSeparator]="true" />
-                                <div
-                                    *ngIf="addEditForm.get('material').invalid && (addEditForm.get('material').dirty || addEditForm.get('material').touched)">
-                                    <small class="form-text text-danger"
-                                        *ngIf="addEditForm.get('material').errors.required">
-                                        {{'VALIDATION.REQUIRED' | translate
-                                        : {
-                                        name: 'LABEL.TOTAL_DESIRED_MATERIAL' | translate
-                                        }
-                                        }}
-                                    </small>
-                                    <small class="form-text text-danger"
-                                    *ngIf="addEditForm.get('material').errors.maxlength ">
-                                    {{'VALIDATION.MAX_LENGTH' | translate
-                                    : {
-                                    name: 'LABEL.MATERIAL' | translate,
-                                    max: 18
-                                    }
-                                    }}
-                                </small>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-md-1"></div>
+                        </div> -->
+            <div class="row mt-3">
+              <label class="col-md-2 form-label col-form-label font-14" for="totalLabor"
+                >{{ 'LABEL.TOTAL_LABOR' | translate }}<span style="color: red">*</span></label
+              >
+              <div class="col-md-3">
+                <input
+                  type="text"
+                  name="totalLabor"
+                  id="totalLabor"
+                  [attr.disabled]="isUpdate"
+                  class="form-control"
+                  [value]="addEditForm?.get('totalLabor').value"
+                  maxlength="100"
+                  NumbersOnly
+                  [allowThousandSeparator]="true"
+                />
+              </div>
+              <div class="col-md-2"></div>
+              <label class="col-md-2 form-label col-form-label font-14" for="labor"
+                >{{ 'LABEL.TOTAL_DESIRED_LABOR' | translate }}<span style="color: red">*</span></label
+              >
+              <div class="col-md-3">
+                <input
+                  type="text"
+                  name="labor"
+                  id="labor"
+                  class="form-control"
+                  formControlName="labor"
+                  maxlength="18"
+                  NumbersOnly
+                  [allowThousandSeparator]="true"
+                />
+                <div
+                  *ngIf="
+                    addEditForm.get('labor').invalid &&
+                    (addEditForm.get('labor').dirty || addEditForm.get('labor').touched)
+                  "
+                >
+                  <small class="form-text text-danger" *ngIf="addEditForm.get('labor').errors.required">
+                    {{
+                      'VALIDATION.REQUIRED'
+                        | translate
+                          : {
+                              name: 'LABEL.TOTAL_DESIRED_LABOR' | translate
+                            }
+                    }}
+                  </small>
+                  <small class="form-text text-danger" *ngIf="addEditForm.get('labor').errors.maxlength">
+                    {{
+                      'VALIDATION.MAX_LENGTH'
+                        | translate
+                          : {
+                              name: 'LABEL.LABOR' | translate,
+                              max: 18
+                            }
+                    }}
+                  </small>
                 </div>
-                <div class="d-flex justify-content-end my-5">
-                    <button type="button" class="font-weight-bolder btn btn-outline-primary mx-3"
-                        (click)="closeDialog()" style="padding: 8px 32px !important;">{{ 'BUTTON.CANCEL2' | translate
-                        }}</button>
-                    <button type="button" class=" font-weight-bolder btn btn-outline-primary mx-3"
-                        [disabled]="addEditForm.invalid" (click)="save() ;" style="padding: 8px 32px !important;">
-                        {{ 'BUTTON.SAVE' | translate }}
-                    </button>
+              </div>
+            </div>
+
+            <!-- material -->
+            <div class="row mt-3">
+              <label class="col-md-2 form-label col-form-label font-14" for="totalMaterial"
+                >{{ 'LABEL.TOTAL_MATERIAL' | translate }}<span style="color: red">*</span></label
+              >
+              <div class="col-md-3">
+                <input
+                  type="text"
+                  name="totalMaterial"
+                  id="totalMaterial"
+                  class="form-control"
+                  [value]="addEditForm?.get('totalMaterial').value"
+                  maxlength="100"
+                  NumbersOnly
+                  [allowThousandSeparator]="true"
+                  [attr.disabled]="isUpdate"
+                />
+              </div>
+
+              <div class="col-md-2"></div>
+              <label class="col-md-2 form-label col-form-label font-14" for="material"
+                >{{ 'LABEL.TOTAL_DESIRED_MATERIAL' | translate }}<span style="color: red">*</span></label
+              >
+              <div class="col-md-3">
+                <input
+                  type="text"
+                  name="material"
+                  id="material"
+                  class="form-control"
+                  formControlName="material"
+                  maxlength="18"
+                  NumbersOnly
+                  [allowThousandSeparator]="true"
+                />
+                <div
+                  *ngIf="
+                    addEditForm.get('material').invalid &&
+                    (addEditForm.get('material').dirty || addEditForm.get('material').touched)
+                  "
+                >
+                  <small class="form-text text-danger" *ngIf="addEditForm.get('material').errors.required">
+                    {{
+                      'VALIDATION.REQUIRED'
+                        | translate
+                          : {
+                              name: 'LABEL.TOTAL_DESIRED_MATERIAL' | translate
+                            }
+                    }}
+                  </small>
+                  <small class="form-text text-danger" *ngIf="addEditForm.get('material').errors.maxlength">
+                    {{
+                      'VALIDATION.MAX_LENGTH'
+                        | translate
+                          : {
+                              name: 'LABEL.MATERIAL' | translate,
+                              max: 18
+                            }
+                    }}
+                  </small>
                 </div>
-            </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1"></div>
         </div>
-
-        <!-- add file -->
-        <div *ngIf="addType == 'file' && !isUpdateFile">
-            <div class="p-4 m-10 border border-success rounded-card" *ngIf="isHasSuccessFile">
-                <div class="text-center text-success font-14">
-                    <img
-                        src="data:image/png;base64,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" />
-                    <h3 class="m-4" [ngClass]="{
-                      'text-success': resultCode == 'success',
-                      'text-warning': resultCode == 'warning'
-                    }">
-                        {{ resultDesc }}
-                    </h3>
-                    <button (click)="eDownloadFileSuccess()"
-                        class="m-4 px-10 my-2 rounded-sm text-success cursor-pointer font-size-h3 font-14">
-                        {{ 'COMMON_BUTTON.DOWNLOAD' | translate }}
-                    </button>
-                </div>
-            </div>
-
-            <div class="position-relative">
-                <div *ngIf="true && !isHasSuccessFile">
-                    <form action="#" class="form form-label-right" [formGroup]="addFileForm">
-                        <div class="row form-group">
-                            <div class="col-md-2">
-                                <button class="form-control btn btn-outline-primary mr-5 font-14"
-                                    (click)="getTemplate()">
-                                    <i class="fas fa-download"></i>{{ 'COMMON_BUTTON.DOWNLOAD_TEMPLATE' | translate }}
-                                </button>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-group">
-                                    <button class="btn btn-primary sticky-input-button font-14" type="button"
-                                        mat-raised-button (click)="fileInput.click()" style="margin-right: -3px;">
-                                        {{ 'LABEL.SELECT_FLE' | translate }} *
-                                    </button>
-                                    <input class="form-control" hidden (change)="onFileSelected($event)"
-                                        (click)="onFileResset($event)" #fileInput type="file" accept=".xls, .xlsx"
-                                        name="chonFile" id="chonFile" formControlName="chonFile" />
-                                    <span class="file-name form-control input-field"
-                                        [class.is-invalid]="isControlInvalidFile('chonFile')">
-                                        {{ selectedFile?.name }}
-                                    </span>
-                                    <div class="invalid-feedback font-14"
-                                        *ngIf="controlHasErrorFile('required', 'chonFile')">
-                                        {{ 'VALIDATION.REQUIRED' | translate : { name: 'File' } }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-form-label" *ngIf="isHasResult">
-                                <span *ngIf="isHasResult" style="color: red; padding-left: 13px;">{{'TOTAL_ERROR' |
-                                    translate}}: {{
-                                    totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{ totalRecord | number :
-                                    '1.0' : 'en-US' }} {{'RECORD' | translate}}
-                                    {{ dataNullErr ? ('DATA_NUL_ERR' | translate) : '' }}</span>
-                            </div>
-                        </div>
-                        <!-- >> so ban ghi loi -->
-                        <div style="  overflow-x: scroll;">
-                            <div class="container-fluid mt-4 mb-4" *ngIf="isErrorFile">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <h6 class="form-label">
-                                        {{ 'TITLE.LIST_ERR_FILE' | translate }}
-                                    </h6>
-                                    <div class="" *ngIf="!dataNullErr">
-                                        <div (click)="eDownloadErrFile()"
-                                            class="btn btn-outline-danger font-weight-bolder mx-auto text-center font-14"
-                                            style="height: 38px; padding: 7px 16px; margin: auto">
-                                            <img
-                                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABZ0lEQVR4nM2VP0vEMBjGg38QXRx0OThOed/eXd+I000u3qdQ8VZFcBB0OtEmucFN3Fz8DLrdLPgNXAURcREHcRCXmypprw6VtE3M4AuBkr55fsnTkocFB8EMSbwhASMuMTYOgc9ttbTMbCuMcLdQWKbizhASOCgDUNID/fHzy6pqgncAY4w5QWwAThBbgDXEBZCD/HpnDeCW8CqA1/pRfZYi3ExF4JIpNkEC7n0B4lDAYVd1p7TPK6cB8gh6Pk8Qk8S3jqrNkWqud/Y60yTg0SsghcC+7uEStn1/A+37SFvTUq3F8KRRIwlfY8Ghvr8KRatZBBdsg02SwFttERdwVmnHVQAk8SM8DhdI4lYyF0EP+jDPJbxngGydq0UPJPGKBDyZPP8rIC86zPvuGzAwrSsHyGCn/EqAc92rw+YnfPLDFEZJZAq4Lo5M+AwFrhkhrnFqKq6gkf0A1glXtdr6JBLuvO78X9Y3YXnm03g1hWUAAAAASUVORK5CYII=" />
-                                            {{ 'DOWNLOAD_ERR_FILE' | translate }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <table mat-table [dataSource]="dataSource" matSort
-                                (matSortChange)="announceSortChange($event)" class="w-100">
-                                <!-- STT -->
-                                <ng-container matColumnDef="index">
-                                    <th mat-header-cell *matHeaderCellDef>
-                                        {{ 'COMMON.INDEX' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let index = index" style="text-align: center">
-                                        {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
-                                    </td>
-                                </ng-container>
-                                <!-- Tổ chức -->
-                                <ng-container matColumnDef="organisation">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.ORGANISATION' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.organisation }}
-                                    </td>
-                                </ng-container>
-                                <!-- Mã tài sản -->
-                                <ng-container matColumnDef="assetCode">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.ASSETCODE' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: right">
-                                        {{item.assetCode}}
-                                    </td>
-                                </ng-container>
-                                <!-- Hợp đồng -->
-                                <ng-container matColumnDef="contract">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.CONTRACT' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: center">{{
-                                        item.contract }}</td>
-                                </ng-container>
-                                <!-- vật tư -->
-                                <ng-container matColumnDef="material">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.MATERIAL' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: center">{{
-                                        item.material != null ? (item.material | number : '1.0-0') : (item.materialStr | number : '1.0-0')}}
-                                    </td>
-                                </ng-container>
-                                <!-- nhân công -->
-                                <ng-container matColumnDef="labor">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.LABOR' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: center">{{
-                                        item.labor != null ? (item.labor | number : '1.0-0') : (item.laborStr | number : '1.0-0')}}</td>
-                                </ng-container>constructionDateStr
-                                <!-- Ngày xây dựng -->
-                                <ng-container matColumnDef="constructionDateStr">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: center">{{
-                                        item.constructionDateStr}}</td>
-                                </ng-container>
-                                <!-- errorMsg -->
-                                <ng-container matColumnDef="errorMsg">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.ERROR_MSG' | translate }}
-                                    </th>
-                                    <td class="text-danger" mat-cell *matCellDef="let item" style="text-align: left">{{
-                                        item.errorMsg }}</td>
-                                </ng-container>
-                                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-                                <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
-                            </table>
-                            <mat-paginator #paginator (page)="onPaginateChange($event)" [pageSize]="10"
-                                [pageSizeOptions]="[10, 20, 25, 30, 50]" showFirstLastButtons
-                                aria-label="Select page of results"></mat-paginator>
-                        </div>
-                        <!-- << so ban ghi loi -->
-                    </form>
-                </div>
-                <div class="d-flex justify-content-end my-5">
-                    <button class="btn btn-primary mx-3" style="width: 150px" *ngIf="!magicButtonUpdate  && !isHasSuccessFile"
-                        (click)="eUpdateFromFile()">
-                        {{ 'ACTION.UPLOAD' | translate }}
-                    </button>
-                    <button class="btn btn-danger mx-3" style="width: 150px" *ngIf="magicButtonUpdate && !isHasSuccessFile"
-                        (click)="eCofirmUpdateByFile()">
-                        {{ 'ACTION.UPDATE' | translate }}
-                    </button>
-                    <button class="btn btn-outline-dark mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
-                        {{ 'ACTION.CLOSE' | translate }}
-                    </button>
-                </div>
-                <div class="pb-1"></div>
-            </div>
-
+        <div class="d-flex justify-content-end my-5">
+          <button
+            type="button"
+            class="font-weight-bolder btn btn-outline-primary mx-3"
+            (click)="closeDialog()"
+            style="padding: 8px 32px !important"
+          >
+            {{ 'BUTTON.CANCEL2' | translate }}
+          </button>
+          <button
+            type="button"
+            class="font-weight-bolder btn btn-outline-primary mx-3"
+            [disabled]="addEditForm.invalid"
+            (click)="save()"
+            style="padding: 8px 32px !important"
+          >
+            {{ 'BUTTON.SAVE' | translate }}
+          </button>
         </div>
-        <!-- edit file -->
-        <div *ngIf="addType == 'file' && isUpdateFile">
-            <div class="p-4 m-10 border border-success rounded-card" *ngIf="isHasSuccessFile">
-                <div class="text-center text-success font-14">
-                    <img
-                        src="data:image/png;base64,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" />
-                    <h3 class="m-4" [ngClass]="{
-                      'text-success': resultCode == 'success',
-                      'text-warning': resultCode == 'warning'
-                    }">
-                        {{ resultDesc }}
-                    </h3>
-                    <button (click)="eDownloadFileSuccess()"
-                        class="m-4 px-10 my-2 rounded-sm text-success cursor-pointer font-size-h3 font-14">
-                        {{ 'COMMON_BUTTON.DOWNLOAD' | translate }}
-                    </button>
-                </div>
-            </div>
-
-            <div class="position-relative">
-                <div class="container" *ngIf="true && !isHasSuccessFile">
-                    <br />
-                    <form action="#" class="form form-label-right" [formGroup]="addFileForm">
-                        <div class="row form-group">
-                            <div class="col-md-2">
-                                <button class="form-control btn btn-outline-primary mr-5 font-14"
-                                    (click)="getTemplate()">
-                                    <i class="fas fa-download"></i>{{ 'COMMON_BUTTON.DOWNLOAD_TEMPLATE' | translate }}
-                                </button>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input-group">
-                                    <button class="btn btn-primary sticky-input-button font-14" type="button"
-                                        mat-raised-button (click)="fileInput.click()" style="margin-right: -3px;">
-                                        {{ 'LABEL.SELECT_FLE' | translate }} *
-                                    </button>
-                                    <input class="form-control" hidden (change)="onFileSelected($event)"
-                                        (click)="onFileResset($event)" #fileInput type="file" accept=".xls, .xlsx"
-                                        name="chonFile" id="chonFile" formControlName="chonFile" />
-                                    <span class="file-name form-control input-field"
-                                        [class.is-invalid]="isControlInvalidFile('chonFile')">
-                                        {{ selectedFile?.name }}
-                                    </span>
-                                    <div class="invalid-feedback font-14"
-                                        *ngIf="controlHasErrorFile('required', 'chonFile')">
-                                        {{ 'VALIDATION.REQUIRED' | translate : { name: 'File' } }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-form-label" *ngIf="isHasResult">
-                                <span *ngIf="isHasResult" style="color: red; padding-left: 13px;">{{'TOTAL_ERROR' |
-                                    translate}}: {{
-                                    totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{ totalRecord | number :
-                                    '1.0' : 'en-US' }} {{'RECORD' | translate}}
-                                    {{ dataNullErr ? ('DATA_NUL_ERR' | translate) : '' }}</span>
-                            </div>
-                        </div>
-                        <!-- >> so ban ghi loi -->
-                        <div style="  overflow-x: scroll;">
-                            <div class="container-fluid mt-4 mb-4" *ngIf="isErrorFile">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <h6 class="form-label">
-                                        {{ 'TITLE.LIST_ERR_FILE' | translate }}
-                                    </h6>
-                                    <div class="" *ngIf="!dataNullErr">
-                                        <div (click)="eDownloadErrFile()"
-                                            class="btn btn-outline-danger font-weight-bolder mx-auto text-center font-14"
-                                            style="height: 38px; padding: 7px 16px; margin: auto">
-                                            <img
-                                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABZ0lEQVR4nM2VP0vEMBjGg38QXRx0OThOed/eXd+I000u3qdQ8VZFcBB0OtEmucFN3Fz8DLrdLPgNXAURcREHcRCXmypprw6VtE3M4AuBkr55fsnTkocFB8EMSbwhASMuMTYOgc9ttbTMbCuMcLdQWKbizhASOCgDUNID/fHzy6pqgncAY4w5QWwAThBbgDXEBZCD/HpnDeCW8CqA1/pRfZYi3ExF4JIpNkEC7n0B4lDAYVd1p7TPK6cB8gh6Pk8Qk8S3jqrNkWqud/Y60yTg0SsghcC+7uEStn1/A+37SFvTUq3F8KRRIwlfY8Ghvr8KRatZBBdsg02SwFttERdwVmnHVQAk8SM8DhdI4lYyF0EP+jDPJbxngGydq0UPJPGKBDyZPP8rIC86zPvuGzAwrSsHyGCn/EqAc92rw+YnfPLDFEZJZAq4Lo5M+AwFrhkhrnFqKq6gkf0A1glXtdr6JBLuvO78X9Y3YXnm03g1hWUAAAAASUVORK5CYII=" />
-                                            {{ 'DOWNLOAD_ERR_FILE' | translate }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <table mat-table [dataSource]="dataSource" matSort
-                                (matSortChange)="announceSortChange($event)" class="w-100">
-                                <!-- STT -->
-                                <ng-container matColumnDef="index">
-                                    <th mat-header-cell *matHeaderCellDef>
-                                        {{ 'COMMON.INDEX' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let index = index" style="text-align: center">
-                                        {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
-                                    </td>
-                                </ng-container>
-                                <!-- Mã tài sản -->
-                                <ng-container matColumnDef="assetCode">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.ASSETCODE' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: right">
-                                        {{item.assetCode}}
-                                    </td>
-                                </ng-container>
-                                 <!--total material -->
-                                 <ng-container matColumnDef="materialTotalStr">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.TOTAL_MATERIAL' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: right">{{
-                                        item.materialTotal != null ? (item.materialTotal | number : '1.0-0') : (item.materialTotalStr | number : '1.0-0')}}</td>
-                                </ng-container>
-
-                                <!-- material -->
-                                <ng-container matColumnDef="materialStr">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.TOTAL_DESIRED_MATERIAL' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: right">{{
-                                        item.material != null ? (item.material | number : '1.0-0') : (item.materialStr | number : '1.0-0')}}</td>
-                                </ng-container>
-                                <!--total labor -->
-                                <ng-container matColumnDef="laborTotalStr">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.TOTAL_LABOR' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: right">{{
-                                        item.laborTotal != null ? (item.laborTotal | number : '1.0-0') : (item.laborTotalStr | number : '1.0-0')}}</td>
-                                </ng-container>
-                                <!-- labor -->
-                                <ng-container matColumnDef="laborStr">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.TOTAL_DESIRED_LABOR' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: right">{{
-                                        item.labor != null ? (item.labor | number : '1.0-0') : (item.laborStr | number : '1.0-0')}}</td>
-                                </ng-container>
-                                <!-- Ngày xây dựng -->
-                                <ng-container matColumnDef="constructionDateStr">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
-                                    </th>
-                                    <td mat-cell *matCellDef="let item" style="text-align: center">{{
-                                        item.constructionDateStr}}</td>
-                                </ng-container>
-                                <!-- errorMsg -->
-                                <ng-container matColumnDef="errorMsg">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        {{ 'LABEL.ERROR_MSG' | translate }}
-                                    </th>
-                                    <td class="text-danger" mat-cell *matCellDef="let item" style="text-align: left">{{
-                                        item.errorMsg }}</td>
-                                </ng-container>
-                                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-                                <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
-                            </table>
-                            <mat-paginator #paginator (page)="onPaginateChange($event)" [pageSize]="10"
-                                [pageSizeOptions]="[10, 20, 25, 30, 50]" showFirstLastButtons
-                                aria-label="Select page of results"></mat-paginator>
-                        </div>
-                        <!-- << so ban ghi loi -->
-                    </form>
-                </div>
-                <div class="d-flex justify-content-end my-5">
-                    <button class="btn btn-primary mx-3" style="width: 150px" *ngIf="!magicButtonUpdate  && !isHasSuccessFile"
-                        (click)="eUpdateFromFile()">
-                        {{ 'ACTION.UPLOAD' | translate }}
-                    </button>
-                    <button class="btn btn-danger mx-3" style="width: 150px" *ngIf="magicButtonUpdate && !isHasSuccessFile"
-                        (click)="eCofirmUpdateByFile()">
-                        {{ 'ACTION.UPDATE' | translate }}
-                    </button>
-                    <button class="btn btn-outline-dark mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
-                        {{ 'ACTION.CLOSE' | translate }}
-                    </button>
-                </div>
-                <div class="pb-1"></div>
-            </div>
-
-        </div>
-        <!-- end: Filtration form -->
+      </form>
     </div>
+
+    <!-- add file -->
+    <div *ngIf="addType == 'file' && !isUpdateFile">
+      <div class="p-4 m-10 border border-success rounded-card" *ngIf="isHasSuccessFile">
+        <div class="text-center text-success font-14">
+          <img
+            src="data:image/png;base64,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"
+          />
+          <h3
+            class="m-4"
+            [ngClass]="{
+              'text-success': resultCode == 'success',
+              'text-warning': resultCode == 'warning'
+            }"
+          >
+            {{ resultDesc }}
+          </h3>
+          <button
+            (click)="eDownloadFileSuccess()"
+            class="m-4 px-10 my-2 rounded-sm text-success cursor-pointer font-size-h3 font-14"
+          >
+            {{ 'COMMON_BUTTON.DOWNLOAD' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="position-relative">
+        <div *ngIf="true && !isHasSuccessFile">
+          <form action="#" class="form form-label-right" [formGroup]="addFileForm">
+            <div class="row form-group">
+              <div class="col-md-2">
+                <button class="form-control btn btn-outline-primary mr-5 font-14" (click)="getTemplate()">
+                  <i class="fas fa-download"></i>{{ 'COMMON_BUTTON.DOWNLOAD_TEMPLATE' | translate }}
+                </button>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <button
+                    class="btn btn-primary sticky-input-button font-14"
+                    type="button"
+                    mat-raised-button
+                    (click)="fileInput.click()"
+                    style="margin-right: -3px"
+                  >
+                    {{ 'LABEL.SELECT_FLE' | translate }} *
+                  </button>
+                  <input
+                    class="form-control"
+                    hidden
+                    (change)="onFileSelected($event)"
+                    (click)="onFileResset($event)"
+                    #fileInput
+                    type="file"
+                    accept=".xls, .xlsx"
+                    name="chonFile"
+                    id="chonFile"
+                    formControlName="chonFile"
+                  />
+                  <span
+                    class="file-name form-control input-field"
+                    [class.is-invalid]="isControlInvalidFile('chonFile')"
+                  >
+                    {{ selectedFile?.name }}
+                  </span>
+                  <div class="invalid-feedback font-14" *ngIf="controlHasErrorFile('required', 'chonFile')">
+                    {{ 'VALIDATION.REQUIRED' | translate : { name: 'File' } }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 col-form-label" *ngIf="isHasResult">
+                <span *ngIf="isHasResult" style="color: red; padding-left: 13px"
+                  >{{ 'TOTAL_ERROR' | translate }}: {{ totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{
+                    totalRecord | number : '1.0' : 'en-US'
+                  }}
+                  {{ 'RECORD' | translate }} {{ dataNullErr ? ('DATA_NUL_ERR' | translate) : '' }}</span
+                >
+              </div>
+            </div>
+            <!-- >> so ban ghi loi -->
+            <div style="overflow-x: scroll">
+              <div class="container-fluid mt-4 mb-4" *ngIf="isErrorFile">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 class="form-label">
+                    {{ 'TITLE.LIST_ERR_FILE' | translate }}
+                  </h6>
+                  <div class="" *ngIf="!dataNullErr">
+                    <div
+                      (click)="eDownloadErrFile()"
+                      class="btn btn-outline-danger font-weight-bolder mx-auto text-center font-14"
+                      style="height: 38px; padding: 7px 16px; margin: auto"
+                    >
+                      <img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABZ0lEQVR4nM2VP0vEMBjGg38QXRx0OThOed/eXd+I000u3qdQ8VZFcBB0OtEmucFN3Fz8DLrdLPgNXAURcREHcRCXmypprw6VtE3M4AuBkr55fsnTkocFB8EMSbwhASMuMTYOgc9ttbTMbCuMcLdQWKbizhASOCgDUNID/fHzy6pqgncAY4w5QWwAThBbgDXEBZCD/HpnDeCW8CqA1/pRfZYi3ExF4JIpNkEC7n0B4lDAYVd1p7TPK6cB8gh6Pk8Qk8S3jqrNkWqud/Y60yTg0SsghcC+7uEStn1/A+37SFvTUq3F8KRRIwlfY8Ghvr8KRatZBBdsg02SwFttERdwVmnHVQAk8SM8DhdI4lYyF0EP+jDPJbxngGydq0UPJPGKBDyZPP8rIC86zPvuGzAwrSsHyGCn/EqAc92rw+YnfPLDFEZJZAq4Lo5M+AwFrhkhrnFqKq6gkf0A1glXtdr6JBLuvO78X9Y3YXnm03g1hWUAAAAASUVORK5CYII="
+                      />
+                      {{ 'DOWNLOAD_ERR_FILE' | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <table
+                mat-table
+                [dataSource]="dataSource"
+                matSort
+                (matSortChange)="announceSortChange($event)"
+                class="w-100"
+              >
+                <!-- STT -->
+                <ng-container matColumnDef="index">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ 'COMMON.INDEX' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let index = index" style="text-align: center">
+                    {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
+                  </td>
+                </ng-container>
+                <!-- Tổ chức -->
+                <ng-container matColumnDef="organisation">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.ORGANISATION' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.organisation }}</td>
+                </ng-container>
+                <!-- Mã tài sản -->
+                <ng-container matColumnDef="assetCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.ASSETCODE' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: left">
+                    {{ item.assetCode }}
+                  </td>
+                </ng-container>
+                <!-- Hợp đồng -->
+                <ng-container matColumnDef="contract">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.CONTRACT' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.contract }}</td>
+                </ng-container>
+                <!-- vật tư -->
+                <ng-container matColumnDef="material">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.MATERIAL' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: right">
+                    {{
+                      item.material != null ? (item.material | number : '1.0-0') : (item.materialStr | number : '1.0-0')
+                    }}
+                  </td>
+                </ng-container>
+                <!-- nhân công -->
+                <ng-container matColumnDef="labor">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.LABOR' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: right">
+                    {{ item.labor != null ? (item.labor | number : '1.0-0') : (item.laborStr | number : '1.0-0') }}
+                  </td> </ng-container
+                >constructionDateStr
+                <!-- Ngày xây dựng -->
+                <ng-container matColumnDef="constructionDateStr">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: center">{{ item.constructionDateStr }}</td>
+                </ng-container>
+                <!-- errorMsg -->
+                <ng-container matColumnDef="errorMsg">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.ERROR_MSG' | translate }}
+                  </th>
+                  <td class="text-danger" mat-cell *matCellDef="let item" style="text-align: left">
+                    {{ item.errorMsg }}
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
+              </table>
+              <mat-paginator
+                #paginator
+                (page)="onPaginateChange($event)"
+                [pageSize]="10"
+                [pageSizeOptions]="[10, 20, 25, 30, 50]"
+                showFirstLastButtons
+                aria-label="Select page of results"
+              ></mat-paginator>
+            </div>
+            <!-- << so ban ghi loi -->
+          </form>
+        </div>
+        <div class="d-flex justify-content-end my-5">
+          <button
+            class="btn btn-primary mx-3"
+            style="width: 150px"
+            *ngIf="!magicButtonUpdate && !isHasSuccessFile"
+            (click)="eUpdateFromFile()"
+          >
+            {{ 'ACTION.UPLOAD' | translate }}
+          </button>
+          <button
+            class="btn btn-danger mx-3"
+            style="width: 150px"
+            *ngIf="magicButtonUpdate && !isHasSuccessFile"
+            (click)="eCofirmUpdateByFile()"
+          >
+            {{ 'ACTION.UPDATE' | translate }}
+          </button>
+          <button class="btn btn-outline-dark mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
+            {{ 'ACTION.CLOSE' | translate }}
+          </button>
+        </div>
+        <div class="pb-1"></div>
+      </div>
+    </div>
+    <!-- edit file -->
+    <div *ngIf="addType == 'file' && isUpdateFile">
+      <div class="p-4 m-10 border border-success rounded-card" *ngIf="isHasSuccessFile">
+        <div class="text-center text-success font-14">
+          <img
+            src="data:image/png;base64,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"
+          />
+          <h3
+            class="m-4"
+            [ngClass]="{
+              'text-success': resultCode == 'success',
+              'text-warning': resultCode == 'warning'
+            }"
+          >
+            {{ resultDesc }}
+          </h3>
+          <button
+            (click)="eDownloadFileSuccess()"
+            class="m-4 px-10 my-2 rounded-sm text-success cursor-pointer font-size-h3 font-14"
+          >
+            {{ 'COMMON_BUTTON.DOWNLOAD' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="position-relative">
+        <div class="container" *ngIf="true && !isHasSuccessFile">
+          <br />
+          <form action="#" class="form form-label-right" [formGroup]="addFileForm">
+            <div class="row form-group">
+              <div class="col-md-2">
+                <button class="form-control btn btn-outline-primary mr-5 font-14" (click)="getTemplate()">
+                  <i class="fas fa-download"></i>{{ 'COMMON_BUTTON.DOWNLOAD_TEMPLATE' | translate }}
+                </button>
+              </div>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <button
+                    class="btn btn-primary sticky-input-button font-14"
+                    type="button"
+                    mat-raised-button
+                    (click)="fileInput.click()"
+                    style="margin-right: -3px"
+                  >
+                    {{ 'LABEL.SELECT_FLE' | translate }} *
+                  </button>
+                  <input
+                    class="form-control"
+                    hidden
+                    (change)="onFileSelected($event)"
+                    (click)="onFileResset($event)"
+                    #fileInput
+                    type="file"
+                    accept=".xls, .xlsx"
+                    name="chonFile"
+                    id="chonFile"
+                    formControlName="chonFile"
+                  />
+                  <span
+                    class="file-name form-control input-field"
+                    [class.is-invalid]="isControlInvalidFile('chonFile')"
+                  >
+                    {{ selectedFile?.name }}
+                  </span>
+                  <div class="invalid-feedback font-14" *ngIf="controlHasErrorFile('required', 'chonFile')">
+                    {{ 'VALIDATION.REQUIRED' | translate : { name: 'File' } }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 col-form-label" *ngIf="isHasResult">
+                <span *ngIf="isHasResult" style="color: red; padding-left: 13px"
+                  >{{ 'TOTAL_ERROR' | translate }}: {{ totalRecord - totalSuccess | number : '1.0' : 'en-US' }}/{{
+                    totalRecord | number : '1.0' : 'en-US'
+                  }}
+                  {{ 'RECORD' | translate }} {{ dataNullErr ? ('DATA_NUL_ERR' | translate) : '' }}</span
+                >
+              </div>
+            </div>
+            <!-- >> so ban ghi loi -->
+            <div style="overflow-x: scroll">
+              <div class="container-fluid mt-4 mb-4" *ngIf="isErrorFile">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h6 class="form-label">
+                    {{ 'TITLE.LIST_ERR_FILE' | translate }}
+                  </h6>
+                  <div class="" *ngIf="!dataNullErr">
+                    <div
+                      (click)="eDownloadErrFile()"
+                      class="btn btn-outline-danger font-weight-bolder mx-auto text-center font-14"
+                      style="height: 38px; padding: 7px 16px; margin: auto"
+                    >
+                      <img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABZ0lEQVR4nM2VP0vEMBjGg38QXRx0OThOed/eXd+I000u3qdQ8VZFcBB0OtEmucFN3Fz8DLrdLPgNXAURcREHcRCXmypprw6VtE3M4AuBkr55fsnTkocFB8EMSbwhASMuMTYOgc9ttbTMbCuMcLdQWKbizhASOCgDUNID/fHzy6pqgncAY4w5QWwAThBbgDXEBZCD/HpnDeCW8CqA1/pRfZYi3ExF4JIpNkEC7n0B4lDAYVd1p7TPK6cB8gh6Pk8Qk8S3jqrNkWqud/Y60yTg0SsghcC+7uEStn1/A+37SFvTUq3F8KRRIwlfY8Ghvr8KRatZBBdsg02SwFttERdwVmnHVQAk8SM8DhdI4lYyF0EP+jDPJbxngGydq0UPJPGKBDyZPP8rIC86zPvuGzAwrSsHyGCn/EqAc92rw+YnfPLDFEZJZAq4Lo5M+AwFrhkhrnFqKq6gkf0A1glXtdr6JBLuvO78X9Y3YXnm03g1hWUAAAAASUVORK5CYII="
+                      />
+                      {{ 'DOWNLOAD_ERR_FILE' | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <table
+                mat-table
+                [dataSource]="dataSource"
+                matSort
+                (matSortChange)="announceSortChange($event)"
+                class="w-100"
+              >
+                <!-- STT -->
+                <ng-container matColumnDef="index">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ 'COMMON.INDEX' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let index = index" style="text-align: center">
+                    {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
+                  </td>
+                </ng-container>
+                <!-- Mã tài sản -->
+                <ng-container matColumnDef="assetCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.ASSETCODE' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: left">
+                    {{ item.assetCode }}
+                  </td>
+                </ng-container>
+                <!--total material -->
+                <ng-container matColumnDef="materialTotalStr">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.TOTAL_MATERIAL' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: right">
+                    {{
+                      item.materialTotal != null
+                        ? (item.materialTotal | number : '1.0-0')
+                        : (item.materialTotalStr | number : '1.0-0')
+                    }}
+                  </td>
+                </ng-container>
+
+                <!-- material -->
+                <ng-container matColumnDef="materialStr">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.TOTAL_DESIRED_MATERIAL' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: right">
+                    {{
+                      item.material != null ? (item.material | number : '1.0-0') : (item.materialStr | number : '1.0-0')
+                    }}
+                  </td>
+                </ng-container>
+                <!--total labor -->
+                <ng-container matColumnDef="laborTotalStr">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.TOTAL_LABOR' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: right">
+                    {{
+                      item.laborTotal != null
+                        ? (item.laborTotal | number : '1.0-0')
+                        : (item.laborTotalStr | number : '1.0-0')
+                    }}
+                  </td>
+                </ng-container>
+                <!-- labor -->
+                <ng-container matColumnDef="laborStr">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.TOTAL_DESIRED_LABOR' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: right">
+                    {{ item.labor != null ? (item.labor | number : '1.0-0') : (item.laborStr | number : '1.0-0') }}
+                  </td>
+                </ng-container>
+                <!-- Ngày xây dựng -->
+                <ng-container matColumnDef="constructionDateStr">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.CONSTRUCTION_DATE' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: center">{{ item.constructionDateStr }}</td>
+                </ng-container>
+                <!-- errorMsg -->
+                <ng-container matColumnDef="errorMsg">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.ERROR_MSG' | translate }}
+                  </th>
+                  <td class="text-danger" mat-cell *matCellDef="let item" style="text-align: left">
+                    {{ item.errorMsg }}
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
+              </table>
+              <mat-paginator
+                #paginator
+                (page)="onPaginateChange($event)"
+                [pageSize]="10"
+                [pageSizeOptions]="[10, 20, 25, 30, 50]"
+                showFirstLastButtons
+                aria-label="Select page of results"
+              ></mat-paginator>
+            </div>
+            <!-- << so ban ghi loi -->
+          </form>
+        </div>
+        <div class="d-flex justify-content-end my-5">
+          <button
+            class="btn btn-primary mx-3"
+            style="width: 150px"
+            *ngIf="!magicButtonUpdate && !isHasSuccessFile"
+            (click)="eUpdateFromFile()"
+          >
+            {{ 'ACTION.UPLOAD' | translate }}
+          </button>
+          <button
+            class="btn btn-danger mx-3"
+            style="width: 150px"
+            *ngIf="magicButtonUpdate && !isHasSuccessFile"
+            (click)="eCofirmUpdateByFile()"
+          >
+            {{ 'ACTION.UPDATE' | translate }}
+          </button>
+          <button class="btn btn-outline-dark mx-3" style="width: 150px" (click)="eCloseWithoutEdit()">
+            {{ 'ACTION.CLOSE' | translate }}
+          </button>
+        </div>
+        <div class="pb-1"></div>
+      </div>
+    </div>
+    <!-- end: Filtration form -->
+  </div>
 </div>

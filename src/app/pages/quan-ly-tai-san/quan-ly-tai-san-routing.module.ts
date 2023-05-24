@@ -15,7 +15,7 @@ const routes: Routes = [
       { path: 'type-of-asset', component: LoaiTaiSanComponent },
       { path: 'opening-balance', component: OpenDepComponent },
       { path: 'transfer-asset', component: TransferAssetComponent },
-      { path: 'import-increase', component: ImportIncreaseAssetComponent }, 
+      // { path: 'import-increase', component: ImportIncreaseAssetComponent }, 
       { path: 'liquidate-asset', component: LiquidateAssetComponent }, 
       { path: 'report', component: ReportAssetComponent }, 
       { path: '', component: LoaiTaiSanComponent },

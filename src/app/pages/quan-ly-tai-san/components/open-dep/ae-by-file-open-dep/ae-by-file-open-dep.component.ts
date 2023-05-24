@@ -93,6 +93,7 @@ export class AeByFileOpenDepComponent implements OnInit {
         'organisation',
         'typeOfAssetName',
         'sourceOfAsset',
+        'parentAssetCode',
         'assetCode',
         'beginOriginalAmountStr',
         'beginAmountStr',

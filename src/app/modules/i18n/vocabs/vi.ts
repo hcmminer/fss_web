@@ -9,7 +9,7 @@ export const locale = {
     // begin menu
     LIST: 'Danh sách',
     'BASIC-CONSTRUCTION': 'Quản lý xây dựng cơ bản',
-    'TRANSFER-TO-ASSET': 'Nhập phát sinh giảm',
+    'TRANSFER-TO-ASSET': 'Nhập kết chuyển xây dựng cơ bản lên tài sản',
     'OPENING-BALANCE-BC': 'Nhập số dư đầu kỳ',
     'IMPORT-INCREASE': 'Nhập phát sinh tăng',
     REPORT: 'Báo cáo tổng hợp',
@@ -182,6 +182,7 @@ export const locale = {
       ORGANISATION: 'Đơn vị',
       ORGANISATION_CODE: 'Mã đơn vị',
       ASSETCODE: 'Mã tài sản',
+      PARENT_ASSETCODE: 'Mã tài sản cha',
       CONTRACT: 'Hợp đồng',
       LABOR: 'Nhân công',
       MATERIAL: 'Vật tư',
@@ -208,9 +209,9 @@ export const locale = {
       TYPE_OF_ASSET_NAME: 'Tên loại tài sản',
       TYPE_OF_ASSET_CODE: 'Mã loại tài sản',
       TYPE_OF_ASSET: 'Loại tài sản',
-      ADD_DECREASE: 'Thêm mới phát sinh giảm',
-      EDIT_DECREASE_FILE: 'Cập nhật phát sinh giảm theo file',
-      LIST_DECREASE: 'Danh sách phát sinh giảm',
+      ADD_DECREASE: 'Thêm mới kết chuyển',
+      EDIT_DECREASE_FILE: 'Cập nhật kết chuyển theo file',
+      LIST_DECREASE: 'Danh sách kết chuyển',
       LIST_REPORT: 'Danh sách báo cáo tổng hợp',
 
       //điều chuyển tài sản
@@ -251,10 +252,16 @@ export const locale = {
       AMOUNT_REPORT: 'Khấu hao lũy kế',
       ORIGINAL_AMOUNT_REPORT: 'Nguyên giá',
       TOTAL_AMOUNT_REPORT: 'Giá trị còn lại',
+
+      //bao cao
       REPORT_DATE: 'Ngày chốt dữ liệu',
       TYPE_REPORT: 'Loại báo cáo',
       DETAILED_REPORT: 'Báo cáo chi tiết',
       SYNTHESIS_REPORT: 'Báo cáo tổng hợp',
+      GROUP_REPORT: 'Báo cáo tổng hợp theo loại tài sản',
+      OLD_TYPE_REPORT: 'Loại tài sản cũ',
+      NEW_TYPE_REPORT: 'Loại tài sản mới',
+      TOTAL_OLD_NEW: 'Tổng tài sản cũ mới',
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -320,11 +327,13 @@ export const locale = {
       UPDATE_IMPORT_INCREASE: 'Cập nhật phát sinh tăng',
 
       //Phát sinh giảm
-      DECREASE: 'Phát sinh giảm',
+      DECREASE: 'Kết chuyển',
+      DECREASE_ASSET: 'Phát sinh giảm',
+
       REPORT: 'Báo cáo tổng hợp',
       REPORT_ASSET: 'Báo cáo tài sản',
-      ADD_DECREASE: 'Thêm mới phát sinh giảm',
-      UPDATE_DECREASE: 'Cập nhật phát sinh giảm',
+      ADD_DECREASE: 'Thêm mới kết chuyển',
+      UPDATE_DECREASE: 'Cập nhật kết chuyển',
 
       //số dư cuối kỳ
       CLOSING_BALANCEL: 'Số dư cuối kỳ',
@@ -452,11 +461,11 @@ export const locale = {
       UPDATE_IM_INCREASE_FROM_FILE_SC: 'Cập nhật phát sinh tăng theo file thành công',
       ADD_IM_INCREASE_FROM_FILE_SC: 'Thêm phát sinh tăng theo file thành công',
 
-      //phát sinh tăng
-      CF_ADD_DECREASE_BY_FILE: 'Bạn có chắc chắn muốn thêm phát sinh giảm theo file không',
-      CF_UPDATE_DECREASE_BY_FILE: 'Bạn có chắc chắn muốn cập nhật phát sinh giảm theo file không',
-      UPDATE_DECREASE_FROM_FILE_SC: 'Cập nhật phát sinh giảm theo file thành công',
-      ADD_DECREASE_FROM_FILE_SC: 'Thêm phát sinh giảm theo file thành công',
+      //phát sinh giam
+      CF_ADD_DECREASE_BY_FILE: 'Bạn có chắc chắn muốn thêm kết chuyển theo file không',
+      CF_UPDATE_DECREASE_BY_FILE: 'Bạn có chắc chắn muốn cập nhật kết chuyển theo file không',
+      UPDATE_DECREASE_FROM_FILE_SC: 'Cập nhật kết chuyển theo file thành công',
+      ADD_DECREASE_FROM_FILE_SC: 'Thêm kết chuyển theo file thành công',
 
       //điều chuyển tài sản
       CF_ADD_TRANSFER_ASSET_BY_FILE: 'Bạn có chắc chắn muốn điều chuyển tải sản theo file không',
@@ -534,8 +543,8 @@ export const locale = {
       ADD_IMPORT_INCREASE: 'Bạn có muốn thêm mới phát sinh tăng này không?',
 
       //phát sinh giảm
-      UPDATE_DECREASE: 'Bạn có muốn cập nhật phát sinh giảm này không?',
-      ADD_DECREASE: 'Bạn có muốn thêm mới phát sinh giảm này không?',
+      UPDATE_DECREASE: 'Bạn có muốn cập nhật kết chuyển này không?',
+      ADD_DECREASE: 'Bạn có muốn thêm mới kết chuyển này không?',
 
       //phát sinh tăng tài sản
       UPDATE_IMPORT_INCREASE_ASSET: 'Bạn có muốn cập nhật phát sinh tăng này không?',

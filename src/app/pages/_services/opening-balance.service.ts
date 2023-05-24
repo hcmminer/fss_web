@@ -1,42 +1,45 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Subscription, of } from "rxjs";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subscription, of } from 'rxjs';
 import { RequestApiModelOld } from '../_models/requestOld-api.model';
-import { HTTPService } from "./http.service";
-import { ToastrService } from "ngx-toastr";
-import { TranslateService } from "@ngx-translate/core";
-import { CommonService } from "./common.service";
-import { NgxSpinnerService } from "ngx-spinner";
-import { HttpClient } from "@angular/common/http";
-import { GlobalService } from "./global.service";
-import { CONFIG } from "src/app/utils/constants";
-import { catchError, finalize, map } from "rxjs/operators";
+import { HTTPService } from './http.service';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { CommonService } from './common.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { HttpClient } from '@angular/common/http';
+import { GlobalService } from './global.service';
+import { CONFIG } from 'src/app/utils/constants';
+import { catchError, finalize, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class openingBalanceService {
   subscriptions: Subscription[] = [];
   cbxOrganisation = new BehaviorSubject<any[]>([]);
   cbxTypeOfAsset = new BehaviorSubject<any[]>([]);
   cbxSourceOfAsset = new BehaviorSubject<any[]>([]);
+
   cbxAssetCodeIncrease = new BehaviorSubject<any[]>([]);
   cbxAssetCodeReportBC = new BehaviorSubject<any[]>([]);
 
+  // autocomplete mã tài sản cha
+  cbxparentBcParentAssetCode = new BehaviorSubject<any[]>([]);
+  cbxparentAssetParentAssetCode = new BehaviorSubject<any[]>([]);
   //só dư đầu kỳ
-  getErrOpeningBalanceFile = new BehaviorSubject<any>({});//v
+  getErrOpeningBalanceFile = new BehaviorSubject<any>({}); //v
   getSuccessOpeningBalanceFile = new BehaviorSubject<any>({});
   listOpeningBalance = new BehaviorSubject<any[]>([]);
   errOpeningBalanceList = new BehaviorSubject<any[]>([]);
 
   //phát sinh tăng
-  getErrImportIncreaseFile = new BehaviorSubject<any>({});//v
+  getErrImportIncreaseFile = new BehaviorSubject<any>({}); //v
   getSuccessImportIncreaseFile = new BehaviorSubject<any>({});
   listImportIncrease = new BehaviorSubject<any[]>([]);
   errImportIncreaseList = new BehaviorSubject<any[]>([]);
 
   //phát sinh giảm
-  getErrBcDecreaseFile = new BehaviorSubject<any>({});//v
+  getErrBcDecreaseFile = new BehaviorSubject<any>({}); //v
   getSuccessBcDecreaseFile = new BehaviorSubject<any>({});
   listBcDecrease = new BehaviorSubject<any[]>([]);
   errBcDecreaseList = new BehaviorSubject<any[]>([]);
@@ -47,25 +50,22 @@ export class openingBalanceService {
 
   //transfer-asset
 
-  getErrTransferAssetFile = new BehaviorSubject<any>({});//v
+  getErrTransferAssetFile = new BehaviorSubject<any>({}); //v
   getSuccessTransferAssetFile = new BehaviorSubject<any>({});
   listTransferAsset = new BehaviorSubject<any[]>([]);
   errTransferAssetList = new BehaviorSubject<any[]>([]);
 
-
   //liquidate-asset
-  getErrLiquidateAssetFile = new BehaviorSubject<any>({});//v
+  getErrLiquidateAssetFile = new BehaviorSubject<any>({}); //v
   getSuccessLiquidateAssetFile = new BehaviorSubject<any>({});
   listLiquidateAsset = new BehaviorSubject<any[]>([]);
   errLiquidateAssetList = new BehaviorSubject<any[]>([]);
 
   //ImportIncrease-asset
-  getErrImportIncreaseAssetFile = new BehaviorSubject<any>({});//v
+  getErrImportIncreaseAssetFile = new BehaviorSubject<any>({}); //v
   getSuccessImportIncreaseAssetFile = new BehaviorSubject<any>({});
   listImportIncreaseAsset = new BehaviorSubject<any[]>([]);
   errImportIncreaseAssetList = new BehaviorSubject<any[]>([]);
-
-
 
   initHeader: {};
   header = {
@@ -112,12 +112,11 @@ export class openingBalanceService {
           // this.toastrService.error(err.error?.message || err.message, 'Error');
           return of(undefined);
         }),
-        finalize(() => { }),
+        finalize(() => {}),
       )
       .subscribe();
     this.subscriptions.push(request);
   }
-
 
   getCbxTypeOfAsset(query: RequestApiModelOld, redirectFunction, allowDefault: boolean) {
     const request = this.globalService
@@ -142,12 +141,80 @@ export class openingBalanceService {
           // this.toastrService.error(err.error?.message || err.message, 'Error');
           return of(undefined);
         }),
-        finalize(() => { }),
+        finalize(() => {}),
       )
       .subscribe();
     this.subscriptions.push(request);
   }
 
+  getCbxAssetParentAssetCode(query: RequestApiModelOld, redirectFunction, str?: any) {
+    const request = this.globalService
+      .globalApi(query, redirectFunction)
+      .pipe(
+        map((response) => {
+          if (response.errorCode != '0') {
+            this.cbxparentAssetParentAssetCode.next([]);
+            throw new Error(response.description);
+          }
+          if (typeof response.data !== 'undefined' && response.data !== null) {
+            let tempData = [];
+            tempData = response.data
+            if (str && str != '') {
+              tempData = tempData.filter((item) => {
+                const regex = new RegExp(str, 'gi'); // 'gi' để bỏ qua phân biệt chữ hoa/thường
+                return regex.test(item.assetCode);
+              });
+            }
+
+            this.cbxparentAssetParentAssetCode.next(tempData);
+          } else {
+            this.cbxparentAssetParentAssetCode.next([]);
+          }
+        }),
+        catchError((err) => {
+          // this.toastrService.error(err.error?.message || err.message, 'Error');
+          return of(undefined);
+        }),
+        finalize(() => {}),
+      )
+      .subscribe();
+    this.subscriptions.push(request);
+  }
+
+  // autoComplete mã tài sản cha
+  getCbxBcParentAssetCode(query: RequestApiModelOld, redirectFunction, str?: any) {
+    const request = this.globalService
+      .globalApi(query, redirectFunction)
+      .pipe(
+        map((response) => {
+          if (response.errorCode != '0') {
+            this.cbxparentBcParentAssetCode.next([]);
+            throw new Error(response.description);
+          }
+          if (typeof response.data !== 'undefined' && response.data !== null) {
+            let tempData = [];
+            tempData = response.data
+            if (str && str != '') {
+              tempData = response.data.filter((item) => {
+                const regex = new RegExp(str, 'gi'); // 'gi' để bỏ qua phân biệt chữ hoa/thường
+                return regex.test(item.assetCode);
+              });
+            }
+
+            this.cbxparentBcParentAssetCode.next(tempData);
+          } else {
+            this.cbxparentBcParentAssetCode.next([]);
+          }
+        }),
+        catchError((err) => {
+          // this.toastrService.error(err.error?.message || err.message, 'Error');
+          return of(undefined);
+        }),
+        finalize(() => {}),
+      )
+      .subscribe();
+    this.subscriptions.push(request);
+  }
 
   getCbxAssetCodeIncrease(query: RequestApiModelOld, redirectFunction, str?: any) {
     const request = this.globalService
@@ -155,31 +222,31 @@ export class openingBalanceService {
       .pipe(
         map((response) => {
           if (response.errorCode != '0') {
-            this.cbxAssetCodeIncrease.next([]);
+            this.cbxparentAssetParentAssetCode.next([]);
             throw new Error(response.description);
           }
           if (typeof response.data !== 'undefined' && response.data !== null) {
-            let tempData = []
-            tempData = response.data.filter(item => {
-              return item.isUpdate == 1
-            })
+            let tempData = [];
+            tempData = response.data.filter((item) => {
+              return item.isUpdate == 1;
+            });
             if (str && str != '') {
-              tempData = tempData.filter(item => {
+              tempData = tempData.filter((item) => {
                 const regex = new RegExp(str, 'gi'); // 'gi' để bỏ qua phân biệt chữ hoa/thường
-                return regex.test(item.assetCode);
-              })
+                return regex.test(item.parentAssetCode);
+              });
             }
 
-            this.cbxAssetCodeIncrease.next(tempData);
+            this.cbxparentAssetParentAssetCode.next(tempData);
           } else {
-            this.cbxAssetCodeIncrease.next([]);
+            this.cbxparentAssetParentAssetCode.next([]);
           }
         }),
         catchError((err) => {
           // this.toastrService.error(err.error?.message || err.message, 'Error');
           return of(undefined);
         }),
-        finalize(() => { }),
+        finalize(() => {}),
       )
       .subscribe();
     this.subscriptions.push(request);
@@ -195,13 +262,13 @@ export class openingBalanceService {
             throw new Error(response.description);
           }
           if (typeof response.data !== 'undefined' && response.data !== null) {
-            let tempData = []
-            tempData = response.data
+            let tempData = [];
+            tempData = response.data;
             if (str && str != '') {
-              tempData = tempData.filter(item => {
+              tempData = tempData.filter((item) => {
                 const regex = new RegExp(str, 'gi'); // 'gi' để bỏ qua phân biệt chữ hoa/thường
                 return regex.test(item.assetCode);
-              })
+              });
             }
             this.cbxListAssetCodeDecrease.next(tempData);
           } else {
@@ -212,7 +279,7 @@ export class openingBalanceService {
           // this.toastrService.error(err.error?.message || err.message, 'Error');
           return of(undefined);
         }),
-        finalize(() => { }),
+        finalize(() => {}),
       )
       .subscribe();
     this.subscriptions.push(request);
@@ -229,11 +296,11 @@ export class openingBalanceService {
             throw new Error(response.description);
           }
           if (typeof response.data !== 'undefined' && response.data !== null) {
-            this.cbxAssetCodeReportBC.next(response.data.filter((value, index, self) =>
-              index === self.findIndex((t) => (
-                t.assetCode === value.assetCode
-              ))
-            ));
+            this.cbxAssetCodeReportBC.next(
+              response.data.filter(
+                (value, index, self) => index === self.findIndex((t) => t.assetCode === value.assetCode),
+              ),
+            );
           } else {
             this.cbxAssetCodeReportBC.next([]);
           }
@@ -242,7 +309,7 @@ export class openingBalanceService {
           // this.toastrService.error(err.error?.message || err.message, 'Error');
           return of(undefined);
         }),
-        finalize(() => { }),
+        finalize(() => {}),
       )
       .subscribe();
     this.subscriptions.push(request);
@@ -273,7 +340,7 @@ export class openingBalanceService {
           // this.toastrService.error(err.error?.message || err.message, 'Error');
           return of(undefined);
         }),
-        finalize(() => { }),
+        finalize(() => {}),
       )
       .subscribe();
     this.subscriptions.push(request);

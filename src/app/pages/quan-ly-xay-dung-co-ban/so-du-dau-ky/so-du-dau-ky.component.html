@@ -202,7 +202,15 @@
                   {{ item.createdDatetimeStr }}
                 </td>
               </ng-container>
-
+              <!-- parentAssetCode -->
+              <ng-container matColumnDef="parentAssetCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.PARENT_ASSETCODE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">
+                  {{ item.parentAssetCode }}
+                </td>
+              </ng-container>
               <!-- action -->
               <ng-container matColumnDef="action">
                 <th mat-header-cell *matHeaderCellDef>

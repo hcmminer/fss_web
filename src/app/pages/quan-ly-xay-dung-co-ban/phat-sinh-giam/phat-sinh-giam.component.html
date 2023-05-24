@@ -102,13 +102,13 @@
               style="height: 38px">
               {{ 'LABEL.ADD_DECREASE' | translate }}
             </div>
-            <div (click)="displayFormAdd(null, null, true)"
+            <!-- <div (click)="displayFormAdd(null, null, true)"
               class="ml-3 px-4 btn btn-outline-primary font-weight-bolder align-items-center d-flex"
               style="height: 38px">
               <img class="pr-2"
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAABAklEQVR4nGNgoDcw77UpJxr32yuQbIFFn81/YnDK8vT/NhMdH5n02SjRxIIJhyb/335z53+7SU6kWUKKBS++viTdElIteEGqJeRY8AJhyQOqWWCBA49a8J8mQbT6wtr/998++O82zet/3trC/08+PP3fsL2JehaEL4j+//vv7/9zT8z/f+HJRbAFthMdqRvJay6s+//rz6//IFC5uZr6qahiUzXYcJBPPKb7UNcC6wn2/+++uff/9us7/7/9+v5/7YX11LWge28f2PWF60r+Lzuz4v/ff3//Ry+Ko54Fkw9O/T/j6Cww22uG3/9Fp5b8L99UNZqTbYZuYddBCSZoAbUBANu81uCxSVXLAAAAAElFTkSuQmCC" />
               {{ 'LABEL.EDIT_DECREASE_FILE' | translate }}
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -132,6 +132,13 @@
                 <td mat-cell *matCellDef="let index = index">
                   {{ paginator.pageIndex * paginator.pageSize + index + 1 }}
                 </td>
+              </ng-container>
+               <!-- parentAssetCode  -->
+               <ng-container matColumnDef="parentAssetCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ 'LABEL.PARENT_ASSETCODE' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.parentAssetCode }}</td>
               </ng-container>
               <!-- assetCode  -->
               <ng-container matColumnDef="assetCode">
@@ -218,7 +225,7 @@
               </ng-container>
 
               <!-- action -->
-              <ng-container matColumnDef="action">
+              <!-- <ng-container matColumnDef="action">
                 <th mat-header-cell *matHeaderCellDef>
                   {{ "LABEL.ACTION" | translate }}
                 </th>
@@ -231,7 +238,7 @@
                     </div>
                   </div>
                 </td>
-              </ng-container>
+              </ng-container> -->
               <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
               <tr mat-row *matRowDef="let element; columns: columnsToDisplay" class="example-element-row zindex-5"
                 (click)="eViewDetail(element)"></tr>
