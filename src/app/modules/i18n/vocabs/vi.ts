@@ -251,10 +251,16 @@ export const locale = {
       AMOUNT_REPORT: 'Khấu hao lũy kế',
       ORIGINAL_AMOUNT_REPORT: 'Nguyên giá',
       TOTAL_AMOUNT_REPORT: 'Giá trị còn lại',
+
+      //bao cao
       REPORT_DATE: 'Ngày chốt dữ liệu',
       TYPE_REPORT: 'Loại báo cáo',
       DETAILED_REPORT: 'Báo cáo chi tiết',
       SYNTHESIS_REPORT: 'Báo cáo tổng hợp',
+      GROUP_REPORT: 'Báo cáo tổng hợp theo loại tài sản',
+      OLD_TYPE_REPORT: 'Loại tài sản cũ',
+      NEW_TYPE_REPORT: 'Loại tài sản mới',
+      TOTAL_OLD_NEW: 'Tổng tài sản cũ mới',
     },
     TITLE: {
       // Quản lý phiếu công tác
@@ -320,7 +326,9 @@ export const locale = {
       UPDATE_IMPORT_INCREASE: 'Cập nhật phát sinh tăng',
 
       //Phát sinh giảm
-      DECREASE: 'kết chuyển',
+      DECREASE: 'Kết chuyển',
+      DECREASE_ASSET: 'Phát sinh giảm',
+
       REPORT: 'Báo cáo tổng hợp',
       REPORT_ASSET: 'Báo cáo tài sản',
       ADD_DECREASE: 'Thêm mới kết chuyển',
@@ -452,7 +460,7 @@ export const locale = {
       UPDATE_IM_INCREASE_FROM_FILE_SC: 'Cập nhật phát sinh tăng theo file thành công',
       ADD_IM_INCREASE_FROM_FILE_SC: 'Thêm phát sinh tăng theo file thành công',
 
-      //phát sinh tăng
+      //phát sinh giam
       CF_ADD_DECREASE_BY_FILE: 'Bạn có chắc chắn muốn thêm kết chuyển theo file không',
       CF_UPDATE_DECREASE_BY_FILE: 'Bạn có chắc chắn muốn cập nhật kết chuyển theo file không',
       UPDATE_DECREASE_FROM_FILE_SC: 'Cập nhật kết chuyển theo file thành công',

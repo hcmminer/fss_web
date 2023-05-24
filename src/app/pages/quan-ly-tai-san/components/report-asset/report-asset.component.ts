@@ -20,9 +20,10 @@ import { timeToName } from 'src/app/utils/functions';
 
 
 const queryInit = {
-  // groupFilter: '',
+  groupFilter: '',
   organisation: '',
-  assetCode: '',
+  typeOfAssetName: '',
+  // assetCode: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
   endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1),
@@ -57,17 +58,17 @@ export const MY_FORMATS = {
 })
 export class ReportAssetComponent implements OnInit {
   currentPage = 1;
-  // @ViewChild('autoFocus') private _inputElement: ElementRef; 
+  @ViewChild('autoFocus') private _inputElement: ElementRef; 
   pageSize: number = 10;
   source: any;
   ngAfterViewInit(): void {
-    // this.source = fromEvent(this._inputElement.nativeElement, 'keyup');
-    // this.source.pipe(debounceTime(400)).subscribe((value) => {
-    //   this.eSearch();
-    //   if (this.dataSource.paginator) {
-    //     this.dataSource.paginator.firstPage();
-    //   }
-    // });
+    this.source = fromEvent(this._inputElement.nativeElement, 'keyup');
+    this.source.pipe(debounceTime(400)).subscribe((value) => {
+      this.eSearch();
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
+    });
   }
   dataSource: MatTableDataSource<any>;
 
@@ -88,7 +89,7 @@ export class ReportAssetComponent implements OnInit {
   isAdmin: any;
   selectedTabIndex = 0;
   private modal: any;
-  reportType = [{ id: 1, reportName: 'LABEL.SYNTHESIS_REPORT' }, { id: 2, reportName: 'LABEL.DETAILED_REPORT' }]
+  reportType = [{ id: 1, reportName: 'LABEL.SYNTHESIS_REPORT' }, { id: 2, reportName: 'LABEL.DETAILED_REPORT' }, { id: 3, reportName: 'LABEL.GROUP_REPORT' }]
   query = {
     ...queryInit,
   };
@@ -116,6 +117,7 @@ export class ReportAssetComponent implements OnInit {
   initCombobox() {
     let reqGetListStatus = { userName: this.userName };
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
+    this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
   }
 
   ngOnInit(): void {
@@ -158,9 +160,10 @@ export class ReportAssetComponent implements OnInit {
   // init data for view form search
   loadSearchForm() {
     this.searchForm = this.fb.group({
-      // groupFilter: [this.query.groupFilter],
+      groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
-      assetCode: [this.query.assetCode],
+      typeOfAssetName: [this.query.typeOfAssetName],
+      // assetCode: [this.query.assetCode],
       startDetail: [this.query.startDate],
       end: [this.query.endDate],
       endDetail: [this.query.endDate],
@@ -202,7 +205,8 @@ export class ReportAssetComponent implements OnInit {
       userName: this.userName,
       searchDTO: {
         // groupFilter: this.query.groupFilter,
-        assetCode: this.searchForm.get('assetCode').value,
+        // assetCode: this.searchForm.get('assetCode').value,
+        typeOfAssetName: this.searchForm.get('typeOfAssetName').value,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('startDetail').value),
         toDateStr: this.searchForm.get('reportType').value == 2 ? this.transform(this.searchForm.get('endDetail').value) : this.transform(this.searchForm.get('end').value),
@@ -222,14 +226,20 @@ export class ReportAssetComponent implements OnInit {
     this.loadSearchForm();
   }
 
+  //event change report type
+  eChangeReportType(){
+    this.eSearch();
+  }
+
   apiGetReport() {
     let req;
 
     req = {
       userName: this.userName,
       searchDTO: {
-        // groupFilter: this.query.groupFilter,
-        assetCode: this.searchForm.get('assetCode').value,
+        groupFilter: this.query.groupFilter,
+        // assetCode: this.searchForm.get('assetCode').value,
+        typeOfAssetName: this.searchForm.get('typeOfAssetName').value,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('startDetail').value),
         toDateStr: this.searchForm.get('reportType').value == 2 ? this.transform(this.searchForm.get('endDetail').value) : this.transform(this.searchForm.get('end').value),

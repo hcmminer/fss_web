@@ -289,14 +289,14 @@
 
               <!-- Số dư cuối kỳ -->
               <ng-container matColumnDef="soducuoiky">
-                <th mat-header-cell *matHeaderCellDef colspan="3" style="background-color: rgb(3 113 185)">
+                <th mat-header-cell *matHeaderCellDef colspan="3" style="background-color: rgb(104 167 209)">
                   {{ 'TITLE.CLOSING_BALANCEL' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: left"></td>
               </ng-container>
               <!-- material -->
               <ng-container matColumnDef="materialTotal">
-                <th mat-header-cell *matHeaderCellDef style="background-color: rgb(3 113 185)">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgb(104 167 209)">
                   {{ 'LABEL.MATERIAL' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: right">
@@ -305,7 +305,7 @@
               </ng-container>
               <!-- labor -->
               <ng-container matColumnDef="laborTotal">
-                <th mat-header-cell *matHeaderCellDef style="background-color: rgb(3 113 185)">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgb(104 167 209)">
                   {{ 'LABEL.LABOR' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: right">
@@ -315,7 +315,7 @@
 
               <!-- Tong vat tu nhan cong -->
               <ng-container matColumnDef="total">
-                <th mat-header-cell *matHeaderCellDef style="background-color: rgb(3 113 185)">
+                <th mat-header-cell *matHeaderCellDef style="background-color: rgb(104 167 209)">
                   {{ 'LABEL.TOTAL' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.total | number : '1.0-0' }}</td>

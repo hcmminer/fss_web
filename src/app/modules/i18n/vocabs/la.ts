@@ -312,6 +312,7 @@ export const locale = {
  
        //Phát sinh giảm
        DECREASE: 'ກໍລະນີມີການຫຼຸດລົງ',
+       ASSET_DECREASE: 'ກໍລະນີມີການຫຼຸດລົງ',
        REPORT: 'ບົດລາຍງານທົ່ວໄປ',
        REPORT_ASSET: 'ບົດລາຍງານຊັບສິນ',
        ADD_DECREASE: 'ເພີ່ມໃໝ່ກໍລະນີມີການຫຼຸດລົງ',
