@@ -1,3 +1,4 @@
+import { QuanLyKpiModule } from './quan-ly-kpi/quan-ly-kpi.module';
 import { QuanLyTaiSanModule } from './quan-ly-tai-san/quan-ly-tai-san.module';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -34,6 +35,10 @@ const routes: Routes = [
       {
         path: 'asset-manage',
         loadChildren: () => import('./quan-ly-tai-san/quan-ly-tai-san.module').then((m) => m.QuanLyTaiSanModule),
+      },
+      {
+        path: 'kpi-management',
+        loadChildren: () => import('./quan-ly-kpi/quan-ly-kpi.module').then((m) => m.QuanLyKpiModule),
       },
       {
         path: '',
