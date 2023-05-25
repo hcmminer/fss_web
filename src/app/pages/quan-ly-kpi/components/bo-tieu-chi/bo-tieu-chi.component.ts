@@ -67,7 +67,7 @@ export class BoTieuChiComponent implements OnInit {
     'kpiPoint',
     'beginContractDate',
     'expiredContractDate',
-    'action'
+    'action',
   ];
 
   hasChild = (_: number, node) => node.expandable;
@@ -120,6 +120,21 @@ export class BoTieuChiComponent implements OnInit {
 
   eDelete(item) {}
 
+  applyFilter(event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    let tarArr = this.responseFromSearchApi.filter((item) =>
+      Object.values(item)
+        .map((item) => item?.toString().trim().toLowerCase())
+        .includes(filterValue),
+    );
+    this.dataSource.data = arrayToTree(this.convertLang(tarArr));
+    if (event.target.value == '') {
+      setTimeout(() => this.eSearch(), 400);
+    }
+  }
+
+  responseFromSearchApi = [];
+
   eSearch() {
     const req = {
       userName: localStorage.getItem('userName'),
@@ -128,6 +143,7 @@ export class BoTieuChiComponent implements OnInit {
     };
     const res = this.globalService.globalApi(req, 'searchKpiManager').subscribe((res) => {
       if (res.errorCode == '0') {
+        this.responseFromSearchApi = res.data;
         this.dataSource.data = arrayToTree(this.convertLang(res.data));
       } else {
         this.dataSource.data = null;
