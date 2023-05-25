@@ -41,10 +41,10 @@
 <div class="mat-elevation-z8" style="overflow-x: scroll; width: 100%">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="kpiName">
-      <th class="" mat-header-cell *matHeaderCellDef style="width: max-content">
-        <span [style.paddingLeft.px]="40"> {{ 'TITLE.NAME_KPI' | translate }} </span>
+      <th class="" mat-header-cell *matHeaderCellDef>
+        <span style="width: max-content" [style.paddingLeft.px]="40"> {{ 'TITLE.NAME_KPI' | translate }} </span>
       </th>
-      <td class="text-left" mat-cell *matCellDef="let data" style="width: max-content">
+      <td class="text-left" mat-cell *matCellDef="let data">
         <div style="width: max-content">
           <button
             mat-icon-button
@@ -56,7 +56,6 @@
               {{ treeControl.isExpanded(data) ? 'expand_more' : 'chevron_right' }}
             </mat-icon>
           </button>
-
           {{ data.kpiName }}
         </div>
       </td>
