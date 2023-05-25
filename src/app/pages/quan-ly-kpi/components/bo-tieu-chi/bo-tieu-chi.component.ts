@@ -16,6 +16,7 @@ import { CONFIG } from 'src/app/utils/constants';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { arrayToTree } from 'src/app/utils/functions';
+import { AddTieuChiComponent } from '../add-tieu-chi/add-tieu-chi.component';
 
 @Component({
   selector: 'app-bo-tieu-chi',
@@ -73,6 +74,7 @@ export class BoTieuChiComponent implements OnInit {
   hasChild = (_: number, node) => node.expandable;
 
   constructor(
+    private modalService: NgbModal,
     public translate: TranslateService,
     public toastrService: ToastrService,
     private globalService: GlobalService,
@@ -116,7 +118,16 @@ export class BoTieuChiComponent implements OnInit {
     }
   }
 
-  eAdd() {}
+  eAdd(item) {
+    const modalRef = this.modalService.open(AddTieuChiComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl',
+    });
+    modalRef.result.then(() => {
+      this.eSearch();
+    });
+  }
 
   eUpdate(item) {}
 

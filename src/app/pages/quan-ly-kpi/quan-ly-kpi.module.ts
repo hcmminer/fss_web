@@ -54,11 +54,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { OverlayModule } from '@angular/cdk/overlay';
 import {MatListModule} from '@angular/material/list';
 import {MatRippleModule} from '@angular/material/core';
+import { AddTieuChiComponent } from './components/add-tieu-chi/add-tieu-chi.component';
 
 
 
 @NgModule({
-  declarations: [BoTieuChiComponent],
+  declarations: [BoTieuChiComponent, AddTieuChiComponent],
   imports: [
     CommonModule,
     QuanLyKpiRoutingModule,
