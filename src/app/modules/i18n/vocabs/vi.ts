@@ -264,11 +264,22 @@ export const locale = {
       TOTAL_OLD_NEW: 'Tổng tài sản cũ mới',
     },
     TITLE: {
-      // Quan ly kpi
+      // Quan ly kpi...
       NAME_KPI: 'Tên KPI',
       KPI_MANAGEMENT: 'Quản lý KPI',
       KPI_MANAGER_CATEGORY: 'Danh sách KPI',
-      // 
+      KPI_CODE: 'Mã KPI',
+      KPI_NAME_VI: 'Tên KPI(Vi)',
+      KPI_NAME_LA: 'Tên KPI(La)',
+      CONTENT_VI: 'Nội dung(Vi)',
+      CONTENT_LA: 'Nội dung(La)',
+      KPI_POLICY_VI: 'Chính sách(Vi)',
+      KPI_POLICY_LA: 'Chính sách(La)',
+      STAFF_CODE: 'Mã nhân viên',
+      KPI_POINT: 'Điểm KPI',
+      BEGIN_CONTRACT_DATE: 'Ngày bắt đầu hợp đồng',
+      EXPIRED_CONTRACT_DATE: 'Ngày kết thúc hợp đồng',
+      // ...Quan ly kpi
       // Quản lý phiếu công tác
       LIST_JOB: 'Danh sách phiếu công tác',
       SEARCH_JOB: 'Tìm kiếm phiếu công tác',
@@ -560,7 +571,6 @@ export const locale = {
 
       //thanh lý tài sản
       LIQUIDATE_ASSET: 'Bạn có muốn thanh lý tài sản này không?',
-
     },
     TOOLTIP: {
       REFUSE: 'Từ chối',
