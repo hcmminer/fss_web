@@ -1,1 +1,116 @@
-<p>add-tieu-chi works!</p>
+<div class="pt-5 pl-5 pr-5">
+  <div class="">
+    <h5 style="font-weight: 700">
+      {{ 'FUNCTION.ADD' | translate }}
+    </h5>
+    <hr />
+    <br />
+    <div>
+      <form class="form" [formGroup]="addEditForm">
+        <div class="row form-group justify-content-around">
+          <!-- code -->
+          <!-- <label class="col-md-2 form-label col-form-label">
+            {{ 'TYPE_OF_ASSET.CODE' | translate }}
+            <span style="color: red">*</span></label
+          >
+          <div class="col-md-3">
+            <input
+              class="form-control"
+              formControlName="code"
+              [class.is-invalid]="isControlInvalid('code')"
+              maxlength="200"
+              [readOnly]="propAction == 'add' ? false : true"
+            />
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'code')">
+              {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.CODE' | translate } }}
+            </div>
+          </div> -->
+          <!-- name -->
+          <label class="col-md-2 form-label col-form-label">
+            {{ 'LABEL.TYPE_OF_ASSET' | translate }}
+            <span style="color: red">*</span></label
+          >
+          <div class="col-md-3">
+            <input
+              class="form-control"
+              formControlName="name"
+              [class.is-invalid]="isControlInvalid('name')"
+              maxlength="50"
+            />
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'name')">
+              {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.TYPE_OF_ASSET' | translate } }}
+            </div>
+          </div>
+          <!-- description -->
+          <label class="col-md-2 form-label col-form-label">
+            {{ 'TYPE_OF_ASSET.DESCRIPTION' | translate }}
+            <span style="color: red">*</span></label
+          >
+          <div class="col-md-3">
+            <input
+              class="form-control"
+              formControlName="description"
+              [class.is-invalid]="isControlInvalid('description')"
+              maxlength="500"
+            />
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'description')">
+              {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.DESCRIPTION' | translate } }}
+            </div>
+          </div>
+        </div>
+        <div class="row form-group justify-content-around">
+          <!-- account -->
+          <label class="col-md-2 form-label col-form-label">
+            {{ 'TYPE_OF_ASSET.ACCOUNT' | translate }}
+            <span style="color: red">*</span></label
+          >
+          <div class="col-md-3">
+            <input
+              class="form-control"
+              formControlName="account"
+              [class.is-invalid]="isControlInvalid('account')"
+              maxlength="50"
+            />
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'account')">
+              {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.ACCOUNT' | translate } }}
+            </div>
+          </div>
+          <!-- depreciation_frame -->
+          <label class="col-md-2 form-label col-form-label">
+            {{ 'TYPE_OF_ASSET.DEPRECIATION_FRAME' | translate }}
+            <span style="color: red">*</span></label
+          >
+          <div class="col-md-3">
+            <input
+              NumbersOnly
+              class="form-control"
+              formControlName="depreciationFrame"
+              [class.is-invalid]="isControlInvalid('depreciationFrame')"
+              maxlength="3"
+            />
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'depreciationFrame')">
+              {{ 'VALIDATION.REQUIRED' | translate : { name: 'TYPE_OF_ASSET.DEPRECIATION_FRAME' | translate } }}
+            </div>
+            <div class="invalid-feedback" *ngIf="controlHasError('minValue', 'depreciationFrame')">
+              {{
+                'VALIDATION.MIN_VALUE' | translate : { name: 'TYPE_OF_ASSET.DEPRECIATION_FRAME' | translate, min: 0 }
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end my-5">
+          <button
+            class="btn btn-primary mx-3"
+            style="width: 150px"
+            (click)="eSave()"
+          >
+            {{ 'ACTION.SAVE' | translate }}
+          </button>
+          <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eClose()">
+            {{ 'ACTION.CLOSE' | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
