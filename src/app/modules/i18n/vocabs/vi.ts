@@ -44,7 +44,7 @@ export const locale = {
       TITLE: 'Loại tài sản',
       LIST: 'Danh sách loại tài sản',
       CODE: 'Mã loại tài sản',
-      NAME: 'Tên loại tài sản',
+      NAME: 'Loại tài sản',
       ACCOUNT: 'Tài khoản',
       DEPRECIATION_FRAME: 'Khung khấu hao (năm)',
       DESCRIPTION: 'Mô tả',
@@ -207,7 +207,7 @@ export const locale = {
       //phát sinh giảm
       DEPRECIATIONFRAME: 'Khung khấu hao',
       TYPE_OF_ASSET_ACCOUNT: 'Tài khoản',
-      TYPE_OF_ASSET_NAME: 'Tên loại tài sản',
+      TYPE_OF_ASSET_NAME: 'Loại tài sản',
       TYPE_OF_ASSET_CODE: 'Mã loại tài sản',
       TYPE_OF_ASSET: 'Loại tài sản',
       ADD_DECREASE: 'Thêm mới kết chuyển',

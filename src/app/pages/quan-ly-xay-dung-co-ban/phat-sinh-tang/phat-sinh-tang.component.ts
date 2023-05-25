@@ -91,7 +91,7 @@ export class PhatSinhTangComponent implements OnInit {
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
     'index',
-    'organisation',
+    'organisationCode',
     'parentAssetCode',
     'assetCode',
     'contract',

@@ -197,7 +197,7 @@ export const locale = {
        //phát sinh giảm
       DEPRECIATIONFRAME: 'ຂອບ​ເຂດ​ຄ່າລູ້ຍ​ຫ້ຽນ',
       TYPE_OF_ASSET_ACCOUNT: 'ບັນຊີ',
-      TYPE_OF_ASSET_NAME: 'ຊື່ປະເພດຊັບສິນ',
+      TYPE_OF_ASSET_NAME: 'ປະເພດຊັບສິນ',
       TYPE_OF_ASSET_CODE: 'ລະຫັດປະເພດຊັບສິນ',
       TYPE_OF_ASSET: 'ປະເພດຊັບສິນ',
       ADD_DECREASE: 'ເພີ່ມໃຫມ່ກໍລະນີມີການເພີ່ມຂຶ້ນ',
