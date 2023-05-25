@@ -208,3 +208,13 @@ th.mat-header-cell:last-of-type {
     color: rgb(255, 89, 89);
   }
 }
+
+::ng-deep .mat-tab-label-content {
+  font-weight: bold;
+  font-size: 17px;
+}
+
+::ng-deep .mat-header-cell {
+  font-weight: bold;
+  font-size: 13px;
+}
