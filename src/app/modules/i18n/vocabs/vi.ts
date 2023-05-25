@@ -182,6 +182,8 @@ export const locale = {
       ORGANISATION_CODE: 'Mã đơn vị',
       ASSETCODE: 'Mã tài sản',
       PARENT_ASSETCODE: 'Mã tài sản cha',
+      PARENT_ASSETCODE_RECEIVE: 'Mã tài sản cha nhận',
+
       CONTRACT: 'Hợp đồng',
       LABOR: 'Nhân công',
       MATERIAL: 'Vật tư',

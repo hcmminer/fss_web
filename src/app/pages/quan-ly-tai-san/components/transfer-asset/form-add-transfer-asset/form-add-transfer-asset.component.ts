@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
 import { GlobalService } from 'src/app/pages/_services/global.service';
@@ -20,7 +20,6 @@ import { openingBalanceService } from 'src/app/pages/_services/opening-balance.s
 import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
 import { CONFIG } from 'src/app/utils/constants';
 import { timeToName } from 'src/app/utils/functions';
-
 
 const MAX_FILE_SIZE_TEMPLATE = 1024 * 1024 * 10;
 export const MY_FORMATS = {
@@ -34,7 +33,6 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-
 
 @Component({
   selector: 'app-form-add-transfer-asset',
@@ -74,14 +72,14 @@ export class FormAddTransferAssetComponent implements OnInit {
   startDateErrorMsg: string = '';
   addEditForm: FormGroup;
   addFileForm: FormGroup;
-
+  isParentAssetCode = new BehaviorSubject<any>(true);
   private subscriptions: Subscription[] = [];
   selectedFile: any = null;
   resultFileData: any = null;
   totalSuccess: number = null;
   totalRecord: number = null;
   isHasResult: boolean = false;
-  columnsToDisplay = ['index', 'constructionDateStr', 'assetCode', 'departmentCode', 'errorMsg'];
+  columnsToDisplay = ['index', 'constructionDateStr', 'assetCode', 'parentAssetCodeReceive','departmentCode', 'errorMsg'];
   addType: string = 'single';
   addTypeList = [
     {
@@ -96,6 +94,7 @@ export class FormAddTransferAssetComponent implements OnInit {
     },
   ];
   modelChanged = new Subject<string>();
+  modelChangedParent = new Subject<string>();
 
   constructor(
     public fb: FormBuilder,
@@ -108,34 +107,78 @@ export class FormAddTransferAssetComponent implements OnInit {
     public openingBalanceService: openingBalanceService,
     private _liveAnnouncer: LiveAnnouncer,
     @Inject(Injector) private readonly injector: Injector,
-  ) {
-  }
+  ) {}
   initCombobox() {
     let reqGetListStatus = { userName: this.userName };
     this.openingBalanceService.getSourceOfAsset(reqGetListStatus, 'get-source-of-asset', true);
     this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
-    this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase'); 
+    this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase');
+    this.openingBalanceService.getCbxParentAssetCodeIncrese(reqGetListStatus, 'search-dep-increase');
   }
 
   ngOnInit(): void {
     this.initCombobox();
-    this.modelChanged
-      .pipe(
-        debounceTime(800))
-      .subscribe((value) => {
-        let reqGetListStatus = { userName: this.userName };
-        this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase', value); 
-      })
+    // autofocus
+    this.modelChanged.pipe(debounceTime(800)).subscribe((value) => {
+      let reqGetListStatus = { userName: this.userName };
+      this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase', value);
+    });
+
+    this.modelChangedParent.pipe(debounceTime(800)).subscribe((value) => {
+      let reqGetListStatus = { userName: this.userName };
+      let tempAssetCode = !this.addEditForm.get('assetCode').value.assetCode
+        ? this.addEditForm.get('assetCode').value
+        : this.addEditForm.get('assetCode').value.assetCode;
+      this.openingBalanceService.getCbxParentAssetCodeIncrese(
+        reqGetListStatus,
+        'search-dep-increase',
+        value,
+        tempAssetCode,
+      );
+    });
+    //end autofocus
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.addType == 'single') {
       this.loadAddForm();
     }
-  }
 
+    this.addEditForm.get('parentAssetCode').valueChanges.subscribe((assetValue) => {
+      let tempParentAssetCode = !this.addEditForm.get('parentAssetCode').value.assetCode
+        ? this.addEditForm.get('parentAssetCode').value
+        : this.addEditForm.get('parentAssetCode').value.assetCode;
+      tempParentAssetCode = tempParentAssetCode.trim();
+      if (tempParentAssetCode.trim() == '' || tempParentAssetCode == null || tempParentAssetCode == undefined) {
+        this.isParentAssetCode.next(true);
+      } else {
+        this.isParentAssetCode.next(false);
+      }
+      const organisation = this.addEditForm.get('organisation');
+
+      if (assetValue) {
+        organisation.clearValidators();
+      } else {
+        organisation.setValidators(Validators.required);
+      }
+
+      organisation.updateValueAndValidity();
+    });
+
+    this.addEditForm.get('assetCode').valueChanges.subscribe((assetValue) => {
+      debugger
+      let tempAssetCode = !this.addEditForm.get('assetCode').value.assetCode
+        ? this.addEditForm.get('assetCode').value
+        : this.addEditForm.get('assetCode').value.assetCode;
+        let reqGetListStatus = { userName: this.userName };
+
+        this.openingBalanceService.getCbxParentAssetCodeIncrese(reqGetListStatus, 'search-dep-increase', '',!assetValue.assetCode ? assetValue : assetValue.assetCode );
+    });
+
+  }
 
   loadAddForm() {
     this.addEditForm = this.fb.group({
+      parentAssetCode: ['', [Validators.required]],
       assetCode: ['', [Validators.required]],
       constructionDateStr: [new Date(), [Validators.required]],
       organisation: ['', [Validators.required]],
@@ -156,7 +199,6 @@ export class FormAddTransferAssetComponent implements OnInit {
     });
   }
 
-
   //change page
   onPaginateChange(event) {
     if (event) {
@@ -165,7 +207,7 @@ export class FormAddTransferAssetComponent implements OnInit {
     }
   }
 
-  displayFnAssetCode(item: any): string {
+  displayFnparentAssetCode(item: any): string {
     return item ? item.assetCode : undefined;
   }
   //filter
@@ -173,14 +215,24 @@ export class FormAddTransferAssetComponent implements OnInit {
     this.modelChanged.next(this.addEditForm.get('assetCode').value);
   }
 
+  displayFnAssetCode(item: any): string {
+    return item ? item.assetCode : undefined;
+  }
+  //filter
+  filterByparentAssetCode() {
+    this.modelChangedParent.next(this.addEditForm.get('parentAssetCode').value);
+  }
+
   //check input date
-  eChangeDate(){
-    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value)
-    
-    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
-      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
-    }else {
-      this.constructionDateErrorMsg = ''
+  eChangeDate() {
+    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value);
+
+    if (tempStartDate == '' || tempStartDate == null || tempStartDate == undefined) {
+      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+      });
+    } else {
+      this.constructionDateErrorMsg = '';
     }
   }
 
@@ -197,14 +249,13 @@ export class FormAddTransferAssetComponent implements OnInit {
       backdrop: 'static',
       keyboard: false,
       size: 'lg',
-      centered: true
+      centered: true,
     });
   }
   isValidForm(): boolean {
     let isValid = true;
     Object.keys(this.addEditForm.controls).forEach((key) => {
-      const controlErrors: ValidationErrors =
-        this.addEditForm.get(key).errors;
+      const controlErrors: ValidationErrors = this.addEditForm.get(key).errors;
 
       if (controlErrors) {
         isValid = false;
@@ -221,10 +272,15 @@ export class FormAddTransferAssetComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       depreciationDetailDTO: {
-        assetCode: !this.addEditForm.get('assetCode').value.assetCode ? this.addEditForm.get('assetCode').value : this.addEditForm.get('assetCode').value.assetCode,
+        assetCode: !this.addEditForm.get('assetCode').value.assetCode
+          ? this.addEditForm.get('assetCode').value
+          : this.addEditForm.get('assetCode').value.assetCode,
+        parentAssetCodeReceive: !this.addEditForm.get('parentAssetCode').value.assetCode
+          ? this.addEditForm.get('parentAssetCode').value
+          : this.addEditForm.get('parentAssetCode').value.assetCode,
         constructionDateStr: this.transform(this.addEditForm.get('constructionDateStr').value),
         departmentCode: this.addEditForm.get('organisation').value,
-      }
+      },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'transfer-asset-single');
   }
@@ -236,7 +292,7 @@ export class FormAddTransferAssetComponent implements OnInit {
     return value;
   }
 
-  //add hoặc edit 
+  //add hoặc edit
   save() {
     const modalRef = this.modalService.open(CommonAlertDialogComponent, {
       centered: true,
@@ -255,7 +311,7 @@ export class FormAddTransferAssetComponent implements OnInit {
     };
     modalRef.result.then(
       (result) => {
-        let request = this.conditionAddEdit().subscribe(res => {
+        let request = this.conditionAddEdit().subscribe((res) => {
           if (res.errorCode === '0') {
             this.toastrService.success(this.translate.instant('COMMON.MESSAGE.TRANSFER_SUCCESS'));
             this.activeModal.close();
@@ -265,12 +321,11 @@ export class FormAddTransferAssetComponent implements OnInit {
             this.handleClose();
           }
         });
-        this.subscriptions.push(request)
+        this.subscriptions.push(request);
       },
-      (reason) => { },
+      (reason) => {},
     );
   }
-
 
   //theo file
   apiGetTemplate() {
@@ -338,7 +393,7 @@ export class FormAddTransferAssetComponent implements OnInit {
           params: {
             userName: this.userName,
           },
-          formData: formData
+          formData: formData,
         };
 
         this.dataSource = new MatTableDataSource([]);
@@ -380,12 +435,11 @@ export class FormAddTransferAssetComponent implements OnInit {
         );
         this.subscriptions.push(request);
       },
-      (reason) => { },
+      (reason) => {},
     );
   }
 
-
-  //confirm file 
+  //confirm file
   apiCofirmUpdateByFile() {
     const req = {
       userName: this.userName,
@@ -464,7 +518,7 @@ export class FormAddTransferAssetComponent implements OnInit {
           this.subscriptions.push(sub);
         }
       },
-      (reason) => { },
+      (reason) => {},
     );
   }
 

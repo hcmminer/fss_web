@@ -80,7 +80,7 @@ export class FormAddLiquidateAssetComponent implements OnInit {
   totalSuccess: number = null;
   totalRecord: number = null;
   isHasResult: boolean = false;
-  columnsToDisplay = ['index', 'constructionDateStr', 'assetCode', 'errorMsg'];
+  columnsToDisplay = ['index', 'constructionDateStr','parentAssetCode' ,'assetCode', 'errorMsg'];
   addType: string = 'single';
   addTypeList = [
     {

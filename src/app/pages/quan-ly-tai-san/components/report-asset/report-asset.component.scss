@@ -59,10 +59,10 @@ td, th {
 }
 
 th.mat-header-cell{
+  min-width: 100px;
   text-align: center;
   padding-left: 0px;
   font-weight: 600;
-  border-bottom-color:rgba(60, 60, 180, 0.556) !important;
 }
 
 th.mat-header-cell:first-of-type {

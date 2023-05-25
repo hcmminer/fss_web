@@ -186,7 +186,7 @@
           </div>
         </div>
       </div>
-      <div class="">
+      <div class="" *ngIf="searchForm.get('reportType').value != 3">
         <mat-form-field appearance="standard">
           <mat-label class="font-14">
             <i class="fas fa-search"></i> {{ 'TITLE.SEARCH_ADVANCE' | translate }}
@@ -994,7 +994,7 @@
               </tr>
 
               <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="20">
+                <td class="mat-cell" colspan="31">
                   {{ 'NO_MATCH_DATA' | translate }}
                 </td>
               </tr>

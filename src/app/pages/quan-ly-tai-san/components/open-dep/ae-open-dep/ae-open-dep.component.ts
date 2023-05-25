@@ -48,8 +48,8 @@ export const MY_FORMATS = {
 export class AeOpenDepComponent implements OnInit {
   propData;
   propAction;
-  parentAssetCode;
-  assetCode;
+  parentAssetCode = '';
+  assetCode = '';
   typeOfAssetCode = '';
 
   departmentCode = '';

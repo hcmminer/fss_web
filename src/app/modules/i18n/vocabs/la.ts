@@ -178,15 +178,15 @@ export const locale = {
        LABOR: 'ແຮງ​ງານ',
        MATERIAL: 'ອຸປະກອນ',
        CONSTRUCTION_DATE: 'ວັນທີປ້ອນຂໍ້ມູນ',
-       CREATED_DATE: 'Ngày tác động',
-       ADD_OPEN_BALANCE: 'Thêm mới số dư đầu kỳ',
-       LIST_OPEN_BALANCE: 'Danh sách số dư đầu kỳ',
+       CREATED_DATE: 'ມື້ປະຕິບັດ',
+       ADD_OPEN_BALANCE: 'ເພີ່ມຍອດຍົກມາໃໝ່',
+       LIST_OPEN_BALANCE: 'ລາຍຊື່ຍອດຍົກມາ',
        ERROR_MSG: 'ຂໍ້​ມູນ​ຄວາມ​ຜິດ​ພາດ​',
        TOTAL_MATERIAL: 'ອຸ​ປະ​ກອນ​ປະ​ຈຸ​ບັນ​',
        TOTAL_LABOR: 'ພະນັກງານປະຈຸບັນ',
        TOTAL_DESIRED_MATERIAL: 'ອຸປະກອນທີ່ຕ້ອງການປ່ຽນ',
        TOTAL_DESIRED_LABOR: 'ພະນັກງານທີ່ຕ້ອງການປ່ຽນ',
-       EDIT_OPEN_BALANCE_FILE: 'Cập nhật số dư đầu kỳ theo file',
+       EDIT_OPEN_BALANCE_FILE: 'ອັບເດດຍອດຍົກມາຕາມໄຟລ໌',
  
        //Phát sinh tăng
        ADD_IMPORT_INCREASE: 'ເພີ່ມໃໝ່ກໍລະນີມີການເພີ່ມຂຶ້ນ',
@@ -233,7 +233,7 @@ export const locale = {
        SOURCE_OF_ASSET_FILE: `Nguồn hình thành tài sản (1 - Xây dựng cơ bản
          2 - Mua sắm)`,
        DEPRECIATION_STARTDATE: 'ວັນທີເລີ່ມຕົ້ນຄ່າລູ້ຍ​ຫ້ຽນ',
-       LAST_UPDATEDATE_TIME: 'Ngày tác động',
+       LAST_UPDATEDATE_TIME: 'ມື້ປະຕິບັດ',
        EDIT_IMPORT_INCREASE_ASSET: 'ອັບເດດກໍລະນີຊັບສິນມີການເພີ່ມຂຶ້ນ',
        ADD_IMPORT_INCREASE_ASSET: 'ເພີ່ມໃໝ່ກໍລະນີຊັບສິນມີການເພີ່ມຂຶ້ນ',
        LIST_IMPORT_INCREASE_ASSET: 'ລາຍຊື່ຊັບສິນກໍລະນີມີການເພີ່ມຂຶ້ນ',
@@ -301,9 +301,9 @@ export const locale = {
       UPDATE_DEPARTMENT: 'ປັບປຸງພະແນກ',
       ADD_NEW_DEPARTMENT: 'ເພີ່ມພະເເນກໃໝ່',
        //Số dư đầu kỳ
-       OPEN_BALANCE: 'Số dư đầu kỳ',
+       OPEN_BALANCE: 'ຍອດຍົກມາ',
        ADD_OPEN_BALANCE: 'Thêm mới số dư đầu kỳ',
-       UPDATE_OPEN_BALANCE: 'Cập nhật số dư đầu kỳ',
+       UPDATE_OPEN_BALANCE: 'ອັບເດດຍອດເງິນຍົກມາຕົ້ນປີ',
  
        //Phát sinh tăng
        IMPORT_INCREASE: 'ກໍລະນີມີການເພີ່ມຂຶ້ນ',
@@ -319,7 +319,7 @@ export const locale = {
        UPDATE_DECREASE: 'ອັບເດດກໍລະນີມີການຫຼຸດລົງ',
  
        //số dư cuối kỳ
-       CLOSING_BALANCEL: 'Số dư cuối kỳ',
+       CLOSING_BALANCEL: 'ຍອດຄົງຄ້າງ',
  
        //điều truyển tài sản
        TRANSFER_ASSET: 'ການໂອນຊັບສິນ',
@@ -428,10 +428,10 @@ export const locale = {
       ADD_SHOP_SUCCESS: 'ເພີ່ມພະແນກສຳເລັດແລ້ວ',
 
        //Openning balance
-       CF_ADD_OP_BL_BY_FILE: 'Bạn có chắc chắn muốn thêm số dư đầu kỳ theo file không',
-       CF_UPDATE_OP_BL_BY_FILE: 'Bạn có chắc chắn muốn cập nhật số dư đầu kỳ theo file không',
-       UPDATE_OP_BL_FROM_FILE_SC: 'Cập nhật số dư đầu kỳ theo file thành công',
-       ADD_OP_BL_FROM_FILE_SC: 'Thêm số dư đầu kỳ theo file thành công',
+       CF_ADD_OP_BL_BY_FILE: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການເພີ່ມຍອດຍົກມາຕາມໄຟລ໌?',
+       CF_UPDATE_OP_BL_BY_FILE: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການອັບເດດຍອດຍົກມາຕາມໄຟລ໌?',
+       UPDATE_OP_BL_FROM_FILE_SC: 'ອັບເດດຍອດຍົກມາສຳເຫຼັດ',
+       ADD_OP_BL_FROM_FILE_SC: 'ເພີ່ມຍອດຍົກມາສຳເຫຼັດ',
        //phát sinh tăng
        CF_ADD_IM_INCREASE_BY_FILE: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການເພີ່ມໃໝ່ກໍລະນີມີການເພີ່ມຂຶ້ນດ້ວຍໄຟລ໌',
        CF_UPDATE_IM_INCREASE_BY_FILE: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການອັບເດດກໍລະນີມີການເພີ່ມຂຶ້ນດ້ວຍໄຟລ໌',
@@ -511,8 +511,8 @@ export const locale = {
       DELETE_SHOP: 'ທ່ານຕ້ອງການລົບພະແນກນີ້ບໍ?',
 
        //Số dư đầu kỳ
-       UPDATE_OPEN_BALANCE: 'Bạn có muốn cập nhật số dư đầu kỳ này không?',
-       ADD_OPEN_BALANCE: 'Bạn có muốn thêm mới số dư đầu kỳ này không?',
+       UPDATE_OPEN_BALANCE: 'ທ່ານຕ້ອງການອັບເດດຍອດຍົກມານີ້ບໍ່?',
+       ADD_OPEN_BALANCE: 'ທ່ານຕ້ອງການເພີ່ມຍອດຍົກມານີ້ບໍ່?',
  
        //phát sinh tăng
        UPDATE_IMPORT_INCREASE: 'ທ່ານຕ້ອງການອັບເດດກໍລະນີມີການເພີ່ມຂຶ້ນນີ້ບໍ?',

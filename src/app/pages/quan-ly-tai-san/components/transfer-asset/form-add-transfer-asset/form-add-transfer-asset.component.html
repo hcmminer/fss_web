@@ -46,7 +46,72 @@
                     {{ item.assetCode }}
                   </mat-option>
                 </mat-autocomplete>
+                <div
+                  *ngIf="
+                    addEditForm.get('assetCode').invalid &&
+                    (addEditForm.get('assetCode').dirty || addEditForm.get('assetCode').touched)
+                  "
+                >
+                  <small class="form-text text-danger" *ngIf="addEditForm.get('assetCode').errors.required">
+                    {{
+                      'VALIDATION.REQUIRED'
+                        | translate
+                          : {
+                              name: 'LABEL.ASSETCODE' | translate
+                            }
+                    }}
+                  </small>
+                </div>
               </div>
+
+              <div class="col-md-2"></div>
+              <label class="col-md-2 form-label col-form-label font-14" for="organisation"
+                >{{ 'LABEL.DEPARTMENT_CODE_RECEIVE' | translate }}
+                <span style="color: red" *ngIf="isParentAssetCode | async">*</span></label
+              >
+              <div class="col-md-3">
+                <select
+                  class="form-control font-14"
+                  name="organisation"
+                  id="organisation"
+                  formControlName="organisation"
+                >
+                  <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation | async">
+                    <option [value]="item.code">
+                      <span *ngIf="item.code != ''">{{ item.code }} -</span> {{ item.name }}
+                    </option>
+                  </ng-container>
+                </select>
+              </div>
+            </div>
+
+            <div class="row mt-5">
+              <label class="col-md-2 form-label col-form-label font-14" for="parentAssetCode"
+                >{{ 'LABEL.PARENT_ASSETCODE_RECEIVE' | translate }} <span style="color: red">*</span></label
+              >
+              <div class="col-md-3">
+                <input
+                  type="text"
+                  matInput
+                  maxlength="50"
+                  class="form-control field-autocomplete"
+                  formControlName="parentAssetCode"
+                  style="border: 1px solid #bdbdbd"
+                  [matAutocomplete]="autoparentAssetCode"
+                  (keyup)="filterByparentAssetCode()"
+                  (click)="triggerparentAssetCode.openPanel()"
+                  #triggerparentAssetCode="matAutocompleteTrigger"
+                />
+                <mat-autocomplete #autoparentAssetCode="matAutocomplete" [displayWith]="displayFnparentAssetCode">
+                  <mat-option
+                    *ngFor="let item of openingBalanceService.cbxParentAssetCodeIncrease | async"
+                    [value]="item"
+                  >
+                    {{ item.assetCode }}
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+
               <div class="col-md-2"></div>
               <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr"
                 >{{ 'LABEL.CONSTRUCTION_DATE' | translate }}<span style="color: red">*</span></label
@@ -68,26 +133,6 @@
                     {{ constructionDateErrorMsg | translate }}
                   </div>
                 </mat-form-field>
-              </div>
-            </div>
-
-            <div class="row">
-              <label class="col-md-2 form-label col-form-label font-14" for="organisation">{{
-                'LABEL.DEPARTMENT_CODE_RECEIVE' | translate
-              }}</label>
-              <div class="col-md-3">
-                <select
-                  class="form-control font-14"
-                  name="organisation"
-                  id="organisation"
-                  formControlName="organisation"
-                >
-                  <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation | async">
-                    <option [value]="item.code">
-                      <span *ngIf="item.code != ''">{{ item.code }} -</span> {{ item.name }}
-                    </option>
-                  </ng-container>
-                </select>
               </div>
             </div>
           </div>
@@ -247,10 +292,20 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'LABEL.ASSETCODE' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let item" style="text-align: right">
+                  <td mat-cell *matCellDef="let item" style="text-align: left">
                     {{ item.assetCode }}
                   </td>
                 </ng-container>
+                 <!-- Mã tài sản nhận -->
+                 <ng-container matColumnDef="parentAssetCodeReceive">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'LABEL.PARENT_ASSETCODE_RECEIVE' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let item" style="text-align: left">
+                    {{ item.parentAssetCodeReceive }}
+                  </td>
+                </ng-container>
+                
                 <!-- Ngày xây dựng -->
                 <ng-container matColumnDef="constructionDateStr">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>

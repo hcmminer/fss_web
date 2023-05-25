@@ -363,7 +363,6 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     );
   }
   getTemplate() {
-    debugger
     const sub = this.apiGetTemplate().subscribe((res) => {
       if (res.errorCode == '0') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));

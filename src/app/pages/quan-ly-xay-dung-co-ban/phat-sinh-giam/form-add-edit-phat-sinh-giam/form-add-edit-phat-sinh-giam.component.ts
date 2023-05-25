@@ -114,7 +114,7 @@ export class FormAddEditPhatSinhGiamComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initCombobox()
+    this.initCombobox();
     this.modelChanged
       .pipe(
         debounceTime(800))

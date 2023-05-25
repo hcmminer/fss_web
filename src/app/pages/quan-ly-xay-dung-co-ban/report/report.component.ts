@@ -130,7 +130,7 @@ export class ReportComponent implements OnInit {
   initCombobox() {
     let reqGetListStatus = { userName: this.userName };
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
-    this.openingBalanceService.getListAssetCodeReportBC(reqGetListStatus, 'search-report-bc', true);
+    // this.openingBalanceService.getListAssetCodeReportBC(reqGetListStatus, 'search-report-bc', true);
   }
 
   ngOnInit(): void {
