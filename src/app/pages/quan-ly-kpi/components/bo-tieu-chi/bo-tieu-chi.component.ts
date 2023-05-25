@@ -116,6 +116,8 @@ export class BoTieuChiComponent implements OnInit {
     }
   }
 
+  eAdd() {}
+
   eUpdate(item) {}
 
   eDelete(item) {}
