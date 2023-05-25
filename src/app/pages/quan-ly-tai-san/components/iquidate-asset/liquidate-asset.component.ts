@@ -44,7 +44,7 @@ export const MY_FORMATS = {
   styleUrls: ['./liquidate-asset.component.scss'],
   providers: [
     {
-      provide: DateAdapter, 
+      provide: DateAdapter,
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
@@ -88,13 +88,7 @@ export class LiquidateAssetComponent implements OnInit {
     ...queryInit,
   };
   // cbxStatusAppraisal = [];
-  columnsToDisplay = [
-    'index',
-    'parentAssetCode',
-    'assetCode',
-    'constructionDateStr',
-    'createdDatetimeStr',
-  ];
+  columnsToDisplay = ['index', 'parentAssetCode', 'assetCode', 'constructionDateStr', 'createdDatetimeStr'];
 
   constructor(
     public translate: TranslateService,
@@ -117,7 +111,6 @@ export class LiquidateAssetComponent implements OnInit {
     this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase');
   }
 
-
   ngOnInit(): void {
     this.initCombobox();
     this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
@@ -127,13 +120,15 @@ export class LiquidateAssetComponent implements OnInit {
     this.eSearch();
   }
 
-  eChangeDate(){
-    let tempStartDate = this.transform(this.searchForm.get('start').value)
-    
-    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
-      this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
-    }else {
-      this.startDateErrorMsg = ''
+  eChangeDate() {
+    let tempStartDate = this.transform(this.searchForm.get('start').value);
+
+    if (tempStartDate == '' || tempStartDate == null || tempStartDate == undefined) {
+      this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('DATE.FROM_DATE'),
+      });
+    } else {
+      this.startDateErrorMsg = '';
     }
   }
 
@@ -291,5 +286,4 @@ export class LiquidateAssetComponent implements OnInit {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
-
 }
