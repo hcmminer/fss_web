@@ -265,8 +265,10 @@ export const locale = {
     },
     TITLE: {
       // Quan ly kpi
+      NAME_KPI: 'Tên KPI',
       KPI_MANAGEMENT: 'Quản lý KPI',
       KPI_MANAGER_CATEGORY: 'Danh sách KPI',
+      // 
       // Quản lý phiếu công tác
       LIST_JOB: 'Danh sách phiếu công tác',
       SEARCH_JOB: 'Tìm kiếm phiếu công tác',

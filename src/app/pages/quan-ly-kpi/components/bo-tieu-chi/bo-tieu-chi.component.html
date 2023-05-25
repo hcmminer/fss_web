@@ -1,7 +1,43 @@
+<div class="py-5">
+  <div class="col-md-2 col-sm-12 col-12 col-lg-12">
+    <div class="label-card">
+      <label class="form-label title-screen text-uppercase"> {{ 'TITLE.KPI_MANAGEMENT' | translate }} </label>
+    </div>
+  </div>
+</div>
+<div class="p-4" style="background-color: white">
+  <div class="text-break">
+    <div class="mb-2">
+      <div class="d-flex align-items-center justify-content-between">
+        <!-- tiêu đề bảng -->
+        <div>
+          <span class="" style="font-weight: 600; font-size: 1.275rem">
+            {{ 'TITLE.KPI_MANAGER_CATEGORY' | translate }}
+          </span>
+        </div>
+        <!-- hành động đầu bảng -->
+        <div class="">
+          <div class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center">
+            <!-- <i class="fas fa-file-excel fa-xs" style="color: green"></i> -->
+            <i class="fas fa-plus mr-2" style="color: green"></i>
+            {{ 'FUNCTION.ADD' | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="">
+      <mat-form-field appearance="standard">
+        <mat-label class="font-14"> <i class="fas fa-search"></i> {{ 'TITLE.SEARCH_ADVANCE' | translate }} </mat-label>
+        <input class="border-bottom-danger" matInput #searchInput />
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="kpiNameVi">
     <th mat-header-cell *matHeaderCellDef>
-      <span [style.paddingLeft.px]="40"> Name </span>
+      <span [style.paddingLeft.px]="40"> {{'TITLE.NAME_KPI' | translate}} </span>
     </th>
     <td class="text-left" mat-cell *matCellDef="let data">
       <button
