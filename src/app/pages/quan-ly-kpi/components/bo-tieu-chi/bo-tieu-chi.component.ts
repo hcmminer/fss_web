@@ -28,6 +28,8 @@ export class BoTieuChiComponent implements OnInit {
     return {
       expandable: !!node.children && node.children.length > 0,
       level: level,
+      kpiManagerId: node.kpiManagerId,
+      parentId: node.parentId,
       kpiName: node.kpiName,
       kpiCode: node.kpiCode,
       kpiNameVi: node.kpiNameVi,
@@ -87,26 +89,6 @@ export class BoTieuChiComponent implements OnInit {
     this.eSearch();
   }
 
-  //   {
-  //     "kpiManagerId": 11,
-  //     "parentId": null,
-  //     "kpiCode": "KPI_11",
-  //     "kpiNameVi": "TEST_DUONGPT_384ddd",
-  //     "kpiNameLa": "điều chỉnh",
-  //     "contentVi": "test contentVi d12",
-  //     "contentLa": "test contentLa",
-  //     "kpiPolicyVi": "Chính sách 2",
-  //     "kpiPolicyLa": "Chinh sach 2",
-  //     "staffCode": "PHOUT_NOC",
-  //     "kpiPoint": 5,
-  //     "status": 1,
-  //     "createdDatetime": "2023-05-25T17:00:01",
-  //     "createdBy": "FSS_ADMIN",
-  //     "lastUpdatedDatetime": "2023-05-25T18:26:01",
-  //     "lastUpdatedBy": "FSS_ADMIN",
-  //     "beginContractDate": "2023-05-01T00:00:00",
-  //     "expiredContractDate": "2023-05-31T00:00:00"
-  // },
 
   convertLang(arr) {
     const lang = localStorage.getItem('language');
@@ -118,12 +100,24 @@ export class BoTieuChiComponent implements OnInit {
     }
   }
 
-  eAdd() {
+  eAddRoot() {
     const modalRef = this.modalService.open(AddTieuChiComponent, {
       centered: true,
       backdrop: 'static',
       size: 'xl',
     });
+    modalRef.result.then(() => {
+      this.eSearch();
+    });
+  }
+
+  eAdd(item) {
+    const modalRef = this.modalService.open(AddTieuChiComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl',
+    });
+    modalRef.componentInstance.propData = item;
     modalRef.result.then(() => {
       this.eSearch();
     });

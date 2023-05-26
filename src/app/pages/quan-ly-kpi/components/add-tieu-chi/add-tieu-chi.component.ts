@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from 
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { CONFIG } from 'src/app/utils/constants';
 import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
@@ -45,12 +45,27 @@ export const MY_FORMATS = {
   ],
 })
 export class AddTieuChiComponent implements OnInit {
-  code;
-  name;
-  account;
-  depreciationFrame;
-  description;
+  beginContractDate;
+  t1msg = '';
+
+  expiredContractDate;
+  t2msg = '';
+
+  propData;
+  parentId;
+  kpiNameVi;
+  kpiNameLa;
+  contentVi;
+  contentLa;
+  kpiPolicyVi;
+  kpiPolicyLa;
+  staffCode;
+  kpiPoint;
+
   userName: any;
+  @ViewChild('paginator') paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  modelChanged = new Subject<string>();
   addEditForm: FormGroup;
   private subscriptions: Subscription[] = [];
 
@@ -66,33 +81,50 @@ export class AddTieuChiComponent implements OnInit {
     private _liveAnnouncer: LiveAnnouncer,
     @Inject(Injector) private readonly injector: Injector,
   ) {
+      
   }
 
   ngOnInit(): void {
     this.loadAddEditForm();
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
+    this.parentId = this.propData?.kpiManagerId ?? 'null';
   }
 
   loadAddEditForm() {
     this.addEditForm = this.fb.group({
-      name: [this.name, [Validators.required]],
-      account: [this.account, [Validators.required]],
-      depreciationFrame: [this.depreciationFrame, [Validators.required, minValue(1)]],
-      description: [this.description, [Validators.required]],
+      kpiNameVi: [this.kpiNameVi, [Validators.required]],
+      kpiNameLa: [this.kpiNameLa, [Validators.required]],
+      contentVi: [this.contentVi, [Validators.required]],
+      contentLa: [this.contentLa, [Validators.required]],
+      kpiPolicyVi: [this.kpiPolicyVi, [Validators.required]],
+      kpiPolicyLa: [this.kpiPolicyLa, [Validators.required]],
+      staffCode: [this.staffCode, [Validators.required]],
+      kpiPoint: [this.kpiPoint, [Validators.required]],
+      beginContractDate: [new Date(), [Validators.required]],
+      expiredContractDate: [new Date(), [Validators.required]],
     });
   }
 
   httpAddOrEdit() {
     const requestTarget = {
       userName: this.userName,
-      typeOfAssetDTO: {
-        name: this.addEditForm.get('name').value,
-        account: this.addEditForm.get('account').value,
-        depreciationFrame: this.addEditForm.get('depreciationFrame').value,
-        description: this.addEditForm.get('description').value,
-      },
+      lstKpiManagerDTO: [
+        {
+          parentId: this.parentId,
+          kpiNameVi: this.addEditForm.get('kpiNameVi').value,
+          kpiNameLa: this.addEditForm.get('kpiNameLa').value,
+          contentVi: this.addEditForm.get('contentVi').value,
+          contentLa: this.addEditForm.get('contentLa').value,
+          kpiPolicyVi: this.addEditForm.get('kpiPolicyVi').value,
+          kpiPolicyLa: this.addEditForm.get('kpiPolicyLa').value,
+          staffCode: this.addEditForm.get('staffCode').value,
+          kpiPoint: this.addEditForm.get('kpiPoint').value,
+          beginContractDate: this.addEditForm.get('beginContractDate').value,
+          expiredContractDate: this.addEditForm.get('expiredContractDate').value,
+        },
+      ],
     };
-    return this.globalService.globalApi(requestTarget as RequestApiModel, 'addTypeOfAsset');
+    return this.globalService.globalApi(requestTarget, 'addOrUpdateKpiManager');
   }
 
   // common modal confirm alert
@@ -189,5 +221,25 @@ export class AddTieuChiComponent implements OnInit {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
-  
+
+  eChangeDate() {
+    let t1 = this.transform(this.addEditForm.get('beginContractDate').value);
+    let t2 = this.transform(this.addEditForm.get('expiredContractDate').value);
+
+    if (t1 == '' || t1 == null || t1 == undefined) {
+      this.t1msg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('TITLE.BEGIN_CONTRACT_DATE'),
+      });
+    } else {
+      this.t1msg = '';
+    }
+
+    if (t2 == '' || t2 == null || t2 == undefined) {
+      this.t2msg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('TITLE.EXPIRED_CONTRACT_DATE'),
+      });
+    } else {
+      this.t2msg = '';
+    }
+  }
 }

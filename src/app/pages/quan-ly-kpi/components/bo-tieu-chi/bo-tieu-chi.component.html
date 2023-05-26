@@ -14,7 +14,7 @@
             {{ 'TITLE.KPI_MANAGER_CATEGORY' | translate }}
           </span>
         </div>
-        <div (click)="eAdd()">
+        <div (click)="eAddRoot()">
           <div
             class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
             style="height: 38px"
@@ -60,7 +60,6 @@
         </div>
       </td>
     </ng-container>
-
     <ng-container matColumnDef="kpiCode">
       <th mat-header-cell *matHeaderCellDef>{{ 'TITLE.KPI_CODE' | translate }}</th>
       <td mat-cell *matCellDef="let data">{{ data.kpiCode }}</td>
@@ -113,6 +112,15 @@
       </th>
       <td mat-cell *matCellDef="let item">
         <div style="min-width: 100px" class="d-flex justify-content-around">
+          <div>
+            <i
+              (click)="eAdd(item); $event.stopPropagation()"
+              data-toggle="tooltip"
+              data-placement="top"
+              [title]="'FUNCTION.ADD_THIS_KPI' | translate"
+              class="fas fa-plus fa-lg p-0 text-primary text-hover-danger cursor-pointer"
+            ></i>
+          </div>
           <div>
             <i
               (click)="eUpdate(item); $event.stopPropagation()"

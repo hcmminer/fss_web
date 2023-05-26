@@ -2,10 +2,7 @@
 export const locale = {
   lang: 'vi',
   data: {
-    // bandv >>
-    // open dep >>
-
-    // << open dep
+    // bandv..
     // begin menu
     LIST: 'Danh sách',
     'BASIC-CONSTRUCTION': 'Quản lý xây dựng cơ bản',
@@ -30,6 +27,7 @@ export const locale = {
 
     FUNCTION: {
       ADD: 'Thêm mới',
+      ADD_THIS_KPI: 'Thêm mới tiêu chí con của tiêu chí này',
       SUCCSESS_ADD: 'Thêm mới thành công',
       CONFIRM_ADD: 'Bạn có chắc chắn thêm mới không?',
       UPDATE: 'Cập nhật',
@@ -49,7 +47,7 @@ export const locale = {
       DEPRECIATION_FRAME: 'Khung khấu hao (năm)',
       DESCRIPTION: 'Mô tả',
     },
-    // bandv <<
+    // ..bandv
     SESSION_EXPIRED: 'Phiên đã quá hạn',
     INTERNET_ERROR: 'Lỗi mạng',
     FSS_JOB_REQUEST: 'Lập phiếu công tác',
