@@ -2,10 +2,7 @@ button {
   cursor: pointer;
 }
 
-.container {
-  display: flex;
-  justify-content: flex-end;
-}
+
 
 .container button:not(:last-of-type) {
   margin-right: 5px;

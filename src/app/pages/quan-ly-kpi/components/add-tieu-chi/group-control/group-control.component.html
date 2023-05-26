@@ -1,12 +1,17 @@
 <form [formGroup]="_form" class="border rounded p-5 border-primary mt-5 bg-botieuchi">
   <div>
-    <label class="" style="font-weight: 1000; font-size: 15px">
-      {{ formLabel }}
-    </label>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="" style="font-weight: 1000; font-size: 15px">
+        {{ formLabel }}
+      </div>
+      <div>
+        <app-action-buttons-bar (remove)="remove.emit()" (addGroup)="_addGroup()" (addCondition)="_addCondition()">
+        </app-action-buttons-bar>
+      </div>
+    </div>
+    <hr />
+    <br />
     <div>
-      <app-action-buttons-bar (remove)="remove.emit()" (addGroup)="_addGroup()" (addCondition)="_addCondition()">
-      </app-action-buttons-bar>
-
       <ng-container formArrayName="conditions">
         <app-condition-form
           *ngFor="let c of _conditionsFormArray?.controls; index as j"
