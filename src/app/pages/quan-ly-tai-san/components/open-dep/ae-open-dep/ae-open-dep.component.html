@@ -178,8 +178,8 @@
                   matInput
                   formControlName="constructionDateStr"
                   [matDatepicker]="picker1"
-                  (dateChange)="eChangeDate()"
-                  (input)="eChangeDate()"
+                  (dateChange)="eChangeDate($event,'constructionDate')"
+                  (input)="eChangeDate($event, 'constructionDate')"
                   class="w-100"
                 />
                 <mat-hint>DD/MM/YYYY</mat-hint>
@@ -199,8 +199,8 @@
                 <input
                   matInput
                   formControlName="depreciationStartDateStr"
-                  (dateChange)="eChangeDate()"
-                  (input)="eChangeDate()"
+                  (dateChange)="eChangeDate($event, 'depreciationStartDate')"
+                  (input)="eChangeDate($event, 'depreciationStartDate')"
                   [matDatepicker]="picker2"
                 />
                 <mat-hint>DD/MM/YYYY</mat-hint>
@@ -235,8 +235,8 @@
                   formControlName="constructionDateStr"
                   [matDatepicker]="picker3"
                   class="w-100"
-                  (dateChange)="eChangeDate()"
-                  (input)="eChangeDate()"
+                  (dateChange)="eChangeDate($event, 'constructionDate')"
+                  (input)="eChangeDate($event, 'constructionDate')"
                 />
                 <mat-hint>DD/MM/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker3" class="icon-datePicker"></mat-datepicker-toggle>

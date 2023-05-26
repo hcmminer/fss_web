@@ -28,9 +28,9 @@
                       <input
                         matStartDate
                         formControlName="start"
-                        (input)="eChangeDate()"
+                        (input)="eChangeDate($event)"
                         [placeholder]="'DATE.FROM_DATE' | translate"
-                        (dateChange)="eChangeDate()"
+                        (dateChange)="eChangeDate($event)"
                       />
                       <input matEndDate formControlName="end" [placeholder]="'DATE.TO_DATE' | translate" />
                     </mat-date-range-input>

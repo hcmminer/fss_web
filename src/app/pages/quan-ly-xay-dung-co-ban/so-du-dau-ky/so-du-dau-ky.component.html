@@ -28,14 +28,14 @@
                       <input
                         matStartDate
                         formControlName="start"
-                        (input)="eChangeDate()"
-                        (dateChange)="eChangeDate()"
+                        (input)="eChangeDate($event)"
+                        (dateChange)="eChangeDate($event)"
                         [placeholder]="'DATE.FROM_DATE' | translate"
                       />
                       <input
                         matEndDate
                         formControlName="end"
-                        [placeholder]="'TO.FROM_DATE' | translate"
+                        [placeholder]="'DATE.TO_DATE' | translate"
                       />
                     </mat-date-range-input>
                     <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>

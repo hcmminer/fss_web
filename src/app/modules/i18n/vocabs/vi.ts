@@ -785,6 +785,7 @@ export const locale = {
       INVALID_FIELD: 'Trường không hợp lệ',
       INCORRECT: '{{name}} đã nhập chưa chính xác',
       REQUIRE_FORMAT: '{{name}} phải nhập đúng định dạng {{format}}',
+      INVALID_FORMAT: '{{name}} không hợp lệ',
       BEFORE_CURRENT_DATE: '{{name}} phải lớn hơn hoặc bằng ngày hiện tại',
       AFTER_CURRENT_DATE: '{{name}} phải nhỏ hơn hoặc bằng ngày hiện tại',
       START_DATE_INVALID: 'Ngày bắt đầu tìm kiếm không hợp lệ',

@@ -195,29 +195,39 @@ export class FormAddImportIncreaseAssetComponent implements OnInit {
   }
 
   //check input date
-  eChangeDate() {
-    let tempdepreciationStartDate = this.transform(this.addEditForm.get('depreciationStartDateStr').value);
-    let tempconstructionDate = this.transform(this.addEditForm.get('constructionDateStr').value);
-
-    if (
-      tempdepreciationStartDate == '' ||
-      tempdepreciationStartDate == null ||
-      tempdepreciationStartDate == undefined
-    ) {
-      this.depreciationStartDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
-        name: this.translate.instant('LABEL.DEPRECIATION_STARTDATE'),
-      });
-    } else {
+  eChangeDate(event, typeDate:String) {
+    if(typeDate === 'constructionDate'){
+      if (event.target.value === '') {
+        this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+          name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+        });
+        return;
+      }
+      let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value);
+      if (tempStartDate === null || tempStartDate === undefined) {
+        this.constructionDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+          name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+        });
+        return;
+      }
+      this.constructionDateErrorMsg = '';
+    } else if(typeDate === 'depreciationStartDate'){
+      if (event.target.value === '') {
+        this.depreciationStartDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+          name: this.translate.instant('LABEL.DEPRECIATION_STARTDATE'),
+        });
+        return;
+      }
+      let tempStartDate = this.transform(this.addEditForm.get('depreciationStartDateStr').value);
+      if (tempStartDate === null || tempStartDate === undefined) {
+        this.depreciationStartDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+          name: this.translate.instant('LABEL.DEPRECIATION_STARTDATE'),
+        });
+        return;
+      }
       this.depreciationStartDateErrorMsg = '';
     }
 
-    if (tempconstructionDate == '' || tempconstructionDate == null || tempconstructionDate == undefined) {
-      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
-        name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
-      });
-    } else {
-      this.constructionDateErrorMsg = '';
-    }
   }
 
   handleClose() {

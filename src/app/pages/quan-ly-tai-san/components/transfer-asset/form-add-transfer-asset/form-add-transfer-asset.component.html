@@ -74,8 +74,8 @@
                     matInput
                     formControlName="constructionDateStr"
                     [matDatepicker]="picker"
-                    (dateChange)="eChangeDate()"
-                    (input)="eChangeDate()"
+                    (dateChange)="eChangeDate($event)"
+                    (input)="eChangeDate($event)"
                     [placeholder]="'DATE.CONSTRUCTION' | translate"
                   />
                   <mat-hint>DD/MM/YYYY</mat-hint>

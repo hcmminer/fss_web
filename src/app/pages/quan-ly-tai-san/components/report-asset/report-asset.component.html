@@ -29,8 +29,8 @@
                       matInput
                       formControlName="end"
                       [matDatepicker]="picker2"
-                      (dateChange)="eChangeDate()"
-                      (input)="eChangeDate()"
+                      (dateChange)="eChangeDate($event, 'end')"
+                      (input)="eChangeDate($event, 'end')"
                       [placeholder]="'DATE.TO_DATE' | translate"
                       [max]="maxDate"
                     />
@@ -50,15 +50,15 @@
                       <input
                         matStartDate
                         formControlName="startDetail"
-                        (dateChange)="eChangeDate()"
-                        (input)="eChangeDate()"
+                        (dateChange)="eChangeDate($event, 'startDetail')"
+                        (input)="eChangeDate($event, 'startDetail')"
                         [placeholder]="'DATE.FROM_DATE' | translate"
                       />
                       <input
                         matEndDate
                         formControlName="endDetail"
-                        (dateChange)="eChangeDate()"
-                        (input)="eChangeDate()"
+                        (dateChange)="eChangeDate($event, 'endDetail')"
+                        (input)="eChangeDate($event, 'endDetail')"
                         [placeholder]="'DATE.TO_DATE' | translate"
                       />
                     </mat-date-range-input>

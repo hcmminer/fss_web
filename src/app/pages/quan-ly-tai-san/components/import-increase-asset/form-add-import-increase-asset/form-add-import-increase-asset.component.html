@@ -96,7 +96,7 @@
               <div class="col-md-3">
                 <mat-form-field appearance="fill">
                   <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
-                  (dateChange)="eChangeDate()" (input)="eChangeDate()"  [placeholder]="'DATE.CONSTRUCTION' | translate">
+                  (dateChange)="eChangeDate($event,'constructionDate')" (input)="eChangeDate($event, 'constructionDate')"  [placeholder]="'DATE.CONSTRUCTION' | translate">
                   <mat-hint>DD/MM/YYYY</mat-hint>
                   <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
@@ -111,7 +111,7 @@
               <div class="col-md-3">
                 <mat-form-field appearance="fill">
                   <input matInput formControlName="depreciationStartDateStr" [matDatepicker]="picker2"
-                    (input)="eChangeDate()" (dateChange)="eChangeDate()" [placeholder]="'DATE.DEPRECIATION_DATE' | translate">
+                    (input)="eChangeDate($event,'depreciationStartDate')" (dateChange)="eChangeDate($event, 'depreciationStartDate')" [placeholder]="'DATE.DEPRECIATION_DATE' | translate">
                   <mat-hint>DD/MM/YYYY</mat-hint>
                   <mat-datepicker-toggle matIconSuffix [for]="picker2" class="icon-datePicker"></mat-datepicker-toggle>
                   <mat-datepicker #picker2></mat-datepicker>
@@ -210,7 +210,7 @@
               <div class="col-md-3">
                 <mat-form-field appearance="fill">
                   <input matInput formControlName="constructionDateStr" [matDatepicker]="picker"
-                  (dateChange)="eChangeDate()"  (input)="eChangeDate()"  [placeholder]="'DATE.CONSTRUCTION' | translate">
+                  (dateChange)="eChangeDate($event,'constructionDate')"  (input)="eChangeDate($event,'constructionDate')"  [placeholder]="'DATE.CONSTRUCTION' | translate">
                   <mat-hint>DD/MM/YYYY</mat-hint>
                   <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
