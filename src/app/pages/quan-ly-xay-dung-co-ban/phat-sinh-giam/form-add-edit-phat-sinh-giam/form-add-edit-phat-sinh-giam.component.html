@@ -192,6 +192,22 @@
                     </option>
                   </ng-container>
                 </select>
+                <div
+                *ngIf="
+                  addEditForm.get('typeOfAssetCode').invalid &&
+                  (addEditForm.get('typeOfAssetCode').dirty || addEditForm.get('typeOfAssetCode').touched)
+                "
+              >
+                <small class="form-text text-danger" *ngIf="addEditForm.get('typeOfAssetCode').errors.required">
+                  {{
+                    'VALIDATION.REQUIRED'
+                      | translate
+                        : {
+                            name: 'LABEL.TYPE_OF_ASSET' | translate
+                          }
+                  }}
+                </small>
+              </div>
               </div>
             </div>
           </div>

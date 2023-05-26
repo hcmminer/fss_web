@@ -325,6 +325,7 @@
           *ngIf="this.propAction == 'add'"
           class="btn btn-primary mx-3"
           style="width: 150px"
+          [disabled]="addForm.invalid"
           (click)="eSave('add')"
         >
           {{ 'ACTION.SAVE' | translate }}

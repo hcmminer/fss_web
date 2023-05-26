@@ -73,13 +73,22 @@ export class FormAddTransferAssetComponent implements OnInit {
   addEditForm: FormGroup;
   addFileForm: FormGroup;
   isParentAssetCode = new BehaviorSubject<any>(true);
+  isOrganisation = new BehaviorSubject<any>(true);
+
   private subscriptions: Subscription[] = [];
   selectedFile: any = null;
   resultFileData: any = null;
   totalSuccess: number = null;
   totalRecord: number = null;
   isHasResult: boolean = false;
-  columnsToDisplay = ['index', 'constructionDateStr', 'assetCode', 'parentAssetCodeReceive','departmentCode', 'errorMsg'];
+  columnsToDisplay = [
+    'index',
+    'constructionDateStr',
+    'assetCode',
+    'parentAssetCodeReceive',
+    'departmentCode',
+    'errorMsg',
+  ];
   addType: string = 'single';
   addTypeList = [
     {
@@ -165,15 +174,20 @@ export class FormAddTransferAssetComponent implements OnInit {
     });
 
     this.addEditForm.get('assetCode').valueChanges.subscribe((assetValue) => {
-      debugger
+      debugger;
       let tempAssetCode = !this.addEditForm.get('assetCode').value.assetCode
         ? this.addEditForm.get('assetCode').value
         : this.addEditForm.get('assetCode').value.assetCode;
-        let reqGetListStatus = { userName: this.userName };
-
-        this.openingBalanceService.getCbxParentAssetCodeIncrese(reqGetListStatus, 'search-dep-increase', '',!assetValue.assetCode ? assetValue : assetValue.assetCode );
+      let reqGetListStatus = { userName: this.userName };
+      let tempParentAssetCode = this.addEditForm.get('organisation').value;
+      console.log(tempParentAssetCode);
+      this.openingBalanceService.getCbxParentAssetCodeIncrese(
+        reqGetListStatus,
+        'search-dep-increase',
+        '',
+        tempAssetCode,
+      );
     });
-
   }
 
   loadAddForm() {
@@ -191,6 +205,25 @@ export class FormAddTransferAssetComponent implements OnInit {
     } else {
       this.loadAddFileForm();
     }
+  }
+
+  //change don vi
+  eChangeOrganisation(event) {
+    let tempOrganisation = event.target.value;
+    if (tempOrganisation == '' || tempOrganisation == null || tempOrganisation == undefined) {
+      this.isOrganisation.next(true);
+    } else {
+      this.isOrganisation.next(false);
+    }
+    const parentAssetCode = this.addEditForm.get('parentAssetCode');
+
+    if (tempOrganisation) {
+      parentAssetCode.clearValidators();
+    } else {
+      parentAssetCode.setValidators(Validators.required);
+    }
+
+    parentAssetCode.updateValueAndValidity();
   }
 
   loadAddFileForm() {

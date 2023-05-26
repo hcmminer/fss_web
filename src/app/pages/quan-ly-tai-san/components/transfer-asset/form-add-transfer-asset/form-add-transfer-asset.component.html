@@ -65,30 +65,33 @@
               </div>
 
               <div class="col-md-2"></div>
-              <label class="col-md-2 form-label col-form-label font-14" for="organisation"
-                >{{ 'LABEL.DEPARTMENT_CODE_RECEIVE' | translate }}
-                <span style="color: red" *ngIf="isParentAssetCode | async">*</span></label
+              <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr"
+                >{{ 'LABEL.CONSTRUCTION_DATE' | translate }}<span style="color: red">*</span></label
               >
               <div class="col-md-3">
-                <select
-                  class="form-control font-14"
-                  name="organisation"
-                  id="organisation"
-                  formControlName="organisation"
-                >
-                  <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation | async">
-                    <option [value]="item.code">
-                      <span *ngIf="item.code != ''">{{ item.code }} -</span> {{ item.name }}
-                    </option>
-                  </ng-container>
-                </select>
+                <mat-form-field appearance="fill">
+                  <input
+                    matInput
+                    formControlName="constructionDateStr"
+                    [matDatepicker]="picker"
+                    (dateChange)="eChangeDate()"
+                    (input)="eChangeDate()"
+                    [placeholder]="'DATE.CONSTRUCTION' | translate"
+                  />
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <div style="color: red" *ngIf="constructionDateErrorMsg != ''">
+                    {{ constructionDateErrorMsg | translate }}
+                  </div>
+                </mat-form-field>
               </div>
             </div>
 
             <div class="row mt-5">
               <label class="col-md-2 form-label col-form-label font-14" for="parentAssetCode"
-                >{{ 'LABEL.PARENT_ASSETCODE_RECEIVE' | translate }} </label
-              >
+                >{{ 'LABEL.PARENT_ASSETCODE_RECEIVE' | translate }}<span style="color: red" *ngIf="isOrganisation | async">*</span>
+              </label>
               <div class="col-md-3">
                 <input
                   type="text"
@@ -110,29 +113,59 @@
                     {{ item.assetCode }}
                   </mat-option>
                 </mat-autocomplete>
+                <div
+                *ngIf="
+                  addEditForm.get('parentAssetCode').invalid &&
+                  (addEditForm.get('parentAssetCode').dirty || addEditForm.get('parentAssetCode').touched)
+                "
+              >
+                <small class="form-text text-danger" *ngIf="addEditForm.get('parentAssetCode').errors.required">
+                  {{
+                    'VALIDATION.REQUIRED'
+                      | translate
+                        : {
+                            name: 'LABEL.PARENT_ASSETCODE_RECEIVE' | translate
+                          }
+                  }}
+                </small>
+              </div>
               </div>
 
               <div class="col-md-2"></div>
-              <label class="col-md-2 form-label col-form-label font-14" for="constructionDateStr"
-                >{{ 'LABEL.CONSTRUCTION_DATE' | translate }}<span style="color: red">*</span></label
-              >
+              <label class="col-md-2 form-label col-form-label font-14" for="organisation"
+                >{{ 'LABEL.DEPARTMENT_CODE_RECEIVE' | translate }}
+                <span style="color: red" *ngIf="isParentAssetCode | async">*</span></label
+              > 
               <div class="col-md-3">
-                <mat-form-field appearance="fill">
-                  <input
-                    matInput
-                    formControlName="constructionDateStr"
-                    [matDatepicker]="picker"
-                    (dateChange)="eChangeDate()"
-                    (input)="eChangeDate()"
-                    [placeholder]="'DATE.CONSTRUCTION' | translate"
-                  />
-                  <mat-hint>DD/MM/YYYY</mat-hint>
-                  <mat-datepicker-toggle matIconSuffix [for]="picker" class="icon-datePicker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                  <div style="color: red" *ngIf="constructionDateErrorMsg != ''">
-                    {{ constructionDateErrorMsg | translate }}
-                  </div>
-                </mat-form-field>
+                <select
+                  class="form-control font-14"
+                  name="organisation"
+                  id="organisation"
+                  formControlName="organisation"
+                  (change)="eChangeOrganisation($event)"
+                >
+                  <ng-container *ngFor="let item of openingBalanceService.cbxOrganisation | async">
+                    <option [value]="item.code">
+                      <span *ngIf="item.code != ''">{{ item.code }} -</span> {{ item.name }}
+                    </option>
+                  </ng-container>
+                </select>
+                <div
+                  *ngIf="
+                    addEditForm.get('organisation').invalid &&
+                    (addEditForm.get('organisation').dirty || addEditForm.get('organisation').touched)
+                  "
+                >
+                  <small class="form-text text-danger" *ngIf="addEditForm.get('organisation').errors.required">
+                    {{
+                      'VALIDATION.REQUIRED'
+                        | translate
+                          : {
+                              name: 'LABEL.DEPARTMENT_CODE_RECEIVE' | translate
+                            }
+                    }}
+                  </small>
+                </div>
               </div>
             </div>
           </div>
@@ -296,8 +329,8 @@
                     {{ item.assetCode }}
                   </td>
                 </ng-container>
-                 <!-- Mã tài sản nhận -->
-                 <ng-container matColumnDef="parentAssetCodeReceive">
+                <!-- Mã tài sản nhận -->
+                <ng-container matColumnDef="parentAssetCodeReceive">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'LABEL.PARENT_ASSETCODE_RECEIVE' | translate }}
                   </th>
@@ -305,7 +338,7 @@
                     {{ item.parentAssetCodeReceive }}
                   </td>
                 </ng-container>
-                
+
                 <!-- Ngày xây dựng -->
                 <ng-container matColumnDef="constructionDateStr">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>

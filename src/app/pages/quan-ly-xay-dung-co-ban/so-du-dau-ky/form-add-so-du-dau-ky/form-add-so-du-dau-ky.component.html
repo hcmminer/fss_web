@@ -102,6 +102,22 @@
                     </option>
                   </ng-container>
                 </select>
+                <div
+                *ngIf="
+                  addEditForm.get('organisation').invalid &&
+                  (addEditForm.get('organisation').dirty || addEditForm.get('organisation').touched)
+                "
+              >
+                <small class="form-text text-danger" *ngIf="addEditForm.get('organisation').errors.required">
+                  {{
+                    'VALIDATION.REQUIRED'
+                      | translate
+                        : {
+                            name: 'LABEL.ORGANISATION' | translate
+                          }
+                  }}
+                </small>
+              </div>
               </div>
               <div class="col-md-2"></div>
               <label class="col-md-2 form-label col-form-label font-14" for="contract"
