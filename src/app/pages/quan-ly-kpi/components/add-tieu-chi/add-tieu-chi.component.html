@@ -81,11 +81,7 @@
           </div>
         </div>
         <div class="d-flex justify-content-end my-5">
-          <button
-            class="btn btn-primary mx-3"
-            style="width: 150px"
-            (click)="eSave()"
-          >
+          <button class="btn btn-primary mx-3" style="width: 150px" (click)="eSave()">
             {{ 'ACTION.SAVE' | translate }}
           </button>
           <button class="btn btn-outline-primary mx-3" style="width: 150px" (click)="eClose()">
@@ -95,4 +91,29 @@
       </form>
     </div>
   </div>
+</div>
+
+<!-- new modal -->
+
+<div class="p-5 m-5">
+  <div>
+    <section class="d-flex justify-content-between  align-items-center">
+      <h4 style="font-weight: 1000; font-size: 15px;">Danh sách các bộ tiêu chí</h4>
+      <button class="btn btn-outline-primary font-weight-bolder" type="button" label="Add Statement" (click)="_addGroup()">Thêm mới bộ tiêu chí</button>
+    </section>
+
+    <form [formGroup]="_form">
+      <ng-container formGroupName="statement">
+        <ng-container formArrayName="groups">
+          <ng-container *ngFor="let group of _groupsFormArray?.controls; index as i">
+            <app-group-control (remove)="_delete(i)" [formControlName]="i" [formLabel]="'Bộ tiêu chí ' + (i + 1) + ':'">
+            </app-group-control>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </form>
+  </div>
+  <br />
+  <br />
+  <pre>{{ _form.value | json }}</pre>
 </div>

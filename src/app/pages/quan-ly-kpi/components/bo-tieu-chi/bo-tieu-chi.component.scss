@@ -180,4 +180,10 @@ td.mat-cell.cdk-cell.text-left.cdk-column-kpiName.mat-column-kpiName.ng-star-ins
   max-width: max-content !important;
 }
 
-
+legend {
+  width: auto;
+  margin-bottom: 0px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #1f497d;
+}

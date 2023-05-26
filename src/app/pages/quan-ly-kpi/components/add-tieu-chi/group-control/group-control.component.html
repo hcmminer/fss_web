@@ -1,0 +1,31 @@
+<form [formGroup]="_form" class="border rounded p-5 border-primary mt-5 bg-botieuchi">
+  <div>
+    <label class="" style="font-weight: 1000; font-size: 15px">
+      {{ formLabel }}
+    </label>
+    <div>
+      <app-action-buttons-bar (remove)="remove.emit()" (addGroup)="_addGroup()" (addCondition)="_addCondition()">
+      </app-action-buttons-bar>
+
+      <ng-container formArrayName="conditions">
+        <app-condition-form
+          *ngFor="let c of _conditionsFormArray?.controls; index as j"
+          (remove)="_deleteCondition(j)"
+          [formControlName]="j"
+          [formLabel]="'Condition ' + (j + 1)"
+        >
+        </app-condition-form>
+      </ng-container>
+
+      <ng-container formArrayName="groups">
+        <app-group-control
+          *ngFor="let s of _groupsFormArray?.controls; index as i"
+          (remove)="_deleteGroupFromArray(i)"
+          [formControlName]="i"
+          [formLabel]="'Nested Group ' + (i + 1) + ':'"
+        >
+        </app-group-control>
+      </ng-container>
+    </div>
+  </div>
+</form>

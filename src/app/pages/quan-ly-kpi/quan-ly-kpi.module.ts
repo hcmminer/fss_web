@@ -55,11 +55,14 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import {MatListModule} from '@angular/material/list';
 import {MatRippleModule} from '@angular/material/core';
 import { AddTieuChiComponent } from './components/add-tieu-chi/add-tieu-chi.component';
+import { GroupControlComponent } from './components/add-tieu-chi/group-control/group-control.component';
+import { ConditionFormComponent } from './components/add-tieu-chi/condition-form/condition-form.component';
+import { ActionButtonsBarComponent } from './components/add-tieu-chi/action-buttons-bar/action-buttons-bar.component';
 
 
 
 @NgModule({
-  declarations: [BoTieuChiComponent, AddTieuChiComponent],
+  declarations: [BoTieuChiComponent, AddTieuChiComponent,  GroupControlComponent, ConditionFormComponent, ActionButtonsBarComponent],
   imports: [
     CommonModule,
     QuanLyKpiRoutingModule,
@@ -126,6 +129,7 @@ import { AddTieuChiComponent } from './components/add-tieu-chi/add-tieu-chi.comp
     OverlayModule,
     PortalModule,
     ScrollingModule,
+    
   ],
   providers: [NgbActiveModal, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
 })

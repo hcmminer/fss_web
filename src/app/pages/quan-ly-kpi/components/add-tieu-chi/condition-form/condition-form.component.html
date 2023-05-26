@@ -1,0 +1,12 @@
+<form [formGroup]="_form">
+  <div class="m-5 p-5">
+    <label class="col-md-2 form-label col-form-label">
+      {{ formLabel }}
+      <span style="color: red">*</span></label
+    >
+    <div class="col-md-3 form-group">
+      <input class="form-control" type="text" formControlName="variable" />
+      <button type="button" class="btn btn-outline-primary font-weight-bolder" (click)="remove.emit()">delete</button>
+    </div>
+  </div>
+</form>
