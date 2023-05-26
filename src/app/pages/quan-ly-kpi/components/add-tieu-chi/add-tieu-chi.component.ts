@@ -85,7 +85,6 @@ export class AddTieuChiComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadAddEditForm();
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
 
     if (this.isUpdate) {
@@ -103,6 +102,8 @@ export class AddTieuChiComponent implements OnInit {
     } else {
       this.parentId = this.propData?.kpiManagerId ?? null;
     }
+    this.loadAddEditForm();
+
   }
 
   loadAddEditForm() {
