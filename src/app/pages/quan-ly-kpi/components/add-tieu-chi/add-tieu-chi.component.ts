@@ -95,7 +95,7 @@ export class AddTieuChiComponent implements OnInit {
   }
 
   // common modal confirm alert
-  eSave(action) {
+  eSave() {
     if (!this.isValidForm()) {
       this.addEditForm.markAllAsTouched();
       return;
@@ -107,10 +107,7 @@ export class AddTieuChiComponent implements OnInit {
     modalRef.componentInstance.data = {
       type: 'WARNING',
       title: 'COMMON_MODAL.WARNING',
-      message:
-        action == 'add'
-          ? this.translate.instant('FUNCTION.CONFIRM_ADD')
-          : this.translate.instant('FUNCTION.CONFIRM_UPDATE'),
+      message: this.translate.instant('FUNCTION.CONFIRM_ADD'),
       continue: true,
       cancel: true,
       btn: [

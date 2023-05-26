@@ -118,7 +118,7 @@ export class BoTieuChiComponent implements OnInit {
     }
   }
 
-  eAdd(item) {
+  eAdd() {
     const modalRef = this.modalService.open(AddTieuChiComponent, {
       centered: true,
       backdrop: 'static',
