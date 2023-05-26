@@ -503,7 +503,7 @@
                 <th mat-header-cell *matHeaderCellDef rowspan="3">
                   {{ 'LABEL.TYPE_OF_ASSET_NAME' | translate }}
                 </th>
-                <td mat-cell *matCellDef="let item" style="text-align: center">
+                <td mat-cell *matCellDef="let item" style="text-align: left">
                   {{ item.typeOfAssetName }}
                 </td>
               </ng-container>
@@ -512,7 +512,7 @@
                 <th mat-header-cell *matHeaderCellDef rowspan="3">
                   {{ 'LABEL.DEPRECIATION_FRAME' | translate }}
                 </th>
-                <td mat-cell *matCellDef="let item" style="text-align: center">
+                <td mat-cell *matCellDef="let item" style="text-align: right">
                   {{ item.depreciationFrame | number : '1.0-0' }}
                 </td>
               </ng-container>

@@ -90,9 +90,9 @@
 
             <div class="row mt-5">
               <label class="col-md-2 form-label col-form-label font-14" for="parentAssetCode"
-                >{{ 'LABEL.PARENT_ASSETCODE_RECEIVE' | translate }}<span style="color: red" *ngIf="isOrganisation | async">*</span>
+              *ngIf="isOrganisation | async" >{{ 'LABEL.PARENT_ASSETCODE_RECEIVE' | translate }}<span style="color: red">*</span>
               </label>
-              <div class="col-md-3">
+              <div class="col-md-3" *ngIf="isOrganisation | async">
                 <input
                   type="text"
                   matInput
@@ -131,12 +131,12 @@
               </div>
               </div>
 
-              <div class="col-md-2"></div>
+              <div class="col-md-2" *ngIf="isOrganisation | async"></div>
               <label class="col-md-2 form-label col-form-label font-14" for="organisation"
-                >{{ 'LABEL.DEPARTMENT_CODE_RECEIVE' | translate }}
-                <span style="color: red" *ngIf="isParentAssetCode | async">*</span></label
+              *ngIf="isParentAssetCode | async">{{ 'LABEL.DEPARTMENT_CODE_RECEIVE' | translate }}
+                <span style="color: red">*</span></label
               > 
-              <div class="col-md-3">
+              <div class="col-md-3" *ngIf="isParentAssetCode | async">
                 <select
                   class="form-control font-14"
                   name="organisation"
