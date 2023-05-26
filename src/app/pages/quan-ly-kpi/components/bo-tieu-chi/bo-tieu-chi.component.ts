@@ -17,6 +17,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { arrayToTree } from 'src/app/utils/functions';
 import { AddTieuChiComponent } from '../add-tieu-chi/add-tieu-chi.component';
+import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
 
 @Component({
   selector: 'app-bo-tieu-chi',
@@ -81,14 +82,11 @@ export class BoTieuChiComponent implements OnInit {
     public toastrService: ToastrService,
     private globalService: GlobalService,
     @Inject(Injector) private readonly injector: Injector,
-  ) {
-    // this.dataSource.data = datafake;
-  }
+  ) {}
 
   ngOnInit(): void {
     this.eSearch();
   }
-
 
   convertLang(arr) {
     const lang = localStorage.getItem('language');
@@ -123,9 +121,64 @@ export class BoTieuChiComponent implements OnInit {
     });
   }
 
-  eUpdate(item) {}
+  eUpdate(item) {
+    const modalRef = this.modalService.open(AddTieuChiComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl',
+    });
+    modalRef.componentInstance.propData = item;
+    modalRef.componentInstance.isUpdate = true;
+    modalRef.result.then(() => {
+      this.eSearch();
+    });
+  }
 
-  eDelete(item) {}
+  httpDelete(item) {
+    const requestTarget = {
+      userName: localStorage.getItem('userName'),
+      lstKpiManagerDTODelete: [
+        {
+          kpiManagerId: item.kpiManagerId,
+        },
+      ],
+    };
+    return this.globalService.globalApi(requestTarget, 'addOrUpdateKpiManager');
+  }
+
+  // common modal confirm alert
+  eDelete(item) {
+    const modalRef = this.modalService.open(CommonAlertDialogComponent, {
+      centered: true,
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.data = {
+      type: 'WARNING',
+      title: 'COMMON_MODAL.WARNING',
+      message: this.translate.instant('FUNCTION.CONFIRM_DELETE'),
+      continue: true,
+      cancel: true,
+      btn: [
+        { text: this.translate.instant('CANCEL'), className: 'btn-outline-warning btn uppercase mx-2' },
+        { text: this.translate.instant('CONTINUE'), className: 'btn btn-warning uppercase mx-2' },
+      ],
+    };
+    modalRef.result.then(
+      () => {
+        let request = this.httpDelete(item).subscribe((res) => {
+          if (res.errorCode === '0') {
+            this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_DELETE'));
+            // this.activeModal.close();
+            this.eSearch();
+          } else {
+            this.toastrService.error(res.description);
+          }
+        });
+        // this.subscriptions.push(request);
+      },
+      () => {},
+    );
+  }
 
   applyFilter(event) {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();

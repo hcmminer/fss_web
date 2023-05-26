@@ -45,6 +45,7 @@ export const MY_FORMATS = {
   ],
 })
 export class AddTieuChiComponent implements OnInit {
+  isUpdate;
   beginContractDate;
   t1msg = '';
 
@@ -52,6 +53,7 @@ export class AddTieuChiComponent implements OnInit {
   t2msg = '';
 
   propData;
+  kpiManagerId;
   parentId;
   kpiNameVi;
   kpiNameLa;
@@ -80,14 +82,17 @@ export class AddTieuChiComponent implements OnInit {
     public openingBalanceService: openingBalanceService,
     private _liveAnnouncer: LiveAnnouncer,
     @Inject(Injector) private readonly injector: Injector,
-  ) {
-      
-  }
+  ) {}
 
   ngOnInit(): void {
     this.loadAddEditForm();
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
-    this.parentId = this.propData?.kpiManagerId ?? 'null';
+
+    if (this.isUpdate) {
+      this.kpiManagerId = this.propData?.kpiManagerId;
+    } else {
+      this.parentId = this.propData?.kpiManagerId ?? null;
+    }
   }
 
   loadAddEditForm() {
@@ -100,31 +105,53 @@ export class AddTieuChiComponent implements OnInit {
       kpiPolicyLa: [this.kpiPolicyLa, [Validators.required]],
       staffCode: [this.staffCode, [Validators.required]],
       kpiPoint: [this.kpiPoint, [Validators.required]],
-      beginContractDate: [new Date(), [Validators.required]],
-      expiredContractDate: [new Date(), [Validators.required]],
+      beginContractDate: [this.isUpdate ? this.beginContractDate : new Date(), [Validators.required]],
+      expiredContractDate: [this.isUpdate ? this.expiredContractDate : new Date(), [Validators.required]],
     });
   }
 
   httpAddOrEdit() {
-    const requestTarget = {
+    const dto1 = [
+      {
+        parentId: this.parentId,
+        kpiNameVi: this.addEditForm.get('kpiNameVi').value,
+        kpiNameLa: this.addEditForm.get('kpiNameLa').value,
+        contentVi: this.addEditForm.get('contentVi').value,
+        contentLa: this.addEditForm.get('contentLa').value,
+        kpiPolicyVi: this.addEditForm.get('kpiPolicyVi').value,
+        kpiPolicyLa: this.addEditForm.get('kpiPolicyLa').value,
+        staffCode: this.addEditForm.get('staffCode').value,
+        kpiPoint: this.addEditForm.get('kpiPoint').value,
+        beginContractDate: this.addEditForm.get('beginContractDate').value,
+        expiredContractDate: this.addEditForm.get('expiredContractDate').value,
+      },
+    ];
+    const dto2 = [
+      {
+        kpiManagerId: this.kpiManagerId,
+        kpiNameVi: this.addEditForm.get('kpiNameVi').value,
+        kpiNameLa: this.addEditForm.get('kpiNameLa').value,
+        contentVi: this.addEditForm.get('contentVi').value,
+        contentLa: this.addEditForm.get('contentLa').value,
+        kpiPolicyVi: this.addEditForm.get('kpiPolicyVi').value,
+        kpiPolicyLa: this.addEditForm.get('kpiPolicyLa').value,
+        staffCode: this.addEditForm.get('staffCode').value,
+        kpiPoint: this.addEditForm.get('kpiPoint').value,
+        beginContractDate: this.addEditForm.get('beginContractDate').value,
+        expiredContractDate: this.addEditForm.get('expiredContractDate').value,
+      },
+    ];
+    const requestTarget1 = {
       userName: this.userName,
-      lstKpiManagerDTO: [
-        {
-          parentId: this.parentId,
-          kpiNameVi: this.addEditForm.get('kpiNameVi').value,
-          kpiNameLa: this.addEditForm.get('kpiNameLa').value,
-          contentVi: this.addEditForm.get('contentVi').value,
-          contentLa: this.addEditForm.get('contentLa').value,
-          kpiPolicyVi: this.addEditForm.get('kpiPolicyVi').value,
-          kpiPolicyLa: this.addEditForm.get('kpiPolicyLa').value,
-          staffCode: this.addEditForm.get('staffCode').value,
-          kpiPoint: this.addEditForm.get('kpiPoint').value,
-          beginContractDate: this.addEditForm.get('beginContractDate').value,
-          expiredContractDate: this.addEditForm.get('expiredContractDate').value,
-        },
-      ],
+      lstKpiManagerDTO: dto1,
     };
-    return this.globalService.globalApi(requestTarget, 'addOrUpdateKpiManager');
+    const requestTarget2 = {
+      userName: this.userName,
+      lstKpiManagerDTO: dto2,
+    };
+    return !this.isUpdate
+      ? this.globalService.globalApi(requestTarget1, 'addOrUpdateKpiManager')
+      : this.globalService.globalApi(requestTarget2, 'addOrUpdateKpiManager');
   }
 
   // common modal confirm alert
@@ -140,7 +167,9 @@ export class AddTieuChiComponent implements OnInit {
     modalRef.componentInstance.data = {
       type: 'WARNING',
       title: 'COMMON_MODAL.WARNING',
-      message: this.translate.instant('FUNCTION.CONFIRM_ADD'),
+      message: !this.isUpdate
+        ? this.translate.instant('FUNCTION.CONFIRM_ADD')
+        : this.translate.instant('FUNCTION.CONFIRM_UPDATE'),
       continue: true,
       cancel: true,
       btn: [
@@ -152,7 +181,9 @@ export class AddTieuChiComponent implements OnInit {
       () => {
         let request = this.httpAddOrEdit().subscribe((res) => {
           if (res.errorCode === '0') {
-            this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_ADD'));
+            !this.isUpdate
+              ? this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_ADD'))
+              : this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_UPDATE'));
             this.activeModal.close();
           } else {
             this.toastrService.error(res.description);
