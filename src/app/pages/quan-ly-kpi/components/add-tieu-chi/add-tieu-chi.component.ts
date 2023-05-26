@@ -90,6 +90,16 @@ export class AddTieuChiComponent implements OnInit {
 
     if (this.isUpdate) {
       this.kpiManagerId = this.propData?.kpiManagerId;
+      this.kpiNameVi = this.propData.kpiNameVi;
+      this.kpiNameLa = this.propData.kpiNameLa;
+      this.contentVi = this.propData.contentVi;
+      this.contentLa = this.propData.contentLa;
+      this.kpiPolicyVi = this.propData.kpiPolicyVi;
+      this.kpiPolicyLa = this.propData.kpiPolicyLa;
+      this.staffCode = this.propData.staffCode;
+      this.kpiPoint = this.propData.kpiPoint;
+      this.beginContractDate = this.propData.beginContractDate;
+      this.expiredContractDate = this.propData.expiredContractDate;
     } else {
       this.parentId = this.propData?.kpiManagerId ?? null;
     }
