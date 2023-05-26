@@ -66,7 +66,6 @@ export class AddTieuChiComponent implements OnInit {
     private _liveAnnouncer: LiveAnnouncer,
     @Inject(Injector) private readonly injector: Injector,
   ) {
-    this._createForm();// new
   }
 
   ngOnInit(): void {
@@ -190,32 +189,5 @@ export class AddTieuChiComponent implements OnInit {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
-
-  // new modal
-  _form: FormGroup;
-  _addGroup() {
-    this._groupsFormArray.push(
-      this.fb.control({
-        conjunctor: null,
-        conditions: [],
-        groups: []
-      })
-    );
-  }
-
-  _delete(index: number) {
-    this._groupsFormArray.removeAt(index);
-  }
-
-  get _groupsFormArray(): FormArray {
-    return this._form.get("statement").get("groups") as FormArray;
-  }
-
-  private _createForm() {
-    this._form = this.fb.group({
-      statement: this.fb.group({
-        groups: this.fb.array([])
-      })
-    });
-  }
+  
 }
