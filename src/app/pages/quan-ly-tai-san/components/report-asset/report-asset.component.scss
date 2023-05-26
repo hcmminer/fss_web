@@ -2,8 +2,6 @@ img:hover {
   cursor: pointer;
 }
 
-
-
 tr.example-element-row:not(.example-expanded-row):hover {
   background: rgb(163, 236, 160);
   cursor: pointer;
@@ -29,7 +27,6 @@ tr.example-element-row:active {
   border: none !important;
 }
 
-
 .icon-disable {
   color: #b8b8b8;
   cursor: unset !important;
@@ -53,12 +50,13 @@ table {
   font-weight: 600;
 }
 
-td, th {
+td,
+th {
   padding-left: 5px !important;
   padding-right: 5px !important;
 }
 
-th.mat-header-cell{
+th.mat-header-cell {
   min-width: 100px;
   text-align: center;
   padding-left: 0px;
@@ -75,9 +73,9 @@ th.mat-header-cell:first-of-type {
   width: 100%;
 }
 
-th,td {
+th,
+td {
   font-size: 15px !important;
-
 }
 
 .mat-cell {
@@ -142,7 +140,6 @@ th,td {
   }
 }
 
-
 ::ng-deep .mat-form-field-flex {
   padding-top: 0px !important;
 }
@@ -153,23 +150,133 @@ th,td {
   right: -5px;
 }
 
-
-.mat-column-organisation {
-  text-align: left !important;
-}
-
-.mat-column-contract {
-  text-align: left !important;
-}
-
 .mat-column-assetCode {
   text-align: left !important;
 }
 
-.mat-column-labor {
-  text-align: right !important;
+.mat-column-beginAmount {
+  min-width: 150px !important;
 }
 
-.mat-column-material {
-  text-align: right !important;
+.mat-column-beginAvailable {
+  min-width: 150px !important;
+}
+
+.mat-column-beginOriginalAmount {
+  min-width: 150px !important;
+}
+
+.mat-column-increaseOriginalAmount {
+  min-width: 150px !important;
+}
+
+.mat-column-increaseAmount {
+  min-width: 150px !important;
+}
+
+.mat-column-increaseAvailable {
+  min-width: 150px !important;
+}
+
+.mat-column-decreaseOriginalAmount {
+  min-width: 150px !important;
+}
+.mat-column-decreaseAmount {
+  min-width: 150px !important;
+}
+.mat-column-decreaseAvailable {
+  min-width: 150px !important;
+}
+.mat-column-endOriginalAmount {
+  min-width: 150px !important;
+}
+.mat-column-endAmount {
+  min-width: 150px !important;
+}
+.mat-column-endAvailable {
+  min-width: 150px !important;
+}
+
+.mat-column-oldBeginOriginalAmount {
+   min-width: 150px !important;
+}
+.mat-column-oldBeginAmount {
+   min-width: 150px !important;
+}
+.mat-column-oldBeginAvailable {
+   min-width: 150px !important;
+}
+.mat-column-oldIncreaseOriginalAmount {
+   min-width: 150px !important;
+}
+.mat-column-oldIncreaseAmount {
+   min-width: 150px !important;
+}
+.mat-column-oldIncreaseAvailable {
+   min-width: 150px !important;
+}
+.mat-column-oldDecreaseOriginalAmount {
+   min-width: 150px !important;
+}
+.mat-column-oldDecreaseAmount {
+   min-width: 150px !important;
+}
+.mat-column-oldDecreaseAvailable {
+   min-width: 150px !important;
+}
+.mat-column-oldEndOriginalAmount {
+   min-width: 150px !important;
+}
+.mat-column-oldEndAmount {
+   min-width: 150px !important;
+}
+.mat-column-oldEndAvailable {
+   min-width: 150px !important;
+}
+
+.mat-column-newBeginOriginalAmount {
+   min-width: 150px !important;
+}
+.mat-column-newBeginAmount {
+   min-width: 150px !important;
+}
+.mat-column-newBeginAvailable {
+   min-width: 150px !important;
+}
+.mat-column-newIncreaseOriginalAmount {
+   min-width: 150px !important;
+}
+.mat-column-newIncreaseAmount {
+   min-width: 150px !important;
+}
+.mat-column-newIncreaseAvailable {
+   min-width: 150px !important;
+}
+.mat-column-newDecreaseOriginalAmount {
+   min-width: 150px !important;
+}
+.mat-column-newDecreaseAmount {
+   min-width: 150px !important;
+}
+.mat-column-newDecreaseAvailable {
+   min-width: 150px !important;
+}
+.mat-column-newEndOriginalAmount {
+   min-width: 150px !important;
+}
+.mat-column-newEndAmount {
+   min-width: 150px !important;
+}
+.mat-column-newEndAvailable {
+   min-width: 150px !important;
+}
+
+.mat-column-endOriginalAmount {
+   min-width: 150px !important;
+}
+.mat-column-endAmount {
+   min-width: 150px !important;
+}
+.mat-column-endAvailable {
+   min-width: 150px !important;
 }
