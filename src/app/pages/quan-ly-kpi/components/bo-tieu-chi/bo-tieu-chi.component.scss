@@ -187,3 +187,9 @@ legend {
   font-weight: bold;
   color: #1f497d;
 }
+
+tr.blue-row:not(.example-expanded-row):hover {
+  background: rgb(163, 236, 160);
+  cursor: pointer;
+}
+
