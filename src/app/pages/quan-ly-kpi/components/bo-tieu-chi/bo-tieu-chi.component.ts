@@ -137,6 +137,7 @@ export class BoTieuChiComponent implements OnInit {
   httpDelete(item) {
     const requestTarget = {
       userName: localStorage.getItem('userName'),
+      lstKpiManagerDTO : [],
       lstKpiManagerDTODelete: [
         {
           kpiManagerId: item.kpiManagerId,
