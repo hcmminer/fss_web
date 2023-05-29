@@ -2,7 +2,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,6 +18,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/mat
 import { arrayToTree } from 'src/app/utils/functions';
 import { AddTieuChiComponent } from '../add-tieu-chi/add-tieu-chi.component';
 import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
+import { MatDatepicker } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-bo-tieu-chi',
@@ -25,10 +26,14 @@ import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-di
   styleUrls: ['./bo-tieu-chi.component.scss'],
 })
 export class BoTieuChiComponent implements OnInit {
+  inputDate = new Date();
+  beginContractDate;
+  expiredContractDate;
   t1msg;
-  inputDate;
-  maxDateContract;
+  t2msg = '';
+  t3msg = '';
   searchForm: FormGroup;
+  addEditForm: FormGroup;
   private transformer = (node, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -73,8 +78,6 @@ export class BoTieuChiComponent implements OnInit {
     'kpiPolicyLa',
     'staffCode',
     'kpiPoint',
-    'beginContractDate',
-    'expiredContractDate',
     'action',
   ];
 
@@ -90,15 +93,16 @@ export class BoTieuChiComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadSearhForm();
     this.getMaxDateContract();
-    this.eSearch();
+    this.loadSearhForm();
+    this.loadAddEditForm();
   }
 
   getMaxDateContract() {
     this.globalService.globalApi({}, 'getMaxDateContract').subscribe((res) => {
       if (res.errorCode === '0') {
-        this.maxDateContract = res.data;
+        this.inputDate = res.data;
+        this.eSearch();
       } else {
         this.toastrService.error(res.description);
       }
@@ -198,25 +202,12 @@ export class BoTieuChiComponent implements OnInit {
     );
   }
 
-  applyFilter(event) {
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    let tarArr = this.responseFromSearchApi.filter((item) =>
-      Object.values(item)
-        .map((item) => item?.toString().trim().toLowerCase())
-        .includes(filterValue),
-    );
-    this.dataSource.data = arrayToTree(this.convertLang(tarArr));
-    if (event.target.value == '') {
-      setTimeout(() => this.eSearch(), 400);
-    }
-  }
-
   responseFromSearchApi = [];
 
   eSearch() {
     const req = {
       userName: localStorage.getItem('userName'),
-      dateInput: this.searchForm.get('inputDate').value,
+      dateInput: this.searchForm?.get('inputDate')?.value,
     };
     const res = this.globalService.globalApi(req, 'searchKpiManager').subscribe((res) => {
       if (res.errorCode == '0') {
@@ -228,22 +219,39 @@ export class BoTieuChiComponent implements OnInit {
     });
   }
 
-  eResetForm(){
+  eResetForm() {
     this.t1msg = '';
     this.loadSearhForm();
   }
 
-  
+  eResetForm2() {
+    this.t2msg = '';
+    this.t3msg = '';
+    this.loadAddEditForm();
+  }
 
   loadSearhForm() {
     this.searchForm = this.fb.group({
-      inputDate: [new Date(), [Validators.required]],
+      inputDate: [this.inputDate, [Validators.required]],
     });
   }
 
-  eChangeDate() {
-    let t1 = this.transform(this.searchForm.get('inputDate').value);
+  eDuyet() {}
 
+  dateNow = new Date();
+
+  loadAddEditForm() {
+    this.addEditForm = this.fb.group({
+      beginContractDate: [new Date(this.dateNow.getFullYear(), this.dateNow.getMonth(), 1), [Validators.required]],
+      expiredContractDate: [
+        new Date(this.dateNow.getFullYear(), this.dateNow.getMonth() + 1, 0),
+        [Validators.required],
+      ],
+    });
+  }
+
+  eChangeDate1() {
+    let t1 = this.transform(this.searchForm.get('inputDate').value);
     if (t1 == '' || t1 == null || t1 == undefined) {
       this.t1msg = this.translate.instant('VALIDATION.REQUIRED', {
         name: this.translate.instant('TITLE.INPUT_DATE'),
@@ -258,5 +266,26 @@ export class BoTieuChiComponent implements OnInit {
     let datePipe = new DatePipe('en-US');
     value = datePipe.transform(value, 'dd/MM/yyyy');
     return value;
+  }
+
+  eChangeDate2() {
+    let t2 = this.transform(this.addEditForm.get('beginContractDate').value);
+    let t3 = this.transform(this.addEditForm.get('expiredContractDate').value);
+
+    if (t2 == '' || t2 == null || t2 == undefined) {
+      this.t2msg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('TITLE.BEGIN_CONTRACT_DATE'),
+      });
+    } else {
+      this.t2msg = '';
+    }
+
+    if (t3 == '' || t3 == null || t3 == undefined) {
+      this.t3msg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('TITLE.EXPIRED_CONTRACT_DATE'),
+      });
+    } else {
+      this.t3msg = '';
+    }
   }
 }

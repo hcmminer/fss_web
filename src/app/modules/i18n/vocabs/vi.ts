@@ -265,6 +265,8 @@ export const locale = {
     },
     TITLE: {
       // Quan ly kpi...
+      DUYET_KPI: 'Duyệt',
+      INFO_KPI: 'Thông tin duyệt KPI',
       NAME_KPI: 'Tên KPI',
       KPI_MANAGEMENT: 'Quản lý KPI',
       KPI_MANAGER_CATEGORY: 'Danh sách KPI',
@@ -279,7 +281,7 @@ export const locale = {
       KPI_POINT: 'Điểm KPI tối đa',
       BEGIN_CONTRACT_DATE: 'Ngày bắt đầu hợp đồng',
       EXPIRED_CONTRACT_DATE: 'Ngày kết thúc hợp đồng',
-      INPUT_DATE: 'Ngày hợp đồng còn hiệu lực',
+      INPUT_DATE: 'Kỳ duyệt',
       // ...Quan ly kpi
       // Quản lý phiếu công tác
       LIST_JOB: 'Danh sách phiếu công tác',

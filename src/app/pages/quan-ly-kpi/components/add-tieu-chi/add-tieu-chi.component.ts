@@ -47,14 +47,7 @@ export const MY_FORMATS = {
 })
 export class AddTieuChiComponent implements OnInit {
   isUpdate;
-  beginContractDate;
-  t1msg = '';
-
   date = new Date();
-
-  expiredContractDate;
-  t2msg = '';
-
   propData;
   kpiManagerId;
   parentId;
@@ -100,8 +93,6 @@ export class AddTieuChiComponent implements OnInit {
       this.kpiPolicyLa = this.propData.kpiPolicyLa;
       this.staffCode = this.propData.staffCode;
       this.kpiPoint = this.propData.kpiPoint;
-      this.beginContractDate = this.propData.beginContractDate;
-      this.expiredContractDate = this.propData.expiredContractDate;
     } else {
       this.parentId = this.propData?.kpiManagerId ?? null;
     }
@@ -129,14 +120,6 @@ export class AddTieuChiComponent implements OnInit {
       kpiPolicyLa: [this.kpiPolicyLa, [Validators.required]],
       staffCode: [this.staffCode, [Validators.required]],
       kpiPoint: [this.kpiPoint, [Validators.required]],
-      beginContractDate: [
-        this.isUpdate ? this.beginContractDate : new Date(this.date.getFullYear(), this.date.getMonth(), 1),
-        [Validators.required],
-      ],
-      expiredContractDate: [
-        this.isUpdate ? this.expiredContractDate : new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0),
-        [Validators.required],
-      ],
     });
   }
 
@@ -152,8 +135,6 @@ export class AddTieuChiComponent implements OnInit {
         kpiPolicyLa: this.addEditForm.get('kpiPolicyLa').value,
         staffCode: this.addEditForm.get('staffCode').value,
         kpiPoint: this.addEditForm.get('kpiPoint').value,
-        beginContractDate: this.addEditForm.get('beginContractDate').value,
-        expiredContractDate: this.addEditForm.get('expiredContractDate').value,
       },
     ];
     const dto2 = [
@@ -167,8 +148,6 @@ export class AddTieuChiComponent implements OnInit {
         kpiPolicyLa: this.addEditForm.get('kpiPolicyLa').value,
         staffCode: this.addEditForm.get('staffCode').value,
         kpiPoint: this.addEditForm.get('kpiPoint').value,
-        beginContractDate: this.addEditForm.get('beginContractDate').value,
-        expiredContractDate: this.addEditForm.get('expiredContractDate').value,
       },
     ];
     const requestTarget1 = {
@@ -283,24 +262,5 @@ export class AddTieuChiComponent implements OnInit {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
 
-  eChangeDate() {
-    let t1 = this.transform(this.addEditForm.get('beginContractDate').value);
-    let t2 = this.transform(this.addEditForm.get('expiredContractDate').value);
-
-    if (t1 == '' || t1 == null || t1 == undefined) {
-      this.t1msg = this.translate.instant('VALIDATION.REQUIRED', {
-        name: this.translate.instant('TITLE.BEGIN_CONTRACT_DATE'),
-      });
-    } else {
-      this.t1msg = '';
-    }
-
-    if (t2 == '' || t2 == null || t2 == undefined) {
-      this.t2msg = this.translate.instant('VALIDATION.REQUIRED', {
-        name: this.translate.instant('TITLE.EXPIRED_CONTRACT_DATE'),
-      });
-    } else {
-      this.t2msg = '';
-    }
-  }
+ 
 }
