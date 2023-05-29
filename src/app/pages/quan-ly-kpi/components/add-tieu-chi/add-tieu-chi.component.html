@@ -117,16 +117,22 @@
             <span style="color: red">*</span></label
           >
           <div class="col-md-3">
-            <input
+            <select
               class="form-control"
+              name="staffCode"
+              id="staffCode"
               formControlName="staffCode"
               [class.is-invalid]="isControlInvalid('staffCode')"
-              maxlength="100"
-            />
+            >
+              <option *ngFor="let item of quanLyKpiService.cbxStaffKpi | async" [value]="item.staffCode">
+                {{ item.staffName }}
+              </option>
+            </select>
             <div class="invalid-feedback" *ngIf="controlHasError('required', 'staffCode')">
               {{ 'VALIDATION.REQUIRED' | translate : { name: 'LABEL.STAFF' | translate } }}
             </div>
           </div>
+
           <!-- KPI_POINT -->
           <label class="col-md-2 form-label col-form-label">
             {{ 'TITLE.KPI_POINT' | translate }}

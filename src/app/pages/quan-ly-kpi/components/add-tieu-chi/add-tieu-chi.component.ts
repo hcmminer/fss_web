@@ -17,6 +17,7 @@ import { openingBalanceService } from 'src/app/pages/_services/opening-balance.s
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { RequestApiModel } from 'src/app/pages/_models/api.request.model';
 import { minValue } from 'src/app/_validators/validateForm';
+import { QuanLyKpiService } from 'src/app/pages/_services/quan-ly-kpi.service';
 
 export const MY_FORMATS = {
   parse: {
@@ -61,7 +62,7 @@ export class AddTieuChiComponent implements OnInit {
   contentLa;
   kpiPolicyVi;
   kpiPolicyLa;
-  staffCode;
+  staffCode = '';
   kpiPoint;
 
   userName: any;
@@ -79,7 +80,7 @@ export class AddTieuChiComponent implements OnInit {
     public toastrService: ToastrService,
     private activeModal: NgbActiveModal,
     public spinner: NgxSpinnerService,
-    public openingBalanceService: openingBalanceService,
+    public quanLyKpiService: QuanLyKpiService,
     private _liveAnnouncer: LiveAnnouncer,
     @Inject(Injector) private readonly injector: Injector,
   ) {}
@@ -103,7 +104,17 @@ export class AddTieuChiComponent implements OnInit {
       this.parentId = this.propData?.kpiManagerId ?? null;
     }
     this.loadAddEditForm();
+    this.getCbxStaffKpi();
+  }
 
+  getCbxStaffKpi() {
+    const reqTar = {
+      userName: 'fss_admin',
+      staffDTO: {
+        staffCode: '',
+      },
+    };
+    return this.quanLyKpiService.getCbxStaffKpi(reqTar, 'getLstStaffKpi', true);
   }
 
   loadAddEditForm() {
