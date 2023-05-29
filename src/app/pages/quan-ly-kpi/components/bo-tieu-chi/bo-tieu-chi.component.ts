@@ -2,7 +2,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,6 +25,10 @@ import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-di
   styleUrls: ['./bo-tieu-chi.component.scss'],
 })
 export class BoTieuChiComponent implements OnInit {
+  t1msg;
+  inputDate;
+  maxDateContract;
+  searchForm: FormGroup;
   private transformer = (node, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -81,11 +85,24 @@ export class BoTieuChiComponent implements OnInit {
     public translate: TranslateService,
     public toastrService: ToastrService,
     private globalService: GlobalService,
+    public fb: FormBuilder,
     @Inject(Injector) private readonly injector: Injector,
   ) {}
 
   ngOnInit(): void {
+    this.loadSearhForm();
+    this.getMaxDateContract();
     this.eSearch();
+  }
+
+  getMaxDateContract() {
+    this.globalService.globalApi({}, 'getMaxDateContract').subscribe((res) => {
+      if (res.errorCode === '0') {
+        this.maxDateContract = res.data;
+      } else {
+        this.toastrService.error(res.description);
+      }
+    });
   }
 
   convertLang(arr) {
@@ -137,7 +154,7 @@ export class BoTieuChiComponent implements OnInit {
   httpDelete(item) {
     const requestTarget = {
       userName: localStorage.getItem('userName'),
-      lstKpiManagerDTO : [],
+      lstKpiManagerDTO: [],
       lstKpiManagerDTODelete: [
         {
           kpiManagerId: item.kpiManagerId,
@@ -199,8 +216,7 @@ export class BoTieuChiComponent implements OnInit {
   eSearch() {
     const req = {
       userName: localStorage.getItem('userName'),
-      // kpiPeriodDTO: {},
-      dateInput: '2023-05-31T00:00:00',
+      dateInput: this.searchForm.get('inputDate').value,
     };
     const res = this.globalService.globalApi(req, 'searchKpiManager').subscribe((res) => {
       if (res.errorCode == '0') {
@@ -210,5 +226,37 @@ export class BoTieuChiComponent implements OnInit {
         this.dataSource.data = null;
       }
     });
+  }
+
+  eResetForm(){
+    this.t1msg = '';
+    this.loadSearhForm();
+  }
+
+  
+
+  loadSearhForm() {
+    this.searchForm = this.fb.group({
+      inputDate: [new Date(), [Validators.required]],
+    });
+  }
+
+  eChangeDate() {
+    let t1 = this.transform(this.searchForm.get('inputDate').value);
+
+    if (t1 == '' || t1 == null || t1 == undefined) {
+      this.t1msg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('TITLE.INPUT_DATE'),
+      });
+    } else {
+      this.t1msg = '';
+    }
+  }
+
+  //thay đổi format date
+  transform(value: string) {
+    let datePipe = new DatePipe('en-US');
+    value = datePipe.transform(value, 'dd/MM/yyyy');
+    return value;
   }
 }

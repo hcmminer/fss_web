@@ -50,6 +50,8 @@ export class AddTieuChiComponent implements OnInit {
   beginContractDate;
   t1msg = '';
 
+  date = new Date();
+
   expiredContractDate;
   t2msg = '';
 
@@ -127,8 +129,14 @@ export class AddTieuChiComponent implements OnInit {
       kpiPolicyLa: [this.kpiPolicyLa, [Validators.required]],
       staffCode: [this.staffCode, [Validators.required]],
       kpiPoint: [this.kpiPoint, [Validators.required]],
-      beginContractDate: [this.isUpdate ? this.beginContractDate : new Date(), [Validators.required]],
-      expiredContractDate: [this.isUpdate ? this.expiredContractDate : new Date(), [Validators.required]],
+      beginContractDate: [
+        this.isUpdate ? this.beginContractDate : new Date(this.date.getFullYear(), this.date.getMonth(), 1),
+        [Validators.required],
+      ],
+      expiredContractDate: [
+        this.isUpdate ? this.expiredContractDate : new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0),
+        [Validators.required],
+      ],
     });
   }
 
