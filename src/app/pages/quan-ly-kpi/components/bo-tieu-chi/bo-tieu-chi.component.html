@@ -5,63 +5,63 @@
     </div>
   </div>
 </div>
-  <div class="p-4" style="background-color: white">
-    <!-- tim kiem -->
-    <!-- begin: Filtration form -->
-    <form action="#" class="form form-label-right" [formGroup]="searchForm">
-      <div class="font-weight-bolder" style="font-size: 1.275rem">
-        {{ 'BUTTON.SEARCH' | translate }}
+<div class="p-4" style="background-color: white">
+  <!-- tim kiem -->
+  <!-- begin: Filtration form -->
+  <form action="#" class="form form-label-right" [formGroup]="searchForm">
+    <div class="font-weight-bolder" style="font-size: 1.275rem">
+      {{ 'BUTTON.SEARCH' | translate }}
+    </div>
+    <hr />
+    <div class="row form-group justify-content-around">
+      <label class="col-md-2 form-label col-form-label font-14" for="inputDate"
+        >{{ 'TITLE.INPUT_DATE' | translate }}<span style="color: red">*</span></label
+      >
+      <div class="col-md-3">
+        <mat-form-field appearance="fill">
+          <input
+            matInput
+            formControlName="inputDate"
+            [(ngModel)]="inputDate"
+            [matDatepicker]="picker1"
+            (dateChange)="eChangeDate1($event)"
+            (input)="eChangeDate1($event)"
+            class="w-100"
+          />
+          <mat-hint>DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker1" class="icon-datePicker"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+          <div style="color: red" *ngIf="t1msg != ''">
+            {{ t1msg | translate }}
+          </div>
+        </mat-form-field>
       </div>
-      <hr />
-      <div class="row form-group justify-content-around">
-        <label class="col-md-2 form-label col-form-label font-14" for="inputDate"
-          >{{ 'TITLE.INPUT_DATE' | translate }}<span style="color: red">*</span></label
+      <div class="col-md-2"></div>
+      <div class="col-md-3"></div>
+    </div>
+    <div class="form-group pb-0 mt-5">
+      <div class="d-flex justify-content-center">
+        <div
+          (click)="eSearch()"
+          class="mx-3 px-8 btn btn-primary font-weight-bolder d-flex align-items-center justify-content-around"
+          style="height: 38px"
         >
-        <div class="col-md-3">
-          <mat-form-field appearance="fill">
-            <input
-              matInput
-              formControlName="inputDate"
-              [(ngModel)]="inputDate"
-              [matDatepicker]="picker1"
-              (dateChange)="eChangeDate1()"
-              (input)="eChangeDate1()"
-              class="w-100"
-            />
-            <mat-hint>DD/MM/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker1" class="icon-datePicker"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-            <div style="color: red" *ngIf="t1msg != ''">
-              {{ t1msg | translate }}
-            </div>
-          </mat-form-field>
+          <i class="mr-2 fas fa-search cursor-pointer"></i>
+          {{ 'ACTION.SEARCH' | translate }}
         </div>
-        <div class="col-md-2"></div>
-        <div class="col-md-3"></div>
-      </div>
-      <div class="form-group pb-0 mt-5">
-        <div class="d-flex justify-content-center">
-          <div
-            (click)="eSearch()"
-            class="mx-3 px-8 btn btn-primary font-weight-bolder d-flex align-items-center justify-content-around"
-            style="height: 38px"
-          >
-            <i class="mr-2 fas fa-search cursor-pointer"></i>
-            {{ 'ACTION.SEARCH' | translate }}
-          </div>
 
-          <div
-            (click)="eResetForm()"
-            class="mx-3 px-8 btn btn-outline-primary font-weight-bolder d-flex align-items-center justify-content-around"
-            style="height: 38px"
-          >
-            <i class="mr-2 fas fa-redo cursor-pointer"></i>
-            {{ 'COMMON_BUTTON.RESET' | translate }}
-          </div>
+        <div
+          (click)="eResetForm()"
+          class="mx-3 px-8 btn btn-outline-primary font-weight-bolder d-flex align-items-center justify-content-around"
+          style="height: 38px"
+        >
+          <i class="mr-2 fas fa-redo cursor-pointer"></i>
+          {{ 'COMMON_BUTTON.RESET' | translate }}
         </div>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
+</div>
 
 <div class="p-4" style="background-color: white">
   <div class="font-weight-bolder" style="font-size: 1.275rem">
@@ -80,8 +80,8 @@
             matInput
             formControlName="beginContractDate"
             [matDatepicker]="picker2"
-            (dateChange)="eChangeDate2()"
-            (input)="eChangeDate2()"
+            (dateChange)="eChangeDate2($event)"
+            (input)="eChangeDate2($event)"
             class="w-100"
           />
           <mat-hint>DD/MM/YYYY</mat-hint>
@@ -101,8 +101,8 @@
           <input
             matInput
             formControlName="expiredContractDate"
-            (dateChange)="eChangeDate2()"
-            (input)="eChangeDate2()"
+            (dateChange)="eChangeDate3($event)"
+            (input)="eChangeDate3($event)"
             [matDatepicker]="picker3"
           />
           <mat-hint>DD/MM/YYYY</mat-hint>

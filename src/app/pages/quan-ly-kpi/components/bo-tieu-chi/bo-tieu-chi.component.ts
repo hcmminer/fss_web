@@ -250,15 +250,38 @@ export class BoTieuChiComponent implements OnInit {
     });
   }
 
-  eChangeDate1() {
-    let t1 = this.transform(this.searchForm.get('inputDate').value);
-    if (t1 == '' || t1 == null || t1 == undefined) {
+  //
+  // if (event.target.value === '') {
+  //   this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+  //     name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+  //   });
+  //   return;
+  // }
+  // let tempStartDate = this.transform(this.addForm.get('constructionDateStr').value);
+  // if (tempStartDate === null || tempStartDate === undefined) {
+  //   this.constructionDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+  //     name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+  //   });
+  //   return;
+  // }
+  // this.constructionDateErrorMsg = '';
+  //
+
+  eChangeDate1(event) {
+    if (event.target.value === '') {
       this.t1msg = this.translate.instant('VALIDATION.REQUIRED', {
         name: this.translate.instant('TITLE.INPUT_DATE'),
       });
-    } else {
-      this.t1msg = '';
+      return;
     }
+    let temp = this.transform(this.searchForm.get('inputDate').value);
+    if (temp === null || temp === undefined) {
+      this.t1msg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+        name: this.translate.instant('TITLE.INPUT_DATE'),
+      });
+      return;
+    }
+    this.t1msg = '';
   }
 
   //thay đổi format date
@@ -268,24 +291,39 @@ export class BoTieuChiComponent implements OnInit {
     return value;
   }
 
-  eChangeDate2() {
-    let t2 = this.transform(this.addEditForm.get('beginContractDate').value);
-    let t3 = this.transform(this.addEditForm.get('expiredContractDate').value);
-
-    if (t2 == '' || t2 == null || t2 == undefined) {
+  eChangeDate2(event) {
+    if (event.target.value === '') {
       this.t2msg = this.translate.instant('VALIDATION.REQUIRED', {
         name: this.translate.instant('TITLE.BEGIN_CONTRACT_DATE'),
       });
-    } else {
-      this.t2msg = '';
+      return;
     }
 
-    if (t3 == '' || t3 == null || t3 == undefined) {
+    let temp = this.transform(this.addEditForm.get('beginContractDate').value);
+    if (temp === null || temp === undefined) {
+      this.t2msg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+        name: this.translate.instant('TITLE.BEGIN_CONTRACT_DATE'),
+      });
+      return;
+    }
+
+    this.t2msg = '';
+  }
+
+  eChangeDate3(event) {
+    if (event.target.value === '') {
       this.t3msg = this.translate.instant('VALIDATION.REQUIRED', {
         name: this.translate.instant('TITLE.EXPIRED_CONTRACT_DATE'),
       });
-    } else {
-      this.t3msg = '';
+      return;
     }
+    let temp = this.transform(this.addEditForm.get('expiredContractDate').value);
+    if (temp === null || temp === undefined) {
+      this.t3msg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+        name: this.translate.instant('TITLE.EXPIRED_CONTRACT_DATE'),
+      });
+      return;
+    }
+    this.t3msg = '';
   }
 }
