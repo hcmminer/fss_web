@@ -274,7 +274,7 @@ export const locale = {
       KPI_POLICY_VI: 'Chính sách(Vi)',
       KPI_POLICY_LA: 'Chính sách(La)',
       STAFF_CODE: 'Mã nhân viên',
-      KPI_POINT: 'Điểm KPI',
+      KPI_POINT: 'Điểm KPI tối đa',
       BEGIN_CONTRACT_DATE: 'Ngày bắt đầu hợp đồng',
       EXPIRED_CONTRACT_DATE: 'Ngày kết thúc hợp đồng',
       // ...Quan ly kpi

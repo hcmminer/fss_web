@@ -95,7 +95,7 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
       email: [this.email, [Validators.email, Validators.required]],
       provinceId: [this.provinceId, [Validators.required]],
       title: [this.title, [Validators.required]],
-      staffCategory: [this.staffCategory, [Validators.required]],
+      staffCategory: [this.staffCategory],
     });
   }
 
@@ -178,7 +178,9 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.data = {
         type: 'WARNING',
         title: 'COMMON_MODAL.WARNING',
-        message: this.isUpdate ? this.translate.instant('CONFIRM.UPDATE_STAFF') : this.translate.instant('CONFIRM.ADD_STAFF'),
+        message: this.isUpdate
+          ? this.translate.instant('CONFIRM.UPDATE_STAFF')
+          : this.translate.instant('CONFIRM.ADD_STAFF'),
         continue: true,
         cancel: true,
         btn: [
@@ -258,12 +260,13 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
             );
           }
         },
-        (reason) => {console.log(reason)},
+        (reason) => {
+          console.log(reason);
+        },
       );
     }
   }
 
-  
   exportFileStaff() {
     if (this.resultFileData) {
       let now = new Date();
