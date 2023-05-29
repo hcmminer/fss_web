@@ -12,7 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
@@ -72,6 +73,7 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
   addEditForm: FormGroup;
   addFileForm: FormGroup;
   addType: string = 'single';
+  modelChanged = new Subject<string>();
   addTypeList = [
     {
       value: 'single',
@@ -107,7 +109,20 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     @Inject(Injector) private readonly injector: Injector,
   ) {}
 
+  initCombobox() {
+    let reqGetListStatus = { userName: this.userName };
+    this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease');
+  }
+
   ngOnInit(): void {
+    this.initCombobox();
+    this.modelChanged
+    .pipe(
+      debounceTime(800))
+    .subscribe((value) => {
+      let reqGetListStatus = { userName: this.userName };
+      this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease', value);
+    })
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
       this.columnsToDisplay = [
@@ -200,16 +215,30 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
   }
 
   //check input date
-  eChangeDate() {
-    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value);
-
-    if (tempStartDate == '' || tempStartDate == null || tempStartDate == undefined) {
+  eChangeDate(event) {
+    if (event.target.value === '') {
       this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
         name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
       });
-    } else {
-      this.constructionDateErrorMsg = '';
+      return;
     }
+    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value);
+    if (tempStartDate === null || tempStartDate === undefined) {
+      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+        name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+      });
+      return;
+    }
+    this.constructionDateErrorMsg = '';
+  }
+
+  //autocomplete
+  displayFnAssetCode(item: any): string {
+    return item ? item.assetCode : undefined;
+  }
+  //filter
+  filterByAssetCode() {
+    this.modelChanged.next(this.addEditForm.get('assetCode').value);
   }
 
   handleClose() {
@@ -256,7 +285,7 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       constructionDTO: {
-        assetCode: this.addEditForm.get('assetCode').value,
+        assetCode: !this.addEditForm.get('assetCode').value.assetCode ? this.addEditForm.get('assetCode').value : this.addEditForm.get('assetCode').value.assetCode,
         // organisation: this.addEditForm.get('organisation').value,
         // contract: this.addEditForm.get('contract').value,
         constructionDateStr: this.transform(this.addEditForm.get('constructionDateStr').value),

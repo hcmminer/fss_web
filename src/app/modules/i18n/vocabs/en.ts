@@ -193,7 +193,7 @@ export const locale = {
       //phát sinh giảm
       DEPRECIATIONFRAME: 'Depreciation framework',
       TYPE_OF_ASSET_ACCOUNT: 'Account',
-      TYPE_OF_ASSET_NAME: 'Asset category name',
+      TYPE_OF_ASSET_NAME: 'Asset type',
       TYPE_OF_ASSET_CODE: 'Asset category code',
       TYPE_OF_ASSET: 'Asset type',
       ADD_DECREASE: 'Add new decrease occurrence',

@@ -130,30 +130,56 @@ export class ReportAssetComponent implements OnInit {
 
   }
 
-  eChangeDate() {
-    let tempStartDetailDate = this.transform(this.searchForm.get('startDetail').value)
-    let tempEndDetailDate = this.transform(this.searchForm.get('endDetail').value)
-    let tempEndDate = this.transform(this.searchForm.get('end').value)
-
-
-    if (tempStartDetailDate == '' || tempStartDetailDate == null || tempStartDetailDate == undefined) {
-      this.startDetailDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
-    } else {
-      this.startDetailDateErrorMsg = ''
+  eChangeDate(event, typeDate:String) {
+    if(typeDate === 'end'){
+      if (event.target.value === '') {
+        this.endDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+          name: this.translate.instant('DATE.TO_DATE'),
+        });
+        return;
+      }
+      let tempStartDate = this.transform(this.searchForm.get('end').value);
+      if (tempStartDate === null || tempStartDate === undefined) {
+        this.endDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+          name: this.translate.instant('DATE.TO_DATE'),
+        });
+        return;
+      }
+      this.endDateErrorMsg = '';
+    }else if(typeDate === 'startDetail'){
+      if (event.target.value === '') {
+        this.startDetailDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+          name: this.translate.instant('DATE.FROM_DATE'),
+        });
+        return;
+      }
+      let tempStartDate = this.transform(this.searchForm.get('startDetail').value);
+      if (tempStartDate === null || tempStartDate === undefined) {
+        this.startDetailDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+          name: this.translate.instant('DATE.FROM_DATE'),
+        });
+        return;
+      }
+      this.startDetailDateErrorMsg = '';
+    }else if(typeDate === 'endDetail'){
+      if (event.target.value === '') {
+        this.endDetailDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+          name: this.translate.instant('DATE.TO_DATE'),
+        });
+        return;
+      }
+      let tempStartDate = this.transform(this.searchForm.get('endDetail').value);
+      if (tempStartDate === null || tempStartDate === undefined) {
+        this.endDetailDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+          name: this.translate.instant('DATE.TO_DATE'),
+        });
+        return;
+      }
+      this.endDetailDateErrorMsg = '';
     }
-
-    if (tempEndDetailDate == '' || tempEndDetailDate == null || tempEndDetailDate == undefined) {
-      this.endDetailDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.TO_DATE') });
-    } else {
-      this.endDetailDateErrorMsg = ''
-    }
-
-    if (tempEndDate == '' || tempEndDate == null || tempEndDate == undefined) {
-      this.endDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.TO_DATE') });
-    } else {
-      this.endDateErrorMsg = ''
-    }
+  
   }
+
 
 
 

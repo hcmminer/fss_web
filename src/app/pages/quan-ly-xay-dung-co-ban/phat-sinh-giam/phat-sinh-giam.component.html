@@ -24,7 +24,7 @@
                 <div class="col-lg-4 col-sm-12">
                   <mat-form-field appearance="fill">
                     <mat-date-range-input [rangePicker]="picker">
-                      <input matStartDate formControlName="start" (dateChange)="eChangeDate()" (input)="eChangeDate()"
+                      <input matStartDate formControlName="start" (dateChange)="eChangeDate($event)" (input)="eChangeDate($event)"
                         [placeholder]="'DATE.FROM_DATE' | translate" />
                       <input matEndDate formControlName="end"
                         [placeholder]="'DATE.TO_DATE' | translate" />
@@ -171,11 +171,11 @@
                 <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.material | number : '1.0-0'}}</td>
               </ng-container>
               <!-- organisation -->
-              <ng-container matColumnDef="organisation">
+              <ng-container matColumnDef="organisationCode">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   {{ 'LABEL.ORGANISATION' | translate }}
                 </th>
-                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.organisation }}</td>
+                <td mat-cell *matCellDef="let item" style="text-align: left">{{ item.organisationCode }}</td>
               </ng-container>
               <!-- depreciationFrame -->
               <ng-container matColumnDef="depreciationFrame">

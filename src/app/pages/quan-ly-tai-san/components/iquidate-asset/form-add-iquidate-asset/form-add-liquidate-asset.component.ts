@@ -80,7 +80,7 @@ export class FormAddLiquidateAssetComponent implements OnInit {
   totalSuccess: number = null;
   totalRecord: number = null;
   isHasResult: boolean = false;
-  columnsToDisplay = ['index', 'constructionDateStr', 'assetCode', 'errorMsg'];
+  columnsToDisplay = ['index', 'constructionDateStr','parentAssetCode' ,'assetCode', 'errorMsg'];
   addType: string = 'single';
   addTypeList = [
     {
@@ -175,16 +175,22 @@ export class FormAddLiquidateAssetComponent implements OnInit {
 
 
   //check input date
-  eChangeDate(){
-    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value)
-    
-    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
-      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('LABEL.CONSTRUCTION_DATE') });
-    }else {
-      this.constructionDateErrorMsg = ''
+  eChangeDate(event) {
+    if (event.target.value === '') {
+      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+      });
+      return;
     }
+    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value);
+    if (tempStartDate === null || tempStartDate === undefined) {
+      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+        name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+      });
+      return;
+    }
+    this.constructionDateErrorMsg = '';
   }
-
 
   handleClose() {
     this.closeContent.emit(true);

@@ -91,7 +91,7 @@ export class SoDuDauKyComponent implements OnInit {
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
     'index',
-    'organisation',
+    'organisationCode',
     'parentAssetCode',
     'assetCode',
     'contract',
@@ -129,18 +129,23 @@ export class SoDuDauKyComponent implements OnInit {
     this.eSearch();
   }
 
-  eChangeDate() {
-    let tempStartDate = this.transform(this.searchForm.get('start').value);
-    console.log(tempStartDate);
-
-    if (tempStartDate == '' || tempStartDate == null || tempStartDate == undefined) {
+  eChangeDate(event) {
+    if (event.target.value === '') {
       this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
         name: this.translate.instant('DATE.FROM_DATE'),
       });
-    } else {
-      this.startDateErrorMsg = '';
+      return;
     }
+    let tempStartDate = this.transform(this.searchForm.get('start').value);
+    if (tempStartDate === null || tempStartDate === undefined) {
+      this.startDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+        name: this.translate.instant('DATE.FROM_DATE'),
+      });
+      return;
+    }
+    this.startDateErrorMsg = '';
   }
+
 
   // init data for view form search
   loadSearchForm() {

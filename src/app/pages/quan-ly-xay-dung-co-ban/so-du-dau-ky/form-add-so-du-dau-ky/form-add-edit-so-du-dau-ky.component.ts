@@ -218,16 +218,21 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   }
 
   //check input date
-  eChangeDate() {
-    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value);
-
-    if (tempStartDate == '' || tempStartDate == null || tempStartDate == undefined) {
+  eChangeDate(event) {
+    if (event.target.value === '') {
       this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
         name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
       });
-    } else {
-      this.constructionDateErrorMsg = '';
+      return;
     }
+    let tempStartDate = this.transform(this.addEditForm.get('constructionDateStr').value);
+    if (tempStartDate === null || tempStartDate === undefined) {
+      this.constructionDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+        name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
+      });
+      return;
+    }
+    this.constructionDateErrorMsg = '';
   }
 
   handleClose() {
@@ -363,7 +368,6 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
     );
   }
   getTemplate() {
-    debugger
     const sub = this.apiGetTemplate().subscribe((res) => {
       if (res.errorCode == '0') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));

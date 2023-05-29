@@ -1,0 +1,5 @@
+//fix padding
+::ng-deep .field-autocomplete {
+  box-sizing: border-box;
+  padding: 0.65rem 1rem;
+}

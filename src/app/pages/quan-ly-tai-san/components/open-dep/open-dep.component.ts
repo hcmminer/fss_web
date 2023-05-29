@@ -304,14 +304,21 @@ export class OpenDepComponent implements OnInit {
     return value;
   }
 
-  eChangeDate(){
-    let tempStartDate = this.transform(this.searchForm.get('start').value)
-    
-    if(tempStartDate == '' || tempStartDate == null || tempStartDate == undefined){
-      this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', { name: this.translate.instant('DATE.FROM_DATE') });
-    }else {
-      this.startDateErrorMsg = ''
+  eChangeDate(event) {
+    if (event.target.value === '') {
+      this.startDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('DATE.FROM_DATE'),
+      });
+      return;
     }
+    let tempStartDate = this.transform(this.searchForm.get('start').value);
+    if (tempStartDate === null || tempStartDate === undefined) {
+      this.startDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+        name: this.translate.instant('DATE.FROM_DATE'),
+      });
+      return;
+    }
+    this.startDateErrorMsg = '';
   }
   
   public get toastService() {
