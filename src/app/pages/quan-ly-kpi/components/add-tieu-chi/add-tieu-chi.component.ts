@@ -198,6 +198,7 @@ export class AddTieuChiComponent implements OnInit {
       console.log(oldArr);
     }
     this.eChangeListKpi();
+    this.activeModal.close();
   }
 
   isValidForm(): boolean {
