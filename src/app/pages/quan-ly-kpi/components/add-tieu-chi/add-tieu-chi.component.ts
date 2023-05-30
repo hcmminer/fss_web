@@ -1,22 +1,18 @@
 import { Component, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, Subscription } from 'rxjs';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { CONFIG } from 'src/app/utils/constants';
-import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DatePipe } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { RequestApiModel } from 'src/app/pages/_models/api.request.model';
-import { minValue } from 'src/app/_validators/validateForm';
 import { QuanLyKpiService } from 'src/app/pages/_services/quan-ly-kpi.service';
 
 export const MY_FORMATS = {
