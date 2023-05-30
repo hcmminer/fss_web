@@ -4,7 +4,7 @@ import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription, fromEvent } from 'rxjs';
@@ -87,6 +87,7 @@ export class BoTieuChiComponent implements OnInit {
   hasChild = (_: number, node) => node.expandable;
 
   constructor(
+    private activeModal: NgbActiveModal,
     private modalService: NgbModal,
     public translate: TranslateService,
     public toastrService: ToastrService,
@@ -165,7 +166,6 @@ export class BoTieuChiComponent implements OnInit {
   }
 
   httpDelete(item) {
-    
     const requestTarget = {
       userName: localStorage.getItem('userName'),
       lstKpiManagerDTO: [],
@@ -217,12 +217,50 @@ export class BoTieuChiComponent implements OnInit {
 
   eDelete(item) {
     this.spinner.show();
-    setTimeout(() => this.spinner.hide(),400);
+    setTimeout(() => this.spinner.hide(), 400);
     let oldArr = this.quanLyKpiService.responseFromSearchKpi.value;
     let currentItem = item.kpiManagerId;
     oldArr = oldArr.filter((item) => item.kpiManagerId != currentItem);
     this.quanLyKpiService.responseFromSearchKpi.next(oldArr);
     this.eChangeListKpi();
+  }
+
+  apiSaveAll() {
+    const req = {};
+    return this.globalService.globalApi(req, '');
+  }
+
+  // common modal confirm alert
+  eSaveAll() {
+    const modalRef = this.modalService.open(CommonAlertDialogComponent, {
+      centered: true,
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.data = {
+      type: 'WARNING',
+      title: 'COMMON_MODAL.WARNING',
+      message: this.translate.instant('FUNCTION.CONFIRM_SAVE_ALL'),
+      continue: true,
+      cancel: true,
+      btn: [
+        { text: this.translate.instant('CANCEL'), className: 'btn-outline-warning btn uppercase mx-2' },
+        { text: this.translate.instant('CONTINUE'), className: 'btn btn-warning uppercase mx-2' },
+      ],
+    };
+    modalRef.result.then(
+      () => {
+        let request = this.apiSaveAll().subscribe((res) => {
+          if (res.errorCode === '0') {
+            this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_SAVE_ALL'));
+            this.activeModal.close();
+          } else {
+            this.toastrService.error(res.description);
+          }
+        });
+        this.subscriptions.push(request);
+      },
+      () => {},
+    );
   }
 
   eSearch() {
