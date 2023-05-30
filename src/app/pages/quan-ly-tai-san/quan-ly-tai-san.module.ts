@@ -34,6 +34,7 @@ import { ReportAssetComponent } from './components/report-asset/report-asset.com
 import { ViewHisOpenDepComponent } from './components/open-dep/view-his-open-dep/view-his-open-dep.component';
 import { DetailImportIncreaseAssetComponent } from './components/import-increase-asset/detail-import-increase-asset/detail-import-increase-asset.component';
 import { AeByFileOpenDepComponent } from './components/open-dep/ae-by-file-open-dep/ae-by-file-open-dep.component';
+import { LiquidateOldAssetComponent } from './components/iquidate-asset/liquidate-old-asset/liquidate-old-asset.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { AeByFileOpenDepComponent } from './components/open-dep/ae-by-file-open-
     ReportAssetComponent,
     ViewHisOpenDepComponent,
     DetailImportIncreaseAssetComponent,
-    AeByFileOpenDepComponent],
+    AeByFileOpenDepComponent,
+    LiquidateOldAssetComponent],
   imports: [
     CommonModule,
     QuanLyTaiSanRoutingModule,

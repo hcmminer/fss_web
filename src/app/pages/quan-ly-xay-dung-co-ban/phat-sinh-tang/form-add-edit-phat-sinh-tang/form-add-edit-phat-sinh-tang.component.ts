@@ -111,19 +111,20 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
 
   initCombobox() {
     let reqGetListStatus = { userName: this.userName };
-    this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease');
+    this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
+    this.openingBalanceService.getCbxBcParentAssetCode(reqGetListStatus, 'get-bc-parent-asset-code'); 
   }
 
   ngOnInit(): void {
     this.initCombobox();
+    this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.modelChanged
     .pipe(
       debounceTime(800))
     .subscribe((value) => {
       let reqGetListStatus = { userName: this.userName };
-      this.openingBalanceService.getListAssetCodeDecrease(reqGetListStatus, 'get-list-asset-code-decrease', value);
+      this.openingBalanceService.getCbxBcParentAssetCode(reqGetListStatus, 'get-bc-parent-asset-code', value); 
     })
-    this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
       this.columnsToDisplay = [
         'index',
@@ -140,9 +141,10 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     } else {
       this.columnsToDisplay = [
         'index',
-        // 'organisation',
+        'organisation',
+        'parentAssetCode',
         'assetCode',
-        // 'contract',
+        'contract',
         'material',
         'labor',
         'constructionDateStr',
@@ -172,12 +174,21 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
       this.loadAddForm();
     }
   }
+  //auto complete parent code
+  filterByParentAssetCode() {
+    this.modelChanged.next(this.addEditForm.get('parentAssetCode').value);
+  }
+
+  displayFnParentAssetCode(item: any): string {
+    return item ? item.assetCode : undefined;
+  }
 
   loadAddForm() {
     this.addEditForm = this.fb.group({
-      // organisation: [this.isUpdate ? this.item.organisation : '', [Validators.required]],
+      organisation: [this.isUpdate ? this.item.organisation : '', [Validators.required]],
       assetCode: [this.isUpdate ? this.item.assetCode : '', [Validators.required]],
-      // contract: [this.isUpdate ? this.item.contract : '', [Validators.required]],
+      parentAssetCode: [this.isUpdate ? this.item.parentAssetCode : ''],
+      contract: [this.isUpdate ? this.item.contract : '', [Validators.required]],
       constructionDateStr: [
         this.isUpdate ? moment(this.item.constructionDateStr, 'DD/MM/YYYY').toDate() : new Date(),
         [Validators.required],
@@ -232,15 +243,6 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     this.constructionDateErrorMsg = '';
   }
 
-  //autocomplete
-  displayFnAssetCode(item: any): string {
-    return item ? item.assetCode : undefined;
-  }
-  //filter
-  filterByAssetCode() {
-    this.modelChanged.next(this.addEditForm.get('assetCode').value);
-  }
-
   handleClose() {
     this.closeContent.emit(true);
   }
@@ -285,9 +287,10 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       constructionDTO: {
-        assetCode: !this.addEditForm.get('assetCode').value.assetCode ? this.addEditForm.get('assetCode').value : this.addEditForm.get('assetCode').value.assetCode,
-        // organisation: this.addEditForm.get('organisation').value,
-        // contract: this.addEditForm.get('contract').value,
+        assetCode: this.addEditForm.get('assetCode').value,
+        parentAssetCode: !this.addEditForm.get('parentAssetCode').value.assetCode ? this.addEditForm.get('parentAssetCode').value : this.addEditForm.get('parentAssetCode').value.assetCode,
+        organisation: this.addEditForm.get('organisation').value,
+        contract: this.addEditForm.get('contract').value,
         constructionDateStr: this.transform(this.addEditForm.get('constructionDateStr').value),
         material: Number(this.addEditForm.get('material').value.replaceAll(',', '')),
         labor: Number(this.addEditForm.get('labor').value.replaceAll(',', '')),

@@ -151,11 +151,11 @@
               <i class="fas fa-file-excel fa-xs" style="color: green"></i>
               {{ 'FUNCTION.ADD_BY_FILE' | translate }}
             </div>
-            <!-- <div (click)="eRenderAeByFileOpenDepComponent('updates', {})"
+            <div (click)="eRenderAeByFileOpenDepComponent('updates', {})"
               class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center">
               <i class="fas fa-file-excel fa-xs" style="color: green"></i>
               {{ 'FUNCTION.UPDATE_BY_FILE' | translate }}
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -285,7 +285,7 @@
               </ng-container>
 
               <!-- action -->
-              <!-- <ng-container matColumnDef="action">
+              <ng-container matColumnDef="action">
                 <th mat-header-cell *matHeaderCellDef>
                   {{ 'LABEL.ACTION' | translate }}
                 </th>
@@ -298,7 +298,7 @@
                     </div>
                   </div>
                 </td>
-              </ng-container> -->
+              </ng-container>
               <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
               <tr
                 mat-row

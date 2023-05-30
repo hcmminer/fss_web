@@ -13,3 +13,8 @@
 :host::ng-deep.mat-form-field {
   width : 100%; //enter whatever width you want
 }
+
+.field-autocomplete{
+  box-sizing: border-box;
+  padding: 0.65rem 1rem;
+}

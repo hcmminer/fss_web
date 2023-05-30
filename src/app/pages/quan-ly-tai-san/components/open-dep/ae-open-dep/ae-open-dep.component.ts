@@ -134,7 +134,7 @@ export class AeOpenDepComponent implements OnInit {
 
   loadEditForm() {
     this.editForm = this.fb.group({
-      constructionDateStr: [this.constructionDateStr, [Validators.required]],
+      constructionDateStr: [new Date(), [Validators.required]],
       assetCode: [this.assetCode],
       beginOriginalAmountTotal: [formatNumber(+this.beginOriginalAmountTotal, 'en-US', '1.0')],
       beginOriginalAmount: [this.beginOriginalAmount, [Validators.required]],
@@ -343,7 +343,7 @@ export class AeOpenDepComponent implements OnInit {
   }
 
   eClose() {
-    this.activeModal.dismiss();
+    this.activeModal.close();
   }
 
   controlHasError(validation, controlName): boolean {

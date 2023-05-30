@@ -185,12 +185,14 @@ export class ReportComponent implements OnInit {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
         this.openingBalanceService.listDataReport.next(res.data);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listDataReport.value);
+        this.dataSource = new MatTableDataSource(
+          !this.openingBalanceService.listDataReport.value ? [] : this.openingBalanceService.listDataReport.value,
+        );
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
         this.openingBalanceService.listDataReport.next([]);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listDataReport.value);
+        this.dataSource = new MatTableDataSource([]);
       }
     });
     this.subscriptions.push(rq);

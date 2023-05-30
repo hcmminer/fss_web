@@ -196,12 +196,12 @@ export class ImportIncreaseAssetComponent implements OnInit {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
         this.openingBalanceService.listImportIncreaseAsset.next(res.data);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listImportIncreaseAsset.value);
+        this.dataSource = new MatTableDataSource(!this.openingBalanceService.listImportIncreaseAsset.value ? [] : this.openingBalanceService.listImportIncreaseAsset.value );
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
         this.openingBalanceService.listImportIncreaseAsset.next([]);
-        this.dataSource = new MatTableDataSource(this.openingBalanceService.listImportIncreaseAsset.value);
+        this.dataSource = new MatTableDataSource([]);
       }
     });
     this.subscriptions.push(rq);

@@ -111,7 +111,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   initCombobox() {
     let reqGetListStatus = { userName: this.userName };
     this.openingBalanceService.getListOrganisation(reqGetListStatus, 'get-list-organisation', true);
-    this.openingBalanceService.getCbxBcParentAssetCode(reqGetListStatus, 'search-bc-opening'); 
+    this.openingBalanceService.getCbxBcParentAssetCode(reqGetListStatus, 'get-bc-parent-asset-code'); 
   }
 
   ngOnInit(): void {
@@ -121,7 +121,7 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
       debounceTime(800))
     .subscribe((value) => {
       let reqGetListStatus = { userName: this.userName };
-      this.openingBalanceService.getCbxBcParentAssetCode(reqGetListStatus, 'search-bc-opening', value); 
+      this.openingBalanceService.getCbxBcParentAssetCode(reqGetListStatus, 'get-bc-parent-asset-code', value); 
     })
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdateFile) {
