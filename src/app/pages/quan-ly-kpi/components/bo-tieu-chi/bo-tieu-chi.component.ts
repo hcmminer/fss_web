@@ -20,6 +20,7 @@ import { AddTieuChiComponent } from '../add-tieu-chi/add-tieu-chi.component';
 import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { QuanLyKpiService } from 'src/app/pages/_services/quan-ly-kpi.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-bo-tieu-chi',
@@ -92,6 +93,7 @@ export class BoTieuChiComponent implements OnInit {
     private globalService: GlobalService,
     public quanLyKpiService: QuanLyKpiService,
     public fb: FormBuilder,
+    public spinner: NgxSpinnerService,
     @Inject(Injector) private readonly injector: Injector,
   ) {}
 
@@ -163,6 +165,7 @@ export class BoTieuChiComponent implements OnInit {
   }
 
   httpDelete(item) {
+    
     const requestTarget = {
       userName: localStorage.getItem('userName'),
       lstKpiManagerDTO: [],
@@ -176,37 +179,50 @@ export class BoTieuChiComponent implements OnInit {
   }
 
   // common modal confirm alert
+  // eDelete(item) {
+  //   const modalRef = this.modalService.open(CommonAlertDialogComponent, {
+  //     centered: true,
+  //     backdrop: 'static',
+  //   });
+  //   modalRef.componentInstance.data = {
+  //     type: 'WARNING',
+  //     title: 'COMMON_MODAL.WARNING',
+  //     message: this.translate.instant('FUNCTION.CONFIRM_DELETE'),
+  //     continue: true,
+  //     cancel: true,
+  //     btn: [
+  //       { text: this.translate.instant('CANCEL'), className: 'btn-outline-warning btn uppercase mx-2' },
+  //       { text: this.translate.instant('CONTINUE'), className: 'btn btn-warning uppercase mx-2' },
+  //     ],
+  //   };
+  //   modalRef.result.then(
+  //     () => {
+  //       let request = this.httpDelete(item).subscribe((res) => {
+  //         if (res.errorCode === '0') {
+  //           this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_DELETE'));
+  //           this.eSearch();
+  //         } else {
+  //           this.toastrService.error(res.description);
+  //         }
+  //       });
+  //       // this.subscriptions.push(request);
+  //     },
+  //     () => {},
+  //   );
+  // }
+
+  eChangeListKpi() {
+    this.quanLyKpiService.changeListKpi(true);
+  }
+
   eDelete(item) {
-    const modalRef = this.modalService.open(CommonAlertDialogComponent, {
-      centered: true,
-      backdrop: 'static',
-    });
-    modalRef.componentInstance.data = {
-      type: 'WARNING',
-      title: 'COMMON_MODAL.WARNING',
-      message: this.translate.instant('FUNCTION.CONFIRM_DELETE'),
-      continue: true,
-      cancel: true,
-      btn: [
-        { text: this.translate.instant('CANCEL'), className: 'btn-outline-warning btn uppercase mx-2' },
-        { text: this.translate.instant('CONTINUE'), className: 'btn btn-warning uppercase mx-2' },
-      ],
-    };
-    modalRef.result.then(
-      () => {
-        let request = this.httpDelete(item).subscribe((res) => {
-          if (res.errorCode === '0') {
-            this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_DELETE'));
-            // this.activeModal.close();
-            this.eSearch();
-          } else {
-            this.toastrService.error(res.description);
-          }
-        });
-        // this.subscriptions.push(request);
-      },
-      () => {},
-    );
+    this.spinner.show();
+    setTimeout(() => this.spinner.hide(),400);
+    let oldArr = this.quanLyKpiService.responseFromSearchKpi.value;
+    let currentItem = item.kpiManagerId;
+    oldArr = oldArr.filter((item) => item.kpiManagerId != currentItem);
+    this.quanLyKpiService.responseFromSearchKpi.next(oldArr);
+    this.eChangeListKpi();
   }
 
   eSearch() {

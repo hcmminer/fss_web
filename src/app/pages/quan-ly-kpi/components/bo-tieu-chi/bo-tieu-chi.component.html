@@ -147,13 +147,24 @@
               {{ 'TITLE.KPI_MANAGER_CATEGORY' | translate }}
             </span>
           </div>
-          <div (click)="eAddRoot()">
-            <div
-              class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
-              style="height: 38px"
-            >
-              <i class="fas fa-plus mr-2" style="color: green"></i>
-              {{ 'TITLE.ADD_ROOT_KPI' | translate }}
+          <div class="d-flex align-items-center justify-content-between">
+            <div (click)="eAddRoot()">
+              <div
+                class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
+                style="height: 38px"
+              >
+                <i class="fas fa-plus mr-2" style="color: green"></i>
+                {{ 'TITLE.ADD_ROOT_KPI' | translate }}
+              </div>
+            </div>
+            <div (click)="eAddRoot()">
+              <div
+                class="ml-3 px-4 btn btn-outline-primary font-weight-bolder d-flex align-items-center"
+                style="height: 38px"
+              >
+                <i class="fas fa-save mr-2" style="color: green"></i>
+                {{ 'TITLE.SAVE_KPI' | translate }}
+              </div>
             </div>
           </div>
         </div>
@@ -275,4 +286,8 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns" class="blue-row zindex-5"></tr>
     </table>
   </div>
+  <div class="pb-1"></div>
+  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="false"
+    ><p style="color: white">Loading...</p></ngx-spinner
+  >
 </div>

@@ -209,6 +209,8 @@ export class AddTieuChiComponent implements OnInit {
   }
 
   eSave() {
+    this.spinner.show();
+    setTimeout(() => this.spinner.hide(),400);
     function uuid() {
       var temp_url = URL.createObjectURL(new Blob());
       var uuid = temp_url.toString();
