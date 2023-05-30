@@ -4,6 +4,10 @@ export const locale = {
   data: {
     // bandv..
     // begin menu
+    // ..kpi
+    'kpi-management': 'Quản lý các tiêu chí KPI',
+    'KPI-MANAGER-CATEGORY.TITLE':'Danh sách KPI',
+    // ..kpi
     LIST: 'Danh sách',
     'BASIC-CONSTRUCTION': 'Quản lý xây dựng cơ bản',
     'TRANSFER-TO-ASSET': 'Nhập kết chuyển xây dựng cơ bản lên tài sản',
