@@ -1,24 +1,16 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { MatSort } from '@angular/material/sort';
+import { Component, Inject, Injector, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription, fromEvent } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
-import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
+import { Subscription } from 'rxjs';
 import { GlobalService } from 'src/app/pages/_services/global.service';
-import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
-import { CONFIG } from 'src/app/utils/constants';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { arrayToTree } from 'src/app/utils/functions';
 import { AddTieuChiComponent } from '../add-tieu-chi/add-tieu-chi.component';
 import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
-import { MatDatepicker } from '@angular/material/datepicker';
 import { QuanLyKpiService } from 'src/app/pages/_services/quan-ly-kpi.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
