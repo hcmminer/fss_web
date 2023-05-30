@@ -170,7 +170,6 @@ export class BoTieuChiComponent implements OnInit {
     return this.globalService.globalApi(requestTarget, 'addOrUpdateKpiManager');
   }
 
-
   eChangeListKpi() {
     this.quanLyKpiService.changeListKpi(true);
   }
@@ -180,8 +179,18 @@ export class BoTieuChiComponent implements OnInit {
     setTimeout(() => this.spinner.hide(), 400);
     let oldArr = this.quanLyKpiService.responseFromSearchKpi.value;
     let currentItem = item.kpiManagerId;
-    oldArr = oldArr.filter((item) => item.kpiManagerId != currentItem);
-    this.quanLyKpiService.responseFromSearchKpi.next(oldArr);
+    let toDeleteList = [];
+    function deleteNode(id) {
+      toDeleteList.push(id);
+      oldArr
+        .filter((d) => d.parentId === id)
+        .forEach((child) => {
+          toDeleteList.push(child.kpiManagerId);
+          deleteNode(child.kpiManagerId);
+        });
+      return oldArr.filter((d) => !toDeleteList.includes(d.kpiManagerId));
+    }
+    this.quanLyKpiService.responseFromSearchKpi.next(deleteNode(currentItem));
     this.eChangeListKpi();
   }
 
@@ -268,7 +277,6 @@ export class BoTieuChiComponent implements OnInit {
       ],
     });
   }
-
 
   eChangeDate1(event) {
     if (event.target.value === '') {
