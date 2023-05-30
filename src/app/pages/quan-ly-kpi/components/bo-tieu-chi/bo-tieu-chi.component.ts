@@ -64,7 +64,7 @@ export class BoTieuChiComponent implements OnInit {
 
   displayedColumns: string[] = [
     'kpiName',
-    'kpiCode',
+    // 'kpiCode',
     'kpiNameVi',
     'kpiNameLa',
     'contentVi',
