@@ -265,7 +265,8 @@ export const locale = {
     },
     TITLE: {
       // Quan ly kpi...
-      DUYET_KPI: 'Duyệt',
+      ADD_ROOT_KPI: 'Thêm mới tiêu chí cha',
+      DUYET_KPI: 'Duyệt toàn bộ các tiêu chí',
       INFO_KPI: 'Thông tin duyệt KPI',
       NAME_KPI: 'Tên KPI',
       KPI_MANAGEMENT: 'Quản lý KPI',

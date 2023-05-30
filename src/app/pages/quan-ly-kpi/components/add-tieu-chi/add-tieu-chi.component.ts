@@ -82,9 +82,9 @@ export class AddTieuChiComponent implements OnInit {
 
   ngOnInit(): void {
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
-
     if (this.isUpdate) {
       this.kpiManagerId = this.propData?.kpiManagerId;
+      this.parentId = this.propData.parentId;
       this.kpiNameVi = this.propData.kpiNameVi;
       this.kpiNameLa = this.propData.kpiNameLa;
       this.contentVi = this.propData.contentVi;
@@ -209,8 +209,15 @@ export class AddTieuChiComponent implements OnInit {
   }
 
   eSave() {
-    const targetItem = {
-      kpiManagerId: this.kpiManagerId,
+    function uuid() {
+      var temp_url = URL.createObjectURL(new Blob());
+      var uuid = temp_url.toString();
+      URL.revokeObjectURL(temp_url);
+      return uuid.substr(uuid.lastIndexOf('/') + 1);
+    }
+    let targetItem = {
+      kpiManagerId: 'fake' + uuid(),
+      parentId: this.parentId,
       kpiNameVi: this.addEditForm.get('kpiNameVi').value,
       kpiNameLa: this.addEditForm.get('kpiNameLa').value,
       contentVi: this.addEditForm.get('contentVi').value,
@@ -220,10 +227,18 @@ export class AddTieuChiComponent implements OnInit {
       staffCode: this.addEditForm.get('staffCode').value,
       kpiPoint: this.addEditForm.get('kpiPoint').value,
     };
-    const oldArr = this.quanLyKpiService.responseFromSearchKpi.value;
-    const newArr = oldArr.filter((item) => item.kpiManagerId != targetItem.kpiManagerId);
-    newArr.push(targetItem);
-    this.quanLyKpiService.responseFromSearchKpi.next(newArr);
+    if (this.isUpdate) {
+      let oldArr = this.quanLyKpiService.responseFromSearchKpi.value;
+      let targetItemNew = { ...targetItem, kpiManagerId: this.kpiManagerId };
+      oldArr = oldArr.filter((item) => item.kpiManagerId != targetItemNew.kpiManagerId);
+      oldArr.push(targetItemNew);
+      this.quanLyKpiService.responseFromSearchKpi.next(oldArr);
+    } else {
+      const oldArr = this.quanLyKpiService.responseFromSearchKpi.value;
+      oldArr.push(targetItem);
+      this.quanLyKpiService.responseFromSearchKpi.next(oldArr);
+      console.log(oldArr);
+    }
     this.eChangeListKpi();
   }
 

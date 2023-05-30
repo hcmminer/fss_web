@@ -100,7 +100,7 @@ export class BoTieuChiComponent implements OnInit {
     this.loadSearhForm();
     this.loadAddEditForm();
     const saveEvent = this.quanLyKpiService.savedListKpiEvent.subscribe(() => {
-      this.dataSource.data = this.quanLyKpiService.responseFromSearchKpi.value;
+      this.dataSource.data = arrayToTree(this.convertLang(this.quanLyKpiService.responseFromSearchKpi.value));
     });
     this.subscriptions.push(saveEvent);
   }
