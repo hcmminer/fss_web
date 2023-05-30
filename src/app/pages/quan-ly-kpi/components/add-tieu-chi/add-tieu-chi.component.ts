@@ -159,46 +159,6 @@ export class AddTieuChiComponent implements OnInit {
       : this.globalService.globalApi(requestTarget2, 'addOrUpdateKpiManager');
   }
 
-  // common modal confirm alert
-  // eSave() {
-  //   if (!this.isValidForm()) {
-  //     this.addEditForm.markAllAsTouched();
-  //     return;
-  //   }
-  //   const modalRef = this.modalService.open(CommonAlertDialogComponent, {
-  //     centered: true,
-  //     backdrop: 'static',
-  //   });
-  //   modalRef.componentInstance.data = {
-  //     type: 'WARNING',
-  //     title: 'COMMON_MODAL.WARNING',
-  //     message: !this.isUpdate
-  //       ? this.translate.instant('FUNCTION.CONFIRM_ADD')
-  //       : this.translate.instant('FUNCTION.CONFIRM_UPDATE'),
-  //     continue: true,
-  //     cancel: true,
-  //     btn: [
-  //       { text: this.translate.instant('CANCEL'), className: 'btn-outline-warning btn uppercase mx-2' },
-  //       { text: this.translate.instant('CONTINUE'), className: 'btn btn-warning uppercase mx-2' },
-  //     ],
-  //   };
-  //   modalRef.result.then(
-  //     () => {
-  //       let request = this.httpAddOrEdit().subscribe((res) => {
-  //         if (res.errorCode === '0') {
-  //           !this.isUpdate
-  //             ? this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_ADD'))
-  //             : this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_UPDATE'));
-  //           this.activeModal.close();
-  //         } else {
-  //           this.toastrService.error(res.description);
-  //         }
-  //       });
-  //       this.subscriptions.push(request);
-  //     },
-  //     () => {},
-  //   );
-  // }
 
   eChangeListKpi() {
     this.quanLyKpiService.changeListKpi(true);

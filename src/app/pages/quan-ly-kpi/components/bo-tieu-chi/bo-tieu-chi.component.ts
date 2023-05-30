@@ -170,38 +170,6 @@ export class BoTieuChiComponent implements OnInit {
     return this.globalService.globalApi(requestTarget, 'addOrUpdateKpiManager');
   }
 
-  // common modal confirm alert
-  // eDelete(item) {
-  //   const modalRef = this.modalService.open(CommonAlertDialogComponent, {
-  //     centered: true,
-  //     backdrop: 'static',
-  //   });
-  //   modalRef.componentInstance.data = {
-  //     type: 'WARNING',
-  //     title: 'COMMON_MODAL.WARNING',
-  //     message: this.translate.instant('FUNCTION.CONFIRM_DELETE'),
-  //     continue: true,
-  //     cancel: true,
-  //     btn: [
-  //       { text: this.translate.instant('CANCEL'), className: 'btn-outline-warning btn uppercase mx-2' },
-  //       { text: this.translate.instant('CONTINUE'), className: 'btn btn-warning uppercase mx-2' },
-  //     ],
-  //   };
-  //   modalRef.result.then(
-  //     () => {
-  //       let request = this.httpDelete(item).subscribe((res) => {
-  //         if (res.errorCode === '0') {
-  //           this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_DELETE'));
-  //           this.eSearch();
-  //         } else {
-  //           this.toastrService.error(res.description);
-  //         }
-  //       });
-  //       // this.subscriptions.push(request);
-  //     },
-  //     () => {},
-  //   );
-  // }
 
   eChangeListKpi() {
     this.quanLyKpiService.changeListKpi(true);
@@ -301,22 +269,6 @@ export class BoTieuChiComponent implements OnInit {
     });
   }
 
-  //
-  // if (event.target.value === '') {
-  //   this.constructionDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
-  //     name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
-  //   });
-  //   return;
-  // }
-  // let tempStartDate = this.transform(this.addForm.get('constructionDateStr').value);
-  // if (tempStartDate === null || tempStartDate === undefined) {
-  //   this.constructionDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
-  //     name: this.translate.instant('LABEL.CONSTRUCTION_DATE'),
-  //   });
-  //   return;
-  // }
-  // this.constructionDateErrorMsg = '';
-  //
 
   eChangeDate1(event) {
     if (event.target.value === '') {
