@@ -164,44 +164,67 @@ export class AddTieuChiComponent implements OnInit {
   }
 
   // common modal confirm alert
+  // eSave() {
+  //   if (!this.isValidForm()) {
+  //     this.addEditForm.markAllAsTouched();
+  //     return;
+  //   }
+  //   const modalRef = this.modalService.open(CommonAlertDialogComponent, {
+  //     centered: true,
+  //     backdrop: 'static',
+  //   });
+  //   modalRef.componentInstance.data = {
+  //     type: 'WARNING',
+  //     title: 'COMMON_MODAL.WARNING',
+  //     message: !this.isUpdate
+  //       ? this.translate.instant('FUNCTION.CONFIRM_ADD')
+  //       : this.translate.instant('FUNCTION.CONFIRM_UPDATE'),
+  //     continue: true,
+  //     cancel: true,
+  //     btn: [
+  //       { text: this.translate.instant('CANCEL'), className: 'btn-outline-warning btn uppercase mx-2' },
+  //       { text: this.translate.instant('CONTINUE'), className: 'btn btn-warning uppercase mx-2' },
+  //     ],
+  //   };
+  //   modalRef.result.then(
+  //     () => {
+  //       let request = this.httpAddOrEdit().subscribe((res) => {
+  //         if (res.errorCode === '0') {
+  //           !this.isUpdate
+  //             ? this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_ADD'))
+  //             : this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_UPDATE'));
+  //           this.activeModal.close();
+  //         } else {
+  //           this.toastrService.error(res.description);
+  //         }
+  //       });
+  //       this.subscriptions.push(request);
+  //     },
+  //     () => {},
+  //   );
+  // }
+
+  eChangeListKpi() {
+    this.quanLyKpiService.changeListKpi(true);
+  }
+
   eSave() {
-    if (!this.isValidForm()) {
-      this.addEditForm.markAllAsTouched();
-      return;
-    }
-    const modalRef = this.modalService.open(CommonAlertDialogComponent, {
-      centered: true,
-      backdrop: 'static',
-    });
-    modalRef.componentInstance.data = {
-      type: 'WARNING',
-      title: 'COMMON_MODAL.WARNING',
-      message: !this.isUpdate
-        ? this.translate.instant('FUNCTION.CONFIRM_ADD')
-        : this.translate.instant('FUNCTION.CONFIRM_UPDATE'),
-      continue: true,
-      cancel: true,
-      btn: [
-        { text: this.translate.instant('CANCEL'), className: 'btn-outline-warning btn uppercase mx-2' },
-        { text: this.translate.instant('CONTINUE'), className: 'btn btn-warning uppercase mx-2' },
-      ],
+    const targetItem = {
+      kpiManagerId: this.kpiManagerId,
+      kpiNameVi: this.addEditForm.get('kpiNameVi').value,
+      kpiNameLa: this.addEditForm.get('kpiNameLa').value,
+      contentVi: this.addEditForm.get('contentVi').value,
+      contentLa: this.addEditForm.get('contentLa').value,
+      kpiPolicyVi: this.addEditForm.get('kpiPolicyVi').value,
+      kpiPolicyLa: this.addEditForm.get('kpiPolicyLa').value,
+      staffCode: this.addEditForm.get('staffCode').value,
+      kpiPoint: this.addEditForm.get('kpiPoint').value,
     };
-    modalRef.result.then(
-      () => {
-        let request = this.httpAddOrEdit().subscribe((res) => {
-          if (res.errorCode === '0') {
-            !this.isUpdate
-              ? this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_ADD'))
-              : this.toastrService.success(this.translate.instant('FUNCTION.SUCCSESS_UPDATE'));
-            this.activeModal.close();
-          } else {
-            this.toastrService.error(res.description);
-          }
-        });
-        this.subscriptions.push(request);
-      },
-      () => {},
-    );
+    const oldArr = this.quanLyKpiService.responseFromSearchKpi.value;
+    const newArr = oldArr.filter((item) => item.kpiManagerId != targetItem.kpiManagerId);
+    newArr.push(targetItem);
+    this.quanLyKpiService.responseFromSearchKpi.next(newArr);
+    this.eChangeListKpi();
   }
 
   isValidForm(): boolean {
@@ -261,6 +284,4 @@ export class AddTieuChiComponent implements OnInit {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
-
- 
 }

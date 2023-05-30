@@ -19,6 +19,7 @@ import { arrayToTree } from 'src/app/utils/functions';
 import { AddTieuChiComponent } from '../add-tieu-chi/add-tieu-chi.component';
 import { CommonAlertDialogComponent } from 'src/app/pages/common/common-alert-dialog/common-alert-dialog.component';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { QuanLyKpiService } from 'src/app/pages/_services/quan-ly-kpi.service';
 
 @Component({
   selector: 'app-bo-tieu-chi',
@@ -26,6 +27,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
   styleUrls: ['./bo-tieu-chi.component.scss'],
 })
 export class BoTieuChiComponent implements OnInit {
+  private subscriptions: Subscription[] = [];
   inputDate = new Date();
   beginContractDate;
   expiredContractDate;
@@ -88,6 +90,7 @@ export class BoTieuChiComponent implements OnInit {
     public translate: TranslateService,
     public toastrService: ToastrService,
     private globalService: GlobalService,
+    public quanLyKpiService: QuanLyKpiService,
     public fb: FormBuilder,
     @Inject(Injector) private readonly injector: Injector,
   ) {}
@@ -96,6 +99,10 @@ export class BoTieuChiComponent implements OnInit {
     this.getMaxDateContract();
     this.loadSearhForm();
     this.loadAddEditForm();
+    const saveEvent = this.quanLyKpiService.savedListKpiEvent.subscribe(() => {
+      this.dataSource.data = this.quanLyKpiService.responseFromSearchKpi.value;
+    });
+    this.subscriptions.push(saveEvent);
   }
 
   getMaxDateContract() {
@@ -202,8 +209,6 @@ export class BoTieuChiComponent implements OnInit {
     );
   }
 
-  responseFromSearchApi = [];
-
   eSearch() {
     const req = {
       userName: localStorage.getItem('userName'),
@@ -211,10 +216,10 @@ export class BoTieuChiComponent implements OnInit {
     };
     const res = this.globalService.globalApi(req, 'searchKpiManager').subscribe((res) => {
       if (res.errorCode == '0') {
-        this.responseFromSearchApi = res.data;
+        this.quanLyKpiService.responseFromSearchKpi.next(res.data);
         this.dataSource.data = arrayToTree(this.convertLang(res.data));
       } else {
-        this.dataSource.data = null;
+        this.quanLyKpiService.responseFromSearchKpi.next(null);
       }
     });
   }
@@ -325,5 +330,9 @@ export class BoTieuChiComponent implements OnInit {
       return;
     }
     this.t3msg = '';
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
 }

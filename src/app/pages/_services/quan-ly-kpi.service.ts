@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, Subscription, of } from 'rxjs';
 import { RequestApiModelOld } from '../_models/requestOld-api.model';
 import { HTTPService } from './http.service';
@@ -22,6 +22,8 @@ export class QuanLyKpiService {
   cbxAssetCodeIncrease = new BehaviorSubject<any[]>([]);
   cbxAssetCodeReportBC = new BehaviorSubject<any[]>([]);
   cbxStaffKpi = new BehaviorSubject<any[]>([]);
+  responseFromSearchKpi = new BehaviorSubject<any[]>([]);
+  savedListKpiEvent = new EventEmitter<boolean>();
   initHeader: {};
   header = {
     'Content-Type': 'application/json',
@@ -43,6 +45,11 @@ export class QuanLyKpiService {
       ...this.header,
     };
   }
+
+  changeListKpi(info: boolean) {
+    this.savedListKpiEvent.emit(info);
+  }
+
   getListOrganisation(query: RequestApiModelOld, redirectFunction, allowDefault: boolean) {
     const request = this.globalService
       .globalApi(query, redirectFunction)
