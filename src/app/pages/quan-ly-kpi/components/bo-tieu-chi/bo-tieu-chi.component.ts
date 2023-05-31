@@ -203,7 +203,7 @@ export class BoTieuChiComponent implements OnInit {
       return oldArr.filter((d) => toDeleteList.includes(d.kpiManagerIdStr));
     }
     this.quanLyKpiService.responseFromSearchKpi.next(deleteNode(currentItem));
-    this.deletedArr = targetDeleteNode(currentItem);
+    this.deletedArr = this.deletedArr.concat(targetDeleteNode(currentItem));
     this.eChangeListKpi();
   }
 
