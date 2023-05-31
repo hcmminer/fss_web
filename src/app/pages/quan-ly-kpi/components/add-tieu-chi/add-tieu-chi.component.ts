@@ -45,8 +45,8 @@ export class AddTieuChiComponent implements OnInit {
   isUpdate;
   date = new Date();
   propData;
-  kpiManagerId;
-  parentId;
+  kpiManagerIdStr;
+  parentIdStr;
   kpiNameVi;
   kpiNameLa;
   contentVi;
@@ -79,8 +79,8 @@ export class AddTieuChiComponent implements OnInit {
   ngOnInit(): void {
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     if (this.isUpdate) {
-      this.kpiManagerId = this.propData?.kpiManagerId;
-      this.parentId = this.propData.parentId;
+      this.kpiManagerIdStr = this.propData?.kpiManagerIdStr;
+      this.parentIdStr = this.propData.parentIdStr;
       this.kpiNameVi = this.propData.kpiNameVi;
       this.kpiNameLa = this.propData.kpiNameLa;
       this.contentVi = this.propData.contentVi;
@@ -90,7 +90,7 @@ export class AddTieuChiComponent implements OnInit {
       this.staffCode = this.propData.staffCode;
       this.kpiPoint = this.propData.kpiPoint;
     } else {
-      this.parentId = this.propData?.kpiManagerId ?? null;
+      this.parentIdStr = this.propData?.kpiManagerIdStr ?? null;
     }
     this.loadAddEditForm();
     this.getCbxStaffKpi();
@@ -122,7 +122,7 @@ export class AddTieuChiComponent implements OnInit {
   httpAddOrEdit() {
     const dto1 = [
       {
-        parentId: this.parentId,
+        parentIdStr: this.parentIdStr,
         kpiNameVi: this.addEditForm.get('kpiNameVi').value,
         kpiNameLa: this.addEditForm.get('kpiNameLa').value,
         contentVi: this.addEditForm.get('contentVi').value,
@@ -135,7 +135,7 @@ export class AddTieuChiComponent implements OnInit {
     ];
     const dto2 = [
       {
-        kpiManagerId: this.kpiManagerId,
+        kpiManagerIdStr: this.kpiManagerIdStr,
         kpiNameVi: this.addEditForm.get('kpiNameVi').value,
         kpiNameLa: this.addEditForm.get('kpiNameLa').value,
         contentVi: this.addEditForm.get('contentVi').value,
@@ -174,8 +174,8 @@ export class AddTieuChiComponent implements OnInit {
       return uuid.substr(uuid.lastIndexOf('/') + 1);
     }
     let targetItem = {
-      kpiManagerId: 'fake' + uuid(),
-      parentId: this.parentId,
+      kpiManagerIdStr: 'fake' + uuid(),
+      parentIdStr: this.parentIdStr,
       kpiNameVi: this.addEditForm.get('kpiNameVi').value,
       kpiNameLa: this.addEditForm.get('kpiNameLa').value,
       contentVi: this.addEditForm.get('contentVi').value,
@@ -187,8 +187,8 @@ export class AddTieuChiComponent implements OnInit {
     };
     if (this.isUpdate) {
       let oldArr = this.quanLyKpiService.responseFromSearchKpi.value;
-      let targetItemNew = { ...targetItem, kpiManagerId: this.kpiManagerId };
-      oldArr = oldArr.filter((item) => item.kpiManagerId != targetItemNew.kpiManagerId);
+      let targetItemNew = { ...targetItem, kpiManagerIdStr: this.kpiManagerIdStr };
+      oldArr = oldArr.filter((item) => item.kpiManagerIdStr != targetItemNew.kpiManagerIdStr);
       oldArr.push(targetItemNew);
       this.quanLyKpiService.responseFromSearchKpi.next(oldArr);
     } else {

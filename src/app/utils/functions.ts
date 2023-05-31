@@ -81,8 +81,8 @@ export const timeToName = (t) => {
   return name;
 };
 
-export const arrayToTree = (arr, parentId = null) => {
+export const arrayToTree = (arr, parentIdStr = '') => {
   return arr
-    .filter((item) => item.parentId === parentId)
-    .map((child) => ({ ...child, children: arrayToTree(arr, child.kpiManagerId) }));
+    .filter((item) => item.parentIdStr === parentIdStr)
+    .map((child) => ({ ...child, children: arrayToTree(arr, child.kpiManagerIdStr) }));
 };

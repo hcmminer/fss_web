@@ -33,8 +33,8 @@ export class BoTieuChiComponent implements OnInit {
     return {
       expandable: !!node.children && node.children.length > 0,
       level: level,
-      kpiManagerId: node.kpiManagerId,
-      parentId: node.parentId,
+      kpiManagerIdStr: node.kpiManagerIdStr,
+      parentIdStr: node.parentIdStr,
       kpiName: node.kpiName,
       kpiCode: node.kpiCode,
       kpiNameVi: node.kpiNameVi,
@@ -163,7 +163,7 @@ export class BoTieuChiComponent implements OnInit {
       lstKpiManagerDTO: [],
       lstKpiManagerDTODelete: [
         {
-          kpiManagerId: item.kpiManagerId,
+          kpiManagerIdStr: item.kpiManagerIdStr,
         },
       ],
     };
@@ -178,17 +178,17 @@ export class BoTieuChiComponent implements OnInit {
     this.spinner.show();
     setTimeout(() => this.spinner.hide(), 400);
     let oldArr = this.quanLyKpiService.responseFromSearchKpi.value;
-    let currentItem = item.kpiManagerId;
+    let currentItem = item.kpiManagerIdStr;
     let toDeleteList = [];
     function deleteNode(id) {
       toDeleteList.push(id);
       oldArr
-        .filter((d) => d.parentId === id)
+        .filter((d) => d.parentIdStr === id)
         .forEach((child) => {
-          toDeleteList.push(child.kpiManagerId);
-          deleteNode(child.kpiManagerId);
+          toDeleteList.push(child.kpiManagerIdStr);
+          deleteNode(child.kpiManagerIdStr);
         });
-      return oldArr.filter((d) => !toDeleteList.includes(d.kpiManagerId));
+      return oldArr.filter((d) => !toDeleteList.includes(d.kpiManagerIdStr));
     }
     this.quanLyKpiService.responseFromSearchKpi.next(deleteNode(currentItem));
     this.eChangeListKpi();
