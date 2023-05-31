@@ -90,7 +90,7 @@ export class AddTieuChiComponent implements OnInit {
       this.staffCode = this.propData.staffCode;
       this.kpiPoint = this.propData.kpiPoint;
     } else {
-      this.parentIdStr = this.propData?.kpiManagerIdStr ?? null;
+      this.parentIdStr = this.propData?.kpiManagerIdStr ?? '';
     }
     this.loadAddEditForm();
     this.getCbxStaffKpi();
@@ -159,14 +159,13 @@ export class AddTieuChiComponent implements OnInit {
       : this.globalService.globalApi(requestTarget2, 'addOrUpdateKpiManager');
   }
 
-
   eChangeListKpi() {
     this.quanLyKpiService.changeListKpi(true);
   }
 
   eSave() {
     this.spinner.show();
-    setTimeout(() => this.spinner.hide(),400);
+    setTimeout(() => this.spinner.hide(), 400);
     function uuid() {
       var temp_url = URL.createObjectURL(new Blob());
       var uuid = temp_url.toString();
@@ -195,7 +194,6 @@ export class AddTieuChiComponent implements OnInit {
       const oldArr = this.quanLyKpiService.responseFromSearchKpi.value;
       oldArr.push(targetItem);
       this.quanLyKpiService.responseFromSearchKpi.next(oldArr);
-      console.log(oldArr);
     }
     this.eChangeListKpi();
     this.activeModal.close();

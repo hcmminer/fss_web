@@ -128,7 +128,7 @@ export class BoTieuChiComponent implements OnInit {
       size: 'xl',
     });
     modalRef.result.then(() => {
-      this.eSearch();
+      // this.eSearch();
     });
   }
 
@@ -140,7 +140,7 @@ export class BoTieuChiComponent implements OnInit {
     });
     modalRef.componentInstance.propData = item;
     modalRef.result.then(() => {
-      this.eSearch();
+      // this.eSearch();
     });
   }
 
@@ -153,7 +153,7 @@ export class BoTieuChiComponent implements OnInit {
     modalRef.componentInstance.propData = item;
     modalRef.componentInstance.isUpdate = true;
     modalRef.result.then(() => {
-      this.eSearch();
+      // this.eSearch();
     });
   }
 
@@ -174,6 +174,8 @@ export class BoTieuChiComponent implements OnInit {
     this.quanLyKpiService.changeListKpi(true);
   }
 
+  deletedArr = [];
+
   eDelete(item) {
     this.spinner.show();
     setTimeout(() => this.spinner.hide(), 400);
@@ -190,13 +192,31 @@ export class BoTieuChiComponent implements OnInit {
         });
       return oldArr.filter((d) => !toDeleteList.includes(d.kpiManagerIdStr));
     }
+    function targetDeleteNode(id) {
+      toDeleteList.push(id);
+      oldArr
+        .filter((d) => d.parentIdStr === id)
+        .forEach((child) => {
+          toDeleteList.push(child.kpiManagerIdStr);
+          targetDeleteNode(child.kpiManagerIdStr);
+        });
+      return oldArr.filter((d) => toDeleteList.includes(d.kpiManagerIdStr));
+    }
     this.quanLyKpiService.responseFromSearchKpi.next(deleteNode(currentItem));
+    this.deletedArr = targetDeleteNode(currentItem);
     this.eChangeListKpi();
   }
 
   apiSaveAll() {
-    const req = {};
-    return this.globalService.globalApi(req, '');
+    let req = {
+      userName: localStorage.getItem('userName'),
+      checkUpdate: false,
+      beginContractDate: this.addEditForm.get('beginContractDate').value,
+      expiredContractDate: this.addEditForm.get('expiredContractDate').value,
+      lstKpiManagerDTO: this.dataSource.data,
+      lstKpiManagerDTODelete: this.deletedArr
+    };
+    return this.globalService.globalApi(req, 'addOrUpdateKpiManager');
   }
 
   // common modal confirm alert
