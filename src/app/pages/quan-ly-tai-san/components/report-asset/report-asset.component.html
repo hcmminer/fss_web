@@ -112,7 +112,7 @@
                   'LABEL.TYPE_REPORT' | translate
                 }}</label>
                 <div class="col-lg-4 col-sm-12">
-                  <select class="form-control font-14" (change)="eChangeReportType()" name="reportType" id="reportType" formControlName="reportType">
+                  <select class="form-control font-14"  name="reportType" id="reportType" formControlName="reportType">
                     <ng-container *ngFor="let item of reportType">
                       <option [value]="item.id">
                         {{ item.reportName | translate }}
@@ -198,7 +198,7 @@
       <div class="pt-5">
         <div class="table-responsive angular-bootstrap-table">
           <div class="mat-elevation-z8" style="overflow-x: scroll; width: 100%">
-            <table mat-table [dataSource]="dataSource" *ngIf="searchForm.get('reportType').value != 3">
+            <table mat-table [dataSource]="dataSource" *ngIf="reportTypeToChangeTable != 3">
               <!-- Index Column -->
               <ng-container matColumnDef="index">
                 <th mat-header-cell *matHeaderCellDef rowspan="2">
@@ -488,7 +488,7 @@
               </tr>
             </table>
 
-            <table mat-table [dataSource]="dataSource" *ngIf="searchForm.get('reportType').value == 3">
+            <table mat-table [dataSource]="dataSource" *ngIf="reportTypeToChangeTable == 3">
               <!-- Index Column -->
               <ng-container matColumnDef="index">
                 <th mat-header-cell *matHeaderCellDef rowspan="3">
@@ -1004,8 +1004,13 @@
       </div>
       <mat-paginator
         #paginator
+        style-paginator
+        [length]="totalRecord | async"
+        [dataChange]="dataChange"
         (page)="onPaginateChange($event)"
-        [pageSize]="20"
+        [showTotalPages]="showTotalPages | async"
+ 
+        [pageSize]="pageSize"
         [pageSizeOptions]="[10, 20, 25, 30, 50]"
         showFirstLastButtons
         aria-label="Select page of results"

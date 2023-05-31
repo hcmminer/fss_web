@@ -152,7 +152,7 @@ export class FormAddTransferAssetComponent implements OnInit {
       this.loadAddForm();
     }
 
-    this.addEditForm.get('parentAssetCode').valueChanges.subscribe((assetValue) => {
+    this.addEditForm.get('parentAssetCode').valueChanges.pipe(debounceTime(800)).subscribe((assetValue) => {
       let tempParentAssetCode = !this.addEditForm.get('parentAssetCode').value.assetCode
         ? this.addEditForm.get('parentAssetCode').value
         : this.addEditForm.get('parentAssetCode').value.assetCode;
@@ -173,7 +173,7 @@ export class FormAddTransferAssetComponent implements OnInit {
       organisation.updateValueAndValidity();
     });
 
-    this.addEditForm.get('assetCode').valueChanges.subscribe((assetValue) => {
+    this.addEditForm.get('assetCode').valueChanges.pipe(debounceTime(800)).subscribe((assetValue) => {
       debugger;
       let tempAssetCode = !this.addEditForm.get('assetCode').value.assetCode
         ? this.addEditForm.get('assetCode').value

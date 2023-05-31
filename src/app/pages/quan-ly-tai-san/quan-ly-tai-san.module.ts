@@ -35,7 +35,7 @@ import { ViewHisOpenDepComponent } from './components/open-dep/view-his-open-dep
 import { DetailImportIncreaseAssetComponent } from './components/import-increase-asset/detail-import-increase-asset/detail-import-increase-asset.component';
 import { AeByFileOpenDepComponent } from './components/open-dep/ae-by-file-open-dep/ae-by-file-open-dep.component';
 import { LiquidateOldAssetComponent } from './components/iquidate-asset/liquidate-old-asset/liquidate-old-asset.component';
-
+import { StylePaginatorDirective } from './components/report-asset/style-paginator.directive';
 @NgModule({
   declarations: [
     QuanLyTaiSanComponent,
@@ -53,7 +53,9 @@ import { LiquidateOldAssetComponent } from './components/iquidate-asset/liquidat
     ViewHisOpenDepComponent,
     DetailImportIncreaseAssetComponent,
     AeByFileOpenDepComponent,
-    LiquidateOldAssetComponent],
+    LiquidateOldAssetComponent,
+    StylePaginatorDirective,
+  ],
   imports: [
     CommonModule,
     QuanLyTaiSanRoutingModule,

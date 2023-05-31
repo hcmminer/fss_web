@@ -16,6 +16,7 @@ import { CONFIG } from 'src/app/utils/constants';
 import { FormAddLiquidateAssetComponent } from './form-add-iquidate-asset/form-add-liquidate-asset.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { LiquidateOldAssetComponent } from './liquidate-old-asset/liquidate-old-asset.component';
 
 const queryInit = {
   groupFilter: '',
@@ -225,6 +226,30 @@ export class LiquidateAssetComponent implements OnInit {
     });
     modalRef.componentInstance.item = item;
     modalRef.componentInstance.isTransferByFile = isTransferByFile;
+    const requestTarget = {
+      userName: this.userName,
+      searchDTO: {
+        groupFilter: this.query.groupFilter,
+        departmentCode: this.searchForm.get('organisation').value,
+        fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
+        toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+        sourceOfAsset: this.searchForm.get('sourceOfAsset').value,
+      },
+    };
+    modalRef.componentInstance.req = requestTarget;
+    modalRef.result.then((result) => {
+      this.eSearch();
+      this.initCombobox();
+    });
+  }
+
+  //display form old liquidate
+  displayFormAddOld(){
+    const modalRef = this.modalService.open(LiquidateOldAssetComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl',
+    });
     const requestTarget = {
       userName: this.userName,
       searchDTO: {

@@ -10,14 +10,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription, fromEvent } from 'rxjs';
+import { BehaviorSubject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
 import { GlobalService } from 'src/app/pages/_services/global.service';
 import { openingBalanceService } from 'src/app/pages/_services/opening-balance.service';
 import { CONFIG } from 'src/app/utils/constants';
 import { timeToName } from 'src/app/utils/functions';
-
 
 const queryInit = {
   groupFilter: '',
@@ -58,7 +57,7 @@ export const MY_FORMATS = {
 })
 export class ReportAssetComponent implements OnInit {
   currentPage = 1;
-  @ViewChild('autoFocus') private _inputElement: ElementRef; 
+  @ViewChild('autoFocus') private _inputElement: ElementRef;
   pageSize: number = 10;
   source: any;
   ngAfterViewInit(): void {
@@ -89,18 +88,46 @@ export class ReportAssetComponent implements OnInit {
   isAdmin: any;
   selectedTabIndex = 0;
   private modal: any;
-  reportType = [{ id: 1, reportName: 'LABEL.SYNTHESIS_REPORT' }, { id: 2, reportName: 'LABEL.DETAILED_REPORT' }, { id: 3, reportName: 'LABEL.GROUP_REPORT' }]
+
+  reportTypeToChangeTable = 1;
+  reportType = [
+    { id: 1, reportName: 'LABEL.SYNTHESIS_REPORT' },
+    { id: 2, reportName: 'LABEL.DETAILED_REPORT' },
+    { id: 3, reportName: 'LABEL.GROUP_REPORT' },
+  ];
   query = {
     ...queryInit,
   };
   maxDate = new Date();
   // cbxStatusAppraisal = [];
   columnsToDisplay = [
-    'index', 'departmentCode', 'assetCode', 'sourceOfAsset', 'depreciationFrame', 'depreciationStartDateStr', 'issueDateStr', 'sodauky', 'phatsinhtang', 'phatsinhgiam',
-    'soducuoiky', 'beginOriginalAmount', 'beginAmount', 'beginAvailable', 'increaseOriginalAmount', 'increaseAmount',
-    'increaseAvailable', 'decreaseOriginalAmount', 'decreaseAmount', 'decreaseAvailable', 'endOriginalAmount', 'endAmount', 'endAvailable'
+    'index',
+    'departmentCode',
+    'assetCode',
+    'sourceOfAsset',
+    'depreciationFrame',
+    'depreciationStartDateStr',
+    'issueDateStr',
+    'sodauky',
+    'phatsinhtang',
+    'phatsinhgiam',
+    'soducuoiky',
+    'beginOriginalAmount',
+    'beginAmount',
+    'beginAvailable',
+    'increaseOriginalAmount',
+    'increaseAmount',
+    'increaseAvailable',
+    'decreaseOriginalAmount',
+    'decreaseAmount',
+    'decreaseAvailable',
+    'endOriginalAmount',
+    'endAmount',
+    'endAvailable',
   ];
-
+  public dataChange = false;
+  public totalRecord = new BehaviorSubject<any>(0);
+  public showTotalPages = new BehaviorSubject<any>(0);
   constructor(
     public translate: TranslateService,
     private fb: FormBuilder,
@@ -121,17 +148,16 @@ export class ReportAssetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initCombobox()
+    this.initCombobox();
     this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
     this.isAdmin = this.userRes.isAdmin;
     this.eSearch();
-
   }
 
-  eChangeDate(event, typeDate:String) {
-    if(typeDate === 'end'){
+  eChangeDate(event, typeDate: String) {
+    if (typeDate === 'end') {
       if (event.target.value === '') {
         this.endDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
           name: this.translate.instant('DATE.TO_DATE'),
@@ -146,7 +172,7 @@ export class ReportAssetComponent implements OnInit {
         return;
       }
       this.endDateErrorMsg = '';
-    }else if(typeDate === 'startDetail'){
+    } else if (typeDate === 'startDetail') {
       if (event.target.value === '') {
         this.startDetailDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
           name: this.translate.instant('DATE.FROM_DATE'),
@@ -161,7 +187,7 @@ export class ReportAssetComponent implements OnInit {
         return;
       }
       this.startDetailDateErrorMsg = '';
-    }else if(typeDate === 'endDetail'){
+    } else if (typeDate === 'endDetail') {
       if (event.target.value === '') {
         this.endDetailDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
           name: this.translate.instant('DATE.TO_DATE'),
@@ -177,11 +203,7 @@ export class ReportAssetComponent implements OnInit {
       }
       this.endDetailDateErrorMsg = '';
     }
-  
   }
-
-
-
 
   // init data for view form search
   loadSearchForm() {
@@ -193,7 +215,7 @@ export class ReportAssetComponent implements OnInit {
       startDetail: [this.query.startDate],
       end: [this.query.endDate],
       endDetail: [this.query.endDate],
-      reportType: 1
+      reportType: 1,
     });
   }
 
@@ -206,6 +228,7 @@ export class ReportAssetComponent implements OnInit {
   //change type report
 
   eSearch() {
+    this.reportTypeToChangeTable = +this.searchForm.get('reportType').value;
     if (!this.isValidForm()) {
       this.searchForm.markAllAsTouched();
       return;
@@ -214,13 +237,20 @@ export class ReportAssetComponent implements OnInit {
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
+        this.dataChange = !this.dataChange;
         this.openingBalanceService.listDataReport.next(res.data);
         this.dataSource = new MatTableDataSource(this.openingBalanceService.listDataReport.value);
-        this.dataSource.paginator = this.paginator;
+        // this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.totalRecord.next(res.totalSuccess);
+        this.showTotalPages.next(
+          Math.ceil(res.totalSuccess / this.pageSize) <= 5 ? Math.ceil(res.totalSuccess / this.pageSize) : 5,
+        );
       } else {
         this.openingBalanceService.listDataReport.next([]);
         this.dataSource = new MatTableDataSource(this.openingBalanceService.listDataReport.value);
+        this.totalRecord.next(0);
+        this.showTotalPages.next(0);
       }
     });
     this.subscriptions.push(rq);
@@ -235,8 +265,10 @@ export class ReportAssetComponent implements OnInit {
         typeOfAssetName: this.searchForm.get('typeOfAssetName').value,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('startDetail').value),
-        toDateStr: this.searchForm.get('reportType').value == 2 ? this.transform(this.searchForm.get('endDetail').value) : this.transform(this.searchForm.get('end').value),
+        toDateStr: this.transform(this.searchForm.get('endDetail').value),
         reportType: this.searchForm.get('reportType').value,
+        pageSize: this.pageSize,
+        pageNumber: this.currentPage,
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-report-dep');
@@ -253,9 +285,6 @@ export class ReportAssetComponent implements OnInit {
   }
 
   //event change report type
-  eChangeReportType(){
-    this.eSearch();
-  }
 
   apiGetReport() {
     let req;
@@ -268,10 +297,10 @@ export class ReportAssetComponent implements OnInit {
         typeOfAssetName: this.searchForm.get('typeOfAssetName').value,
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('startDetail').value),
-        toDateStr: this.searchForm.get('reportType').value == 2 ? this.transform(this.searchForm.get('endDetail').value) : this.transform(this.searchForm.get('end').value),
+        toDateStr: this.transform(this.searchForm.get('endDetail').value),
         reportType: this.searchForm.get('reportType').value,
       },
-    }
+    };
     return this.globalService.globalApi(req, 'export-dep-synthesis-report');
   }
 
@@ -349,9 +378,11 @@ export class ReportAssetComponent implements OnInit {
 
   onPaginateChange(event) {
     if (event) {
-      this.currentPage = event.pageIndex;
       console.log('🚀evnent (page) :', event);
+      this.currentPage = event.pageIndex + 1;
+
       this.pageSize = event.pageSize;
+      this.eSearch();
     }
   }
 

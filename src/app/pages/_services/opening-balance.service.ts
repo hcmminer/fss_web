@@ -22,6 +22,8 @@ export class openingBalanceService {
 
   //auto complete mã tài sản con mục điều chuyển tài sản
   cbxAssetCodeIncrease = new BehaviorSubject<any[]>([]);
+  //auto complete mã tàn sản thanh lý cũ 
+  cbxAssetOldCodeLiquidate = new BehaviorSubject<any[]>([]);
   // cbxAssetCodeReportBC = new BehaviorSubject<any[]>([]);
 
   //auto complete mã tìa sản mục phát sinh tăng xây dựng
@@ -324,6 +326,39 @@ export class openingBalanceService {
             this.cbxAssetCodeIncrease.next(tempData);
           } else {
             this.cbxAssetCodeIncrease.next([]);
+          }
+        }),
+        catchError((err) => {
+          // this.toastrService.error(err.error?.message || err.message, 'Error');
+          return of(undefined);
+        }),
+        finalize(() => {}),
+      )
+      .subscribe();
+    this.subscriptions.push(request);
+  }
+
+  getCbxOldAssetCodeLiquidate(query: RequestApiModelOld, redirectFunction, str?: any) {
+    const request = this.globalService
+      .globalApi(query, redirectFunction)
+      .pipe(
+        map((response) => {
+          if (response.errorCode != '0') {
+            this.cbxAssetOldCodeLiquidate.next([]);
+            throw new Error(response.description);
+          }
+          if (typeof response.data !== 'undefined' && response.data !== null) {
+            let tempData = response.data;
+            if (str && str != '') {
+              tempData = tempData.filter((item) => {
+                const regex = new RegExp(str, 'gi'); // 'gi' để bỏ qua phân biệt chữ hoa/thường
+                return regex.test(item.assetCode);
+              });
+            }
+
+            this.cbxAssetOldCodeLiquidate.next(tempData);
+          } else {
+            this.cbxAssetOldCodeLiquidate.next([]);
           }
         }),
         catchError((err) => {
