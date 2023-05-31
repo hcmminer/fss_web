@@ -73,8 +73,6 @@ export class ViewDetailImportIncreaseComponent implements OnInit {
       .subscribe((res) => {
         this.isLoading$ = false;
         if (res.errorCode == '0') {
-          console.log(res);
-          
           this.dataSource = new MatTableDataSource(
             res.data
           );

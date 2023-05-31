@@ -24,7 +24,6 @@ export class UserOffcanvasComponent implements OnInit {
   }
 
   logout() {
-    console.log('Da vao');
     this.auth.logout();
     window.location.href = 'auth/login';
   }

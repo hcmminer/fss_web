@@ -158,7 +158,6 @@ export class SoDuDauKyComponent implements OnInit {
   }
 
   eViewDetail(item: any) {
-    console.log('view detail', item);
     const modalRef = this.modalService.open(ViewDetailOpenBalanceComponent, {
       centered: true,
       backdrop: 'static',

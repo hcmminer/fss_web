@@ -157,7 +157,6 @@ export class PhatSinhTangComponent implements OnInit {
   }
 
   eViewDetail(item: any) {
-    console.log('view detail', item);
     const modalRef = this.modalService.open(ViewDetailImportIncreaseComponent, {
       centered: true,
       backdrop: 'static',

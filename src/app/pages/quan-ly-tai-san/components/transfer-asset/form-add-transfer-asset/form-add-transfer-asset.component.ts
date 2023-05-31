@@ -174,7 +174,6 @@ export class FormAddTransferAssetComponent implements OnInit {
     });
 
     this.addEditForm.get('assetCode').valueChanges.pipe(debounceTime(800)).subscribe((assetValue) => {
-      debugger;
       let tempAssetCode = !this.addEditForm.get('assetCode').value.assetCode
         ? this.addEditForm.get('assetCode').value
         : this.addEditForm.get('assetCode').value.assetCode;

@@ -77,9 +77,7 @@ export class DetailBcDecreaseComponent implements OnInit {
       .globalApi(reqTar, 'get-detail-bc-decrease')
       .subscribe((res) => {
         this.isLoading$ = false;
-        if (res.errorCode == '0') {
-          console.log(res);
-          
+        if (res.errorCode == '0') {          
           this.dataSource = new MatTableDataSource(
             res.data
           );

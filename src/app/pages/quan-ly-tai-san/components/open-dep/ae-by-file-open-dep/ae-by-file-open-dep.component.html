@@ -142,9 +142,9 @@
             </th>
             <td mat-cell *matCellDef="let item" style="text-align: right">
               {{
-              item.beginOriginalAmountStr != null
-              ? (item.beginOriginalAmountStr | number : '1.0-0')
-              : (item.beginOriginalAmount | number : '1.0-0')
+              item.beginOriginalAmount != null
+              ? (item.beginOriginalAmount | number : '1.0-0')
+              : (item.beginOriginalAmountStr)
               }}
             </td>
           </ng-container>
@@ -154,7 +154,7 @@
               {{ 'LABEL.BEGIN_AMOUNT' | translate }}
             </th>
             <td mat-cell *matCellDef="let item" style="text-align: right">
-              {{ item.beginAmountStr != null ? (item.beginAmountStr | number : '1.0-0') : item.beginAmountStr }}
+              {{ item.beginAmount != null ? (item.beginAmount | number : '1.0-0') : item.beginAmountStr }}
             </td>
           </ng-container>
 
@@ -215,9 +215,9 @@
             </th>
             <td mat-cell *matCellDef="let item" style="text-align: right">
               {{
-              item.beginOriginalAmountTotalStr != null
-              ? (item.beginOriginalAmountTotalStr | number : '1.0-0')
-              : (item.beginOriginalAmountTotal | number : '1.0-0')
+              item.beginOriginalAmountTotal != null
+              ? (item.beginOriginalAmountTotal | number : '1.0-0')
+              : (item.beginOriginalAmountTotalStr)
               }}
             </td>
           </ng-container>
@@ -230,9 +230,9 @@
             </th>
             <td mat-cell *matCellDef="let item" style="text-align: right">
               {{
-              item.beginOriginalAmountStr != null
-              ? (item.beginOriginalAmountStr | number : '1.0-0')
-              : (item.beginOriginalAmount | number : '1.0-0')
+              item.beginOriginalAmount != null
+              ? (item.beginOriginalAmount | number : '1.0-0')
+              : (item.beginOriginalAmountStr)
               }}
             </td>
           </ng-container>
@@ -243,9 +243,9 @@
             </th>
             <td mat-cell *matCellDef="let item" style="text-align: right">
               {{
-              item.beginAmountTotalStr != null
-              ? (item.beginAmountTotalStr | number : '1.0-0')
-              : (item.beginAmountTotal | number : '1.0-0')
+              item.beginAmountTotal != null
+              ? (item.beginAmountTotal | number : '1.0-0')
+              : (item.beginAmountTotalStr)
               }}
             </td>
           </ng-container>
@@ -256,7 +256,7 @@
               {{ 'LABEL.BEGIN_AMOUNT_TARGET' | translate }}
             </th>
             <td mat-cell *matCellDef="let item" style="text-align: right">
-              {{ item.beginAmountStr != null ? (item.beginAmountStr | number : '1.0-0') : item.beginAmountStr }}
+              {{ item.beginAmount != null ? (item.beginAmount | number : '1.0-0') : item.beginAmountStr }}
             </td>
           </ng-container>
 

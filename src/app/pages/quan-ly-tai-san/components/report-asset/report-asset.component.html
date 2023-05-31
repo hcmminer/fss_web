@@ -73,10 +73,10 @@
                     </div>
                   </mat-form-field>
                 </div>
-                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="organisation">{{
-                  (searchForm.get('reportType').value != 3 ? 'LABEL.ORGANISATION' : 'LABEL.TYPE_OF_ASSET') | translate
+                <label *ngIf="+searchForm.get('reportType').value !==1" class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="organisation">{{
+                  (+searchForm.get('reportType').value !== 3 ? 'LABEL.ORGANISATION' : 'LABEL.TYPE_OF_ASSET') | translate
                 }}</label>
-                <div class="col-lg-4 col-sm-12" *ngIf="searchForm.get('reportType').value != 3">
+                <div class="col-lg-4 col-sm-12" *ngIf="+searchForm.get('reportType').value === 2">
                   <select
                     class="form-control font-14"
                     name="organisation"
@@ -106,13 +106,26 @@
                     </ng-container>
                   </select>
                 </div>
-              </div>
-              <div class="row">
-                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="reportType">{{
+                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="reportType" *ngIf="+searchForm.get('reportType').value === 1">{{
                   'LABEL.TYPE_REPORT' | translate
                 }}</label>
-                <div class="col-lg-4 col-sm-12">
-                  <select class="form-control font-14"  name="reportType" id="reportType" formControlName="reportType">
+                <div class="col-lg-4 col-sm-12" *ngIf="+searchForm.get('reportType').value === 1">
+                  <select class="form-control font-14" name="reportType" id="reportType" formControlName="reportType">
+                    <ng-container *ngFor="let item of reportType">
+                      <option [value]="item.id">
+                        {{ item.reportName | translate }}
+                      </option>
+                    </ng-container>
+                  </select>
+                </div>
+                
+              </div>
+              <div class="row" >
+                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="reportType" *ngIf="+searchForm.get('reportType').value !== 1">{{
+                  'LABEL.TYPE_REPORT' | translate
+                }}</label>
+                <div class="col-lg-4 col-sm-12" *ngIf="+searchForm.get('reportType').value !== 1">
+                  <select class="form-control font-14" name="reportType" id="reportType" formControlName="reportType">
                     <ng-container *ngFor="let item of reportType">
                       <option [value]="item.id">
                         {{ item.reportName | translate }}
@@ -279,7 +292,11 @@
               </ng-container>
               <!-- beginOriginalAmount -->
               <ng-container matColumnDef="beginOriginalAmount">
-                <th mat-header-cell  *matHeaderCellDef style="background-color: rgba(255, 255, 0, 0.552); min-width: 100px !important;">
+                <th
+                  mat-header-cell
+                  *matHeaderCellDef
+                  style="background-color: rgba(255, 255, 0, 0.552); min-width: 100px !important"
+                >
                   {{ 'LABEL.ORIGINAL_AMOUNT_REPORT' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: right">
@@ -418,20 +435,37 @@
               <!-- kết thúc số dư cuối kỳ -->
               <tr
                 mat-row
-                *matHeaderRowDef="[
-                  'index',
-                  'departmentCode',
-                  'parentAssetCode',
-                  'assetCode',
-                  'sourceOfAsset',
-                  'depreciationFrame',
-                  'depreciationStartDateStr',
-                  'issueDateStr',
-                  'sodauky',
-                  'phatsinhtang',
-                  'phatsinhgiam',
-                  'soducuoiky'
-                ]"
+                *matHeaderRowDef="
+                  +reportTypeToChangeTable === 1
+                    ? [
+                        'index',
+
+                        'parentAssetCode',
+                        'assetCode',
+                        'sourceOfAsset',
+                        'depreciationFrame',
+                        'depreciationStartDateStr',
+                        'issueDateStr',
+                        'sodauky',
+                        'phatsinhtang',
+                        'phatsinhgiam',
+                        'soducuoiky'
+                      ]
+                    : [
+                        'index',
+                        'departmentCode',
+                        'parentAssetCode',
+                        'assetCode',
+                        'sourceOfAsset',
+                        'depreciationFrame',
+                        'depreciationStartDateStr',
+                        'issueDateStr',
+                        'sodauky',
+                        'phatsinhtang',
+                        'phatsinhgiam',
+                        'soducuoiky'
+                      ]
+                "
               ></tr>
               <tr
                 mat-row
@@ -454,28 +488,51 @@
                 mat-row
                 *matRowDef="
                   let element;
-                  columns: [
-                    'index',
-                    'departmentCode',
-                    'parentAssetCode',
-                    'assetCode',
-                    'sourceOfAsset',
-                    'depreciationFrame',
-                    'depreciationStartDateStr',
-                    'issueDateStr',
-                    'beginOriginalAmount',
-                    'beginAmount',
-                    'beginAvailable',
-                    'increaseOriginalAmount',
-                    'increaseAmount',
-                    'increaseAvailable',
-                    'decreaseOriginalAmount',
-                    'decreaseAmount',
-                    'decreaseAvailable',
-                    'endOriginalAmount',
-                    'endAmount',
-                    'endAvailable'
-                  ]
+                  columns: +reportTypeToChangeTable === 1
+                    ? [
+                        'index',
+
+                        'parentAssetCode',
+                        'assetCode',
+                        'sourceOfAsset',
+                        'depreciationFrame',
+                        'depreciationStartDateStr',
+                        'issueDateStr',
+                        'beginOriginalAmount',
+                        'beginAmount',
+                        'beginAvailable',
+                        'increaseOriginalAmount',
+                        'increaseAmount',
+                        'increaseAvailable',
+                        'decreaseOriginalAmount',
+                        'decreaseAmount',
+                        'decreaseAvailable',
+                        'endOriginalAmount',
+                        'endAmount',
+                        'endAvailable'
+                      ]
+                    : [
+                        'index',
+                        'departmentCode',
+                        'parentAssetCode',
+                        'assetCode',
+                        'sourceOfAsset',
+                        'depreciationFrame',
+                        'depreciationStartDateStr',
+                        'issueDateStr',
+                        'beginOriginalAmount',
+                        'beginAmount',
+                        'beginAvailable',
+                        'increaseOriginalAmount',
+                        'increaseAmount',
+                        'increaseAvailable',
+                        'decreaseOriginalAmount',
+                        'decreaseAmount',
+                        'decreaseAvailable',
+                        'endOriginalAmount',
+                        'endAmount',
+                        'endAvailable'
+                      ]
                 "
               >
                 <!-- Row shown when there is no matching data. -->
@@ -525,7 +582,7 @@
               </ng-container>
               <!-- oldTypeReport -->
               <ng-container matColumnDef="oldTypeReport">
-                <th mat-header-cell *matHeaderCellDef colspan="12" style="background-color: rgba(252,228,214,255)">
+                <th mat-header-cell *matHeaderCellDef colspan="12" style="background-color: rgba(252, 228, 214, 255)">
                   {{ 'LABEL.OLD_TYPE_REPORT' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: left"></td>
@@ -681,7 +738,7 @@
               <!-- -------------------------------------------------------------------------------------- -->
               <!-- newTypeReport -->
               <ng-container matColumnDef="newTypeReport">
-                <th mat-header-cell *matHeaderCellDef colspan="12" style="background-color: rgba(221,235,247,255)">
+                <th mat-header-cell *matHeaderCellDef colspan="12" style="background-color: rgba(221, 235, 247, 255)">
                   {{ 'LABEL.NEW_TYPE_REPORT' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: left"></td>
@@ -837,18 +894,19 @@
 
               <!-- totalOldNew -->
               <ng-container matColumnDef="totalOldNew">
-                <th mat-header-cell colspan="3" rowspan="2" *matHeaderCellDef style="background-color: rgb(255 0 174 / 29%)">
+                <th
+                  mat-header-cell
+                  colspan="3"
+                  rowspan="2"
+                  *matHeaderCellDef
+                  style="background-color: rgb(255 0 174 / 29%)"
+                >
                   {{ 'LABEL.TOTAL_OLD_NEW' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: left"></td>
               </ng-container>
               <ng-container matColumnDef="temp">
-                <th
-                  mat-header-cell
-                  colspan="3"
-                  *matHeaderCellDef
-                  style="display: none;"
-                ></th>
+                <th mat-header-cell colspan="3" *matHeaderCellDef style="display: none"></th>
                 <td mat-cell *matCellDef="let item" style="text-align: left"></td>
               </ng-container>
 
@@ -1009,7 +1067,6 @@
         [dataChange]="dataChange"
         (page)="onPaginateChange($event)"
         [showTotalPages]="showTotalPages | async"
- 
         [pageSize]="pageSize"
         [pageSizeOptions]="[10, 20, 25, 30, 50]"
         showFirstLastButtons

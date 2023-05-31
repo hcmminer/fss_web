@@ -232,6 +232,13 @@ export const locale = {
       ADD_LIQUIDATE_ASSET: 'Thêm mới thanh lý tài sản',
       LIQUIDATE_ASSET: 'Thanh lý tài sản',
       Old_LIQUIDATE_ASSET: 'Thanh lý tài sản cũ',
+      FULL_LIQUIDATIOM: 'Thanh lý toàn bộ',
+      PARTIAL_LIQUIDATION: 'Thanh lý một phần',
+      TYPE_LIQUIDATE: 'Loại thanh lý',
+      LIQUIDATE_AMOUNT: 'Số tiền thanh lý',
+      REMAINING_AMOUNT: 'Số tiền còn lại của tài sản',
+      TYPE_LIQUIDATE_FILE:'Trạng thái thanh lỵ́ (1 -Toàn bộ  2-một phần)',
+      LIQUIDATE_AMOUNT_FILE: 'Số tiền thanh lý(bắt buộc nhập khi chọn thanh lý một phần)',
       //phát sinh tăng khấu hao
       INCREASE_ORIGINAL_AMOUNT: 'Nguyên giá phát sinh tăng',
       INCREASE_ORIGINAL_AMOUNT_CUR: 'Nguyên giá phát sinh tăng hiện tại',

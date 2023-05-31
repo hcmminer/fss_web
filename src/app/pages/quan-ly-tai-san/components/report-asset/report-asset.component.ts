@@ -225,7 +225,6 @@ export class ReportAssetComponent implements OnInit {
     return value;
   }
 
-  //change type report
 
   eSearch() {
     this.reportTypeToChangeTable = +this.searchForm.get('reportType').value;
@@ -266,7 +265,7 @@ export class ReportAssetComponent implements OnInit {
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('startDetail').value),
         toDateStr: this.transform(this.searchForm.get('endDetail').value),
-        reportType: this.searchForm.get('reportType').value,
+        reportType: +this.searchForm.get('reportType').value,
         pageSize: this.pageSize,
         pageNumber: this.currentPage,
       },

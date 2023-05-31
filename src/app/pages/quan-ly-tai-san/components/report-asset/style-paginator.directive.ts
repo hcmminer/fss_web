@@ -60,10 +60,7 @@ export class StylePaginatorDirective implements OnChanges  {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    debugger
-
       this.initPageRange();
-    
   }
 
   constructor(

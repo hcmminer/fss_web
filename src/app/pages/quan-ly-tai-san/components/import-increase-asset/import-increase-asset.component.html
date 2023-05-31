@@ -174,8 +174,8 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   {{ 'LABEL.INCREASE_ORIGINAL_AMOUNT' | translate }}
                 </th>
-                <td mat-cell *matCellDef="let item" style="text-align: right">{{ item.increaseOriginalAmount | number :
-                  '1.0-0'}}</td>
+                <td mat-cell *matCellDef="let item" style="text-align: right">{{item.increaseOriginalAmount != null ? (item.increaseOriginalAmount | number :
+                  '1.0-0') : item.increaseOriginalAmountStr}}</td>
               </ng-container>
 
               <!-- increaseAmount  -->
@@ -184,7 +184,7 @@
                   {{ 'LABEL.INCREASE_AMOUNT' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let item" style="text-align: right">
-                  {{ item.increaseAmount | number : '1.0-0'}}
+                  {{ item.increaseAmount != null ? (item.increaseAmount | number : '1.0-0') : item.increaseAmountStr}}
                 </td>
               </ng-container>
               <!-- sourceOfAsset  -->

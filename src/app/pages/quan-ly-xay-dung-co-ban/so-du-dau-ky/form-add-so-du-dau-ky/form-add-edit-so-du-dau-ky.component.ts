@@ -158,7 +158,6 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
           if (res.errorCode == '0') {
             this.addEditForm.get('totalMaterial').patchValue(formatNumber(+res.data.material, 'en-US', '1.0'));
             this.addEditForm.get('totalLabor').patchValue(formatNumber(+res.data.labor, 'en-US', '1.0'));
-            console.log(this.addEditForm);
           } else if (res.errorCode == '1') {
             this.toastService.error(res.description);
           } else {
@@ -593,7 +592,6 @@ export class FormAddEditSoDuDauKyComponent implements OnInit {
   }
 
   onFileSelected(event: any): void {
-    console.log(event);
     this.validateFile(event);
     this.selectedFile = event.target.files[0] ?? null;
     this.resultFileData = null;

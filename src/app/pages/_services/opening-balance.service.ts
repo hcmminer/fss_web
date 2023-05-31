@@ -23,7 +23,7 @@ export class openingBalanceService {
   //auto complete mã tài sản con mục điều chuyển tài sản
   cbxAssetCodeIncrease = new BehaviorSubject<any[]>([]);
   //auto complete mã tàn sản thanh lý cũ 
-  cbxAssetOldCodeLiquidate = new BehaviorSubject<any[]>([]);
+  cbxOldAssetCodeLiquidate = new BehaviorSubject<any[]>([]);
   // cbxAssetCodeReportBC = new BehaviorSubject<any[]>([]);
 
   //auto complete mã tìa sản mục phát sinh tăng xây dựng
@@ -344,10 +344,11 @@ export class openingBalanceService {
       .pipe(
         map((response) => {
           if (response.errorCode != '0') {
-            this.cbxAssetOldCodeLiquidate.next([]);
+            this.cbxOldAssetCodeLiquidate.next([]);
             throw new Error(response.description);
           }
           if (typeof response.data !== 'undefined' && response.data !== null) {
+            
             let tempData = response.data;
             if (str && str != '') {
               tempData = tempData.filter((item) => {
@@ -356,9 +357,9 @@ export class openingBalanceService {
               });
             }
 
-            this.cbxAssetOldCodeLiquidate.next(tempData);
+            this.cbxOldAssetCodeLiquidate.next(tempData);
           } else {
-            this.cbxAssetOldCodeLiquidate.next([]);
+            this.cbxOldAssetCodeLiquidate.next([]);
           }
         }),
         catchError((err) => {

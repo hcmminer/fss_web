@@ -593,7 +593,6 @@ export class FormAddEditPhatSinhTangComponent implements OnInit {
   }
 
   onFileSelected(event: any): void {
-    console.log(event);
     this.validateFile(event);
     this.selectedFile = event.target.files[0] ?? null;
     this.resultFileData = null;
