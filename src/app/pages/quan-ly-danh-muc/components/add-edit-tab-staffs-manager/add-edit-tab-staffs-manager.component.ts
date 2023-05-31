@@ -162,6 +162,7 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
       document.body.removeChild(elem);
     });
   }
+
   // Save
   eSave(type) {
     // add or update 1 nhan vien
@@ -191,15 +192,13 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
           { text: 'CONTINUE', className: 'btn btn-warning uppercase mx-2' },
         ],
       };
-      // sau khi chấp nhận các cảnh báo và tiếp tục thì alert ra các lỗi về database, validate
       modalRef.result.then(
-        (result) => {
-          this.checkValidBeforeAddOrUpdate();
+        () => {
+          this.addOrUpdateStaff();
         },
-        (reason) => {},
+        () => {},
       );
     } else {
-      // add nhieu nhân vien
       if (!this.isValidFileForm()) {
         this.addFileForm.markAllAsTouched();
         return;
@@ -279,66 +278,51 @@ export class AddEditStaffsManagerComponent implements OnInit, OnDestroy {
   }
 
   // kiem tra du lieu truoc khi day len api
-  checkValidBeforeAddOrUpdate(): any {
-    // Checking nhan vien da ton tai trong DB
-    const request = this.conditionSearch().subscribe((res) => {
-      let isValid = false;
-      this.isLoading$ = false;
-      if (res.errorCode == '0') {
-        if (res.data) {
-          if (res.data.length > 0) {
-            // check bang id nhan vien
-            if (this.staffId != null) {
-              let itSelfItem = res.data.find((item) => item.staffId == this.staffId);
-              // neu nhan vien them vao DB chua ton tai tren he thong thay thi false
-              isValid = itSelfItem ? true : false;
-            } else {
-              isValid = false;
-            }
-          } else {
-            isValid = true;
-          }
-        } else {
-          isValid = null;
-        }
-      } else {
-        this.toastService.error(res.description);
-        isValid = null;
-      }
-      if (isValid) {
-        this.addOrUpdateStaff();
-      } else {
-        this.toastService.error(this.translate.instant('MESSAGE.STAFF_EXIST'));
-      }
-    });
-    this.subscriptions.push(request);
-  }
+  // checkValidBeforeAddOrUpdate(): any {
+  //   const request = this.conditionSearch().subscribe((res) => {
+  //     let isValid = false;
+  //     this.isLoading$ = false;
+  //     if (res.errorCode == '0') {
+  //       if (res.data) {
+  //         if (res.data.length > 0) {
+  //           if (this.staffId != null) {
+  //             let itSelfItem = res.data.find((item) => item.staffId == this.staffId);
+  //             isValid = itSelfItem ? true : false;
+  //           } else {
+  //             isValid = false;
+  //           }
+  //         } else {
+  //           isValid = true;
+  //         }
+  //       } else {
+  //         isValid = null;
+  //       }
+  //     } else {
+  //       this.toastService.error(res.description);
+  //       isValid = null;
+  //     }
+  //     if (isValid) {
+  //       this.addOrUpdateStaff();
+  //     } else {
+  //       this.toastService.error(this.translate.instant('MESSAGE.STAFF_EXIST'));
+  //     }
+  //   });
+  //   this.subscriptions.push(request);
+  // }
   // kiem tra da ton tai staff tren DB truoc khi AU tren DB
-  conditionSearch() {
-    const requestTarget = {
-      functionName: 'searchStaff',
-      method: 'POST',
-      params: {
-        userName: this.userName,
-        staffDTO: {
-          // required
-          // staffName: this.addForm.get('staffName').value,
-          // gender: this.addForm.get('gender').value,
-          // staffType: this.addForm.get('staffType').value,
-          // shopId: this.addForm.get('shopId').value,
-          // position: this.addForm.get('position').value,
-          // no required
-          staffCode: this.addForm.get('staffCode').value,
-          // mobile: this.addForm.get('mobile').value,
-          // provinceId: this.addForm.get('provinceId').value,
-          // email: this.addForm.get('email').value,
-          // title: this.addForm.get('title').value,
-          // staffCodeNumber: this.addForm.get('staffCodeNumber').value,
-        },
-      },
-    };
-    return this.commonService.callAPICommon(requestTarget as RequestApiModel);
-  }
+  // conditionSearch() {
+  //   const requestTarget = {
+  //     functionName: 'searchStaff',
+  //     method: 'POST',
+  //     params: {
+  //       userName: this.userName,
+  //       staffDTO: {
+  //         staffCode: this.addForm.get('staffCode').value,
+  //       },
+  //     },
+  //   };
+  //   return this.commonService.callAPICommon(requestTarget as RequestApiModel);
+  // }
 
   addOrUpdateStaff() {
     if (this.isUpdate) {
