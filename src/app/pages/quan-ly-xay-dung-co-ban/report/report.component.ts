@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription, fromEvent } from 'rxjs';
+import { BehaviorSubject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { openingBalanceService } from '../../_services/opening-balance.service';
 import { ToastrService } from 'ngx-toastr';
@@ -113,7 +113,9 @@ export class ReportComponent implements OnInit {
     'materialTotal',
     'total',
   ];
-
+  public dataChange = false;
+  public totalRecord = new BehaviorSubject<any>(0);
+  public showTotalPages = new BehaviorSubject<any>(0);
   constructor(
     public translate: TranslateService,
     private fb: FormBuilder,
@@ -184,15 +186,22 @@ export class ReportComponent implements OnInit {
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
+        this.dataChange = !this.dataChange;
         this.openingBalanceService.listDataReport.next(res.data);
         this.dataSource = new MatTableDataSource(
           !this.openingBalanceService.listDataReport.value ? [] : this.openingBalanceService.listDataReport.value,
         );
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.totalRecord.next(res.totalSuccess);
+        this.showTotalPages.next(
+          Math.ceil(res.totalSuccess / this.pageSize) <= 5 ? Math.ceil(res.totalSuccess / this.pageSize) : 5,
+        );
       } else {
         this.openingBalanceService.listDataReport.next([]);
         this.dataSource = new MatTableDataSource([]);
+        this.totalRecord.next(0);
+        this.showTotalPages.next(0);
       }
     });
     this.subscriptions.push(rq);
@@ -207,6 +216,8 @@ export class ReportComponent implements OnInit {
         organisation: this.searchForm.get('organisation').value,
         fromDateStr: this.transform(this.searchForm.get('start').value),
         toDateStr: this.transform(this.searchForm.get('end').value),
+        pageSize: this.pageSize,
+        pageNumber: this.currentPage,
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-report-bc');
@@ -312,6 +323,7 @@ export class ReportComponent implements OnInit {
       this.currentPage = event.pageIndex;
       console.log('🚀evnent (page) :', event);
       this.pageSize = event.pageSize;
+      this.eSearch();
     }
   }
 

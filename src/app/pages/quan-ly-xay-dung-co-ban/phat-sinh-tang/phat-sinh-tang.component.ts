@@ -45,7 +45,7 @@ export const MY_FORMATS = {
   styleUrls: ['./phat-sinh-tang.component.scss'],
   providers: [
     {
-      provide: DateAdapter, 
+      provide: DateAdapter,
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
@@ -99,9 +99,11 @@ export class PhatSinhTangComponent implements OnInit {
     'material',
     'constructionDateStr',
     'createdDatetimeStr',
-    'action'
+    'action',
   ];
-
+  public dataChange = false;
+  public totalRecord = new BehaviorSubject<any>(0);
+  public showTotalPages = new BehaviorSubject<any>(0);
   constructor(
     public translate: TranslateService,
     private fb: FormBuilder,
@@ -121,7 +123,7 @@ export class PhatSinhTangComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initCombobox()
+    this.initCombobox();
     this.paginator._intl.itemsPerPageLabel = this.translate.instant('LABEL.PER_PAGE_LABEL');
     this.userRes = JSON.parse(localStorage.getItem(CONFIG.KEY.RESPONSE_BODY_LOGIN));
     this.userName = localStorage.getItem(CONFIG.KEY.USER_NAME);
@@ -182,13 +184,20 @@ export class PhatSinhTangComponent implements OnInit {
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
+        this.dataChange = !this.dataChange;
         this.openingBalanceService.listImportIncrease.next(res.data);
         this.dataSource = new MatTableDataSource(this.openingBalanceService.listImportIncrease.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.totalRecord.next(res.totalSuccess);
+        this.showTotalPages.next(
+          Math.ceil(res.totalSuccess / this.pageSize) <= 5 ? Math.ceil(res.totalSuccess / this.pageSize) : 5,
+        );
       } else {
         this.openingBalanceService.listImportIncrease.next([]);
         this.dataSource = new MatTableDataSource(this.openingBalanceService.listImportIncrease.value);
+        this.totalRecord.next(0);
+        this.showTotalPages.next(0);
       }
     });
     this.subscriptions.push(rq);
@@ -202,6 +211,8 @@ export class PhatSinhTangComponent implements OnInit {
         organisation: this.searchForm.get('organisation').value,
         fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
         toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+        pageSize: this.pageSize,
+        pageNumber: this.currentPage,
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-bc-increase');
@@ -290,6 +301,7 @@ export class PhatSinhTangComponent implements OnInit {
       this.currentPage = event.pageIndex;
       console.log('🚀evnent (page) :', event);
       this.pageSize = event.pageSize;
+      this.eSearch();
     }
   }
 

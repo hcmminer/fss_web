@@ -79,7 +79,7 @@ import { ReportComponent } from './report/report.component';
     ViewDetailOpenBalanceComponent,
     ViewDetailImportIncreaseComponent,
     DetailBcDecreaseComponent,
-    ReportComponent
+    ReportComponent,
   ],
   exports: [
     PopupMessageComponent,

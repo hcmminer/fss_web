@@ -5,12 +5,13 @@ import {SafeHtmlPipe} from '../../../pipes/safeHtml.pipe';
 import {CoordinateDirective} from './coordinate.directives';
 import { SafeResourceUrlPipe } from '../../../pipes/safeResourceUrl.pipe';
 import { NumbersOnlyDirective } from './only-number.directives';
+import { StylePaginatorDirective } from './style-paginator.directive';
 
 
 
 @NgModule({
-  declarations: [SafeHtmlPipe, SafeResourceUrlPipe, CoordinateDirective, NumbersOnlyDirective, TruncatePipe],
-  exports: [SafeHtmlPipe, SafeResourceUrlPipe, CoordinateDirective, NumbersOnlyDirective, TruncatePipe],
+  declarations: [SafeHtmlPipe, SafeResourceUrlPipe, CoordinateDirective, NumbersOnlyDirective, StylePaginatorDirective, TruncatePipe],
+  exports: [SafeHtmlPipe, SafeResourceUrlPipe, CoordinateDirective, NumbersOnlyDirective, StylePaginatorDirective,TruncatePipe],
   imports: [
     CommonModule
   ]

@@ -9,7 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription, fromEvent } from 'rxjs';
+import { BehaviorSubject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { CONFIG } from 'src/app/utils/constants';
 import { GlobalService } from 'src/app/pages/_services/global.service';
@@ -62,6 +62,8 @@ export const MY_FORMATS = {
 export class OpenDepComponent implements OnInit {
   // >> search advance
   @ViewChild('searchInput') private _inputElement: ElementRef;
+  currentPage = 1;
+  pageSize: number = 10;
   source: any;
   ngAfterViewInit(): void {
     this.source = fromEvent(this._inputElement.nativeElement, 'keyup');
@@ -104,7 +106,9 @@ export class OpenDepComponent implements OnInit {
     'isUpdate',
     'action',
   ];
-
+  public dataChange = false;
+  public totalRecord = new BehaviorSubject<any>(0);
+  public showTotalPages = new BehaviorSubject<any>(0);
   constructor(
     public assetManageService: AssetManageService,
     private globalService: GlobalService,
@@ -188,13 +192,20 @@ export class OpenDepComponent implements OnInit {
   eSearch() {
     const rq = this.httpSearch().subscribe((res) => {
       if (res.errorCode == '0') {
+        this.dataChange = !this.dataChange;
         this.assetManageService.listOpenDep.next(res.data);
         this.dataSource = new MatTableDataSource(this.assetManageService.listOpenDep.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.totalRecord.next(res.totalSuccess);
+        this.showTotalPages.next(
+          Math.ceil(res.totalSuccess / this.pageSize) <= 5 ? Math.ceil(res.totalSuccess / this.pageSize) : 5,
+        );
       } else {
         this.assetManageService.listOpenDep.next([]);
         this.dataSource = new MatTableDataSource(this.assetManageService.listOpenDep.value);
+        this.totalRecord.next(0);
+        this.showTotalPages.next(0);
       }
     });
     this.subscriptions.push(rq);
@@ -323,6 +334,15 @@ export class OpenDepComponent implements OnInit {
   
   public get toastService() {
     return this.injector.get(ToastrService);
+  }
+
+  onPaginateChange(event) {
+    if (event) {
+      console.log('🚀evnent (page) :', event);
+      this.currentPage = event.pageIndex + 1;
+      this.pageSize = event.pageSize;
+      this.eSearch();
+    }
   }
 
   ngOnDestroy(): void {

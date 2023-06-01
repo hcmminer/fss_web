@@ -73,9 +73,30 @@
                     </div>
                   </mat-form-field>
                 </div>
-                <label *ngIf="+searchForm.get('reportType').value !==1" class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="organisation">{{
-                  (+searchForm.get('reportType').value !== 3 ? 'LABEL.ORGANISATION' : 'LABEL.TYPE_OF_ASSET') | translate
+
+                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="reportType">{{
+                  'LABEL.TYPE_REPORT' | translate
                 }}</label>
+                <div class="col-lg-4 col-sm-12">
+                  <select class="form-control font-14" name="reportType" id="reportType" formControlName="reportType">
+                    <ng-container *ngFor="let item of reportType">
+                      <option [value]="item.id">
+                        {{ item.reportName | translate }}
+                      </option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+              <div class="row mt-5">
+                <label
+                  *ngIf="+searchForm.get('reportType').value !== 1"
+                  class="col-lg-2 col-sm-12 form-label col-form-label font-14"
+                  for="organisation"
+                  >{{
+                    (+searchForm.get('reportType').value !== 3 ? 'LABEL.ORGANISATION' : 'LABEL.TYPE_OF_ASSET')
+                      | translate
+                  }}</label
+                >
                 <div class="col-lg-4 col-sm-12" *ngIf="+searchForm.get('reportType').value === 2">
                   <select
                     class="form-control font-14"
@@ -90,8 +111,9 @@
                       </option>
                     </ng-container>
                   </select>
+                  
                 </div>
-                <div class="col-lg-4 col-sm-12" *ngIf="searchForm.get('reportType').value == 3">
+                <div class="col-lg-4 col-sm-12" *ngIf="+searchForm.get('reportType').value === 3">
                   <select
                     class="form-control font-14"
                     name="typeOfAssetName"
@@ -106,47 +128,9 @@
                     </ng-container>
                   </select>
                 </div>
-                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="reportType" *ngIf="+searchForm.get('reportType').value === 1">{{
-                  'LABEL.TYPE_REPORT' | translate
-                }}</label>
-                <div class="col-lg-4 col-sm-12" *ngIf="+searchForm.get('reportType').value === 1">
-                  <select class="form-control font-14" name="reportType" id="reportType" formControlName="reportType">
-                    <ng-container *ngFor="let item of reportType">
-                      <option [value]="item.id">
-                        {{ item.reportName | translate }}
-                      </option>
-                    </ng-container>
-                  </select>
-                </div>
-                
-              </div>
-              <div class="row" >
-                <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="reportType" *ngIf="+searchForm.get('reportType').value !== 1">{{
-                  'LABEL.TYPE_REPORT' | translate
-                }}</label>
-                <div class="col-lg-4 col-sm-12" *ngIf="+searchForm.get('reportType').value !== 1">
-                  <select class="form-control font-14" name="reportType" id="reportType" formControlName="reportType">
-                    <ng-container *ngFor="let item of reportType">
-                      <option [value]="item.id">
-                        {{ item.reportName | translate }}
-                      </option>
-                    </ng-container>
-                  </select>
-                </div>
-                <!-- <label class="col-lg-2 col-sm-12 form-label col-form-label font-14" for="assetCode">{{
-                  'LABEL.ASSETCODE' | translate
-                }}</label>
-                <div class="col-lg-4 col-sm-12">
-                  <input
-                    type="text"
-                    matInput
-                    class="form-control field-autocomplete"
-                    formControlName="assetCode"
-                    style="border: 1px solid #bdbdbd"
-                  />
-                </div> -->
               </div>
             </div>
+
             <div class="col-lg-1 col-sm-1"></div>
           </div>
 

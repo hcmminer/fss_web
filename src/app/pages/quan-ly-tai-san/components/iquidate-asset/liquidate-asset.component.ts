@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription, fromEvent } from 'rxjs';
+import { BehaviorSubject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { RequestApiModelOld } from 'src/app/pages/_models/requestOld-api.model';
 import { GlobalService } from 'src/app/pages/_services/global.service';
@@ -96,7 +96,9 @@ export class LiquidateAssetComponent implements OnInit {
     'constructionDateStr',
     'createdDatetimeStr',
   ];
-
+  public dataChange = false;
+  public totalRecord = new BehaviorSubject<any>(0);
+  public showTotalPages = new BehaviorSubject<any>(0);
   constructor(
     public translate: TranslateService,
     private fb: FormBuilder,
@@ -184,14 +186,21 @@ export class LiquidateAssetComponent implements OnInit {
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
+        this.dataChange = !this.dataChange;
         this.openingBalanceService.listLiquidateAsset.next(res.data);
         this.dataSource = new MatTableDataSource(this.openingBalanceService.listLiquidateAsset.value);
-        this.dataSource.paginator = this.paginator;
+        // this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.totalRecord.next(res.totalSuccess);
+        this.showTotalPages.next(
+          Math.ceil(res.totalSuccess / this.pageSize) <= 5 ? Math.ceil(res.totalSuccess / this.pageSize) : 5,
+        );
       } else {
         this.openingBalanceService.listLiquidateAsset.next([]);
         this.dataSource = new MatTableDataSource(this.openingBalanceService.listLiquidateAsset.value);
-      }
+        this.totalRecord.next(0);
+        this.showTotalPages.next(0);
+        }
     });
     this.subscriptions.push(rq);
   }
@@ -205,6 +214,8 @@ export class LiquidateAssetComponent implements OnInit {
         fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
         toConstructionDateStr: this.transform(this.searchForm.get('end').value),
         sourceOfAsset: this.searchForm.get('sourceOfAsset').value,
+        pageSize: this.pageSize,
+        pageNumber: this.currentPage,
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-dep-liquidate');
@@ -318,6 +329,7 @@ export class LiquidateAssetComponent implements OnInit {
       this.currentPage = event.pageIndex;
       console.log('🚀evnent (page) :', event);
       this.pageSize = event.pageSize;
+      this.eSearch();
     }
   }
 

@@ -101,7 +101,9 @@ export class SoDuDauKyComponent implements OnInit {
     'createdDatetimeStr',
     'action',
   ];
-
+  public dataChange = false;
+  public totalRecord = new BehaviorSubject<any>(0);
+  public showTotalPages = new BehaviorSubject<any>(0);
   constructor(
     public translate: TranslateService,
     private fb: FormBuilder,
@@ -183,13 +185,20 @@ export class SoDuDauKyComponent implements OnInit {
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
       if (res.errorCode == '0') {
+        this.dataChange = !this.dataChange;
         this.openingBalanceService.listOpeningBalance.next(res.data);
         this.dataSource = new MatTableDataSource(this.openingBalanceService.listOpeningBalance.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.totalRecord.next(res.totalSuccess);
+        this.showTotalPages.next(
+          Math.ceil(res.totalSuccess / this.pageSize) <= 5 ? Math.ceil(res.totalSuccess / this.pageSize) : 5,
+        );
       } else {
         this.openingBalanceService.listOpeningBalance.next([]);
         this.dataSource = new MatTableDataSource(this.openingBalanceService.listOpeningBalance.value);
+        this.totalRecord.next(0);
+        this.showTotalPages.next(0);
       }
     });
     this.subscriptions.push(rq);
@@ -203,6 +212,8 @@ export class SoDuDauKyComponent implements OnInit {
         organisation: this.searchForm.get('organisation').value,
         fromConstructionDateStr: this.transform(this.searchForm.get('start').value),
         toConstructionDateStr: this.transform(this.searchForm.get('end').value),
+        pageSize: this.pageSize,
+        pageNumber: this.currentPage,
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'search-bc-opening');

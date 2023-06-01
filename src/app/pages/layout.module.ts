@@ -26,7 +26,7 @@ import {TruncatePipe} from '../utils/TruncatePipe';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgbDateCustomParserFormatter} from '../_metronic/core/utils/ngb-date-custom-parser-formatter';
 import {SharedLanguageSelectionModule} from '../_metronic/shared/shared-language-selection/shared-language-selection.module';
-
+import { StylePaginatorDirective } from '../_metronic/shared/shared-display-html/style-paginator.directive';
 
 @NgModule({
   declarations: [

@@ -280,15 +280,3 @@ td {
 .mat-column-endAvailable {
    min-width: 150px !important;
 }
-
-::ng-deep .mat-paginator-range-actions{
-  padding-right: 80px;
-}
-
-::ng-deep .mat-paginator-range-label{
-  min-width: 100px;
-}
-
-::ng-deep .mat-flat-button{
-  min-width: 40px !important;
-}

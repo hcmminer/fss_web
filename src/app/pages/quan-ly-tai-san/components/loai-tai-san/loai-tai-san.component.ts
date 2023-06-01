@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription, fromEvent } from 'rxjs';
+import { BehaviorSubject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { CONFIG } from 'src/app/utils/constants';
 import { GlobalService } from 'src/app/pages/_services/global.service';
@@ -27,6 +27,7 @@ const queryInit = {
 })
 export class LoaiTaiSanComponent implements OnInit {
   // >> search advance
+  currentPage = 1;
   @ViewChild('searchInput') private _inputElement: ElementRef;
   source: any;
   ngAfterViewInit(): void {
@@ -45,7 +46,7 @@ export class LoaiTaiSanComponent implements OnInit {
   @ViewChild('paginator', { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('updateRefuse') updateRefuse: ElementRef;
-
+  pageSize: number = 10;
   startDateErrorMsg = '';
   endDateErrorMsg = '';
   userRes: any;
@@ -67,6 +68,10 @@ export class LoaiTaiSanComponent implements OnInit {
     'action',
   ];
 
+  public dataChange = false;
+  public totalRecord = new BehaviorSubject<any>(0);
+  public showTotalPages = new BehaviorSubject<any>(0);
+   
   constructor(
     public assetManageService: AssetManageService,
     private globalService: GlobalService,
@@ -98,13 +103,20 @@ export class LoaiTaiSanComponent implements OnInit {
   eSearch() {
     const rq = this.httpSearch().subscribe((res) => {
       if (res.errorCode == '0') {
+        this.dataChange = !this.dataChange;
         this.assetManageService.listTypeOfAsset.next(res.data);
         this.dataSource = new MatTableDataSource(this.assetManageService.listTypeOfAsset.value);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.totalRecord.next(res.totalSuccess);
+        this.showTotalPages.next(
+          Math.ceil(res.totalSuccess / this.pageSize) <= 5 ? Math.ceil(res.totalSuccess / this.pageSize) : 5,
+        );
       } else {
         this.assetManageService.listTypeOfAsset.next([]);
         this.dataSource = new MatTableDataSource(this.assetManageService.listTypeOfAsset.value);
+        this.totalRecord.next(0);
+        this.showTotalPages.next(0);
       }
     });
     this.subscriptions.push(rq);
@@ -189,6 +201,16 @@ export class LoaiTaiSanComponent implements OnInit {
   public get toastService() {
     return this.injector.get(ToastrService);
   }
+
+  onPaginateChange(event) {
+    if (event) {
+      console.log('🚀evnent (page) :', event);
+      this.currentPage = event.pageIndex + 1;
+      this.pageSize = event.pageSize;
+      this.eSearch();
+    }
+  }
+
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe());

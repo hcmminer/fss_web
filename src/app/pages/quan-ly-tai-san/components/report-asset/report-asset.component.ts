@@ -25,7 +25,7 @@ const queryInit = {
   // assetCode: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
-  endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1),
+  endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
   // iValidEndDate: new NgbDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
 };
 
@@ -259,7 +259,7 @@ export class ReportAssetComponent implements OnInit {
     const requestTarget = {
       userName: this.userName,
       searchDTO: {
-        // groupFilter: this.query.groupFilter,
+        groupFilter: this.query.groupFilter,
         // assetCode: this.searchForm.get('assetCode').value,
         typeOfAssetName: this.searchForm.get('typeOfAssetName').value,
         organisation: this.searchForm.get('organisation').value,
@@ -379,7 +379,6 @@ export class ReportAssetComponent implements OnInit {
     if (event) {
       console.log('🚀evnent (page) :', event);
       this.currentPage = event.pageIndex + 1;
-
       this.pageSize = event.pageSize;
       this.eSearch();
     }

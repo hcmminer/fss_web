@@ -246,8 +246,12 @@
             </table>
             <mat-paginator
               #paginator
+              style-paginator
+              [length]="totalRecord | async"
+              [dataChange]="dataChange"
               (page)="onPaginateChange($event)"
-              [pageSize]="20"
+              [showTotalPages]="showTotalPages | async"
+              [pageSize]="pageSize"
               [pageSizeOptions]="[10, 20, 25, 30, 50]"
               showFirstLastButtons
               aria-label="Select page of results"

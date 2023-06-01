@@ -35,7 +35,7 @@ import { ViewHisOpenDepComponent } from './components/open-dep/view-his-open-dep
 import { DetailImportIncreaseAssetComponent } from './components/import-increase-asset/detail-import-increase-asset/detail-import-increase-asset.component';
 import { AeByFileOpenDepComponent } from './components/open-dep/ae-by-file-open-dep/ae-by-file-open-dep.component';
 import { LiquidateOldAssetComponent } from './components/iquidate-asset/liquidate-old-asset/liquidate-old-asset.component';
-import { StylePaginatorDirective } from './components/report-asset/style-paginator.directive';
+import { StylePaginatorDirective } from 'src/app/_metronic/shared/shared-display-html/style-paginator.directive';
 @NgModule({
   declarations: [
     QuanLyTaiSanComponent,
@@ -54,7 +54,6 @@ import { StylePaginatorDirective } from './components/report-asset/style-paginat
     DetailImportIncreaseAssetComponent,
     AeByFileOpenDepComponent,
     LiquidateOldAssetComponent,
-    StylePaginatorDirective,
   ],
   imports: [
     CommonModule,
