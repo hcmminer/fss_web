@@ -1,13 +1,16 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Inject, Injector, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
+import { Moment } from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Subscription, fromEvent } from 'rxjs';
@@ -24,6 +27,7 @@ const queryInit = {
   typeOfAssetName: '',
   // assetCode: '',
   startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+  date: moment(),
   // iValidStartDate: new NgbDate(new Date().getFullYear(), new Date().getMonth() + 1, 1),
   endDate: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
   // iValidEndDate: new NgbDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
@@ -31,15 +35,15 @@ const queryInit = {
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'DD/MM/YYYY',
+    dateInput: 'MM/YYYY',
   },
   display: {
-    dateInput: 'DD/MM/YYYY',
+    dateInput: 'MM/YYYY',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
   },
-};
+}
 
 @Component({
   selector: 'app-report-asset',
@@ -80,7 +84,7 @@ export class ReportAssetComponent implements OnInit {
   startDetailDateErrorMsg = '';
   endDateErrorMsg = '';
   endDetailDateErrorMsg = '';
-
+  dateErrorMsg = '';
   isLoading$ = false;
   userRes: any;
   userName: string;
@@ -156,58 +160,82 @@ export class ReportAssetComponent implements OnInit {
     this.eSearch();
   }
 
-  eChangeDate(event, typeDate: String) {
-    if (typeDate === 'end') {
-      if (event.target.value === '') {
-        this.endDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
-          name: this.translate.instant('DATE.TO_DATE'),
-        });
-        return;
-      }
-      let tempStartDate = this.transform(this.searchForm.get('end').value);
-      if (tempStartDate === null || tempStartDate === undefined) {
-        this.endDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
-          name: this.translate.instant('DATE.TO_DATE'),
-        });
-        return;
-      }
-      this.endDateErrorMsg = '';
-    } else if (typeDate === 'startDetail') {
-      if (event.target.value === '') {
-        this.startDetailDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
-          name: this.translate.instant('DATE.FROM_DATE'),
-        });
-        return;
-      }
-      let tempStartDate = this.transform(this.searchForm.get('startDetail').value);
-      if (tempStartDate === null || tempStartDate === undefined) {
-        this.startDetailDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
-          name: this.translate.instant('DATE.FROM_DATE'),
-        });
-        return;
-      }
-      this.startDetailDateErrorMsg = '';
-    } else if (typeDate === 'endDetail') {
-      if (event.target.value === '') {
-        this.endDetailDateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
-          name: this.translate.instant('DATE.TO_DATE'),
-        });
-        return;
-      }
-      let tempStartDate = this.transform(this.searchForm.get('endDetail').value);
-      if (tempStartDate === null || tempStartDate === undefined) {
-        this.endDetailDateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
-          name: this.translate.instant('DATE.TO_DATE'),
-        });
-        return;
-      }
-      this.endDetailDateErrorMsg = '';
+  //set date khi con picker
+  setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {
+    const ctrlValue = this.searchForm.get('date').value;
+    ctrlValue.month(normalizedMonthAndYear.month());
+    ctrlValue.year(normalizedMonthAndYear.year());
+    this.searchForm.get('date').setValue(ctrlValue);
+    this.maxMonthValidator();
+    if(this.maxMonthValidator() != null ){
+      this.dateErrorMsg = this.translate.instant('VALIDATION.MAX_MONTH');
+      datepicker.close();
+      return;
     }
+    this.dateErrorMsg = '';
+    datepicker.close();
+  }
+
+  //check max month
+  maxMonthValidator(){
+    if(this.searchForm.get('date').value != '' && this.searchForm.get('date').value != null && this.searchForm.get('date').value != undefined ){
+      const selectedDate = this.searchForm.get('date').value;
+      const currentDate = moment();
+      const currentYear = currentDate.year();
+      const currentMonth = currentDate.month();
+    
+      // Lấy tháng và năm của giá trị được chọn
+      const selectedYear = selectedDate.year();
+      const selectedMonth = selectedDate.month();
+    
+      if (selectedYear > currentYear || (selectedYear === currentYear && selectedMonth > currentMonth)) {
+        return true; // Giá trị không hợp lệ
+      }
+    
+      return null; // Giá trị hợp lệ
+    }
+    
+  }
+
+  //su kien date input thay đổi
+  eChangeDate(event) {
+    if (event.target.value === '') {
+      this.dateErrorMsg = this.translate.instant('VALIDATION.REQUIRED', {
+        name: this.translate.instant('LABEL.REPORT_MONTH'),
+      });
+      return;
+    }
+    let tempDate= this.transform(this.searchForm.get('date').value);
+    if (tempDate === null || tempDate === undefined) {
+      this.dateErrorMsg = this.translate.instant('VALIDATION.INVALID_FORMAT', {
+        name: this.translate.instant('LABEL.REPORT_MONTH'),
+      });
+      return;
+    }
+    if(this.maxMonthValidator() != null ){
+      this.dateErrorMsg = this.translate.instant('VALIDATION.MAX_MONTH');
+      return;
+    }
+    
+    this.dateErrorMsg = '';
+  }
+
+  //lấy ngày bắt đầu kết thúc
+  getFirstAndLastDayOfMonth(selectedMonth) {
+    const year = selectedMonth.year(); // Năm
+    const month = selectedMonth.month(); // Tháng (0-11), 5 tương đương tháng 6
+    
+    const startOfMonth = moment({ year, month }).startOf('month');
+    const endOfMonth = moment({ year, month }).endOf('month');
+    
+    this.searchForm.get('startDetail').setValue(startOfMonth.format('DD/MM/YYYY'));
+    this.searchForm.get('endDetail').setValue(endOfMonth.format('DD/MM/YYYY'));
   }
 
   // init data for view form search
   loadSearchForm() {
     this.searchForm = this.fb.group({
+      date:[this.query.date, [Validators.required]],
       groupFilter: [this.query.groupFilter],
       organisation: [this.query.organisation],
       typeOfAssetName: [this.query.typeOfAssetName],
@@ -232,6 +260,8 @@ export class ReportAssetComponent implements OnInit {
       this.searchForm.markAllAsTouched();
       return;
     }
+
+    this.getFirstAndLastDayOfMonth(this.searchForm.get('date').value);
 
     const rq = this.conditionSearch().subscribe((res) => {
       this.isLoading$ = false;
@@ -263,8 +293,8 @@ export class ReportAssetComponent implements OnInit {
         // assetCode: this.searchForm.get('assetCode').value,
         typeOfAssetName: this.searchForm.get('typeOfAssetName').value,
         organisation: this.searchForm.get('organisation').value,
-        fromDateStr: this.transform(this.searchForm.get('startDetail').value),
-        toDateStr: this.transform(this.searchForm.get('endDetail').value),
+        fromDateStr: this.searchForm.get('startDetail').value,
+        toDateStr: this.searchForm.get('endDetail').value,
         reportType: +this.searchForm.get('reportType').value,
         pageSize: this.pageSize,
         pageNumber: this.currentPage,
@@ -295,8 +325,8 @@ export class ReportAssetComponent implements OnInit {
         // assetCode: this.searchForm.get('assetCode').value,
         typeOfAssetName: this.searchForm.get('typeOfAssetName').value,
         organisation: this.searchForm.get('organisation').value,
-        fromDateStr: this.transform(this.searchForm.get('startDetail').value),
-        toDateStr: this.transform(this.searchForm.get('endDetail').value),
+        fromDateStr: this.searchForm.get('startDetail').value,
+        toDateStr: this.searchForm.get('endDetail').value,
         reportType: this.searchForm.get('reportType').value,
       },
     };
@@ -360,7 +390,7 @@ export class ReportAssetComponent implements OnInit {
       }
     });
 
-    if (this.startDetailDateErrorMsg !== '' || this.endDateErrorMsg !== '' || this.endDetailDateErrorMsg !== '') {
+    if (this.dateErrorMsg !== '') {
       isValid = false;
     }
 

@@ -78,7 +78,15 @@ export class LiquidateOldAssetComponent implements OnInit {
   totalSuccess: number = null;
   totalRecord: number = null;
   isHasResult: boolean = false;
-  columnsToDisplay = ['index', 'constructionDateStr','assetCode', 'beginAvailableStr','liquidateStatusStr', 'liquidateAmountStr','errorMsg'];
+  columnsToDisplay = [
+    'index',
+    'constructionDateStr',
+    'assetCode',
+    'beginAvailableStr',
+    'liquidateStatusStr',
+    'liquidateAmountStr',
+    'errorMsg',
+  ];
   addType: string = 'single';
   addTypeList = [
     {
@@ -265,6 +273,7 @@ export class LiquidateOldAssetComponent implements OnInit {
   }
 
   conditionAddEdit() {
+    debugger;
     const requestTarget = {
       userName: this.userName,
       depreciationDetailDTO: {
@@ -275,8 +284,9 @@ export class LiquidateOldAssetComponent implements OnInit {
         liquidateStatus: +this.addEditForm.get('typeLiquidate').value,
         liquidateAmount:
           +this.addEditForm.get('typeLiquidate').value === 1
-            ? this.addEditForm.get('remainingAmount').value
-            : this.addEditForm.get('liquidateAmount').value,
+            ? +this.addEditForm.get('remainingAmount').value.replaceAll(',', '')
+            : +this.addEditForm.get('liquidateAmount').value.replaceAll(',', ''),
+        beginAvailable: +this.addEditForm.get('remainingAmount').value.replaceAll(',', ''),
       },
     };
     return this.globalService.globalApi(requestTarget as RequestApiModelOld, 'liquidate-old-asset-single');

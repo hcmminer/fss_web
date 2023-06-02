@@ -263,6 +263,7 @@ export const locale = {
 
       //bao cao
       REPORT_DATE: 'Ngày chốt dữ liệu',
+      REPORT_MONTH: 'Tháng chốt dữ liệu',
       TYPE_REPORT: 'Loại báo cáo',
       DETAILED_REPORT: 'Báo cáo chi tiết',
       SYNTHESIS_REPORT: 'Báo cáo tổng hợp',
@@ -806,6 +807,7 @@ export const locale = {
       FILE_INVALID_EXTENSION: 'Chỉ upload được file có định dạng {{0}}',
       FILE_MAX_SIZE: 'File vượt quá {{0}}MB',
       NO_SELECT: 'Chưa chọn {{name}}',
+      MAX_MONTH:'Tháng đã chọn phải nhỏ hơn hoặc bằng tháng hiện tại'
     },
     AUTH: {
       GENERAL: {
