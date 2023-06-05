@@ -334,6 +334,11 @@ export class ReportAssetComponent implements OnInit {
   }
 
   report() {
+    if (!this.isValidForm()) {
+      this.searchForm.markAllAsTouched();
+      return;
+    }
+    this.reportTypeToChangeTable = +this.searchForm.get('reportType').value;
     const sub = this.apiGetReport().subscribe((res) => {
       if (res.errorCode == '0') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
