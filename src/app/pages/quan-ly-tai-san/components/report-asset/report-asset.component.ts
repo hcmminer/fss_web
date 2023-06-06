@@ -338,7 +338,7 @@ export class ReportAssetComponent implements OnInit {
       this.searchForm.markAllAsTouched();
       return;
     }
-    this.reportTypeToChangeTable = +this.searchForm.get('reportType').value;
+    this.getFirstAndLastDayOfMonth(this.searchForm.get('date').value);
     const sub = this.apiGetReport().subscribe((res) => {
       if (res.errorCode == '0') {
         this.toastService.success(this.translate.instant('COMMON.MESSAGE.DOWNLOAD_SUCCESS'));
