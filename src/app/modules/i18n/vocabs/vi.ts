@@ -2,11 +2,12 @@
 export const locale = {
   lang: 'vi',
   data: {
-    // bandv >>
-    // open dep >>
-
-    // << open dep
+    // bandv..
     // begin menu
+    // ..kpi
+    'kpi-management': 'Quản lý các tiêu chí KPI',
+    'KPI-MANAGER-CATEGORY.TITLE':'Danh sách KPI',
+    // ..kpi
     LIST: 'Danh sách',
     'BASIC-CONSTRUCTION': 'Quản lý xây dựng cơ bản',
     'TRANSFER-TO-ASSET': 'Nhập kết chuyển xây dựng cơ bản lên tài sản',
@@ -30,8 +31,11 @@ export const locale = {
 
     FUNCTION: {
       ADD: 'Thêm mới',
+      ADD_THIS_KPI: 'Thêm mới tiêu chí con của tiêu chí này',
       SUCCSESS_ADD: 'Thêm mới thành công',
+      SUCCSESS_SAVE_ALL: 'Lưu toàn bộ các tiêu chí thành công',
       CONFIRM_ADD: 'Bạn có chắc chắn thêm mới không?',
+      CONFIRM_SAVE_ALL: 'Bạn có chắc chắn lưu toàn bộ các tiêu chí này không?',
       UPDATE: 'Cập nhật',
       SUCCSESS_UPDATE: 'Cập nhật thành công',
       CONFIRM_UPDATE: 'Bạn có chắc chắn cập nhật không?',
@@ -49,7 +53,7 @@ export const locale = {
       DEPRECIATION_FRAME: 'Khung khấu hao (năm)',
       DESCRIPTION: 'Mô tả',
     },
-    // bandv <<
+    // ..bandv
     SESSION_EXPIRED: 'Phiên đã quá hạn',
     INTERNET_ERROR: 'Lỗi mạng',
     FSS_JOB_REQUEST: 'Lập phiếu công tác',
@@ -155,6 +159,7 @@ export const locale = {
       STATUS: 'Trạng thái',
       SHOP_ID: 'ID đơn vị',
       POSITION: 'Chức danh',
+      STAFF_CATEGORY: 'Nhóm nhân viên',
       // Tab đơn vị
       SHOP_CODE: 'Mã đơn vị',
       PROVINCE_ID: 'Mã tỉnh',
@@ -273,6 +278,27 @@ export const locale = {
       TOTAL_OLD_NEW: 'Tổng tài sản cũ mới',
     },
     TITLE: {
+      // Quan ly kpi...
+      SAVE_KPI: 'Lưu toàn bộ các tiêu chí',
+      ADD_ROOT_KPI: 'Thêm mới tiêu chí cha',
+      DUYET_KPI: 'Duyệt toàn bộ các tiêu chí',
+      INFO_KPI: 'Thông tin duyệt KPI',
+      NAME_KPI: 'Tên KPI',
+      KPI_MANAGEMENT: 'Quản lý KPI',
+      KPI_MANAGER_CATEGORY: 'Danh sách KPI',
+      KPI_CODE: 'Mã KPI',
+      KPI_NAME_VI: 'Tên KPI(Vi)',
+      KPI_NAME_LA: 'Tên KPI(La)',
+      CONTENT_VI: 'Nội dung(Vi)',
+      CONTENT_LA: 'Nội dung(La)',
+      KPI_POLICY_VI: 'Chính sách(Vi)',
+      KPI_POLICY_LA: 'Chính sách(La)',
+      STAFF_CODE: 'Mã nhân viên',
+      KPI_POINT: 'Điểm KPI tối đa',
+      BEGIN_CONTRACT_DATE: 'Ngày bắt đầu hợp đồng',
+      EXPIRED_CONTRACT_DATE: 'Ngày kết thúc hợp đồng',
+      INPUT_DATE: 'Kỳ duyệt',
+      // ...Quan ly kpi
       // Quản lý phiếu công tác
       LIST_JOB: 'Danh sách phiếu công tác',
       SEARCH_JOB: 'Tìm kiếm phiếu công tác',
@@ -564,7 +590,6 @@ export const locale = {
 
       //thanh lý tài sản
       LIQUIDATE_ASSET: 'Bạn có muốn thanh lý tài sản này không?',
-
     },
     TOOLTIP: {
       REFUSE: 'Từ chối',

@@ -27,6 +27,8 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgbDateCustomParserFormatter} from '../_metronic/core/utils/ngb-date-custom-parser-formatter';
 import {SharedLanguageSelectionModule} from '../_metronic/shared/shared-language-selection/shared-language-selection.module';
 import { StylePaginatorDirective } from '../_metronic/shared/shared-display-html/style-paginator.directive';
+import { QuanLyKpiComponent } from './quan-ly-kpi/quan-ly-kpi.component';
+
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { StylePaginatorDirective } from '../_metronic/shared/shared-display-html
     TopbarComponent,
     AsideDynamicComponent,
     HeaderMenuDynamicComponent,
+    QuanLyKpiComponent,
   ],
   imports: [
     CommonModule,

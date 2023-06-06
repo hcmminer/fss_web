@@ -56,6 +56,7 @@ export class CategoryManagerService implements OnDestroy {
   cbxGender = new BehaviorSubject<any[]>([]); // lấy gender
   cbxShopType = new BehaviorSubject<any[]>([]); // lay loai don vi
   cbxTitle = new BehaviorSubject<any[]>([]); // lay tieu de
+  cbxStaffCategory = new BehaviorSubject<any[]>([]); // lay nhom nhan vien
   cbxKhachSan = new BehaviorSubject<HotelDTO[]>([]);
   cbxLoaiPhong = new BehaviorSubject<OptionSetDTO[]>([]);
   cbxKhachSanCongTac = new BehaviorSubject<JobHotelDTO[]>([]);
@@ -317,6 +318,37 @@ export class CategoryManagerService implements OnDestroy {
           }
           if (allowDefault)
             this.cbxTitle.value.unshift({
+              value: '',
+              name: this.translateService.instant('DEFAULT_OPTION.SELECT'),
+            });
+        }),
+        catchError((err) => {
+          this.toastrService.error(err.error?.message || err.message, 'Error');
+          return of(undefined);
+        }),
+        finalize(() => {}),
+      )
+      .subscribe();
+    this.subscriptions.push(request);
+  }
+
+  // get list staff category
+  getListStaffCategory(query: RequestApiModel, allowDefault: boolean): void {
+    const request = this.commonService
+      .callAPICommon(query)
+      .pipe(
+        map((response: ResponseModel) => {
+          if (response.errorCode != '0') {
+            this.cbxStaffCategory.next([]);
+            throw new Error(response.description);
+          }
+          if (typeof response.data !== 'undefined' && response.data !== null) {
+            this.cbxStaffCategory.next(response.data);
+          } else {
+            this.cbxStaffCategory.next([]);
+          }
+          if (allowDefault)
+            this.cbxStaffCategory.value.unshift({
               value: '',
               name: this.translateService.instant('DEFAULT_OPTION.SELECT'),
             });
@@ -783,7 +815,11 @@ export class CategoryManagerService implements OnDestroy {
             throw new Error(this.translateService.instant('MANAGE_GNETTRACK.ERROR_GET_FILE'));
           }
         }
-        if (typeof response.data.fileContent !== 'undefined' && response.data.fileContent !== null && response.data.fileContent.length > 0) {
+        if (
+          typeof response.data.fileContent !== 'undefined' &&
+          response.data.fileContent !== null &&
+          response.data.fileContent.length > 0
+        ) {
           this.file.next(response.data.fileContent);
         }
       }),
@@ -798,6 +834,17 @@ export class CategoryManagerService implements OnDestroy {
   public downloadTemplate(): any {
     // @ts-ignore
     return this.httpClient.get(`./assets/IMPORT_ROUTING_PRICE_TMP.xlsx`, { responseType: 'blob' });
+  }
+
+  public downloadTemplateStaff(): any {
+    const language = localStorage.getItem(CONFIG.KEY.LOCALIZATION);
+    if (language == 'vi') {
+      return this.httpClient.get(`./assets/IMPORT_STAFF_VI.xlsx`, { responseType: 'blob' });
+    } else if (language == 'en') {
+      return this.httpClient.get(`./assets/IMPORT_STAFF_VI.xlsx`, { responseType: 'blob' });
+    } else if (language == 'la') {
+      return this.httpClient.get(`./assets/IMPORT_STAFF_VI.xlsx`, { responseType: 'blob' });
+    }
   }
 
   // exportReport(params: any, reportTypePath: string): Observable<any> {

@@ -45,7 +45,7 @@ export const MY_FORMATS = {
   styleUrls: ['./liquidate-asset.component.scss'],
   providers: [
     {
-      provide: DateAdapter, 
+      provide: DateAdapter,
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
@@ -119,7 +119,6 @@ export class LiquidateAssetComponent implements OnInit {
     this.openingBalanceService.getCbxTypeOfAsset(reqGetListStatus, 'getCbxTypeOfAsset', true);
     this.openingBalanceService.getCbxAssetCodeIncrease(reqGetListStatus, 'search-dep-increase');
   }
-
 
   ngOnInit(): void {
     this.initCombobox();
@@ -336,5 +335,4 @@ export class LiquidateAssetComponent implements OnInit {
   ngOnDestroy(): void {
     this.subscriptions.forEach((sb) => sb.unsubscribe());
   }
-
 }

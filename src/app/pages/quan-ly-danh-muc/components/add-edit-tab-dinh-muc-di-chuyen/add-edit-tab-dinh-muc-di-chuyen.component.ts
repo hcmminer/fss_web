@@ -79,7 +79,13 @@ export class AddEditTabDinhMucDiChuyenComponent implements OnInit, OnDestroy {
       tinhDi: [this.tinhDi, [Validators.required]],
       tinhDen: [this.tinhDen, [Validators.required]],
       phuongTien: [this.phuongTien, [Validators.required]],
-      chiPhi: [this.chiPhi, [Validators.required, Validators.pattern(/(^\d*[1-9]\d*$)|(^(?!0+\.00)(?=.{1,15}(\.|$))(?!0(?!\.))\d{1,3}(,\d{3})*$)/)]],
+      chiPhi: [
+        this.chiPhi,
+        [
+          Validators.required,
+          Validators.pattern(/(^\d*[1-9]\d*$)|(^(?!0+\.00)(?=.{1,15}(\.|$))(?!0(?!\.))\d{1,3}(,\d{3})*$)/),
+        ],
+      ],
       ghiChu: [this.ghiChu],
     });
   }
@@ -157,7 +163,9 @@ export class AddEditTabDinhMucDiChuyenComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.data = {
         type: 'WARNING',
         title: 'COMMON_MODAL.WARNING',
-        message: this.isUpdate ? this.translate.instant('CONFIRM.UPDATE_NORM_MOVE') : this.translate.instant('CONFIRM.ADD_NORM_MOVE'),
+        message: this.isUpdate
+          ? this.translate.instant('CONFIRM.UPDATE_NORM_MOVE')
+          : this.translate.instant('CONFIRM.ADD_NORM_MOVE'),
         continue: true,
         cancel: true,
         btn: [
@@ -184,8 +192,8 @@ export class AddEditTabDinhMucDiChuyenComponent implements OnInit, OnDestroy {
         backdrop: 'static',
       });
       modalRef.componentInstance.data = {
-        type: "WARNING",
-        title: "COMMON_MODAL.WARNING",
+        type: 'WARNING',
+        title: 'COMMON_MODAL.WARNING',
         message: this.translate.instant('CONFIRM.UPLOAD_FILE_NORM_MOVE'),
         continue: true,
         cancel: true,

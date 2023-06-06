@@ -16,7 +16,7 @@ import { CommonService } from 'src/app/pages/_services/common.service';
 import { CONFIG } from 'src/app/utils/constants';
 import { BusinessFeeDTO, RoutingPriceDTO, StaffDTO } from '../../../_models/quan-ly-phieu-cong-tac.model';
 import { RequestApiModel } from '../../../_models/request-api.model';
-import { formatNumber } from '@angular/common';
+import { DatePipe, formatNumber } from '@angular/common';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { AddEditStaffsManagerComponent } from '../add-edit-tab-staffs-manager/add-edit-tab-staffs-manager.component';
 import { CategoryManagerService } from 'src/app/pages/_services/category-manager.service';
@@ -40,7 +40,17 @@ export class TabStaffsManagerComponent implements OnInit, OnDestroy {
   isLoading$: boolean = false;
   userRes: any;
   userName: string;
-  columnsToDisplay = ['index', 'staffCode', 'staffName', 'shopName', 'mobile', 'email', 'gender', 'hanhDong'];
+  columnsToDisplay = [
+    'index',
+    'staffCategoryName',
+    'staffCode',
+    'staffName',
+    'shopName',
+    'mobile',
+    'email',
+    'gender',
+    'hanhDong',
+  ];
 
   constructor(
     public router: Router,
@@ -118,11 +128,23 @@ export class TabStaffsManagerComponent implements OnInit, OnDestroy {
         },
       },
     };
+
+    let requestgetListStaffCategory = {
+      functionName: 'getCbOptionSet',
+      method: 'POST',
+      params: {
+        userName: this.userName,
+        optionSetDTO: {
+          optionSetCode: 'KPI_USER_TYPE',
+        },
+      },
+    };
     this.categoryManagerService.getListShopnameBox(requestShopname, true);
     this.categoryManagerService.getListPosition(requestListPosition, true);
     this.categoryManagerService.getListStaffType(requestListStaffType, true);
     this.categoryManagerService.getListGender(requestListGender, true);
     this.categoryManagerService.getListTitle(requestgetListTitle, true);
+    this.categoryManagerService.getListStaffCategory(requestgetListStaffCategory, true);
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -138,12 +160,15 @@ export class TabStaffsManagerComponent implements OnInit, OnDestroy {
     }
   }
 
-  applyFilter(event: Event) {
+  applyFilter(event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+    if (event.target.value == '') {
+      this.eSearch();
     }
   }
   getListVehicle() {
@@ -206,6 +231,14 @@ export class TabStaffsManagerComponent implements OnInit, OnDestroy {
       (reason) => {},
     );
   }
+
+  // helpers for View
+  transform(value: string) {
+    let datePipe = new DatePipe('en-US');
+    value = datePipe.transform(value, 'dd/MM/yyyy');
+    return value;
+  }
+
   // add new staff
   eSave(item: any, isUpdate: boolean) {
     const modalRef = this.modalService.open(AddEditStaffsManagerComponent, {
@@ -225,6 +258,7 @@ export class TabStaffsManagerComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.position = item.position;
       modalRef.componentInstance.staffCodeNumber = item.staffCodeNumber;
       modalRef.componentInstance.title = item.title;
+      modalRef.componentInstance.staffCategory = item.staffCategory;
       // No required
       modalRef.componentInstance.staffCode = item.staffCode;
       modalRef.componentInstance.provinceId = item.provinceId;
